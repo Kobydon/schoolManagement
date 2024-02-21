@@ -1,0 +1,24 @@
+
+
+Flask==2.2.2
+flask-buzz==2.0.1
+Flask-Cors==3.0.10
+psycopg2-binary == 2.9.6
+
+flask-marshmallow==0.15.0
+Flask-Migrate==4.0.4
+flask-praetorian==1.4.0
+Flask-RESTful==0.3.10
+Flask-SQLAlchemy==3.0.3
+Flask-WTF==1.1.1
+gunicorn==19.7.1
+
+inflection==0.5.1
+
+marshmallow==3.19.0
+
+SQLAlchemy==2.0.15
+
+
+
+WTForms==3.0.1
