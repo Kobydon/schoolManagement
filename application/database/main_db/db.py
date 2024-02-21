@@ -245,7 +245,7 @@ class Department(db.Model):
           created_date =db.Column(db.String(400))
                 
           depa_couse  = db.relationship('Course', 
-            foreign_keys ='Course.department_name',
+            foreign_keys ='course.department_name',
             backref = 'studie',
             lazy=True
             
