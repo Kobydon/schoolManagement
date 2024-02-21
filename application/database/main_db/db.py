@@ -213,7 +213,7 @@ class Staff(db.Model):
       department = db.Column(db.String(400))
       staff_number = db.Column(db.String(400),unique=True)
       national_id = db.Column(db.String(400),unique=True)
-      subject_name = db.Column(db.Integer,db.ForeignKey('subject.name'))
+      subject_name = db.Column(db.Integer,db.ForeignKey('subject.subject_name'))
       bank_name = db.Column(db.String(400))
       bank_account_number = db.Column(db.String(400))
       bank_branch = db.Column(db.String(400))
