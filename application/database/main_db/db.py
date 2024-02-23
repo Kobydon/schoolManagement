@@ -147,16 +147,16 @@ class User(db.Model):
     lazy=True)
     
                     
-    Attendance_by  = db.relationship('Attendace', 
-    foreign_keys ='Attendace.created_by_id',
+    Attendance_by  = db.relationship('Attendance', 
+    foreign_keys ='Attendance.created_by_id',
     backref = 'attendie',
     lazy=True)
           
                     
-    Academic_by  = db.relationship('Academic_Calender', 
-    foreign_keys ='Academic_Calender.created_by_id',
-    backref = 'acadamecie',
-    lazy=True)
+    # Academic_by  = db.relationship('Academic_Calender', 
+    # foreign_keys ='Academic_Calender.created_by_id',
+    # backref = 'acadamecie',
+    # lazy=True)
     
     Class_by  = db.relationship('Class', 
     foreign_keys ='Class.created_by_id',
@@ -175,6 +175,23 @@ class User(db.Model):
 
 
 
+class Department(db.Model):
+          id =db.Column(db.Integer,primary_key=True)
+          department_name =db.Column(db.String(400),unique=True)
+          created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+     
+          
+         
+         
+          created_date =db.Column(db.String(400))
+                
+          depa_couse  = db.relationship('Course', 
+            foreign_keys ='Course.department_name',
+            backref = 'studie',
+            lazy=True
+            
+            )
+          
 class Student(db.Model):
           id= db.Column(db.Integer,primary_key=True)
           first_name= db.Column(db.String(400))
@@ -190,6 +207,7 @@ class Student(db.Model):
           form= db.Column(db.String(400))
           residential_status= db.Column(db.String(400))
           created_date = db.Column(db.String(400))
+          picture = db.Column(db.String(1000000))
           created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
               
         #   student_pay  = db.relationship('Payment', 
@@ -206,6 +224,7 @@ class Student(db.Model):
 class Staff(db.Model):
       id = db.Column(db.Integer,primary_key=True)
       firtname = db.Column(db.String(400))
+      staff_id = db.Column(db.String(400))
       lastname = db.Column(db.String(400))
       email = db.Column(db.String(400),unique=True)
       phone = db.Column(db.String(400))
@@ -234,22 +253,6 @@ class Staff(db.Model):
      
 
 
-class Department(db.Model):
-          id =db.Column(db.Integer,primary_key=True)
-          department_name =db.Column(db.String(400),unique=True)
-          created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
-     
-          
-         
-         
-          created_date =db.Column(db.String(400))
-                
-          depa_couse  = db.relationship('Course', 
-            foreign_keys ='course.department_name',
-            backref = 'studie',
-            lazy=True
-            
-            )
  
          
 
@@ -258,7 +261,7 @@ class Course(db.Model):
           id = db.Column(db.Integer,primary_key=True)
           course_name = db.Column(db.String(400))
           course_id = db.Column(db.String(400),unique=True)
-          department_name = db.Column(db.Integer,db.ForeignKey('Department.name'))
+          department_name = db.Column(db.Integer,db.ForeignKey('department.department_name'))
           form = db.Column(db.String(400))    
      
           
@@ -277,16 +280,16 @@ class Course(db.Model):
 
 class Subject(db.Model):
     id =db.Column(db.Integer,primary_key=True)
-    subject_name = db.Column(db.String(5000))
+    subject_name = db.Column(db.String(5000),unique =True)
     course_subj  = db.relationship('Grading', 
             foreign_keys ='Grading.subject_name',
-            backref = 'gradie',
+            backref = 'gradddie',
             lazy=True
             
             )
     staff_sub  = db.relationship('Staff', 
             foreign_keys ='Staff.subject_name',
-            backref = 'gradie',
+            backref = 'grade',
             lazy=True
             
             )
@@ -380,3 +383,19 @@ class Refund(db.Model):
           payment_id =  db.Column(db.ForeignKey('payment.id'))
           reason  = db.Column(db.String(400))
           authorized_by  = db.Column(db.String(400))
+          created_by_id  = db.Column(db.ForeignKey('user.id'))
+
+       
+
+
+class Grading(db.Model):
+           
+          id = db.Column(db.Integer,primary_key=True)
+          
+          subject_name=  db.Column(db.ForeignKey('subject.subject_name'))
+          remarks  = db.Column(db.String(400))
+          class_score = db.Column(db.String(400))
+          
+          exams_score =  db.Column(db.ForeignKey('payment.id'))
+          created_date  = db.Column(db.String(400))
+          created_by_id  = db.Column(db.ForeignKey('user.id'))
