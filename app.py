@@ -12,7 +12,7 @@ from datetime import datetime
 from flask import session
 from  application.user_view.user import user
 from  application.student_view.student import student
-
+from  application.school_view.school import school
 from application.database.main_db.db import db
 # from  application.client_view.client import client
 #from  application.room_view.room import room
@@ -27,6 +27,7 @@ app.register_blueprint(user,url_prefix="/user")
 
 
 app.register_blueprint(student,url_prefix="/student")
+app.register_blueprint(school,url_prefix="/school")
 
 app =app 
 

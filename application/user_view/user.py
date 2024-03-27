@@ -5,7 +5,7 @@ from  application.extensions.extensions import *
 from  application.settings.settings import *
 from  application.settings.setup import app
 # from application.forms import LoginForm
-from application.database.main_db.db import User,db
+from application.database.main_db.db import User,db,School
 from sqlalchemy import or_,desc,and_
 from datetime import datetime
 from datetime import date
@@ -22,7 +22,7 @@ class User_schema(ma.Schema):
         fields=("id","firstname","lastname","about","email","username","hashed_password",
                 "roles","city","country","address","phone","created_date",
                 "isa_savings","other_savings","account_status",
-                    "state","transaction_pin" ,"account_number","premier_account","other_savings","photo"
+                    "state","transaction_pin" ,"account_number","premier_account","other_savings","photo","picture"
 )
         
 
@@ -72,8 +72,9 @@ def register_quick():
 
 
 @user.route("/register",methods=["POST"])
+# @flask_praetorian.auth_required
 def register():
-    
+   
     firstname =request.json["firstname"]
     username = request.json["username"]
     password = request.json["password"]
@@ -81,6 +82,12 @@ def register():
  
 
     email = request.json["email"]
+    picture = request.json["Picture"]
+    # usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    # sch =  School.query.filter_by(school_name=usr.school_name).first()
+    
+    
+    # school_name = sch.school_name
     # address = request.json["address"]
 
     
@@ -89,7 +96,7 @@ def register():
      
  
     # gender=request.json["gender"]
-    # photo=request.json["photo"]
+    photo=request.json["photo"]
     
 
 
@@ -100,7 +107,7 @@ def register():
     # if password == confirm_password:
     usr = User(firstname=firstname,lastname=lastname
                     ,username=username,hashed_password=hashed_password,roles=role,
-                    email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
+                    email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),picture=picture
                  \
                
                     )
@@ -200,14 +207,24 @@ def update_user_profile():
 
             user = User.query.filter_by(id=id).first()
             user.firstname =request.json["firstname"]
-            user.about =request.json["about"]
+            # user.about =request.json["about"]
             user.lastname =request.json["lastname"]
-            user.phone =  request.json["phone"]
-            user.username = request.json["username"]
-            password = request.json["password"]
-            user.country = request.json["country"]
-            user.city =  request.json["city"]
-            user.address = request.json["address"]
+            
+            picture = request.json["picture"]
+            if picture is None:
+                user.picture= user.picture
+            else:
+                 user.picture = picture
+                 
+            if password is None :
+                 user.password = user.password
+           
+            # user.username = request.json["username"]
+            else:
+                 password = request.json["password"]
+            # user.country = request.json["country"]
+            # user.city =  request.json["city"]
+            # user.address = request.json["address"]
             user.email = request.json["email"]
             user.roles =  request.json["role"]
          
@@ -220,6 +237,6 @@ def update_user_profile():
             user.hashed_password =  guard.hash_password(password)
             db.session.commit()
             res = jsonify("sucess")
-            res.status_code=200
+            res.status_code=201
             return res
 
