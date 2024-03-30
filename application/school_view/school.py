@@ -224,6 +224,21 @@ def delete_subject(id):
       
 
 
+
+@school.route("/delete_school/<id>",methods=['DELETE'])
+@flask_praetorian.auth_required
+def delete_school(id):
+      sub_data = School.query.filter_by(id=id).first()
+     
+      db.session.delete(sub_data)
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code =201
+      return resp
+    
+
+
 @school.route("/add_department",methods=['POST'])
 @flask_praetorian.auth_required
 def add_department():
