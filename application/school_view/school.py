@@ -394,7 +394,7 @@ def add_staff():
       bank_account_number =request.json["account_number"]
       bank_branch =request.json["bank_branch"]
     #   course_name =request.json[""]
-      residential_status =request.json["resendential_status"]
+      residential_status =request.json["resedential_status"]
       appointment_date =request.json["appointment_date"]
       year_joined =request.json["year_joined"]
     #   subject =request.json["subject"]
