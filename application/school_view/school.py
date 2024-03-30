@@ -907,7 +907,7 @@ def add_expense():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     name= request.json["amount"]
     amount =request.json["amount"]
-    note= request.json["amount"]
+    note= request.json["note"]
     date =request.json["date"]
     usr = user.firstname +" " + user.lastname
     created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
