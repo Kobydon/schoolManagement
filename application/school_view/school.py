@@ -159,7 +159,7 @@ def get_school_detail():
 @school.route("/add_subject",methods=['POST'])
 @flask_praetorian.auth_required
 def add_subject():
-    department_name= request.json["student"]
+    department_name= request.json["department_name"]
     subject_name =request.json["subject_name"]
     subj = Subject(department_name=department_name,
                    subject_name=subject_name,created_by_id=flask_praetorian.current_user().id  )
