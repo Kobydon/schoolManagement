@@ -1385,7 +1385,7 @@ def get_schedule_list():
 @school.route("/get_schedule/<id>",methods=["GET"])
 @flask_praetorian.auth_required
 def get_schedule(id):
-    id = request.json["id"]
+   
     scd = Schedule.query.filter_by(id=id)
     result = school_schema.dump(scd)
     return jsonify(result)
