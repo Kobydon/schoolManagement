@@ -1274,6 +1274,8 @@ def get_holiday_list():
     
     result = school_schema.dump(btc)
     return jsonify(result)
+    
+  
 
 
 
