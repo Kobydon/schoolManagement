@@ -57,7 +57,8 @@ class schoolSchema(ma.Schema):
                 "region","level","population","address","phone","created_date", "color_one",
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
-                "amount","user","date")
+                "amount","user","date","from_time","to_time","section","class_name","room","subject_name",
+                "exam_name")
         
 
 
@@ -1345,3 +1346,79 @@ def search_expense_dates():
     result = school_schema.dump(lst)
     return jsonify(result)
 
+@school.route("/add_schedule",methods=["POST"])
+@flask_praetorian.auth_required
+def add_schedule():
+      user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+      subject_name=request.json["subject_name"]
+      class_name=request.json["class_name"]
+      from_time=request.json["from_time"]
+      to_time=request.json["to_time"]
+      section=request.json["section"]
+      date=request.json["date"]
+      room=request.json["room"]
+      exam_name=request.json["exam_name"]
+      created_by_id = user.id
+      created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
+      school_name = user.school_name
+      scd = Schedule(subject_name=subject_name,class_name=class_name,from_time=from_time,to_time=to_time,
+                     section=section,date=date,room=room,exam_name=exam_name,
+                     created_by_id=created_by_id,created_date=created_date,school_name=school_name)
+      db.session.add(scd)
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code= 200
+      return resp
+
+@school.route("/get_schedule_list",methods=["GET"])
+@flask_praetorian.auth_required
+def get_schedule_list():
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    stff = Staff.query.filter_by(staff_number=user.username).first()
+    scd = Schedule.query.filter_by(school_name =user.school_name,class_name =stff.class_name)
+    result = school_schema.dump(scd)
+    return jsonify(result)
+
+
+@school.route("/get_schedule/<id>",methods=["GET"])
+@flask_praetorian.auth_required
+def get_schedule(id):
+    id = request.json["id"]
+    scd = Schedule.query.filter_by(id=id)
+    result = school_schema.dump(scd)
+    return jsonify(result)
+      
+      
+@school.route("/update_schedule",methods=["PUT"])
+@flask_praetorian.auth_required
+def update_schedule():
+    #   user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+      id = request.json["id"]
+      scd_data = Schedule.query.filter_by(id = id).first()
+      scd_data.subject_name=request.json["subject_name"]
+      scd_data.class_name=request.json["class_name"]
+      scd_data.from_time=request.json["from_time"]
+      scd_data.to_time=request.json["to_time"]
+      scd_data.section=request.json["section"]
+      scd_data.date=request.json["date"]
+      scd_data.room=request.json["room"]
+      scd_data.exam_name=request.json["exam_name"]
+      
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code= 201
+      return resp
+
+     
+@school.route("/delete_schedule/<id>",methods=["DELETE"])
+@flask_praetorian.auth_required
+def delete_schedule(id):
+     scd_data = Schedule.query.filter_by(id = id).first()
+     db.session.delete(scd_data)
+     db.session.commit()
+     db.session.close()
+     resp = jsonify("success")
+     resp.status_code= 201
+     return resp

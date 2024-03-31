@@ -222,6 +222,12 @@ class User(db.Model):
     foreign_keys ='Attendance.created_by_id',
     backref = 'attendie',
     lazy=True)
+    
+                      
+    schd_by  = db.relationship('Schedule', 
+    foreign_keys ='Schedule.created_by_id',
+    backref = 'schdddeie',
+    lazy=True)
           
                     
     # Academic_by  = db.relationship('Academic_Calender', 
@@ -398,6 +404,22 @@ class FeesPayment(db.Model):
     paid_by = db.Column(db.String(400))
     date = db.Column(db.String(400))
     balance = db.Column(db.String(400))
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+    
+    
+
+class Schedule(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    class_name = db.Column(db.String(5000))
+    school_name = db.Column(db.String(5000))
+    from_time = db.Column(db.String(5000))
+    to_time = db.Column(db.String(400))
+    date = db.Column(db.String(400))
+    section = db.Column(db.String(400))
+    exam_name = db.Column(db.String(400))
+    subject_name = db.Column(db.String(400))
+    date = db.Column(db.String(400))
+    room = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
 class Expenses(db.Model):
