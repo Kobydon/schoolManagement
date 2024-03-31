@@ -34,7 +34,7 @@ guard = flask_praetorian.Praetorian()
 # db = SQLAlchemy(app)  
 
 app.secret_key = 'secrete key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://sms_db_mjof_user:YHCEcQho2AdSZHpjwHa2qSVmxwja1xA8@dpg-co23b0en7f5s73c9td9g-a.oregon-postgres.render.com/sms_db_mjof'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://sus_fk82_user:ezIVJH1XIZP5YZ1P3plzY8Ph8Ptv31jB@dpg-co3jbnv79t8c738oknj0-a.oregon-postgres.render.com/sus_fk82'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hotel.db'
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://school_m_s_user:BfTF3CSQScKwManKwahxxXTKAVnJgRZz@dpg-cnb1200cmk4c73a6baig-a.oregon-postgres.render.com/school_m_s'
