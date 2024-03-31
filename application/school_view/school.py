@@ -1359,11 +1359,11 @@ def add_schedule():
       room=request.json["room"]
       exam_name=request.json["exam_name"]
       created_by_id = user.id
-      created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
+    #   created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
       school_name = user.school_name
       scd = Schedule(subject_name=subject_name,class_name=class_name,from_time=from_time,to_time=to_time,
                      section=section,date=date,room=room,exam_name=exam_name,
-                     created_by_id=created_by_id,created_date=created_date,school_name=school_name)
+                     created_by_id=created_by_id,school_name=school_name)
       db.session.add(scd)
       db.session.commit()
       db.session.close()

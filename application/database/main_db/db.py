@@ -418,7 +418,7 @@ class Schedule(db.Model):
     section = db.Column(db.String(400))
     exam_name = db.Column(db.String(400))
     subject_name = db.Column(db.String(400))
-    date = db.Column(db.String(400))
+   
     room = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
