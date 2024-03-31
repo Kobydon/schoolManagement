@@ -31,13 +31,12 @@ cors =CORS(app)
 
 
 guard = flask_praetorian.Praetorian()
-# db = SQLAlchemy(app)
+# db = SQLAlchemy(app)  
 
 app.secret_key = 'secrete key'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://sms_db_mjof_user:YHCEcQho2AdSZHpjwHa2qSVmxwja1xA8@dpg-co23b0en7f5s73c9td9g-a.oregon-postgres.render.com/sms_db_mjof'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hotel.db'
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://school_m_s_user:BfTF3CSQScKwManKwahxxXTKAVnJgRZz@dpg-cnb1200cmk4c73a6baig-a.oregon-postgres.render.com/school_m_s'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hotel.db'
-#local_database = tempfile.NamedTemporaryFile(prefix="local", suffix=".db")
 app.config['SECRET_KEY'] = '0527'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['TESTING'] = False

@@ -1254,7 +1254,7 @@ def add_holiday():
 @flask_praetorian.auth_required
 def get_holiday_list():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    ntc = Holiday.query.filter_by(school_name=user.school_name)
+    ntc = Holiday.query.filter_by(school_name=user.school_namec)
     btc = ntc.order_by(desc(Holiday.date))
     
     result = school_schema.dump(btc)
