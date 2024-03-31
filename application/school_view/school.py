@@ -1376,7 +1376,7 @@ def add_schedule():
 def get_schedule_list():
     user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
     # stff = Staff.query.filter_by(staff_number=user.username).first()
-    cls = Class.query.filter_by(staff_number=user.username)
+    cls = Class.query.filter_by(staff_number=user.username).first()
     scd = Schedule.query.filter_by(school_name =user.school_name,class_name =cls.class_name)
     result = school_schema.dump(scd)
     return jsonify(result)
