@@ -352,12 +352,7 @@ class Staff(db.Model):
       promotional_status = db.Column(db.String(400))
       created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
       
-      staff_class  = db.relationship('Class', 
-            foreign_keys ='Class.staff_number',
-            backref = 'classStaffie',
-            lazy=True
-            
-            )
+
      
 
 
@@ -481,7 +476,7 @@ class Subject(db.Model):
 class Class(db.Model):
     id =db.Column(db.Integer,primary_key=True)
     class_name =db.Column(db.String(500))
-    staff_number = db.Column(db.Integer,db.ForeignKey('staff.staff_id'))
+    staff_number = db.Column(db.String(500))
     course_name=db.Column(db.String(500))
     subject_name=db.Column(db.String(500))
     created_date =db.Column(db.String(5000))

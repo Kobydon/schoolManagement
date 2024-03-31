@@ -489,7 +489,7 @@ def all_total():
    
     cls = Class.query.filter_by(staff_number = user.username).first()
     # midterm_score  = request.json["midterm_score"]
-    class_name = request.json["class_name"]
+    # class_name = request.json["class_name"]
   
   
  
@@ -498,7 +498,7 @@ def all_total():
     t = Student.query.filter_by(student_number=student_number).first()
     t.all_total = all_total
     db.session.commit()
-    grd = Student.query.filter(Student.class_name==class_name )
+    grd = Student.query.filter(Student.class_name==t.class_name )
     lst1= grd.order_by(desc(Student.all_total)).all()
     for(pos,g) in enumerate(lst1):
           

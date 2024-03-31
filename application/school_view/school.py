@@ -159,7 +159,7 @@ def get_school_detail():
 @school.route("/add_subject",methods=['POST'])
 @flask_praetorian.auth_required
 def add_subject():
-    department_name= request.json["student"]
+    department_name= request.json["department_name"]
     subject_name =request.json["subject_name"]
     subj = Subject(department_name=department_name,
                    subject_name=subject_name,created_by_id=flask_praetorian.current_user().id  )
@@ -222,6 +222,21 @@ def delete_subject(id):
       return resp
     
       
+
+
+
+@school.route("/delete_school/<id>",methods=['DELETE'])
+@flask_praetorian.auth_required
+def delete_school(id):
+      sub_data = School.query.filter_by(id=id).first()
+     
+      db.session.delete(sub_data)
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code =201
+      return resp
+    
 
 
 @school.route("/add_department",methods=['POST'])
@@ -394,7 +409,7 @@ def add_staff():
       bank_account_number =request.json["account_number"]
       bank_branch =request.json["bank_branch"]
     #   course_name =request.json[""]
-      residential_status =request.json["resendential_status"]
+      residential_status =request.json["resedential_status"]
       appointment_date =request.json["appointment_date"]
       year_joined =request.json["year_joined"]
     #   subject =request.json["subject"]
@@ -907,7 +922,7 @@ def add_expense():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     name= request.json["amount"]
     amount =request.json["amount"]
-    note= request.json["amount"]
+    note= request.json["note"]
     date =request.json["date"]
     usr = user.firstname +" " + user.lastname
     created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
@@ -1259,6 +1274,8 @@ def get_holiday_list():
     
     result = school_schema.dump(btc)
     return jsonify(result)
+    
+  
 
 
 
