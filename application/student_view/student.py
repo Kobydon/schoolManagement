@@ -802,3 +802,13 @@ def delete_payment(id):
       resp = jsonify("success")
       resp.status_code =201
       return resp
+
+
+@student.route("/search_house",methods=["GET,POST"])
+@flask_praetorian.auth_required
+def  search_house():
+    class_name = request.json["class_name"]
+    std = Students.query.filter_by(class_name=class_name)
+    result = student_schema.dump(result)
+    return jsonify(result)
+    
