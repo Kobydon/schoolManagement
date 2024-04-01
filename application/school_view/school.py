@@ -1438,11 +1438,11 @@ def add_exam_attendance():
     school_name = user.school_name
     created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
     exam_name =  request.json["exam_name"]
-    created_by_id =user.id
+    created_by_id = flask_praetorian.current_user().id
     
     atd = ExamAttendance(class_name=class_name,subject_name=subject_name,student_number=student_number,
-                         status=status,name=name,school_name=school_name,
-                         created_date=created_date,exam_name=exam_name,created_by_id=created_by_id)
+                         status=status,name=name,school_name=school_name,created_date=created_date,
+                        exam_name=exam_name,created_by_id=created_by_id )
 
   
     db.session.add(atd)
