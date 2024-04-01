@@ -759,6 +759,7 @@ def get_payment_list():
 
 
 
+
 @student.route("/get_payment/<id>",methods=['GET'])
 @flask_praetorian.auth_required
 def get_payment(id):
@@ -804,11 +805,11 @@ def delete_payment(id):
       return resp
 
 
-@student.route("/search_house",methods=["GET,POST"])
+@student.route("/search_house",methods=['POST'])
 @flask_praetorian.auth_required
-def  search_house():
-    class_name = request.json["class_name"]
-    std = Students.query.filter_by(class_name=class_name)
-    result = student_schema.dump(result)
-    return jsonify(result)
+def search_house():
+      class_name = request.json["class_name"]
     
+      std = Student.query.filter_by(class_name=class_name)
+      result = student_schema.dump(std)
+      return jsonify(result)
