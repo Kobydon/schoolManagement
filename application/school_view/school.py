@@ -18,7 +18,7 @@ class StudentSchema(ma.Schema):
     class Meta:
         fields=("id","firstname","lastname","student_number","email","parent_name","admitted_year",
                 "address","resindential_status","parent_phone","address","phone","created_date",
-                "form"
+                "form","class_name","status","subject_name","name","subject_name"
 )
    
 class DepartmentSchema(ma.Schema):
@@ -1452,7 +1452,17 @@ def add_exam_attendance():
     resp.status_code=200
     return resp
 
-
+@school.route("/get_exam_attendance",methods=['POST'])
+@flask_praetorian.auth_required
+def get_exam_attendance():
+    user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+    exam_name= request.json["exam_name"]
+    subject_name = request.json["subject_name"]
+    class_name= request.json["class_name"]
+   
+    atd = ExamAttendance.query.filter_by(school_name=user.school_name,exam_name=exam_name,subject_name=subject_name, class_name=class_name)
+    result = student_schema.dump(atd)
+    return jsonify(result)
 
 
 @school.route("/update_exam_attendance",methods=['PUT'])
