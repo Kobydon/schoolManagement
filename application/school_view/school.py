@@ -18,7 +18,7 @@ class StudentSchema(ma.Schema):
     class Meta:
         fields=("id","firstname","lastname","student_number","email","parent_name","admitted_year",
                 "address","resindential_status","parent_phone","address","phone","created_date",
-                "form","class_name","status","subject_name","name","subject_name"
+                "form","class_name","status","subject_name","name"
 )
    
 class DepartmentSchema(ma.Schema):
@@ -1440,9 +1440,9 @@ def add_exam_attendance():
     exam_name =  request.json["exam_name"]
     created_by_id =user.id
     
-    atd = ExamAttendance(class_name,subject_name=subject_name,student_number=student_number,
+    atd = ExamAttendance(class_name=class_name,subject_name=subject_name,student_number=student_number,
                          status=status,name=name,school_name=school_name,
-                         created_date=created_date,exam=exam_name,created_by_id=created_by_id)
+                         created_date=created_date,exam_name=exam_name,created_by_id=created_by_id)
 
   
     db.session.add(atd)
