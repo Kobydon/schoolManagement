@@ -1469,7 +1469,7 @@ def get_exam_attendance():
 @flask_praetorian.auth_required
 def update_exam_attendance():
     # user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
-    id = request.json["student_number"]
+    id = request.json["id"]
     atd =  ExamAttendance.query.filter_by(student_number =id).first()
   
     atd.status = request.json["status"]
