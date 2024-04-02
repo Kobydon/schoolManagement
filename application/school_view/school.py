@@ -1457,11 +1457,10 @@ def add_exam_attendance():
          resp.status_code=201
          return resp
     
-    if not find:
+    else:
         atd = ExamAttendance(class_name=class_name,subject_name=subject_name,student_number=student_number,
-                            status=status,name=name,school_name=school_name,created_date=created_date,
+                            status="Absent",name=name,school_name=school_name,created_date=created_date,
                             exam_name=exam_name,created_by_id=created_by_id )
-
     
         db.session.add(atd)
         db.session.commit()
