@@ -1424,7 +1424,7 @@ def delete_schedule(id):
      resp.status_code= 201
      return resp
 
-@school.route("/add_exam_attendance",methods=['POST'])
+@school.route("/add_exam_attendance",methods=['POST', 'PUT'])
 @flask_praetorian.auth_required
 def add_exam_attendance():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
@@ -1439,18 +1439,34 @@ def add_exam_attendance():
     created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
     exam_name =  request.json["exam_name"]
     created_by_id = flask_praetorian.current_user().id
-    
-    atd = ExamAttendance(class_name=class_name,subject_name=subject_name,student_number=student_number,
-                         status=status,name=name,school_name=school_name,created_date=created_date,
-                        exam_name=exam_name,created_by_id=created_by_id )
-
+    find =  ExamAttendance.query.filter_by(student_number =id).first()
+    if find:
+         atd =  ExamAttendance.query.filter_by(student_number =id).first()
   
-    db.session.add(atd)
-    db.session.commit()
-    db.session.close()
-    resp = jsonify("success")
-    resp.status_code=200
-    return resp
+         atd.status = request.json["status"]
+   
+         atd.status = request.json["status"]
+   
+         atd.exam_name =  request.json["exam_name"]
+    
+        db.session.commit()
+        db.session.close()
+        resp = jsonify("success")
+        resp.status_code=201
+        return resp
+    
+    else:
+        atd = ExamAttendance(class_name=class_name,subject_name=subject_name,student_number=student_number,
+                            status=status,name=name,school_name=school_name,created_date=created_date,
+                            exam_name=exam_name,created_by_id=created_by_id )
+
+    
+        db.session.add(atd)
+        db.session.commit()
+        db.session.close()
+        resp = jsonify("success")
+        resp.status_code=200
+        return resp
 
 @school.route("/get_exam_attendance",methods=['POST'])
 @flask_praetorian.auth_required
@@ -1459,6 +1475,7 @@ def get_exam_attendance():
     exam_name= request.json["exam_name"]
     subject_name = request.json["subject_name"]
     class_name= request.json["class_name"]
+    
    
     atd = ExamAttendance.query.filter_by(school_name=user.school_name,exam_name=exam_name,subject_name=subject_name, class_name=class_name)
     result = student_schema.dump(atd)
