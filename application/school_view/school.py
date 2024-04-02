@@ -1381,6 +1381,16 @@ def get_schedule_list():
     result = school_schema.dump(scd)
     return jsonify(result)
 
+@school.route("/get_all_schedule",methods=["GET"])
+@flask_praetorian.auth_required
+def get_all_schedule():
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    # stff = Staff.query.filter_by(staff_number=user.username).first()
+    # cls = Class.query.filter_by(staff_number=user.username).first()
+    scd = Schedule.query.filter_by(school_name =user.school_name)
+    result = school_schema.dump(scd)
+    return jsonify(result)
+
 
 @school.route("/get_schedule/<id>",methods=["GET"])
 @flask_praetorian.auth_required
