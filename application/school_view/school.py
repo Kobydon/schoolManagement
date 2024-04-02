@@ -1439,13 +1439,15 @@ def add_exam_attendance():
     created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
     exam_name =  request.json["exam_name"]
     created_by_id = flask_praetorian.current_user().id
-    find =  ExamAttendance.query.filter_by(student_number =id).first()
+    find =  ExamAttendance.query.filter_by(student_number =id,exam_name=exam_name,subject_name=subject_name).first()
     if find:
-         atd =  ExamAttendance.query.filter_by(student_number =id).first()
+         print("yes")
+         atd =  ExamAttendance.query.filter_by(student_number =id,exam_name=exam_name,subject_name=subject_name).first()
   
          atd.status = request.json["status"]
+         atd.subject_name = request.json["subject_name"]
    
-         atd.status = request.json["status"]
+    
    
          atd.exam_name =  request.json["exam_name"]
     
@@ -1455,7 +1457,7 @@ def add_exam_attendance():
          resp.status_code=201
          return resp
     
-    else:
+    if not find:
         atd = ExamAttendance(class_name=class_name,subject_name=subject_name,student_number=student_number,
                             status=status,name=name,school_name=school_name,created_date=created_date,
                             exam_name=exam_name,created_by_id=created_by_id )
@@ -1465,7 +1467,7 @@ def add_exam_attendance():
         db.session.commit()
         db.session.close()
         resp = jsonify("success")
-        resp.status_code=200
+        resp.status_code=201
         return resp
 
 @school.route("/get_exam_attendance",methods=['POST'])
@@ -1491,7 +1493,7 @@ def update_exam_attendance():
   
     atd.status = request.json["status"]
    
-    atd.status = request.json["status"]
+    atd.subject_name = request.json["subject_name"]
    
     atd.exam_name =  request.json["exam_name"]
     
