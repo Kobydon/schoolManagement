@@ -1449,11 +1449,11 @@ def add_exam_attendance():
    
          atd.exam_name =  request.json["exam_name"]
     
-        db.session.commit()
-        db.session.close()
-        resp = jsonify("success")
-        resp.status_code=201
-        return resp
+         db.session.commit()
+         db.session.close()
+         resp = jsonify("success")
+         resp.status_code=201
+         return resp
     
     else:
         atd = ExamAttendance(class_name=class_name,subject_name=subject_name,student_number=student_number,
