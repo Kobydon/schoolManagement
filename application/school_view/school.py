@@ -1459,7 +1459,7 @@ def add_exam_attendance():
     
     else:
         atd = ExamAttendance(class_name=class_name,subject_name=subject_name,student_number=student_number,
-                            status="Absent",name=name,school_name=school_name,created_date=created_date,
+                            status="Present",name=name,school_name=school_name,created_date=created_date,
                             exam_name=exam_name,created_by_id=created_by_id )
     
         db.session.add(atd)
