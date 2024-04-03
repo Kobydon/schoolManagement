@@ -114,9 +114,9 @@ class User(db.Model):
  
  
 
-    subjectirre_by  = db.relationship('Subjectr', 
-    foreign_keys ='Subjectr.created_by_id',
-    backref = 'subjectinjbhurga',
+    subjectirre_by  = db.relationship('Subjectb', 
+    foreign_keys ='Subjectb.created_by_id',
+    backref = 'jsjjsuu',
     lazy=True
     
     )
@@ -520,14 +520,13 @@ class Subject(db.Model):
     department_name = db.Column(db.String(5000))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
- 
-class Subjectr(db.Model):
+class Subjectb(db.Model):
     id =db.Column(db.Integer,primary_key=True)
     subject_name = db.Column(db.String(5000),unique =True)
     department_name = db.Column(db.String(5000))
+    school_name = db.Column(db.String(5000))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
     
-
 
 
 class Class(db.Model):

@@ -163,7 +163,7 @@ def add_subject():
     department_name= request.json["department_name"]
     subject_name =request.json["subject_name"] 
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
-    subj = Subjectr(department_name=department_name,
+    subj = Subjectb(department_name=department_name,
                    subject_name=subject_name,created_by_id=flask_praetorian.current_user().id ,school_name=user.school_name )
     dep = Department.query.filter_by(department_name=department_name).first()
     dep.total_subjects = int(dep.total_subjects)+ 1
@@ -180,7 +180,7 @@ def add_subject():
 @flask_praetorian.auth_required
 def get_subjects():
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
-    subj = Subjectr.query.filter_by(school_name=user.school_name)
+    subj = Subjectb.query.filter_by(school_name=user.school_name)
     result = department_schema.dump(subj)
     return jsonify(result)
 
@@ -190,7 +190,7 @@ def get_subjects():
 @flask_praetorian.auth_required
 def get_subject(id):
 
-    subj = Subjectr.query.filter_by(id=id)
+    subj = Subjectb.query.filter_by(id=id)
     result = department_schema.dump(subj)
     return jsonify(result)
 
@@ -201,7 +201,7 @@ def get_subject(id):
 @flask_praetorian.auth_required
 def update_subject():
     id = request.json["id"]
-    sub_data = Subjectr.query.filter_by(id=id).first()
+    sub_data = Subjectb.query.filter_by(id=id).first()
     sub_data.department_name = request.json["department_name"]
     sub_data.subject_name =request.json["subject_name"]
     db.session.commit()
@@ -213,7 +213,7 @@ def update_subject():
 @school.route("/delete_subject/<id>",methods=['DELETE'])
 @flask_praetorian.auth_required
 def delete_subject(id):
-      sub_data = Subjectr.query.filter_by(id=id).first()
+      sub_data = Subjectb.query.filter_by(id=id).first()
       dep = Department.query.filter_by(department_name=sub_data.department_name).first()
       dep.total_subjects = int(dep.total_subjects) - 1
       db.session.delete(sub_data)
