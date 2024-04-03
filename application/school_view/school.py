@@ -180,7 +180,7 @@ def add_subject():
 @flask_praetorian.auth_required
 def get_subjects():
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
-    subj = Subjectr.query.fikter_by(school_name=user.school_name)
+    subj = Subjectr.query.filter_by(school_name=user.school_name)
     result = department_schema.dump(subj)
     return jsonify(result)
 
