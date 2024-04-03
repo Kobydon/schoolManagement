@@ -165,7 +165,7 @@ def add_subject():
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
     subj = Subjectb(department_name=department_name,
                    subject_name=subject_name,created_by_id=flask_praetorian.current_user().id ,school_name=user.school_name )
-    dep = Department.query.filter_by(department_name=department_name).first()
+    dep = Departmentb.query.filter_by(department_name=department_name).first()
     dep.total_subjects = int(dep.total_subjects)+ 1
     db.session.add(subj)
     db.session.commit()
@@ -214,7 +214,7 @@ def update_subject():
 @flask_praetorian.auth_required
 def delete_subject(id):
       sub_data = Subjectb.query.filter_by(id=id).first()
-      dep = Department.query.filter_by(department_name=sub_data.department_name).first()
+      dep = Departmentb.query.filter_by(department_name=sub_data.department_name).first()
       dep.total_subjects = int(dep.total_subjects) - 1
       db.session.delete(sub_data)
       db.session.commit()
@@ -246,7 +246,7 @@ def delete_school(id):
 def add_department():
     department_name= request.json["department_name"]
     department_head =request.json["department_head"]
-    dep = Department(department_name=department_name,total_teachers=0,total_subjects=0
+    dep = Departmentb(department_name=department_name,total_teachers=0,total_subjects=0
                      ,created_by_id = flask_praetorian.current_user().id,
                      department_head=department_head,created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
                      )
@@ -262,7 +262,7 @@ def add_department():
 @flask_praetorian.auth_required
 def get_department():
 
-    dep = Department.query.filter_by(created_by_id = flask_praetorian.current_user().id)
+    dep = Departmentb.query.filter_by(created_by_id = flask_praetorian.current_user().id)
     result = department_schema.dump(dep)
     return jsonify(result)
 
@@ -273,7 +273,7 @@ def get_department():
 @flask_praetorian.auth_required
 def department_info(id):
 
-    dep = Department.query.filter_by(id=id)
+    dep = Departmentb.query.filter_by(id=id)
     result = department_schema.dump(dep)
     return jsonify(result)
 
@@ -283,7 +283,7 @@ def department_info(id):
 @flask_praetorian.auth_required
 def update_department():
     id = request.json["id"]
-    dep_data = Department.query.filter_by(id=id).first()
+    dep_data = Departmentb.query.filter_by(id=id).first()
     dep_data.department_name = request.json["department_name"]
     dep_data.department_head =request.json["department_head"]
     db.session.commit()
@@ -310,7 +310,7 @@ def update_department():
 @school.route("/delete_department/<id>",methods=['DELETE'])
 @flask_praetorian.auth_required
 def delete_department(id):
-      dep_data = Department.query.filter_by(id=id).first()
+      dep_data = Departmentb.query.filter_by(id=id).first()
       db.session.delete(dep_data)
       db.session.commit()
       db.session.close()
@@ -369,7 +369,7 @@ def add_staff_b_excel():
             residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
             address=address,firstname=firstname,lastname=lastname,email=email,phone =phone
             )
-        dep = Department.query.filter_by(department_name=dep.department_name).first()
+        dep = Departmentb.query.filter_by(department_name=dep.department_name).first()
         dep.total_teachers = int(dep.total_teachers)+ len(json_data)
         usr = User(firstname=firstname,lastname=lastname,roles="role",username=staff_number,
                    hashed_password= guard.hash_password(staff_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
@@ -422,7 +422,7 @@ def add_staff():
            residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
            address=address,firstname=firstname,lastname=lastname,phone =phone
            )
-      dep = Department.query.filter_by(department_name=dep.department_name).first()
+      dep = Departmentb.query.filter_by(department_name=dep.department_name).first()
       dep.total_teachers = int(dep.total_teachers)+ 1
       usr = User(firstname=firstname,lastname=lastname,roles=role,username=staff_number,
                    hashed_password= guard.hash_password(staff_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
@@ -497,7 +497,7 @@ def update_staff():
 @flask_praetorian.auth_required
 def delete_staff(id):
       stf_data = Staff.query.filter_by(id=id).first()
-      dp= Department.query.filter_by(department_name=stf_data.department).first()
+      dp= Departmentb.query.filter_by(department_name=stf_data.department).first()
       dp.total_teachers = int(dp.total_teachers) - 1
       
       db.session.delete(stf_data)

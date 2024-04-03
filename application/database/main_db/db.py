@@ -204,9 +204,9 @@ class User(db.Model):
  
     
     
-    depar_by  = db.relationship('Department', 
-    foreign_keys ='Department.created_by_id',
-    backref = 'deparie',
+    depar_fby  = db.relationship('Departmentb', 
+    foreign_keys ='Departmentb.created_by_id',
+    backref = 'deparief',
     lazy=True)
     
         
@@ -299,10 +299,10 @@ class User(db.Model):
 
 
 
-class Department(db.Model):
+class Departmentb(db.Model):
           id =db.Column(db.Integer,primary_key=True)
-          department_name =db.Column(db.String(400),unique=True)
-          department_head =db.Column(db.String(400),unique=True)
+          department_name =db.Column(db.String(400))
+          department_head =db.Column(db.String(400))
           total_teachers =db.Column(db.String(400))
           total_subjects =db.Column(db.String(400))
           
