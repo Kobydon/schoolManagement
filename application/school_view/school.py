@@ -587,8 +587,8 @@ def cls_data(id):
 @flask_praetorian.auth_required
 def search_class():
       class_name = request.json["class_name"]
-      cls_data = Class.query.filter_by(class_name=class_name)
-      result =  class_schema.dump(cls_data)
+      cls_data = Student.query.filter_by(class_name=class_name)
+      result =  student_schema.dump(cls_data)
      
       return jsonify(result)    
 
