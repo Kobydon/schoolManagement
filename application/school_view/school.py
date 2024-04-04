@@ -369,7 +369,8 @@ def add_staff_b_excel():
             residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
             address=address,firstname=firstname,lastname=lastname,email=email,phone =phone
             )
-        dep = Departmentb.query.filter_by(department_name=dep.department_name).first()
+        subject = Subjectb.query.filter_by(subject_name =subject).first()
+        dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
         dep.total_teachers = int(dep.total_teachers)+ len(json_data)
         usr = User(firstname=firstname,lastname=lastname,roles="role",username=staff_number,
                    hashed_password= guard.hash_password(staff_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
@@ -422,7 +423,8 @@ def add_staff():
            residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
            address=address,firstname=firstname,lastname=lastname,phone =phone
            )
-      dep = Departmentb.query.filter_by(department_name=dep.department_name).first()
+      subject = Subjectb.query.filter_by(subject_name =subject_name).first()
+      dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
       dep.total_teachers = int(dep.total_teachers)+ 1
       usr = User(firstname=firstname,lastname=lastname,roles=role,username=staff_number,
                    hashed_password= guard.hash_password(staff_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
@@ -497,6 +499,8 @@ def update_staff():
 @flask_praetorian.auth_required
 def delete_staff(id):
       stf_data = Staff.query.filter_by(id=id).first()
+              
+
       dp= Departmentb.query.filter_by(department_name=stf_data.department).first()
       dp.total_teachers = int(dp.total_teachers) - 1
       
