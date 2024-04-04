@@ -163,7 +163,7 @@ def add_subject():
     department_name= request.json["department_name"]
     subject_name =request.json["subject_name"] 
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
-    subj = Subjectb(department_name=department_name,
+    subj = Subjectc(department_name=department_name,
                    subject_name=subject_name,created_by_id=flask_praetorian.current_user().id ,school_name=user.school_name )
     dep = Departmentb.query.filter_by(department_name=department_name).first()
     dep.total_subjects = int(dep.total_subjects)+ 1
@@ -180,7 +180,7 @@ def add_subject():
 @flask_praetorian.auth_required
 def get_subjects():
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
-    subj = Subjectb.query.filter_by(school_name=user.school_name)
+    subj = Subjectc.query.filter_by(school_name=user.school_name)
     result = department_schema.dump(subj)
     return jsonify(result)
 
@@ -190,7 +190,7 @@ def get_subjects():
 @flask_praetorian.auth_required
 def get_subject(id):
 
-    subj = Subjectb.query.filter_by(id=id)
+    subj = Subjectc.query.filter_by(id=id)
     result = department_schema.dump(subj)
     return jsonify(result)
 
@@ -201,7 +201,7 @@ def get_subject(id):
 @flask_praetorian.auth_required
 def update_subject():
     id = request.json["id"]
-    sub_data = Subjectb.query.filter_by(id=id).first()
+    sub_data = Subjectc.query.filter_by(id=id).first()
     sub_data.department_name = request.json["department_name"]
     sub_data.subject_name =request.json["subject_name"]
     db.session.commit()
@@ -213,7 +213,7 @@ def update_subject():
 @school.route("/delete_subject/<id>",methods=['DELETE'])
 @flask_praetorian.auth_required
 def delete_subject(id):
-      sub_data = Subjectb.query.filter_by(id=id).first()
+      sub_data = Subjectc.query.filter_by(id=id).first()
       dep = Departmentb.query.filter_by(department_name=sub_data.department_name).first()
       dep.total_subjects = int(dep.total_subjects) - 1
       db.session.delete(sub_data)
@@ -340,7 +340,7 @@ def add_staff_b_excel():
         email = request.json["Email"]
 
         address =request.json["Address"]
-        dep = Subjectb.query.filter_by(subject_name=subject_name).first()
+        dep = Subjectc.query.filter_by(subject_name=subject_name).first()
         department = dep.department_name
         usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
         school_name= usr.school_name
@@ -369,7 +369,7 @@ def add_staff_b_excel():
             residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
             address=address,firstname=firstname,lastname=lastname,email=email,phone =phone
             )
-        subject = Subjectb.query.filter_by(subject_name =subject).first()
+        subject = Subjectc.query.filter_by(subject_name =subject).first()
         dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
         dep.total_teachers = int(dep.total_teachers)+ len(json_data)
         usr = User(firstname=firstname,lastname=lastname,roles="role",username=staff_number,
@@ -396,7 +396,7 @@ def add_staff():
       email = request.json["email"]
       phone =request.json["phone"]
       address =request.json["address"]
-      dep = Subjectb.query.filter_by(subject_name=subject_name).first()
+      dep = Subjectc.query.filter_by(subject_name=subject_name).first()
       department = dep.department_name
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       school_name= usr.school_name
@@ -423,7 +423,7 @@ def add_staff():
            residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
            address=address,firstname=firstname,lastname=lastname,phone =phone
            )
-      subject = Subjectb.query.filter_by(subject_name =subject_name).first()
+      subject = Subjectc.query.filter_by(subject_name =subject_name).first()
       dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
       dep.total_teachers = int(dep.total_teachers)+ 1
       usr = User(firstname=firstname,lastname=lastname,roles=role,username=staff_number,
