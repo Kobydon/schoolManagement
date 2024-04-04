@@ -340,7 +340,7 @@ def add_staff_b_excel():
         email = request.json["Email"]
 
         address =request.json["Address"]
-        dep = Subject.query.filter_by(subject_name=subject_name).first()
+        dep = Subjectb.query.filter_by(subject_name=subject_name).first()
         department = dep.department_name
         usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
         school_name= usr.school_name
@@ -396,7 +396,7 @@ def add_staff():
       email = request.json["email"]
       phone =request.json["phone"]
       address =request.json["address"]
-      dep = Subject.query.filter_by(subject_name=subject_name).first()
+      dep = Subjectb.query.filter_by(subject_name=subject_name).first()
       department = dep.department_name
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       school_name= usr.school_name
