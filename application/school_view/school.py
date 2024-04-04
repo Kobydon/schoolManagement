@@ -521,9 +521,10 @@ def delete_staff(id):
 @school.route("/add_class",methods=['POST'])
 @flask_praetorian.auth_required
 def add_class():
+    user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     class_name= request.json["class_name"]
     staff_number =request.json["staff_number"]
-    cls = Class(class_name=class_name,staff_number=staff_number ,
+    cls = Classr(class_name=class_name,staff_number=staff_number ,school_name =user.school_name,
                 created_by_id = flask_praetorian.current_user().id , created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                 class_size=0)
    
@@ -539,8 +540,8 @@ def add_class():
 @school.route("/get_class",methods=['GET'])
 @flask_praetorian.auth_required
 def get_class():
-
-    cls = Class.query.all()
+    user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+    cls = Classr.query.filter_by(school_name=user.school_name)
     result = class_schema.dump(cls)
     return jsonify(result)
 
@@ -550,7 +551,7 @@ def get_class():
 @flask_praetorian.auth_required
 def get_class_info(id):
 
-    cls = Class.query.filter_by(id=id)
+    cls = Classr.query.filter_by(id=id)
     result = class_schema.dump(cls)
     return jsonify(result)
 
@@ -561,7 +562,7 @@ def get_class_info(id):
 @flask_praetorian.auth_required
 def update_class():
     id = request.json["id"]
-    cls_data = Class.query.filter_by(id=id).first()
+    cls_data = Classr.query.filter_by(id=id).first()
     cls_data.class_name = request.json["class_name"]
     cls_data.staff_number=request.json["staff_number"]
     db.session.commit()
@@ -573,7 +574,7 @@ def update_class():
 @school.route("/delete_class/<id>",methods=['DELETE'])
 @flask_praetorian.auth_required
 def cls_data(id):
-      cls_data = Class.query.filter_by(id=id).first()
+      cls_data = Classr.query.filter_by(id=id).first()
      
       db.session.delete(cls_data)
       db.session.commit()
