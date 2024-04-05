@@ -16,7 +16,7 @@ import random
 
 class StudentSchema(ma.Schema):
     class Meta:
-        fields=("id","firstname","lastname","student_number","email","parent_name","admitted_year",
+        fields=("id","first_name","last_name","student_number","email","parent_name","admitted_year",
                 "address","resindential_status","parent_phone","address","phone","created_date",
                 "form","class_name","status","subject_name","name"
 )
