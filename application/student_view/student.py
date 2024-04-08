@@ -18,7 +18,7 @@ class StudentSchema(ma.Schema):
                 "address","residential_status","parent_phone","address","phone","created_date",
                 "form","class_name" ,"exams_score","midterm_score","class_score","total","remark","subject_name",
                 "attitude","teacher_remark","interest","attendance","class_term","grade","rank","pos","term","grade_id","staff_number",
-                "status","amount","method","balance","paid_by","student","date","fees_type","cls"
+                "status","amount","method","balance","paid_by","student","date","fees_type","cls","other_name"
 )
         
 
@@ -51,6 +51,7 @@ def add_student():
       email = request.json["email"]
       phone =request.json["phone"]
       address =request.json["address"]
+      other_name =request.json["other_name"]
       
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       school_name= usr.school_name
@@ -72,7 +73,7 @@ def add_student():
     #   subject =request.json["subject"]
       created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
       created_by_id =flask_praetorian.current_user().id
-      std = Student(created_by_id=created_by_id,picture=picture_one,class_name=class_name ,created_date=created_date,parent_name=parent_name,school_name=school_name,
+      std = Student(other_name=other_name,created_by_id=created_by_id,picture=picture_one,class_name=class_name ,created_date=created_date,parent_name=parent_name,school_name=school_name,
            student_number=student_number, admitted_year=admitted_year ,
            residential_status=residential_status,
            address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone
@@ -111,6 +112,7 @@ def add_student_b_excel():
       phone =request.json["Phone"]
       email = request.json["Email"]
       address =request.json["Address"]
+      other_name =request.json["other_name"]
       
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       school_name= usr.school_name
@@ -138,7 +140,7 @@ def add_student_b_excel():
            address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone
            )
     
-      usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
+      usr = User(other_name=other_name,firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                    school_name=school_name)
       db.session.add(std)
@@ -209,6 +211,7 @@ def update_student():
       stf_data.email = request.json["email"]
       stf_data.parent_phone =request.json["phone"]
       stf_data.address =request.json["address"]
+      stf_data.other_name =request.json["other_name"]
      
     #   user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     #   stf_data.sch = School.query.filter_by(username=user.username).first()

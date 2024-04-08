@@ -17,7 +17,7 @@ import random
 class StudentSchema(ma.Schema):
     class Meta:
         fields=("id","first_name","last_name","student_number","email","parent_name","admitted_year",
-                "address","resindential_status","parent_phone","address","phone","created_date",
+                "address","residential_status","parent_phone","address","phone","created_date",
                 "form","class_name","status","subject_name","name"
 )
    
@@ -67,7 +67,7 @@ class staffSchema(ma.Schema):
         fields=("id","subject_name","bank_name","bank_branch","email","firstname","lastname",
                 "phone","department","national_id","address","staff_number","appointment_date",
                 "year_joined","created_date","subject_name","residential_status","bank_account_number","school_name","ssn",
-                "promotional_status"
+                "promotional_status","other_name"
                 
 )
         
@@ -338,6 +338,7 @@ def add_staff_b_excel():
         lastname =request.json["Last Name"]
         phone =request.json["Phone"]
         email = request.json["Email"]
+        other_name = request.json["other_name"]
 
         address =request.json["Address"]
         dep = Subjectc.query.filter_by(subject_name=subject_name).first()
@@ -363,7 +364,7 @@ def add_staff_b_excel():
         year_joined =request.json["Joined"]
 #   subject =request.json["subject"]
         created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
-        created_by_id =flask_praetorian.current_user().id
+        created_by_id =flask_praetorian.current_user().id,other_name=other_name,
         stf = Staff(ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
             bank_branch=bank_branch, bank_account_number=bank_account_number ,national_id=national_id,   staff_number=staff_number,
             residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
@@ -390,6 +391,7 @@ def add_staff():
       subject_name =request.json["subject_name"]
       firstname =request.json["first_name"]
       ssn= request.json["ssn"]
+      other_name= request.json["other_name"]
       promotional_status =request.json["promotional_status"]
       lastname =request.json["last_name"]
       phone =request.json["phone"]
@@ -421,7 +423,7 @@ def add_staff():
       stf = Staff(ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
            bank_branch=bank_branch, bank_account_number=bank_account_number ,national_id=national_id,   staff_number=staff_number,
            residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
-           address=address,firstname=firstname,lastname=lastname,phone =phone
+           address=address,firstname=firstname,lastname=lastname,phone =phone,other_name=other_name,
            )
       subject = Subjectc.query.filter_by(subject_name =subject_name).first()
       dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
@@ -472,6 +474,7 @@ def update_staff():
       stf_data.email = request.json["email"]
       stf_data.phone =request.json["phone"]
       stf_data.address =request.json["address"]
+      stf_data.other_name =request.json["other_name"]
       dep = Subject.query.filter_by(subject_name=subject_name).first()
       stf_data.department = dep.department_name
     #   user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
