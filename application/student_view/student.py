@@ -146,7 +146,7 @@ def add_student_b_excel():
            )
     
       usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
-                   hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
+                   hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                    school_name=school_name)
       db.session.add(std)
       db.session.add(usr)
