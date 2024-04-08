@@ -444,8 +444,8 @@ def add_staff():
 @school.route("/get_staff",methods=['GET'])
 @flask_praetorian.auth_required
 def get_staff():
-
-    stf = Staff.query.filter_by(created_by_id = flask_praetorian.current_user().id)
+    user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
+    stf = Staff.query.filter_by(school_name = user.school_name)
     result = staff_schema.dump(stf)
     return jsonify(result)
 
