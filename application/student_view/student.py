@@ -103,15 +103,15 @@ def add_student_b_excel():
     #                     "Email" and "Department" and "Phone" and "Bank" and "Account" and "Last Name" and 
     #                     "Joined"]:
               
-      
-      json_data = request.json
-      parent_name =request.json["Parent"]
+    #   
+    #   json_data = request.json
+    #   parent_name =request.json["Parent"]
       firstname =request.json["First Name"]
       
       lastname =request.json["Last Name"]
-      phone =request.json["Phone"]
-      email = request.json["Email"]
-      address =request.json["Address"]
+    #   phone =request.json["Phone"]
+    #   email = request.json["Email"]
+    #   address =request.json["Address"]
       other_name =request.json["Other Name"]
       
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
@@ -123,21 +123,21 @@ def add_student_b_excel():
       student_number = first_three
     
      
-      admitted_year =request.json["Admitted Year"]
+    #   admitted_year =request.json["Admitted Year"]
     #   picture_one =request.json["picture_one"]
      
     #   course_name =request.json[""]
-      residential_status =request.json["Resident"]
+    #   residential_status =request.json["Resident"]
       class_name =request.json["Class"]
       cls= Class.query.filter_by(class_name= class_name).first()
       cls.class_size = int(cls.class_size) + len(json_data)
     #   subject =request.json["subject"]
       created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
       created_by_id =flask_praetorian.current_user().id
-      std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,parent_name=parent_name,school_name=school_name,
-           student_number=student_number, admitted_year=admitted_year ,
-           residential_status=residential_status,
-           address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone,other_name=other_name,
+      std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,school_name=school_name,
+           student_number=student_number,
+           
+          first_name=firstname,last_name=lastname,other_name=other_name
            )
     
       usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
