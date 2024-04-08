@@ -338,7 +338,7 @@ def add_staff_b_excel():
         lastname =request.json["Last Name"]
         phone =request.json["Phone"]
         email = request.json["Email"]
-        other_name = request.json["other_name"]
+        other_name = request.json["Other Name"]
 
         address =request.json["Address"]
         dep = Subjectc.query.filter_by(subject_name=subject_name).first()
