@@ -124,18 +124,12 @@ def add_student_b_excel():
       school_name= usr.school_name
       sch = School.query.filter_by(username=usr.username).first()
       school_name = sch.school_name
-      x =  random.randint(0,100)
-      f_nd = sch.school_name[:4] + str(x)
-      st = Student.query.filter_by(student_number=f_nd).first()
-      if st:
-           n = random.randint(0,400)
-           another_three = sch.school_name[:4] + str(n)
-           student_number = first_three
-           
-      else: 
-           n = random.randint(0,400)
-           first_three = sch.school_name[:4] + str(n)
-           student_number = first_three
+      numlst = list(range(400))
+      n = random.shuffle(numlst)
+      first_three = sch.school_name[:4] + str(n)
+      student_number = first_three
+      
+     
     #   admitted_year =request.json["Admitted Year"]
     #   picture_one =request.json["picture_one"]
      
