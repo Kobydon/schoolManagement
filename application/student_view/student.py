@@ -124,9 +124,11 @@ def add_student_b_excel():
       school_name= usr.school_name
       sch = School.query.filter_by(username=usr.username).first()
       school_name = sch.school_name
-      numlst = list(range(400))
-      n = random.shuffle(numlst)
-      first_three = sch.school_name[:4] + str(n)
+    #   numlst = list(range(400))
+    #   n = random.shuffle(numlst)
+      sc = Student.query.filter_by(school_name=sch.school_name).count()
+      cc = int(sc)+1
+      first_three = sch.school_name[:4] + str(cc)
       student_number = first_three
       
      
