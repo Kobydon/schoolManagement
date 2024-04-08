@@ -112,7 +112,10 @@ def add_student_b_excel():
     #   phone =request.json["Phone"]
     #   email = request.json["Email"]
     #   address =request.json["Address"]
-      other_name =request.json["Other Name"]
+      if (request.json["Other Name"]):
+            other_name =request.json["Other Name"]
+        
+     else: other_name =" "
       
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       school_name= usr.school_name
