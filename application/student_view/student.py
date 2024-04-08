@@ -104,7 +104,7 @@ def add_student_b_excel():
     #                     "Joined"]:
               
     #   
-    #   json_data = request.json
+      json_data = request.json
     #   parent_name =request.json["Parent"]
       firstname =request.json["First Name"]
       
@@ -112,8 +112,10 @@ def add_student_b_excel():
     #   phone =request.json["Phone"]
     #   email = request.json["Email"]
     #   address =request.json["Address"]
-      if (request.json["Other Name"]):
-            other_name =request.json["Other Name"]
+      q = request.json["Other Name"]
+      if q is not None and q != '':
+           
+             other_name =request.json["Other Name"]
         
       else: other_name =" "
       
