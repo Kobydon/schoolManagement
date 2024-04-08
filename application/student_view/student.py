@@ -124,7 +124,7 @@ def add_student_b_excel():
       school_name= usr.school_name
       sch = School.query.filter_by(username=usr.username).first()
       school_name = sch.school_name
-      x = n random.randint(0,100)
+      x =  random.randint(0,100)
       f_nd = sch.school_name[:4] + str(x)
       st = Student.query.filter_by(student_number=f_nd).first()
       if st:
