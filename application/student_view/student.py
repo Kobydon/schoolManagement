@@ -137,10 +137,10 @@ def add_student_b_excel():
       std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,parent_name=parent_name,school_name=school_name,
            student_number=student_number, admitted_year=admitted_year ,
            residential_status=residential_status,
-           address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone
+           address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone,other_name=other_name,
            )
     
-      usr = User(other_name=other_name,firstname=firstname,lastname=lastname,roles="student", username= student_number,
+      usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                    school_name=school_name)
       db.session.add(std)
