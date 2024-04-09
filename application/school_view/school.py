@@ -334,7 +334,7 @@ def add_staff_b_excel():
  
         json_data= request.json
         subject_name =request.json["Subject"]
-        ges_number =request.json["Register Number"]
+       
         gender = request.json["Gender"]
         firstname = request.json["First Name"]
 
@@ -382,6 +382,7 @@ def add_staff_b_excel():
           email = request.json["Email"]
          promotional_status =request.json["Promotion Status"]
          bank_branch =request.json["Branch"]
+         ges_number =request.json["Register Number"]
         except:
             bank_branch =""
             address =""
@@ -390,7 +391,7 @@ def add_staff_b_excel():
             residential_status =""
             email=""
             promotional_status=""
-            
+            ges_number=""
           
       
             appointment_date =""
