@@ -45,7 +45,7 @@ guard.init_app(app, User)
 def add_student():
       parent_name =request.json["parent_name"]
       firstname =request.json["first_name"]
-      
+      gender = request.json["gender"]
       lastname =request.json["last_name"]
       phone =request.json["phone"]
       email = request.json["email"]
@@ -75,7 +75,7 @@ def add_student():
       created_by_id =flask_praetorian.current_user().id
       std = Student(other_name=other_name,created_by_id=created_by_id,picture=picture_one,class_name=class_name ,created_date=created_date,parent_name=parent_name,school_name=school_name,
            student_number=student_number, admitted_year=admitted_year ,
-           residential_status=residential_status,
+           residential_status=residential_status,gender=gender,
            address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone
            )
     
@@ -107,7 +107,7 @@ def add_student_b_excel():
       json_data = request.json
     #   parent_name =request.json["Parent"]
       firstname =request.json["First Name"]
-      
+      gender = request.json["Gender"]
       lastname =request.json["Last Name"]
     #   phone =request.json["Phone"]
     #   email = request.json["Email"]
@@ -144,7 +144,7 @@ def add_student_b_excel():
       created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
       created_by_id =flask_praetorian.current_user().id
       std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,school_name=school_name,
-           student_number=student_number,
+           student_number=student_number,gender=gender,
            
           first_name=firstname,last_name=lastname,other_name=other_name
            )

@@ -336,6 +336,8 @@ class Student(db.Model):
           class_name = db.Column(db.String(400))
           pos =  db.Column(db.String(400))
           all_total =  db.Column(db.String(400))
+          gender=db.Column(db.String(400))
+
           
           created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
               
@@ -382,6 +384,7 @@ class Staff(db.Model):
       payroll_status =db.Column(db.String(400))
       at_post =db.Column(db.String(400))
       onleave_type=db.Column(db.String(400))
+      gender=db.Column(db.String(400))
 
       created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
       

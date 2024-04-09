@@ -68,7 +68,7 @@ class staffSchema(ma.Schema):
                 "phone","department","national_id","address","staff_number","appointment_date",
                 "year_joined","created_date","subject_name","residential_status","bank_account_number","school_name","ssn",
                 "promotional_status","other_name",     "current_management_unit" ,
-      "payroll_status ", " at_post " ,"onleave_type"
+      "payroll_status ", " at_post " ,"onleave_type","gender"
 
                 
 )
@@ -335,7 +335,7 @@ def add_staff_b_excel():
         json_data= request.json
         subject_name =request.json["Subject"]
         ges_number =request.json["GES Number"]
-        
+        gender = request.json["Gender"]
         firstname = request.json["First Name"]
 
         lastname =request.json["Last Name"]
@@ -356,11 +356,11 @@ def add_staff_b_excel():
         sch = School.query.filter_by(username=usr.username).first()
         school_name = sch.school_name
         n = random.randint(0,100)
-        sc = Staff.query.filter_by(school_name=sch.school_name).count()
-        cc = int(sc)+1
-        first_three = sch.school_name[:3] + str(cc)
-        staff_number = first_three
-        national_id = request.json["ID No."]
+        # sc = Staff.query.filter_by(school_name=sch.school_name).count()
+        # cc = int(sc)+1
+        # first_three = sch.school_name[:3] + str(cc)
+        staff_number = request.json["Staff No."]
+        national_id = request.json["Ghana Card Number"]
 
         bank_name =request.json["Bank"]
         bank_account_number= request.json["Account"]
@@ -387,7 +387,7 @@ def add_staff_b_excel():
             bank_branch=bank_branch, bank_account_number=bank_account_number ,national_id=national_id,   staff_number=staff_number,
             residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
             address=address,firstname=firstname,lastname=lastname,email=email,phone =phone,payroll_status=payroll_status,
-            other_name=other_name,current_management_unit=current_management_unit,at_post=at_post,onleave_type=onleave_type
+            other_name=other_name,current_management_unit=current_management_unit,at_post=at_post,onleave_type=onleave_type,gender=gender,
         
             )
         subject = Subjectc.query.filter_by(subject_name =subject).first()
