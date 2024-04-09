@@ -394,7 +394,7 @@ def add_staff_b_excel():
             promotional_status=""
             ges_number=""
           
-      
+            phone=""
             appointment_date =""
             year_joined =""
           
