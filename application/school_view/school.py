@@ -366,7 +366,7 @@ def add_staff_b_excel():
         bank_account_number= request.json["Account"]
         # 
         ssn= request.json["SSN"]
-        role= request.json["role"]
+        role= request.json["Role"]
         
 
       
