@@ -334,7 +334,7 @@ def add_staff_b_excel():
  
         json_data= request.json
         subject_name =request.json["Subject"]
-        ges_number =request.json["GES Number"]
+        ges_number =request.json["Register Number"]
         gender = request.json["Gender"]
         firstname = request.json["First Name"]
 
