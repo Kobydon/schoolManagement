@@ -346,7 +346,7 @@ def add_staff_b_excel():
         current_management_unit =request.json["Current Management Unit/Cost Centre"]
         payroll_status =request.json["Payroll Active Status"]
         at_post =request.json["At Post/On Leave"]
-        onleave_type=request.json["On Leave Type "]
+        onleave_type=request.json["On Leave Type"]
 
         # 
         dep = Subjectc.query.filter_by(subject_name=subject_name).first()
