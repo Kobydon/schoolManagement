@@ -341,14 +341,14 @@ def add_staff_b_excel():
         lastname =request.json["Last Name"]
         phone =request.json["Phone"]
         role =request.json["Role"]
-        email = request.json["Email"]
+        
         # other_name = request.json["Other Name"]
         current_management_unit =request.json["Current Management Unit/Cost Centre"]
         payroll_status =request.json["Payroll Active Status"]
         at_post =request.json["At Post/On Leave"]
         onleave_type=request.json["On Leave Type "]
 
-        address =request.json["Address"]
+        # 
         dep = Subjectc.query.filter_by(subject_name=subject_name).first()
         department = dep.department_name
         usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
@@ -364,21 +364,38 @@ def add_staff_b_excel():
 
         bank_name =request.json["Bank"]
         bank_account_number= request.json["Account"]
-        bank_branch =request.json["Branch"]
+        # 
         ssn= request.json["SSN"]
         role= request.json["role"]
-        promotional_status =request.json["Promotion Status"]
-#   course_name =request.json[""]
-        residential_status =request.json["Resident"]
-        appointment_date =request.json["Appointment"]
-        year_joined =request.json["Joined"]
+        
+
+      
+   
         job_grade =request.json["Job/Grade"]
         try:
-          request.json["Other Name"]
+          address =""
+          residential_status =request.json["Resident"]
+          bank_branch =request.json["Branch"]
           other_name = request.json["Other Name"]
-    
+          appointment_date =request.json["Appointment"]
+          year_joined =request.json["Joined"]
+          email = request.json["Email"]
+         promotional_status =request.json["Promotion Status"]
+         bank_branch =request.json["Branch"]
         except:
+            bank_branch =""
+            address =""
+            bank_branch=""
             other_name = ""
+            residential_status =""
+            email=""
+            promotional_status=""
+            
+          
+      
+            appointment_date =""
+            year_joined =""
+          
      
 #   subject =request.json["subject"]
         created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
