@@ -339,7 +339,7 @@ def add_staff_b_excel():
         firstname = request.json["First Name"]
 
         lastname =request.json["Last Name"]
-        phone =request.json["Phone"]
+       
         role =request.json["Role"]
         
         # other_name = request.json["Other Name"]
@@ -373,6 +373,7 @@ def add_staff_b_excel():
    
         job_grade =request.json["Job/Grade"]
         try:
+          phone =request.json["Phone"]
           address =""
           residential_status =request.json["Resident"]
           bank_branch =request.json["Branch"]
