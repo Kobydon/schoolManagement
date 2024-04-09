@@ -359,7 +359,7 @@ def add_staff_b_excel():
         # sc = Staff.query.filter_by(school_name=sch.school_name).count()
         # cc = int(sc)+1
         # first_three = sch.school_name[:3] + str(cc)
-        staff_number = request.json["Staff No."]
+        staff_number = str(request.json["Staff No."])
         national_id = request.json["Ghana Card Number"]
 
         bank_name =request.json["Bank"]
