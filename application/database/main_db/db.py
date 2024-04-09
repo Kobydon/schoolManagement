@@ -374,9 +374,15 @@ class Staff(db.Model):
       subject = db.Column(db.String(400))
       created_date = db.Column(db.String(400))
     #   staff = db.Column(db.String(400))
+      job_grade =db.Column(db.String(400))
       ssn = db.Column(db.String(400))
       ges_number = db.Column(db.String(400))
       promotional_status = db.Column(db.String(400))
+      current_management_unit =db.Column(db.String(400))
+      payroll_status =db.Column(db.String(400))
+      at_post =db.Column(db.String(400))
+      onleave_type=db.Column(db.String(400))
+
       created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
       
 

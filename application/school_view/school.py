@@ -67,7 +67,9 @@ class staffSchema(ma.Schema):
         fields=("id","subject_name","bank_name","bank_branch","email","firstname","lastname",
                 "phone","department","national_id","address","staff_number","appointment_date",
                 "year_joined","created_date","subject_name","residential_status","bank_account_number","school_name","ssn",
-                "promotional_status","other_name"
+                "promotional_status","other_name",     "current_management_unit" ,
+      "payroll_status ", " at_post " ,"onleave_type"
+
                 
 )
         
@@ -332,13 +334,19 @@ def add_staff_b_excel():
  
         json_data= request.json
         subject_name =request.json["Subject"]
+        ges_number =request.json["GES Number"]
         
         firstname = request.json["First Name"]
 
         lastname =request.json["Last Name"]
         phone =request.json["Phone"]
+        role =request.json["Role"]
         email = request.json["Email"]
-        other_name = request.json["Other Name"]
+        # other_name = request.json["Other Name"]
+        current_management_unit =request.json["Current Management Unit/Cost Centre"]
+        payroll_status =request.json["Payroll Active Status"]
+        at_post =request.json["At Post/On Leave"]
+        onleave_type=request.json["On Leave Type "]
 
         address =request.json["Address"]
         dep = Subjectc.query.filter_by(subject_name=subject_name).first()
@@ -348,7 +356,9 @@ def add_staff_b_excel():
         sch = School.query.filter_by(username=usr.username).first()
         school_name = sch.school_name
         n = random.randint(0,100)
-        first_three = sch.school_name[:3] + str(n)
+        sc = Staff.query.filter_by(school_name=sch.school_name).count()
+        cc = int(sc)+1
+        first_three = sch.school_name[:3] + str(cc)
         staff_number = first_three
         national_id = request.json["ID No."]
 
@@ -362,18 +372,28 @@ def add_staff_b_excel():
         residential_status =request.json["Resident"]
         appointment_date =request.json["Appointment"]
         year_joined =request.json["Joined"]
+        job_grade =request.json["Job/Grade"]
+        try:
+          request.json["Other Name"]
+          other_name = request.json["Other Name"]
+    
+        except:
+            other_name = ""
+     
 #   subject =request.json["subject"]
         created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
-        created_by_id =flask_praetorian.current_user().id,other_name=other_name,
-        stf = Staff(ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
+        created_by_id =flask_praetorian.current_user().id
+        stf = Staff(job_grade=job_grade,ges_number=ges_number,ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
             bank_branch=bank_branch, bank_account_number=bank_account_number ,national_id=national_id,   staff_number=staff_number,
             residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
-            address=address,firstname=firstname,lastname=lastname,email=email,phone =phone
+            address=address,firstname=firstname,lastname=lastname,email=email,phone =phone,payroll_status=payroll_status,
+            other_name=other_name,current_management_unit=current_management_unit,at_post=at_post,onleave_type=onleave_type
+        
             )
         subject = Subjectc.query.filter_by(subject_name =subject).first()
         dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
         dep.total_teachers = int(dep.total_teachers)+ len(json_data)
-        usr = User(firstname=firstname,lastname=lastname,roles="role",username=staff_number,
+        usr = User(firstname=firstname,lastname=lastname,roles=role,username=staff_number,
                    hashed_password= guard.hash_password(staff_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                    school_name=school_name)
         

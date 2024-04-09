@@ -313,9 +313,9 @@ def add_grade():
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-          cls = Class.query.filter_by(staff_number = user.username).first()
+          st = Student.query.filter_by(student_number = request.json["student_number"]).first()
           # midterm_score  = request.json["midterm_score"]
-          class_name = cls.class_name
+          class_name = st.class_name
          
           class_score = request.json["class_score"]
           # total = request.json["total"]
@@ -398,6 +398,15 @@ def add_grade():
           return  resp     
         
         
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
         
      
 @student.route("/add_result_by_excel",methods=['POST'])
@@ -407,9 +416,10 @@ def add_result_by_excel():
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+          st = Student.query.filter_by(student_number = request.json["student_number"]).first()
           cls = Class.query.filter_by(staff_number = user.username).first()
           # midterm_score  = request.json["midterm_score"]
-          class_name = cls.class_name
+          class_name = st.class_name
           class_score = request.json["class_score"]
           # total = request.json["total"]
           exams_score =  request.json["exams_score"]
