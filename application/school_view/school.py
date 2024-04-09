@@ -399,7 +399,7 @@ def add_staff_b_excel():
             year_joined =""
           
      
-#   subject =request.json["subject"]
+        subject =request.json["subject"]
         created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
         created_by_id =flask_praetorian.current_user().id
         stf = Staff(job_grade=job_grade,ges_number=ges_number,ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
