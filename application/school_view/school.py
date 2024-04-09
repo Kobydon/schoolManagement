@@ -380,9 +380,9 @@ def add_staff_b_excel():
           appointment_date =request.json["Appointment"]
           year_joined =request.json["Joined"]
           email = request.json["Email"]
-         promotional_status =request.json["Promotion Status"]
-         bank_branch =request.json["Branch"]
-         ges_number =request.json["Register Number"]
+          promotional_status =request.json["Promotion Status"]
+          bank_branch =request.json["Branch"]
+          ges_number =request.json["Register Number"]
         except:
             bank_branch =""
             address =""
