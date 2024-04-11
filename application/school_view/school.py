@@ -448,7 +448,7 @@ def add_staff():
       first_three = sch.school_name[:3] + str(n)
       staff_number = first_three
       national_id = request.json["national_id"]
-     
+      
       bank_name =request.json["bank_name"]
       bank_account_number =request.json["account_number"]
       bank_branch =request.json["bank_branch"]
@@ -569,7 +569,15 @@ def add_class():
     cls = Class(class_name=class_name,staff_number=staff_number ,school_name =user.school_name,
                 created_by_id = flask_praetorian.current_user().id , created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                 class_size=0)
-   
+    st = Staff.query.filter_by(staff_number =staff_number).first()
+    if st:
+        st.fore_master = "yes"
+        st.for_class = request.json["class_name"]
+        
+    else: 
+         st.for_class = "no"
+        
+    
     db.session.add(cls)
     db.session.commit()
     db.session.close()
@@ -607,6 +615,14 @@ def update_class():
     cls_data = Class.query.filter_by(id=id).first()
     cls_data.class_name = request.json["class_name"]
     cls_data.staff_number=request.json["staff_number"]
+    st = Staff.query.filter_by(staff_number=staff_number_number).first()
+    if st:
+        st.fore_master = "yes"
+        st.for_class = request.json["class_name"]
+
+    else: 
+         st.for_class = "no"
+        
     db.session.commit()
     db.session.close()
     resp = jsonify("success")

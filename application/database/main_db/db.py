@@ -385,7 +385,8 @@ class Staff(db.Model):
       at_post =db.Column(db.String(400))
       onleave_type=db.Column(db.String(400))
       gender=db.Column(db.String(400))
-
+      form_master=db.Column(db.String(400))
+      for_class=db.Column(db.String(400))
       created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
       
 
