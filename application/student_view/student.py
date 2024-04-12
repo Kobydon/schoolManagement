@@ -783,6 +783,7 @@ def add_remark():
           interest  = request.json["interest"]
           attendance = request.json["attendance"]
           term = request.json["term"]
+          head_master_remark = request.json["head_master_remark"]
           class_name = clas.class_name
          
           created_date  = datetime.now().strftime('%Y-%m-%d %H:%M')
@@ -792,8 +793,12 @@ def add_remark():
          
           created_by_id  = flask_praetorian.current_user().id
           
+          today = datetime.today()
+          year=  today.year
+          
           rmk = Remark(teacher_remark=teacher_remark,attitude=attitude,interest=interest,attendance=attendance,class_name=class_name,
-                 created_date=created_date   ,school_name=school_name,
+                 created_date=created_date   ,school_name=school_name,head_master_remark=head_master_remark,
+                 year=year,
                  student_number=student_number ,created_by_id=created_by_id ,
                  class_term=term)
           

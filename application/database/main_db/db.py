@@ -703,6 +703,7 @@ class Remark(db.Model):
            
           id = db.Column(db.Integer,primary_key=True)
           teacher_remark = db.Column(db.String(400))
+          year = db.Column(db.String(400))
           attitude=  db.Column(db.String(400))
           interest  = db.Column(db.String(400))
           attendance = db.Column(db.String(400))
