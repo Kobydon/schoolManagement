@@ -106,20 +106,89 @@ def add_student_b_excel():
     #   
       json_data = request.json
     #   parent_name =request.json["Parent"]
-      firstname =request.json["First Name"]
-      gender = request.json["Gender"]
-      lastname =request.json["Last Name"]
-    #   phone =request.json["Phone"]
-    #   email = request.json["Email"]
-    #   address =request.json["Address"]
-    #   q = request.json[""]
-      try:
-          request.json["Other Name"]
-          other_name = request.json["Other Name"]
+     try:
+          firstname =request.json["First Name"]
+          
     
-      except:
-            other_name = ""
+     except:
+            firstname = ""
+            
+     try:
+          last_name =request.json["Last Name"]
+          
+    
+     except:
+            last_name = "" 
+            
+     try:
+            gender = request.json["Gender"]
+          
+    
+     except:
+            gender = "" 
      
+     
+     try:
+             phone =request.json["Phone"]
+          
+    
+     except:
+             phone = ""
+     
+     try:
+             email =request.json["Email"]
+          
+    
+     except:
+            email = "" 
+
+     try:
+           address =request.json["Address"]
+          
+    
+     except:
+            address = "" 
+            
+ 
+    try:
+           admitted_year =request.json["Admitted Year"]
+          
+    
+    except:
+            admitted_year = "" 
+            
+            
+    
+    try:
+           admitted_year =request.json["Admitted Year"]
+          
+    
+    except:
+            admitted_year = "" 
+            
+     
+    try:
+           picture_one =request.json["picture_one"]
+          
+    
+    except:
+            picture_one = "" 
+            
+        
+    try:
+           residential_status =request.json["Resident"]
+          
+    
+    except:
+            residential_status = "Ghana Card Number" 
+        
+    #  try:
+    #        residential_status =request.json["Resident"]
+          
+    
+    # except:
+    #         residential_status = "" 
+
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       school_name= usr.school_name
       sch = School.query.filter_by(username=usr.username).first()
@@ -132,11 +201,11 @@ def add_student_b_excel():
       student_number = first_three
       
      
-    #   admitted_year =request.json["Admitted Year"]
-    #   picture_one =request.json["picture_one"]
+    #  
+    #   
      
     #   course_name =request.json[""]
-    #   residential_status =request.json["Resident"]
+    #  
       class_name =request.json["Class"]
       cls= Class.query.filter_by(class_name= class_name).first()
       cls.class_size = int(cls.class_size) + len(json_data)
@@ -144,7 +213,8 @@ def add_student_b_excel():
       created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
       created_by_id =flask_praetorian.current_user().id
       std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,school_name=school_name,
-           student_number=student_number,gender=gender,
+           student_number=student_number,gender=gender,residential_status=residential_status,
+           picture=picture_one,admitted_year=admitted_year,address=address,email=email,phone=phone,
            
           first_name=firstname,last_name=lastname,other_name=other_name
            )
