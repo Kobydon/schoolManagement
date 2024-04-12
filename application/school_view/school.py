@@ -612,6 +612,7 @@ def get_class_info(id):
 @flask_praetorian.auth_required
 def update_class():
     id = request.json["id"]
+    staff_number=staff_number_number
     cls_data = Class.query.filter_by(id=id).first()
     cls_data.class_name = request.json["class_name"]
     cls_data.staff_number=request.json["staff_number"]
