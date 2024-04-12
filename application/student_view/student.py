@@ -104,8 +104,8 @@ def add_student_b_excel():
     #                     "Joined"]:
               
     #   
-      json_data = request.json
-    #   parent_name =request.json["Parent"]
+     json_data = request.json
+    
      try:
           firstname =request.json["First Name"]
           
@@ -150,37 +150,37 @@ def add_student_b_excel():
             address = "" 
             
  
-    try:
+     try:
            admitted_year =request.json["Admitted Year"]
           
     
-    except:
+     except:
             admitted_year = "" 
             
             
     
-    try:
+     try:
            admitted_year =request.json["Admitted Year"]
           
     
-    except:
+     except:
             admitted_year = "" 
             
      
-    try:
+     try:
            picture_one =request.json["picture_one"]
           
     
-    except:
+     except:
             picture_one = "" 
             
         
-    try:
+     try:
            residential_status =request.json["Resident"]
           
     
-    except:
-            residential_status = "Ghana Card Number" 
+     except:
+            residential_status = "" 
         
     #  try:
     #        residential_status =request.json["Resident"]
@@ -189,16 +189,16 @@ def add_student_b_excel():
     # except:
     #         residential_status = "" 
 
-      usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-      school_name= usr.school_name
-      sch = School.query.filter_by(username=usr.username).first()
-      school_name = sch.school_name
+     usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+     school_name= usr.school_name
+     sch = School.query.filter_by(username=usr.username).first()
+     school_name = sch.school_name
     #   numlst = list(range(400))
     #   n = random.shuffle(numlst)
-      sc = Student.query.filter_by(school_name=sch.school_name).count()
-      cc = int(sc)+1
-      first_three = sch.school_name[:4] + str(cc)
-      student_number = first_three
+     sc = Student.query.filter_by(school_name=sch.school_name).count()
+     cc = int(sc)+1
+     first_three = sch.school_name[:4] + str(cc)
+     student_number = first_three
       
      
     #  
@@ -206,29 +206,29 @@ def add_student_b_excel():
      
     #   course_name =request.json[""]
     #  
-      class_name =request.json["Class"]
-      cls= Class.query.filter_by(class_name= class_name).first()
-      cls.class_size = int(cls.class_size) + len(json_data)
+     class_name =request.json["Class"]
+     cls= Class.query.filter_by(class_name= class_name).first()
+     cls.class_size = int(cls.class_size) + len(json_data)
     #   subject =request.json["subject"]
-      created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
-      created_by_id =flask_praetorian.current_user().id
-      std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,school_name=school_name,
+     created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
+     created_by_id =flask_praetorian.current_user().id
+     std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,school_name=school_name,
            student_number=student_number,gender=gender,residential_status=residential_status,
            picture=picture_one,admitted_year=admitted_year,address=address,email=email,phone=phone,
            
           first_name=firstname,last_name=lastname,other_name=other_name
            )
     
-      usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
+     usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                    school_name=school_name)
-      db.session.add(std)
-      db.session.add(usr)
-      db.session.commit()
-      db.session.close()
-      resp = jsonify("success")
-      resp.status_code =200
-      return resp
+     db.session.add(std)
+     db.session.add(usr)
+     db.session.commit()
+     db.session.close()
+     resp = jsonify("success")
+     resp.status_code =200
+     return resp
 
 
 
