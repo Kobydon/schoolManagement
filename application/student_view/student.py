@@ -420,9 +420,22 @@ def add_result_by_excel():
           cls = Class.query.filter_by(staff_number = user.username).first()
           # midterm_score  = request.json["midterm_score"]
           class_name = st.class_name
-          class_score = request.json["class_score"]
+        
+        
+          try:
+                 class_score =  request.json["class_score"]
+      
+          except:
+                  class_score =  ""          
+          try:
+                 exams_score =  request.json["exams_score"]
+      
+    
+          except:
+                  exams_score =  ""
+          
           # total = request.json["total"]
-          exams_score =  request.json["exams_score"]
+         
           created_date  = datetime.now().strftime('%Y-%m-%d %H:%M')
           school_name = user.school_name
           student_number = request.json["student_number"]
