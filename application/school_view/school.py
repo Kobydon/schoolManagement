@@ -659,7 +659,7 @@ def search_class():
 @flask_praetorian.auth_required
 def add_scheme():
     exams_score= request.json["exams_score"]
-    midterm_score =request.json["midterm_score"]
+    # midterm_score =request.json["midterm_score"]
     class_score =request.json["class_score"]
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     stf = Staff.query.filter_by(staff_number=user.username).first()
@@ -668,7 +668,7 @@ def add_scheme():
     created_by_id= flask_praetorian.current_user().id
     created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
     scm = Scheme(exams_score=exams_score,
-                   midterm_score=midterm_score,class_score=class_score,
+                class_score=class_score,
                    school_name=school_name,subject_name=subject_name,created_date=created_date,
                    created_by_id=created_by_id)
     
@@ -709,7 +709,7 @@ def update_scheme():
     sub_data = Scheme.query.filter_by(id=id).first()
     sub_data.subject_name = request.json["subject_name"]
     sub_data.exams_score = request.json["exams_score"]
-    sub_data.midterm_score =request.json["midterm_score"]
+    # sub_data.midterm_score =request.json["midterm_score"]
     sub_data.class_score =request.json["class_score"]
     db.session.commit()
     db.session.close()
