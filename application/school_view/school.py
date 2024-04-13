@@ -67,8 +67,8 @@ class staffSchema(ma.Schema):
         fields=("id","subject_name","bank_name","bank_branch","email","firstname","lastname",
                 "phone","department","national_id","address","staff_number","appointment_date",
                 "year_joined","created_date","subject_name","residential_status","bank_account_number","school_name","ssn",
-                "promotional_status","other_name",     "current_management_unit" ,
-      "payroll_status ", " at_post " ,"onleave_type","gender"
+                "promotional_status","other_name",    "current_management_unit" ,
+      "payroll_status ", " at_post " ,"onleave_type","gender"," form_master","for_class"
 
                 
 )
@@ -374,7 +374,7 @@ def add_staff_b_excel():
         job_grade =request.json["Job/Grade"]
         try:
           phone =request.json["Phone"]
-          address =""
+          address ="''"
           residential_status =request.json["Resident"]
           bank_branch =request.json["Branch"]
           other_name = request.json["Other Name"]
@@ -385,18 +385,18 @@ def add_staff_b_excel():
           bank_branch =request.json["Branch"]
           ges_number =request.json["Register Number"]
         except:
-            bank_branch =""
-            address =""
+            bank_branch ="''"
+            address ="''"
             bank_branch=""
             other_name = ""
-            residential_status =""
+            residential_status ="''"
             email=""
             promotional_status=""
             ges_number=""
           
             phone=""
-            appointment_date =""
-            year_joined =""
+            appointment_date ="''"
+            year_joined ="''"
           
      
         subject =request.json["Subject"]
