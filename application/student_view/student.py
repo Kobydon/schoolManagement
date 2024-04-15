@@ -1047,7 +1047,7 @@ def update_general_remark():
         db.session.close()
         resp = jsonify("success")
         resp.status_code=201
-        retutn resp
+        return resp
         
 
 
