@@ -67,8 +67,8 @@ class staffSchema(ma.Schema):
         fields=("id","subject_name","bank_name","bank_branch","email","firstname","lastname",
                 "phone","department","national_id","address","staff_number","appointment_date",
                 "year_joined","created_date","subject_name","residential_status","bank_account_number","school_name","ssn",
-                "promotional_status","other_name",    "current_management_unit" ,
-      "payroll_status ", " at_post " ,"onleave_type","gender"," form_master","for_class"
+                "promotional_status","other_name",    "current_management_unit" ,"form_master",
+      "payroll_status ", " at_post " ,"onleave_type","gender","for_class"
 
                 
 )
@@ -618,7 +618,7 @@ def update_class():
     cls_data.staff_number=request.json["staff_number"]
     st = Staff.query.filter_by(staff_number=staff_number).first()
     if st:
-        st.fore_master = "yes"
+        st.form_master = "yes"
         st.for_class = request.json["class_name"]
 
     else: 
