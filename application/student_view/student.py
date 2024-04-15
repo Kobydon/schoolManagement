@@ -118,14 +118,14 @@ def add_student_b_excel():
           
     
      except:
-            last_name = "''" 
+            last_name =""
             
      try:
             gender = request.json["Gender"]
           
     
      except:
-            gender = "''" 
+            gender =""
      
      
      try:
@@ -140,14 +140,14 @@ def add_student_b_excel():
           
     
      except:
-            email = "''" 
+            email =""
 
      try:
            address =request.json["Address"]
           
     
      except:
-            address = "''" 
+            address =""
             
  
      try:
@@ -155,7 +155,7 @@ def add_student_b_excel():
           
     
      except:
-            admitted_year = "''" 
+            admitted_year =""
             
             
     
@@ -164,7 +164,7 @@ def add_student_b_excel():
           
     
      except:
-            admitted_year = "''" 
+            admitted_year =""
             
      
      try:
@@ -172,7 +172,7 @@ def add_student_b_excel():
           
     
      except:
-            picture_one = "''" 
+            picture_one =""
             
         
      try:
@@ -180,14 +180,14 @@ def add_student_b_excel():
           
     
      except:
-            residential_status = "''" 
+            residential_status =""
         
     #  try:
     #        residential_status =request.json["Resident"]
           
     
     # except:
-    #         residential_status = "''" 
+    #         residential_status =""
 
      usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
      school_name= usr.school_name
