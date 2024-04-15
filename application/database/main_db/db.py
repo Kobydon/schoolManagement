@@ -131,6 +131,13 @@ class User(db.Model):
     lazy=True
     
     )
+    
+    genremarkie  = db.relationship('GeneralRemark', 
+    foreign_keys ='GeneralRemark.created_by_id',
+    backref = 'genremar',
+    lazy=True
+    
+    )
  
     
     
@@ -422,6 +429,19 @@ class FeesType(db.Model):
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
   
+class GeneralRemark(db.Model):
+        id =db.Column(db.Integer,primary_key=True)
+        attitude = db.Column(db.String(5000))
+        conduct = db.Column(db.String(5000))
+        interest =db.Column(db.String(5000))
+        headmaster_remark= db.Column(db.String(5000))
+        teacher_remark=db.Column(db.String(5000))
+        term= db.Column(db.String(5000))
+        year = db.Column(db.String(5000))
+        created_date =db.Column(db.String(5000))
+        class_name = db.Column(db.String(5000))
+        created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+        
 
 class FeesPayment(db.Model):
     id =db.Column(db.Integer,primary_key=True)
@@ -435,6 +455,7 @@ class FeesPayment(db.Model):
     paid_by = db.Column(db.String(400))
     date = db.Column(db.String(400))
     balance = db.Column(db.String(400))
+    student_number = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
     
 

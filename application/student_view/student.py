@@ -17,7 +17,8 @@ class StudentSchema(ma.Schema):
         fields=("id","first_name","last_name","student_number","email","parent_name","admitted_year",
                 "address","residential_status","parent_phone","address","phone","created_date",
                 "form","class_name" ,"exams_score","midterm_score","class_score","total","remark","subject_name",
-                "attitude","teacher_remark","interest","attendance","class_term","grade","rank","pos","term","grade_id","staff_number",
+                "attitude","teacher_remark","interest","headmaster_remark","conduct"
+                "attendance","class_term","grade","rank","pos","term","grade_id","staff_number",
                 "status","amount","method","balance","paid_by","student","date","fees_type","cls","other_name"
 )
         
@@ -923,3 +924,134 @@ def search_house():
       std = Student.query.filter_by(class_name=class_name)
       result = student_schema.dump(std)
       return jsonify(result)
+
+
+
+@student.route("/add_general_remark",methods=['POST'])
+@flask_praetorian.auth_required
+def add_general_remark():
+        user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+        cl = Class.query.filter_by(staff_number= user.username).first()
+        
+        try:
+            student_number =request.json["student_number"]
+        except:
+            student_number=""
+           
+        try:    
+            attitude =request.json["attitude"]
+        except:
+            attitude=""
+            
+        try:
+            
+            conduct =request.json["conduct"]
+        except:
+            conduct =""
+        try:
+            interest =request.json["interest"]
+        except:
+             interest =""
+        try:
+            headmaster_remark=request.json["headmaster_remark"]
+        
+        except:
+             headmaster_remark=""
+        try:
+            teacher_remark= request.json["teacher_remark"]
+            
+        except:
+             teacher_remark= ""
+        try:
+             term=request.json["term"]
+           
+        except :
+            term=""
+        today = datetime.today()
+        year=  today.year
+        created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
+        class_name = cl.class_name
+        created_by_id =flask_praetorian.current_user().id
+        
+        
+        my_obj = GeneralRemark(attitude=attidue,interest=interest,conduct=conduct,
+                               teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,
+                               term=term,year=year,student_number=student_number,class_name=class_name,
+                               created_by_id=created_by_id)
+        db.session.add(my_obj)
+        db.session.commit()
+        db.session.close()
+        resp = jsonify("success")
+        resp.status_code=200
+        
+        
+        
+        
+
+
+@student.route("/update_general_remark",methods=['PUT'])
+@flask_praetorian.auth_required
+def update_general_remark():
+        # user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+        # cl = Class.query.filter_by(staff_number= user.username).first()
+        my_date = GeneralRemark.query.filter_by(student_number =request.json["student_number"]).first()
+        
+        try:
+            my_date.student_number =request.json["student_number"]
+        except:
+            my_date.student_number= my_date.student_number
+           
+        try:    
+             my_date.attitude =request.json["attitude"]
+        except:
+             my_date.attitude= my_date.attitude
+            
+        try:
+            
+             my_date.conduct =request.json["conduct"]
+        except:
+            my_date.conduct= my_date.conduct
+        try:
+              my_date.interest =request.json["interest"]
+        except:
+               my_date.interest= my_date.interest
+        try:
+            my_date.headmaster_remark=request.json["headmaster_remark"]
+        
+        except:
+              my_date.headmaster_remark= my_date.headmaster_remark
+        try:
+            my_date.teacher_remark= request.json["teacher_remark"]
+            
+        except:
+             my_date.teacher_remark= my_date.teacher_remark
+        try:
+              my_date.term=request.json["term"]
+           
+        except :
+            my_date.term = my_date.term
+        today = datetime.today()
+        year=  today.year
+        created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
+        class_name = cl.class_name
+        created_by_id =flask_praetorian.current_user().id
+        
+        
+        my_obj = GeneralRemark(attitude=attidue,interest=interest,conduct=conduct,
+                               teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,
+                               term=term,year=year,student_number=student_number,class_name=class_name,
+                               created_by_id=created_by_id)
+        db.session.add(my_obj)
+        db.session.commit()
+        db.session.close()
+        resp = jsonify("success")
+        resp.status_code=200
+        
+
+
+@student.route("/get_general_remark",methods=['GET'])
+@flask_praetorian.auth_required
+def get_general_remark():
+    rmk = GeneralRemark.quer.filter_by(created_by_id =flask_praetorian.current_user().id)
+    result = student_schema.dump(rmk)
+    return jsonify(result)
