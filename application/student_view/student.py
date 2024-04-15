@@ -5,7 +5,7 @@ from  application.extensions.extensions import *
 from  application.settings.settings import *
 from  application.settings.setup import app
 # from application.forms import LoginForm
-from application.database.main_db.db import User,db,Student,School,Class,Staff,Grading,Scheme,Remark,PendingGrade,Payment,FeesType,FeesPayment
+from application.database.main_db.db import *
 
 from sqlalchemy import or_,and_ ,desc
 from datetime import datetime
