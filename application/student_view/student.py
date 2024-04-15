@@ -983,6 +983,7 @@ def add_general_remark():
         db.session.close()
         resp = jsonify("success")
         resp.status_code=200
+        return resp
         
         
         
@@ -1041,11 +1042,12 @@ def update_general_remark():
                                teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,
                                term=term,year=year,student_number=student_number,class_name=class_name,
                                created_by_id=created_by_id)
-        db.session.add(my_obj)
+        
         db.session.commit()
         db.session.close()
         resp = jsonify("success")
-        resp.status_code=200
+        resp.status_code=201
+        retutn resp
         
 
 
