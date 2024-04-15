@@ -434,6 +434,7 @@ class GeneralRemark(db.Model):
         attitude = db.Column(db.String(5000))
         conduct = db.Column(db.String(5000))
         interest =db.Column(db.String(5000))
+        student_number =db.Column(db.String(5000))
         headmaster_remark= db.Column(db.String(5000))
         teacher_remark=db.Column(db.String(5000))
         term= db.Column(db.String(5000))

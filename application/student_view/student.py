@@ -1037,7 +1037,7 @@ def update_general_remark():
         created_by_id =flask_praetorian.current_user().id
         
         
-        my_obj = GeneralRemark(attitude=attidue,interest=interest,conduct=conduct,
+        my_obj = GeneralRemark(attitude=attitude,interest=interest,conduct=conduct,
                                teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,
                                term=term,year=year,student_number=student_number,class_name=class_name,
                                created_by_id=created_by_id)
