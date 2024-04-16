@@ -386,6 +386,7 @@ def add_grade():
           student_number = request.json["student_number"]
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           st = Student.query.filter_by(student_number = student_number).first()
+          print(st.first_name)
           # midterm_score  = request.json["midterm_score"]
           class_name = st.class_name
           name = st.first_name+" "+st.other_name+" "+st.last_name
