@@ -778,7 +778,7 @@ def search_result():
 @flask_praetorian.auth_required
 def get_grade_by_class():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    cls_name=  Class.query.filter__by(staff_number=user.username).first()
+    cls_name=  Class.query.filter_by(staff_number=user.username).first()
     
     grade = Grading.query.filter_by(class_name= cls_name.class_name)
     result = student_schema.dump(grade)
