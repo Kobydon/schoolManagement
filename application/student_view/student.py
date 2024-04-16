@@ -937,6 +937,16 @@ def add_general_remark():
             student_number =request.json["student_number"]
         except:
             student_number=""
+            
+        try:
+                first_name =request.json["first_name"]
+        except:
+            first_name= ""
+        
+        try:
+                last_name =request.json["last_name"]
+        except:
+            last_name= ""
            
         try:    
             attitude =request.json["attitude"]
@@ -1001,6 +1011,8 @@ def update_general_remark():
             my_date.student_number =request.json["student_number"]
         except:
             my_date.student_number= my_date.student_number
+        
+        
            
         try:    
              my_date.attitude =request.json["attitude"]
@@ -1038,7 +1050,8 @@ def update_general_remark():
         created_by_id =flask_praetorian.current_user().id
         
         
-        my_obj = GeneralRemark(attitude=attitude,interest=interest,conduct=conduct,
+        my_obj = GeneralRemark(attitude=attitude,interest=interest,conduct=conduct,first_name=first_name,
+                               last_name=last_name,
                                teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,
                                term=term,year=year,student_number=student_number,class_name=class_name,
                                created_by_id=created_by_id)
@@ -1057,3 +1070,13 @@ def get_general_remark():
     rmk = GeneralRemark.query.filter_by(created_by_id =flask_praetorian.current_user().id)
     result = student_schema.dump(rmk)
     return jsonify(result)
+
+@student.route("/delete_remark/<id>",methods=['DELETE'])
+@flask_praetorian.auth_required
+def delete_remark(id):
+     my_data = GeneralRemark.query.filter_by(id=id).first()
+     db.session.delete(my_date)
+     db.session.commit()
+     resp = jsonify("success")
+     resp.status_code=201
+     return resp

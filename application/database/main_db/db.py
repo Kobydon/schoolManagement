@@ -437,6 +437,8 @@ class GeneralRemark(db.Model):
         student_number =db.Column(db.String(5000))
         headmaster_remark= db.Column(db.String(5000))
         teacher_remark=db.Column(db.String(5000))
+        first_name= db.Column(db.String(5000))
+        last_name=db.Column(db.String(5000))
         term= db.Column(db.String(5000))
         year = db.Column(db.String(5000))
         created_date =db.Column(db.String(5000))
