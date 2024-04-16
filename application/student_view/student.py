@@ -1075,7 +1075,7 @@ def get_general_remark():
 @flask_praetorian.auth_required
 def delete_remark(id):
      my_data = GeneralRemark.query.filter_by(id=id).first()
-     db.session.delete(my_date)
+     db.session.delete(my_data)
      db.session.commit()
      resp = jsonify("success")
      resp.status_code=201
