@@ -18,7 +18,7 @@ class StudentSchema(ma.Schema):
     class Meta:
         fields=("id","first_name","last_name","student_number","email","parent_name","admitted_year",
                 "address","residential_status","parent_phone","address","phone","created_date",
-                "form","class_name","status","subject_name","name"
+                "form","class_name","status","subject_name","name","district"
 )
    
 class DepartmentSchema(ma.Schema):
@@ -93,8 +93,9 @@ def register():
         school_anthem= request.json["school_anthem"]
         established_year= request.json["established_year"]
         logo= request.json["logo"]
-       
+        district= request.json["district"]
         mail= request.json["email"]
+        
         level= request.json["level"]
         address = request.json["address"]
         region = request.json["region"]
@@ -113,7 +114,7 @@ def register():
         created_by_id = flask_praetorian.current_user().id
         
         
-        sch = School(school_name=school_name,school_anthem=school_anthem,established_year=established_year,population=population,color_one=color_one,
+        sch = School(district,district,school_name=school_name,school_anthem=school_anthem,established_year=established_year,population=population,color_one=color_one,
                      address= address,color_two=color_two,color_three=color_three,username=username,password = hashed_password,
                      motto=motto,headmaster=headmaster,phone=phone,created_by_id = created_by_id,
                      level=level,region=region,mail=mail,logo =logo,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'))

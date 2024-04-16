@@ -17,8 +17,8 @@ class StudentSchema(ma.Schema):
         fields=("id","first_name","last_name","student_number","email","parent_name","admitted_year",
                 "address","residential_status","parent_phone","address","phone","created_date",
                 "form","class_name" ,"exams_score","midterm_score","class_score","total","remark","subject_name",
-                "attitude","teacher_remark","interest","headmaster_remark","conduct"
-                "attendance","class_term","grade","rank","pos","term","grade_id","staff_number",
+                "attitude","teacher_remark","interest","headmaster_remark","conduct",
+                "attendance","class_term","grade","rank","pos","term","grade_id","staff_number","name",
                 "status","amount","method","balance","paid_by","student","date","fees_type","cls","other_name"
 )
         
@@ -387,7 +387,7 @@ def add_grade():
           st = Student.query.filter_by(student_number = request.json["student_number"]).first()
           # midterm_score  = request.json["midterm_score"]
           class_name = st.class_name
-         
+          name = st.first_name+" "+st.other_name+" "+st.last_name
           class_score = request.json["class_score"]
           # total = request.json["total"]
           exams_score =  request.json["exams_score"]
@@ -395,7 +395,7 @@ def add_grade():
           school_name = user.school_name
           student_number = request.json["student_number"]
           term = request.json["term"]
-        
+          
           today = datetime.today()
           year=  today.year
           created_by_id  = flask_praetorian.current_user().id
@@ -445,7 +445,7 @@ def add_grade():
               grade = 9 
           
           grade = Grading( subject_name= subject_name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
-                     school_name=school_name ,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
+                  name=name,   school_name=school_name ,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
           db.session.add(grade)
    
           db.session.commit()
@@ -773,6 +773,17 @@ def search_result():
     result = student_schema.dump(grade)
     return jsonify(result)
 
+          
+@student.route("/get_grade_by_class",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def get_grade_by_class():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    cls_name=  Class.query.filter__by(staff_number=user.username).first()
+    
+    grade = Grading.query.filter_by(class_name= cls_name.class_name)
+    result = student_schema.dump(grade)
+    return jsonify(result)
+
 
 @student.route("/add_remark",methods=["POST"])
 @flask_praetorian.auth_required
@@ -1051,7 +1062,7 @@ def update_general_remark():
         
         
         my_obj = GeneralRemark(attitude=attitude,interest=interest,conduct=conduct,first_name=first_name,
-                               last_name=last_name,
+                               last_name=last_name,created_date=created_date,
                                teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,
                                term=term,year=year,student_number=student_number,class_name=class_name,
                                created_by_id=created_by_id)

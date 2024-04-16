@@ -635,9 +635,10 @@ class School(db.Model):
         color_three= db.Column(db.String(400))
         username = db.Column(db.String(400))
         password = db.Column(db.String(400))
+        district = db.Column(db.String(400))
         phone = db.Column(db.String(400))
         created_date = db.Column(db.String(400))
-  
+       
   
         created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
 
@@ -700,6 +701,7 @@ class Grading(db.Model):
           pos =  db.Column(db.String(400))
           created_date  = db.Column(db.String(400))
           all_total =  db.Column(db.String(400))
+          name=db.Column(db.String(400))
           school_name = db.Column(db.String(5000))
           grade = db.Column(db.String(5000))
           student_number = db.Column(db.String(5000))
