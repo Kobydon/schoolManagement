@@ -60,8 +60,7 @@ def add_student():
     #   subject =request.json["subject"]
       created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
       created_by_id =flask_praetorian.current_user().id
-      std = Student(other_name=other_name,created_by_id=created_by_id,picture=picture_one,class_name=class_name ,created_date=created_date,parent_name=parent_name,school_name=school_name,
-           student_number=student_number, admitted_year=admitted_year ,
+     
       sch = School.query.filter_by(username=usr.username).first()
     
       n = random.randint(0,100)
@@ -665,7 +664,7 @@ def all_total():
     # t.all_total = all_total
     db.session.commit()
     # grd = Student.query.filter(Student.class_name==t.class_name )
-    brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
+    # brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
     brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name,BroadSheet.school_name==user.school_name)
     lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
