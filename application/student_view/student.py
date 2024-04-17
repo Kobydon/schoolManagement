@@ -133,7 +133,7 @@ def add_student_b_excel():
      except:
             last_name =""
             
-    try:
+     try:
           class_name =request.json["Class"]
           
     
@@ -482,7 +482,7 @@ def add_grade():
           if (subject_name=="Creative Arts"):
               bd.creativeart = total
               
-           if (subject_name=="Social Studies"):
+          if (subject_name=="Social Studies"):
               bd.social = total
               
           if (subject_name=="Computing"):
@@ -522,7 +522,7 @@ def add_grade():
           if (subject_name=="Creative Arts"):
               bd.creativeart = total
               
-           if (subject_name=="Social Studies"):
+          if (subject_name=="Social Studies"):
               bd.social = total
               
           if (subject_name=="Computing"):
@@ -693,7 +693,7 @@ def all_total():
     # t.all_total = all_total
     db.session.commit()
     # grd = Student.query.filter(Student.class_name==t.class_name )
-    brd =  BroadSheet.query.filter(BroadSheet.class_name=bd.class_name)
+    brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
     lst1= brd.order_by(desc(BroadSheet.all_total)).all()
     
     for(pos,g) in enumerate(lst1):
