@@ -235,11 +235,11 @@ def add_student_b_excel():
            )
      
      bd=BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number,
-                    school_name=school_name)
+                    school_name=usr.school_name)
      usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
-                   school_name=school_name)
                    school_name=usr.school_name)
+                   
      db.session.add(std)
      db.session.add(bd)
      db.session.add(usr)
