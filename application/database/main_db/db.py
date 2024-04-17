@@ -287,6 +287,11 @@ class User(db.Model):
     foreign_keys ='Expenses.created_by_id',
     backref = 'expnsss',
     lazy=True)
+                 
+    bdsht  = db.relationship('BroadSheet', 
+    foreign_keys ='BroadSheet.created_by_id',
+    backref = 'brodieshitie',
+    lazy=True)
 
     exam_att  = db.relationship('ExamAttendance', 
     foreign_keys ='ExamAttendance.created_by_id',
@@ -687,6 +692,37 @@ class PendingGrade(db.Model):
 
 
 
+class BroadSheet(db.Model):
+           
+          id = db.Column(db.Integer,primary_key=True)
+          student_name = db.Column(db.String(400))
+          student_number=  db.Column(db.String(400))
+          english  = db.Column(db.String(400))
+          math  = db.Column(db.String(400))
+          science = db.Column(db.String(400))
+          socialstudies = db.Column(db.String(400))
+          ghanalanguage = db.Column(db.String(400))
+          creativeart = db.Column(db.String(400))
+          social = db.Column(db.String(400))
+          rme = db.Column(db.String(5000))
+          careertech =  db.Column(db.String(400))
+          pos =  db.Column(db.String(400))
+          created_date  = db.Column(db.String(400))
+          all_total =  db.Column(db.String(400))
+          computing=db.Column(db.String(400))
+          school_name = db.Column(db.String(5000))
+          french = db.Column(db.String(5000))
+          student_number = db.Column(db.String(5000))
+          year = db.Column(db.String(5000))
+          pos =  db.Column(db.String(400))
+          class_name =db.Column(db.String(400))
+         
+          created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))
+
+
+
+
+
 class Grading(db.Model):
            
           id = db.Column(db.Integer,primary_key=True)
@@ -710,7 +746,6 @@ class Grading(db.Model):
           change_request =  db.Column(db.String(400))
          
           created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))
-
 
 
 class MailSetup(db.Model):

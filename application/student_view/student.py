@@ -19,7 +19,10 @@ class StudentSchema(ma.Schema):
                 "form","class_name" ,"exams_score","midterm_score","class_score","total","remark","subject_name",
                 "attitude","teacher_remark","interest","headmaster_remark","conduct",
                 "attendance","class_term","grade","rank","pos","term","grade_id","staff_number","name",
-                "status","amount","method","balance","paid_by","student","date","fees_type","cls","other_name"
+                "status","amount","method","balance","paid_by","student","date","fees_type","cls",
+                "other_name",
+                "rme","science","math","social","pos","creativeart","careertech","english","computing",
+                "ghanalanguage"
 )
         
 
@@ -53,6 +56,7 @@ def add_student():
       phone =request.json["phone"]
       address =request.json["address"]
       other_name =request.json["other_name"]
+      student_name = firstname +" "+other_name+" "+lastname
       
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       school_name= usr.school_name
@@ -79,11 +83,12 @@ def add_student():
            residential_status=residential_status,gender=gender,
            address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone
            )
-    
+      bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
       usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                                     school_name=school_name)
       db.session.add(std)
+      db.session.add(bd)
       db.session.add(usr)
       db.session.commit()
       db.session.close()
@@ -115,11 +120,25 @@ def add_student_b_excel():
             firstname = ""
             
      try:
+          other_name =request.json["Other Name"]
+          
+    
+     except:
+            other_name = ""
+            
+     try:
           last_name =request.json["Last Name"]
           
     
      except:
             last_name =""
+            
+    try:
+          class_name =request.json["Class"]
+          
+    
+     except:
+            class_name =""
             
      try:
             gender = request.json["Gender"]
@@ -200,14 +219,14 @@ def add_student_b_excel():
      cc = int(sc)+1
      first_three = sch.school_name[:4] + str(cc)
      student_number = first_three
-      
+     student_name = firstname +" "+other_name+" "+lastname
      
     #  
     #   
      
     #   course_name =request.json[""]
     #  
-     class_name =request.json["Class"]
+    #  class_name =request.json["Class"]
      cls= Class.query.filter_by(class_name= class_name).first()
      cls.class_size = int(cls.class_size) + len(json_data)
     #   subject =request.json["subject"]
@@ -219,11 +238,12 @@ def add_student_b_excel():
            
           first_name=firstname,last_name=lastname,other_name=other_name
            )
-    
+     bd=BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
      usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                    school_name=school_name)
      db.session.add(std)
+     db.session.add(bd)
      db.session.add(usr)
      db.session.commit()
      db.session.close()
@@ -448,6 +468,39 @@ def add_grade():
           
           grade = Grading( subject_name= subject_name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
                   name=name,   school_name=school_name ,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
+          
+          bd = BroadSheet.query.filter_by(student_number=student_number).first()
+          if (subject_name=="Science"):
+              bd.science = total
+              
+          if (subject_name=="English"):
+              bd.english = total
+              
+          if (subject_name=="Mathematics"):
+              bd.math = total
+              
+          if (subject_name=="Creative Arts"):
+              bd.creativeart = total
+              
+           if (subject_name=="Social Studies"):
+              bd.social = total
+              
+          if (subject_name=="Computing"):
+              bd.computing = total
+              
+          if (subject_name=="French"):
+              bd.math = french
+              
+          if (subject_name=="Ghanaian Language"):
+              bd.ghanalanguage = total
+              
+                  
+          if (subject_name=="Career Tech"):
+              bd.careertech = total
+          
+          today = datetime.today()
+          bd.year=  today.year
+          
           db.session.add(grade)
    
           db.session.commit()
@@ -456,7 +509,37 @@ def add_grade():
 
           grd = Grading.query.filter(Grading.class_name==class_name , Grading.subject_name==subject_name)
           
-      
+          bd = BroadSheet.query.filter_by(student_number=student_number).first()
+          if (subject_name=="Science"):
+              bd.science = total
+              
+          if (subject_name=="English"):
+              bd.english = total
+              
+          if (subject_name=="Mathematics"):
+              bd.math = total
+              
+          if (subject_name=="Creative Arts"):
+              bd.creativeart = total
+              
+           if (subject_name=="Social Studies"):
+              bd.social = total
+              
+          if (subject_name=="Computing"):
+              bd.computing = total
+              
+          if (subject_name=="French"):
+              bd.math = french
+              
+          if (subject_name=="Ghanaian Language"):
+              bd.ghanalanguage = total
+              
+                  
+          if (subject_name=="Career Tech"):
+              bd.careertech = total
+          
+          today = datetime.today()
+          bd.year=  today.year
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
@@ -592,6 +675,7 @@ def add_result_by_excel():
 def all_total():
     all_total = request.json["all_total"]
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    
 
 
    
@@ -603,11 +687,15 @@ def all_total():
  
     student_number = request.json["student_number"]
     subject_name=  request.json["subject_name"]
-    t = Student.query.filter_by(student_number=student_number).first()
-    t.all_total = all_total
+    # t = Student.query.filter_by(student_number=student_number).first()
+    bd  = BroadSheet.query.filter_by(student_number=student_number).first()
+    bd.all_total = all_total
+    # t.all_total = all_total
     db.session.commit()
-    grd = Student.query.filter(Student.class_name==t.class_name )
-    lst1= grd.order_by(desc(Student.all_total)).all()
+    # grd = Student.query.filter(Student.class_name==t.class_name )
+    brd =  BroadSheet.query.filter(BroadSheet.class_name=bd.class_name)
+    lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+    
     for(pos,g) in enumerate(lst1):
           
                   g.pos = pos+1
@@ -1086,6 +1174,15 @@ def update_general_remark():
         resp.status_code=201
         return resp
         
+
+@student.route("/get_broadsheet",methods=['GET'])
+@flask_praetorian.auth_required
+def get_broadsheet():
+    user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+    clas = Class.query.filter_by(staff_number = user.username).first()
+    rmk = BroadSheet.query.filter_by(classs_name =class_name)
+    result = student_schema.dump(rmk)
+    return jsonify(result)
 
 
 @student.route("/get_general_remark",methods=['GET'])
