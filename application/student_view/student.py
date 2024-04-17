@@ -1116,8 +1116,9 @@ def update_general_remark():
 @flask_praetorian.auth_required
 def get_broadsheet():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
-    clas = Class.query.filter_by(staff_number = user.username).first()
-    rmk = BroadSheet.query.all()
+    stf = Staff.query.filter_by(staff_number=user.username).first()
+    clss = Class.query.filter_by(staff_number = stf.staff_number).first()
+    rmk = BroadSheet.query.filter_by(class_name=clss.class_name,school_name=user.school_name)
     result = student_schema.dump(rmk)
     return jsonify(result)
 @student.route("/get_general_remark",methods=['GET'])
