@@ -783,6 +783,7 @@ def get_grade_by_class():
     cls_name=  Class.query.filter_by(staff_number=user.username).first()
     
     grade = Grading.query.filter_by(class_name= cls_name.class_name)
+    old = grade.order_by(desc(Grading.subject_name))
     result = student_schema.dump(grade)
     return jsonify(result)
 
