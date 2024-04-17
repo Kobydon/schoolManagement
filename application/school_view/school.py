@@ -114,7 +114,7 @@ def register():
         created_by_id = flask_praetorian.current_user().id
         
         
-        sch = School(district,district,school_name=school_name,school_anthem=school_anthem,established_year=established_year,population=population,color_one=color_one,
+        sch = School(district=district,school_name=school_name,school_anthem=school_anthem,established_year=established_year,population=population,color_one=color_one,
                      address= address,color_two=color_two,color_three=color_three,username=username,password = hashed_password,
                      motto=motto,headmaster=headmaster,phone=phone,created_by_id = created_by_id,
                      level=level,region=region,mail=mail,logo =logo,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'))
