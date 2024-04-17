@@ -787,6 +787,16 @@ def get_grade_by_class():
     result = student_schema.dump(grade)
     return jsonify(result)
 
+# @student.route("/get_grade_by_first",methods=["POST","GET"])
+# @flask_praetorian.auth_required
+# def get_grade_by_first():
+#     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+#     cls_name=  Class.query.filter_by(staff_number=user.username).first()
+    
+#     grade = Grading.query.filter_by(class_name= cls_name.class_name,id=1)
+#     old = grade.order_by(desc(Grading.subject_name))
+#     result = student_schema.dump(grade)
+#     return jsonify(result)
 
 @student.route("/add_remark",methods=["POST"])
 @flask_praetorian.auth_required
