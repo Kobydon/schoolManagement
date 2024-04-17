@@ -83,7 +83,8 @@ def add_student():
            residential_status=residential_status,gender=gender,
            address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone
            )
-      bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
+      bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number,
+                     school_name =user.school_name)
       usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                                     school_name=school_name)
@@ -238,10 +239,11 @@ def add_student_b_excel():
            
           first_name=firstname,last_name=lastname,other_name=other_name
            )
-     bd=BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
+     bd=BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number,
+                    school_name=school_name)
      usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
-                   school_name=school_name)
+                   school_name=user.school_name)
      db.session.add(std)
      db.session.add(bd)
      db.session.add(usr)
@@ -693,7 +695,7 @@ def all_total():
     # t.all_total = all_total
     db.session.commit()
     # grd = Student.query.filter(Student.class_name==t.class_name )
-    brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
+    brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name,BroadSheet.school_name==user.school_name)
     lst1= brd.order_by(desc(BroadSheet.all_total)).all()
     
     for(pos,g) in enumerate(lst1):

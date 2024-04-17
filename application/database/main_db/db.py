@@ -696,7 +696,7 @@ class BroadSheet(db.Model):
            
           id = db.Column(db.Integer,primary_key=True)
           student_name = db.Column(db.String(400))
-          student_number=  db.Column(db.String(400))
+         
           english  = db.Column(db.String(400))
           math  = db.Column(db.String(400))
           science = db.Column(db.String(400))
