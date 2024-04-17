@@ -84,7 +84,7 @@ def add_student():
            residential_status=residential_status,gender=gender,
            address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone
            )
-      bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
+    #   bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
       bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number,
                      school_name =usr.school_name)
       usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
@@ -234,7 +234,7 @@ def add_student_b_excel():
 
           first_name=firstname,last_name=lastname,other_name=other_name
            )
-     bd=BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
+     
      bd=BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number,
                     school_name=school_name)
      usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
