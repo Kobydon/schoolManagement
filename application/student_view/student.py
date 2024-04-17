@@ -21,7 +21,7 @@ class StudentSchema(ma.Schema):
                 "status","amount","method","balance","paid_by","student","date","fees_type","cls",
                 "other_name",
                 "rme","science","math","social","pos","creativeart","careertech","english","computing",
-                "ghanalanguage","student_name"
+                "ghanalanguage","student_name","all_total"
 )
         
 student_schema=StudentSchema(many=True)
