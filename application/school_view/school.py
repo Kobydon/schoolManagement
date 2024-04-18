@@ -623,8 +623,8 @@ def update_class():
     if st:
         st.form_master = "yes"
         st.for_class = request.json["class_name"]
-        st.form_master = "no"
-        st.for_class = ""
+        ct.form_master = "no"
+        ct.for_class = ""
 
     else: 
          st.for_class = "no"
