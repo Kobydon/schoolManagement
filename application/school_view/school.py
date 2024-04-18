@@ -615,17 +615,21 @@ def get_class_info(id):
 def update_class():
     id = request.json["id"]
     staff_number=request.json["staff_number"]
+   
     cls_data = Class.query.filter_by(id=id).first()
+    ct = Staff.query.filter_by(staff_number=cls_data.staff_number).first()
+    ct.form_master = "no"
+    ct.for_class = ""
+    db.session.commit()
     cls_data.class_name = request.json["class_name"]
     cls_data.staff_number=request.json["staff_number"]
-    ct = Staff.query.filter_by(staff_number=cls_data.staff_number).first()
+  
     st = Staff.query.filter_by(staff_number=staff_number).first()
+   
     if st:
         st.form_master = "yes"
         st.for_class = request.json["class_name"]
-        ct.form_master = "no"
-        ct.for_class = ""
-
+       
     else: 
          st.for_class = "no"
         
