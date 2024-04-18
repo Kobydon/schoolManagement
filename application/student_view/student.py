@@ -1119,7 +1119,7 @@ def get_broadsheet():
     stf = Staff.query.filter_by(staff_number=user.username).first()
     clas = Class.query.filter_by(staff_number = stf.staff_number).first()
     if clas:
-        rmk = BroadSheet.query.all()
+        rmk = BroadSheet.query.filter_by(school_name=user.school_name).all()
         result = student_schema.dump(rmk)
     return jsonify(result)
 
