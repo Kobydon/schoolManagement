@@ -319,7 +319,8 @@ def delete_student(id):
       std = Student.query.filter_by(id=id).first()
       cls= Class.query.filter_by(class_name=std.class_name).first()
       cls.class_size = int(cls.class_size) - 1
-      
+      user = User.query.filter_by(username=std.student_number).first()
+      db.session.delete(user)
       db.session.delete(std)
       db.session.commit()
       db.session.close()
