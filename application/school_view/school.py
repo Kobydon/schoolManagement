@@ -618,10 +618,13 @@ def update_class():
     cls_data = Class.query.filter_by(id=id).first()
     cls_data.class_name = request.json["class_name"]
     cls_data.staff_number=request.json["staff_number"]
+    ct = Staff.query.filter_by(staff_number=cls_data.staff_number).first()
     st = Staff.query.filter_by(staff_number=staff_number).first()
     if st:
         st.form_master = "yes"
         st.for_class = request.json["class_name"]
+        st.form_master = "no"
+        st.for_class = ""
 
     else: 
          st.for_class = "no"
