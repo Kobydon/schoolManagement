@@ -1119,9 +1119,9 @@ def get_broadsheet():
     stf = Staff.query.filter_by(staff_number=user.username).first()
     clas = Class.query.filter_by(staff_number = stf.staff_number).first()
     if clas:
-        rmk = BroadSheet.query.filter_by(school_name=user.school_name).all()
+        rmk = BroadSheet.query.filter_by(school_name=user.school_name,class_name=stf.for_class).all()
         result = student_schema.dump(rmk)
-    return jsonify(result)
+    return jsonify(result) 
 
 @student.route("/get_general_remark",methods=['GET'])
 @flask_praetorian.auth_required
