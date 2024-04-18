@@ -492,6 +492,16 @@ def get_staff():
 
 
 
+@school.route("/get_staff_info",methods=['GET'])
+@flask_praetorian.auth_required
+def get_staff_info():
+    user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
+    stf = Staff.query.filter_by(staff_number = user.username).all()
+    result = staff_schema.dump(stf)
+    return jsonify(result)
+
+
+
 @school.route("/get_staff_info/<id>",methods=['GET'])
 @flask_praetorian.auth_required
 def get_staff_info(id):
