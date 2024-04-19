@@ -255,12 +255,12 @@ def add_student_b_excel():
            student_number=student_number,gender=gender,residential_status=residential_status,
            picture=picture_one,admitted_year=admitted_year,address=address,email=email,phone=phone,
 
-          first_name=firstname,last_name=lastname,other_name=other_name,dob=dob
+          first_name=firstname,last_name=last_name,other_name=other_name,dob=dob
            )
      
      bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
                     school_name=usr.school_name)
-     usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
+     usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                    school_name=usr.school_name)
                    
