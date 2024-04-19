@@ -1142,10 +1142,12 @@ def update_general_remark():
 def get_broadsheet():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     stf = Staff.query.filter_by(staff_number=user.username).first()
-    c_name = stf.class_name[:5] 
     clas = Class.query.filter_by(staff_number = stf.staff_number).first()
+    c_name = clas.class_name[:5] 
+  
     if clas:
-        rmk = BroadSheet.query.all()
+        rmk = BroadSheet.query.filter_by(school_name==user.school_name
+                                      ,class_name=c_name).all()
         result = student_schema.dump(rmk)
     return jsonify(result) 
 
