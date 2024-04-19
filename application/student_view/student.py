@@ -247,7 +247,7 @@ def add_student_b_excel():
     #  
     #  class_name =request.json["Class"]
      cls= Class.query.filter_by(class_name= class_name).first()
-     cls.class_size = int(cls.class_size) + len(json_data)
+     cls.class_size =  int(cls.class_size) + 1
     #   subject =request.json["subject"]
      created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
      created_by_id =flask_praetorian.current_user().id
