@@ -74,7 +74,13 @@ def add_student():
     #   course_name =request.json[""]
       residential_status =request.json["resedential_status"]
       class_name =request.json["class_name"]
-      c_name = class_name[:5] 
+      if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+                    c_name = class_name[:5] 
+                    
+      elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+                    c_name = class_name[:5] 
+      else:
+          c_name =class_name
       cls= Class.query.filter_by(class_name= class_name).first()
       cls.class_size = int(cls.class_size) + 1
     #   subject =request.json["subject"]
@@ -212,6 +218,14 @@ def add_student_b_excel():
     
     # except:
     #         residential_status =""
+     if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+                    c_name = class_name[:5] 
+                    
+     elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+                    c_name = class_name[:5] 
+                    
+     else:
+         c_name =class_name
      usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
      school_name= usr.school_name
      sch = School.query.filter_by(username=usr.username).first()
@@ -242,7 +256,7 @@ def add_student_b_excel():
           first_name=firstname,last_name=lastname,other_name=other_name,dob=dob
            )
      
-     bd=BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number,
+     bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
                     school_name=usr.school_name)
      usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
