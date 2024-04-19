@@ -30,6 +30,7 @@ guard.init_app(app, User)
 @student.route("/add_student",methods=['POST'])
 @flask_praetorian.auth_required
 def add_student():
+      
       parent_name =request.json["parent_name"]
       firstname =request.json["first_name"]
       gender = request.json["gender"]
@@ -344,7 +345,9 @@ def delete_student(id):
       cls= Class.query.filter_by(class_name=std.class_name).first()
       cls.class_size = int(cls.class_size) - 1
       user = User.query.filter_by(username=std.student_number).first()
+      bd = Broadsheet.query.filter_by(student_number=std.student_number).first()
       db.session.delete(user)
+      db.session.delete(bd)
       db.session.delete(std)
       db.session.commit()
       db.session.close()
