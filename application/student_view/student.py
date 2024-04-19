@@ -246,7 +246,7 @@ def add_student_b_excel():
     #   course_name =request.json[""]
     #  
     #  class_name =request.json["Class"]
-     cls= Class.query.filter_by(class_name= class_name).first()
+     cls= Class.query.filter_by(class_name= request.json["Class"]).first()
      cls.class_size =  int(cls.class_size) + 1
     #   subject =request.json["subject"]
      created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
