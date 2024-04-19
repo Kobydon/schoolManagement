@@ -347,6 +347,7 @@ class Student(db.Model):
           picture = db.Column(db.String(1000000))
           class_name = db.Column(db.String(400))
           pos =  db.Column(db.String(400))
+          dob =  db.Column(db.String(400))
           all_total =  db.Column(db.String(400))
           gender=db.Column(db.String(400))
 
