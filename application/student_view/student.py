@@ -253,7 +253,7 @@ def add_student_b_excel():
      created_by_id =flask_praetorian.current_user().id
      std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,school_name=school_name,
            student_number=student_number,gender=gender,residential_status=residential_status,
-           picture=picture_one,admitted_year=admitted_year,address=address,email=email,phone=phone,
+           picture=picture_one,admitted_year=admitted_year,address=address,email=email,parent_phone=phone,
 
           first_name=firstname,last_name=last_name,other_name=other_name,dob=dob
            )
