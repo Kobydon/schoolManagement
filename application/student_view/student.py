@@ -55,6 +55,7 @@ def add_student():
     #   course_name =request.json[""]
       residential_status =request.json["resedential_status"]
       class_name =request.json["class_name"]
+      clname =request.json["class_name"]
       c_name = class_name[:5] 
       cls= Class.query.filter_by(class_name= class_name).first()
       cls.class_size = int(cls.class_size) + 1
@@ -87,7 +88,7 @@ def add_student():
     #   subject =request.json["subject"]
       created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
       created_by_id =flask_praetorian.current_user().id
-      std = Student(other_name=other_name,created_by_id=created_by_id,picture=picture_one,class_name=c_name ,created_date=created_date,parent_name=parent_name,school_name=school_name,
+      std = Student(other_name=other_name,created_by_id=created_by_id,picture=picture_one,class_name=clname ,created_date=created_date,parent_name=parent_name,school_name=school_name,
            student_number=student_number, admitted_year=admitted_year ,
            residential_status=residential_status,gender=gender,
            address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone
