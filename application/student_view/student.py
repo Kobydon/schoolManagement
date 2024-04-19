@@ -289,7 +289,7 @@ def get_student_by_class():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     stf = Staff.query.filter_by(staff_number=user.username).first()
     cls = Class.query.filter_by(staff_number = stf.staff_number).first()
-    std = Student.query.filter_by(school_name = user.school_name,class_name=stf.class_name)
+    std = Student.query.filter_by(school_name = user.school_name,class_name=cls.class_name).all()
     result = student_schema.dump(std)
     return jsonify(result)
 @student.route("/get_student",methods=['GET'])
