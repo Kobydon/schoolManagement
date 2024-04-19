@@ -238,7 +238,7 @@ def add_student_b_excel():
      cc = int(sc)+1
      first_three = sch.school_name[:4] + str(cc)
      student_number = first_three
-     student_name = firstname +" "+other_name+" "+lastname
+     student_name = firstname +" "+other_name+" "+last_name
      
     #  
     #   
