@@ -55,6 +55,7 @@ def add_student():
     #   course_name =request.json[""]
       residential_status =request.json["resedential_status"]
       class_name =request.json["class_name"]
+      c_name = class_name[:5] 
       cls= Class.query.filter_by(class_name= class_name).first()
       cls.class_size = int(cls.class_size) + 1
     #   subject =request.json["subject"]
@@ -85,7 +86,7 @@ def add_student():
            address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone
            )
     #   bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
-      bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number,
+      bd =BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
                      school_name =usr.school_name)
       usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
@@ -1128,7 +1129,7 @@ def get_broadsheet():
     c_name = stf.class_name[:5] 
     clas = Class.query.filter_by(staff_number = stf.staff_number).first()
     if clas:
-        rmk = BroadSheet.query.filter(BroadSheet.school_name==user.school_name
+        rmk = BroadSheet.query.filter_by(school_name==user.school_name
                                       ,class_name=c_name).all()
         result = student_schema.dump(rmk)
     return jsonify(result) 
