@@ -345,7 +345,7 @@ def delete_student(id):
       cls= Class.query.filter_by(class_name=std.class_name).first()
       cls.class_size = int(cls.class_size) - 1
       user = User.query.filter_by(username=std.student_number).first()
-      bd = Broadsheet.query.filter_by(student_number=std.student_number).first()
+      bd = BroadSheet.query.filter_by(student_number=std.student_number).first()
       db.session.delete(user)
       db.session.delete(bd)
       db.session.delete(std)
