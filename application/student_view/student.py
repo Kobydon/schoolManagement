@@ -100,8 +100,8 @@ def add_student():
       usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                                     school_name=school_name)
-      db.session.add(std)
-      db.session.add(bd)
+      db.session.merge(std)
+      db.session.merge(bd)
       db.session.add(usr)
       db.session.commit()
       db.session.close()
@@ -265,8 +265,8 @@ def add_student_b_excel():
                    hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                    school_name=usr.school_name)
                    
-     db.session.add(std)
-     db.session.add(bd)
+     db.session.merge(std)
+     db.session.merge(bd)
      db.session.add(usr)
      db.session.commit()
      db.session.close()
@@ -509,8 +509,16 @@ def add_grade():
           db.session.add(grade)
    
           db.session.commit()
-        
-          grd = Grading.query.filter(Grading.class_name==class_name , Grading.subject_name==subject_name)
+     
+          if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+                    c_name = class_name[:5] 
+                    
+          elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+                    c_name = class_name[:5] 
+          else:
+                c_name =class_name
+          grd = Grading.query.filter(Grading.class_name==c_name , Grading.subject_name==subject_name)
+          
           
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science"):
