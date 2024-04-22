@@ -523,7 +523,7 @@ def add_grade():
                     c_name = class_name[:5] 
           else:
                 c_name =class_name
-          grd = Grading.query.filter(Grading.class_name==c_name , Grading.subject_name==subject_name)
+          grd = Grading.query.filter(Grading.class_name==c_name , Grading.subject_name==subject_name,school_name=user.school_name)
           
           
           bd = BroadSheet.query.filter_by(student_number=student_number).first()

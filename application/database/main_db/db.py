@@ -642,6 +642,7 @@ class School(db.Model):
         username = db.Column(db.String(400))
         password = db.Column(db.String(400))
         district = db.Column(db.String(400))
+        circuit = db.Column(db.String(400))
         phone = db.Column(db.String(400))
         created_date = db.Column(db.String(400))
        
