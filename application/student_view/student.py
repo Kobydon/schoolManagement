@@ -100,8 +100,8 @@ def add_student():
       usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                                     school_name=school_name)
-      db.session.merge(std)
-      db.session.merge(bd)
+      db.session.add(std)
+      db.session.add(bd)
       db.session.add(usr)
       db.session.commit()
       db.session.close()
@@ -252,21 +252,27 @@ def add_student_b_excel():
     #   subject =request.json["subject"]
      created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
      created_by_id =flask_praetorian.current_user().id
-     std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,school_name=school_name,
-           student_number=student_number,gender=gender,residential_status=residential_status,
-           picture=picture_one,admitted_year=admitted_year,address=address,email=email,parent_phone=phone,
+     check_std = Student.query.filter(Student.first_name +" "+ Student.other_name +""
+                                      + Student.last_name == student_name).first()
+     
+     if not check_std:
+            std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,school_name=school_name,
+                          student_number=student_number,gender=gender,residential_status=residential_status,
+                          picture=picture_one,admitted_year=admitted_year,address=address,email=email,parent_phone=phone,
 
           first_name=firstname,last_name=last_name,other_name=other_name,dob=dob
            )
      
-     bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
-                    school_name=usr.school_name)
-     usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
-                   hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
-                   school_name=usr.school_name)
-                   
-     db.session.merge(std)
-     db.session.merge(bd)
+            bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
+                          school_name=usr.school_name)
+            usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
+                       hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
+                       school_name=usr.school_name)
+            
+     else:
+         return jsonify(" record already_exist")              
+     db.session.add(std)
+     db.session.add(bd)
      db.session.add(usr)
      db.session.commit()
      db.session.close()
