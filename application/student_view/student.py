@@ -1179,7 +1179,7 @@ def get_broadsheet():
 @flask_praetorian.auth_required
 def search_broadsheet():
     
-    
+    user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
     class_name = request.json["class_name"]
     term = request.json["term"]
     year = request.json["year"]
