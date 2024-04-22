@@ -252,7 +252,7 @@ def add_student_b_excel():
     #   subject =request.json["subject"]
      created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
      created_by_id =flask_praetorian.current_user().id
-     check_std = Student.query.filter(Student.first_name +" "+ Student.other_name +""
+     check_std = Student.query.filter(Student.first_name +" "+ Student.other_name +" "
                                       + Student.last_name == student_name).first()
      
      if not check_std:
