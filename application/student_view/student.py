@@ -554,9 +554,11 @@ def add_grade():
                   
           if (subject_name=="Career Tech"):
               bd.careertech = total
-          
+          acd = Academic.query.filter_by(school_name=user.school_name).first()
+          term = acd.term
           today = datetime.today()
           bd.year=  today.year
+          bd.term=  term
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
@@ -706,8 +708,13 @@ def all_total():
     # t.all_total = all_total
     db.session.commit()
     # grd = Student.query.filter(Student.class_name==t.class_name )
-    # brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
-    brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name,BroadSheet.school_name==user.school_name)
+# brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
+    acd = Academic.query.filter_by(school_name=user.school_name).first()
+    term = acd.term
+    today = datetime.today()
+    year=  today.year
+    brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name,BroadSheet.school_name==user.school_name,
+                                   BroadSheet.term ==term,BroadSheet.year ==year)
     lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
     for(pos,g) in enumerate(lst1):
@@ -1167,6 +1174,21 @@ def get_broadsheet():
                                       ,class_name=c_name).all()
         result = student_schema.dump(rmk)
     return jsonify(result) 
+
+@student.route("/search_broadsheet",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def search_broadsheet():
+    
+    
+    class_name = request.json["class_name"]
+    term = request.json["term"]
+    year = request.json["year"]
+    c_name = clas.class_name[:5] 
+    bd = BroadSheet.query.filter_by(class_name= c_name ,   term=term , year=year,school_name=user.school_name).all()
+    result = student_schema.dump(bd)
+    return jsonify(result)
+          
+
 
 @student.route("/get_general_remark",methods=['GET'])
 @flask_praetorian.auth_required

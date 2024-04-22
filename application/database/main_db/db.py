@@ -716,6 +716,7 @@ class BroadSheet(db.Model):
           french = db.Column(db.String(5000))
           student_number = db.Column(db.String(5000))
           year = db.Column(db.String(5000))
+          term = db.Column(db.String(5000))
           pos =  db.Column(db.String(400))
           class_name =db.Column(db.String(400))
          
