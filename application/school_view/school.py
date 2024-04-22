@@ -18,7 +18,7 @@ class StudentSchema(ma.Schema):
     class Meta:
         fields=("id","first_name","last_name","student_number","email","parent_name","admitted_year",
                 "address","residential_status","parent_phone","address","phone","created_date",
-                "form","class_name","status","subject_name","name"
+                "form","class_name","status","subject_name","name","other_name"
 )
    
 class DepartmentSchema(ma.Schema):
