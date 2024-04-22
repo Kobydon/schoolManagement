@@ -629,16 +629,16 @@ def add_result_by_excel():
               grade =2
               
                         
-          if (total in range(60,69)):
+          if (total in range(65,69)):
               remark  = " GOOD"
               grade = 3
               
-          if (total in range(55,59)):
+          if (total in range(60,64)):
               remark  = "CREDIT"
               grade = 4
           
               
-          if (total in range(50,54)):
+          if (total in range(55,59)):
               remark  = " AVERAGE"
               grade = 5
           
@@ -649,15 +649,12 @@ def add_result_by_excel():
    
               
           if (total in range(40,44)):
-              remark  = "  WEAK PASS"
+              remark  = "PASS"
               grade =7
               
+      
               
-          if (total in range(34,39)):
-              remark  = " VERY WEAK PASS"
-              grade = 8
-              
-          if (total in range(0,33)):
+          if (total in range(0,39)):
               remark  = " FAIL"
               grade = 9 
           
