@@ -507,7 +507,12 @@ def add_grade():
               bd.careertech = total
           
           today = datetime.today()
+          acd = Academic.query.filter_by(school_name=user.school_name).first()
+          term = acd.term
+          today = datetime.today()
           bd.year=  today.year
+          bd.term=  term
+       
           
           db.session.add(grade)
    
@@ -551,11 +556,7 @@ def add_grade():
                   
           if (subject_name=="Career Tech"):
               bd.careertech = total
-          acd = Academic.query.filter_by(school_name=user.school_name).first()
-          term = acd.term
-          today = datetime.today()
-          bd.year=  today.year
-          bd.term=  term
+         
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
