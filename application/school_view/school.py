@@ -18,7 +18,7 @@ class StudentSchema(ma.Schema):
     class Meta:
         fields=("id","first_name","last_name","student_number","email","parent_name","admitted_year",
                 "address","residential_status","parent_phone","address","phone","created_date",
-                "form","class_name","status","subject_name","name","district"
+                "form","class_name","status","subject_name","name"
 )
    
 class DepartmentSchema(ma.Schema):
@@ -58,7 +58,7 @@ class schoolSchema(ma.Schema):
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name",
-                "exam_name")
+                "exam_name","district","circuit" )
         
 
 
