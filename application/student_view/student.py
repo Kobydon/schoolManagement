@@ -708,8 +708,7 @@ def all_total():
     term = acd.term
     today = datetime.today()
     year=  today.year
-    brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name,BroadSheet.school_name==user.school_name,
-                                   BroadSheet.term ==term,BroadSheet.year ==year)
+    brd =  BroadSheet.query.filter_by(class_name=bd.class_name,school_name=user.school_name, term =term,year =year)
     lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
     for(pos,g) in enumerate(lst1):
