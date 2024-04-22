@@ -504,7 +504,7 @@ def add_grade():
               
           if (subject_name=="Ghanaian Language"):
               bd.ghanalanguage = total
-              
+
                   
           if (subject_name=="Career Tech"):
               bd.careertech = total
@@ -1183,7 +1183,7 @@ def search_broadsheet():
     class_name = request.json["class_name"]
     term = request.json["term"]
     year = request.json["year"]
-    c_name = clas.class_name[:5] 
+    c_name = class_name[:5] 
     bd = BroadSheet.query.filter_by(class_name= c_name ,   term=term , year=year,school_name=user.school_name).all()
     result = student_schema.dump(bd)
     return jsonify(result)

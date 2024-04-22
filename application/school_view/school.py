@@ -502,7 +502,7 @@ def get_staff_inf():
 @school.route("/get_staf_inf",methods=['POST'])
 @flask_praetorian.auth_required
 def get_staf_inf():
-    class_name = request.json("class_name")
+    class_name = request.json["class_name"]
     cls = Class.query.filter_by(class_name=class_name).first()
     
     stf = Staff.query.filter_by(staff_number = cls.staff_number).all()
