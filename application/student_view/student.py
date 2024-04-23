@@ -558,9 +558,10 @@ def add_grade():
                   
           grd = Grading.query.filter_by(class_name="JHS 1" , subject_name=subject_name,school_name=user.school_name)       
           lst= grd.order_by(desc(Grading.total)).all()
-          for(rank,g) in enumerate(lst):
+          for(pos,g) in enumerate(lst):
           
-            g.rank = rank+1
+            g.pos = rank+1
+         
             
          
             
