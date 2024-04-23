@@ -1165,7 +1165,7 @@ def get_broadsheet():
     if (clas.class_name =="JHS 1A" or clas.class_name=="JHS 1B"):
                     c_name = clas.class_name[:5] 
                     
-    elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+    elif (clas.class_name =="JHS 2A" or clas.class_name=="JHS 2B"):
                     c_name = clas.class_name[:5] 
   
     
