@@ -552,11 +552,11 @@ def add_grade():
               
           if (subject_name=="Ghanaian Language"):
               bd.ghanalanguage = total
-              
-          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name)       
+      
           if (subject_name=="Career Tech"):
               bd.careertech = total
-         
+                  
+          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name)       
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
