@@ -556,12 +556,12 @@ def add_grade():
           if (subject_name=="Career Tech"):
               bd.careertech = total
                   
-          grd = Grading.query.filter_by(class_name="JHS 1" , subject_name=subject_name,school_name=user.school_name)       
+          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name)     
           lst= grd.order_by(desc(Grading.total)).all()
-          for(pos,g) in enumerate(lst):
+          for(rank,g) in enumerate(lst):
           
-            g.pos = rank+1
-         
+            g.rank = rank+1
+            
             
          
             
