@@ -1162,12 +1162,20 @@ def get_broadsheet():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     stf = Staff.query.filter_by(staff_number=user.username).first()
     clas = Class.query.filter_by(staff_number = stf.staff_number).first()
-    c_name = clas.class_name[:5] 
+    if (clas.class_name =="JHS 1A" or clas.class_name=="JHS 1B"):
+                    c_name = clas.class_name[:5] 
+                    
+    elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+                    c_name = clas.class_name[:5] 
   
-    if clas:
-        rmk = BroadSheet.query.filter_by(school_name=user.school_name
+    
+    else:
+        c_name =clas.class_name
+  
+   
+    rmk = BroadSheet.query.filter_by(school_name=user.school_name
                                       ,class_name=c_name).all()
-        result = student_schema.dump(rmk)
+    result = student_schema.dump(rmk)
     return jsonify(result) 
 
 @student.route("/search_broadsheet",methods=["POST","GET"])
