@@ -486,6 +486,9 @@ def add_grade():
               
           if (subject_name=="Mathematics"):
               bd.math = total
+            
+          if (subject_name=="RME"):
+              bd.rme = rme
               
           if (subject_name=="Creative Arts"):
               bd.creativeart = total
@@ -556,7 +559,7 @@ def add_grade():
           if (subject_name=="Career Tech"):
               bd.careertech = total
                   
-          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name)     
+          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name,term=term,year=year)     
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
@@ -662,13 +665,89 @@ def add_result_by_excel():
           
           grade = Grading( subject_name= subject_name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
                      school_name=school_name ,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
+            
+          bd = BroadSheet.query.filter_by(student_number=student_number).first()
+          if (subject_name=="Science"):
+              bd.science = total
+              
+          if (subject_name=="English"):
+              bd.english = total
+              
+          if (subject_name=="Mathematics"):
+              bd.math = total
+            
+          if (subject_name=="RME"):
+              bd.rme = rme
+              
+          if (subject_name=="Creative Arts"):
+              bd.creativeart = total
+              
+          if (subject_name=="Social Studies"):
+              bd.social = total
+              
+          if (subject_name=="Computing"):
+              bd.computing = total
+              
+          if (subject_name=="French"):
+              bd.math = french
+              
+          if (subject_name=="Ghanaian Language"):
+              bd.ghanalanguage = total
+
+                  
+          if (subject_name=="Career Tech"):
+              bd.careertech = total
+          
+          today = datetime.today()
+          acd = Academic.query.filter_by(school_name=user.school_name).first()
+          term = acd.term
+          today = datetime.today()
+          bd.year=  today.year
+          bd.term=  term
+       
+          
           db.session.add(grade)
    
           db.session.commit()
-        
-          grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name)
+     
+          if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+                    c_name = class_name[:5] 
+                    
+          elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+                    c_name = class_name[:5] 
+          else:
+                c_name =class_name
+         
           
+          
+          bd = BroadSheet.query.filter_by(student_number=student_number).first()
+          if (subject_name=="Science"):
+              bd.science = total
+              
+          if (subject_name=="English"):
+              bd.english = total
+              
+          if (subject_name=="Mathematics"):
+              bd.math = total
+              
+          if (subject_name=="Creative Arts"):
+              bd.creativeart = total
+              
+          if (subject_name=="Social Studies"):
+              bd.social = total
+              
+          if (subject_name=="Computing"):
+              bd.computing = total
+              
+          if (subject_name=="French"):
+              bd.math = french
+              
+          if (subject_name=="Ghanaian Language"):
+              bd.ghanalanguage = total
       
+          if (subject_name=="Career Tech"):
+              bd.careertech = total
+          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name,term=term,year=year)     
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
@@ -709,7 +788,7 @@ def all_total():
     term = acd.term
     today = datetime.today()
     year=  today.year
-    brd =  BroadSheet.query.filter_by(class_name=bd.class_name,school_name=user.school_name, term =term)
+    brd =  BroadSheet.query.filter_by(class_name=bd.class_name,school_name=user.school_name, term =term,year=year)
     lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
     for(pos,g) in enumerate(lst1):
