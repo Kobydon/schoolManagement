@@ -551,7 +551,7 @@ def add_grade():
               bd.computing = total
               
           if (subject_name=="French"):
-              bd.math = french
+              bd.french = total
               
           if (subject_name=="Ghanaian Language"):
               bd.ghanalanguage = total
@@ -677,7 +677,7 @@ def add_result_by_excel():
               bd.math = total
             
           if (subject_name=="RME"):
-              bd.rme = rme
+              bd.rme = total
               
           if (subject_name=="Creative Arts"):
               bd.creativeart = total
@@ -689,7 +689,7 @@ def add_result_by_excel():
               bd.computing = total
               
           if (subject_name=="French"):
-              bd.math = french
+              bd.math = total
               
           if (subject_name=="Ghanaian Language"):
               bd.ghanalanguage = total
