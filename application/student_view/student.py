@@ -525,7 +525,7 @@ def add_grade():
                     c_name = class_name[:5] 
           else:
                 c_name =class_name
-          grd = Grading.query.filter(Grading.class_name==c_name , Grading.subject_name==subject_name,Grading.school_name==user.school_name)
+         
           
           
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
@@ -553,7 +553,7 @@ def add_grade():
           if (subject_name=="Ghanaian Language"):
               bd.ghanalanguage = total
               
-                  
+          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name)       
           if (subject_name=="Career Tech"):
               bd.careertech = total
          
