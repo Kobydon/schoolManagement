@@ -488,7 +488,7 @@ def add_grade():
               bd.math = total
             
           if (subject_name=="RME"):
-              bd.rme = rme
+              bd.rme = total
               
           if (subject_name=="Creative Arts"):
               bd.creativeart = total
