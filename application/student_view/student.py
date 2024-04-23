@@ -559,7 +559,7 @@ def add_grade():
           if (subject_name=="Career Tech"):
               bd.careertech = total
                   
-          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name,term=term,year=year)     
+          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
@@ -747,7 +747,7 @@ def add_result_by_excel():
       
           if (subject_name=="Career Tech"):
               bd.careertech = total
-          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name,term=term,year=year)     
+          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
@@ -788,7 +788,7 @@ def all_total():
     term = acd.term
     today = datetime.today()
     year=  today.year
-    brd =  BroadSheet.query.filter_by(class_name=bd.class_name,school_name=user.school_name, term =term,year=year)
+    brd =  BroadSheet.query.filter_by(class_name=bd.class_name,school_name=user.school_name, term =term,year=str(year))
     lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
     for(pos,g) in enumerate(lst1):
