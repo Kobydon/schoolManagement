@@ -500,7 +500,7 @@ def add_grade():
               bd.computing = total
               
           if (subject_name=="French"):
-              bd.math = french
+              bd.french = total
               
           if (subject_name=="Ghanaian Language"):
               bd.ghanalanguage = total
