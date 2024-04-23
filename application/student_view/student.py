@@ -665,7 +665,7 @@ def add_result_by_excel():
    
           db.session.commit()
         
-          grd = Grading.query.filter(Grading.class_name==class_name , Grading.subject_name==subject_name)
+          grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name)
           
       
           lst= grd.order_by(desc(Grading.total)).all()
