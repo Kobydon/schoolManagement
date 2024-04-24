@@ -1272,7 +1272,7 @@ def get_studentsheet():
     if (class_name =="JHS 1A" or class_name=="JHS 1B"):
                     c_name = class_name[:5] 
                     
-    elif (clas.class_name =="JHS 2A" or clas.class_name=="JHS 2B"):
+    elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
                     c_name = class_name[:5] 
   
     
@@ -1291,7 +1291,16 @@ def search_broadsheet():
     class_name = request.json["class_name"]
     term = request.json["term"]
     year = request.json["year"]
-    c_name = class_name[:5] 
+    if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+                    c_name = class_name[:5] 
+                    
+    elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+                    c_name = class_name[:5] 
+  
+    
+    else:
+        c_name =class_name
+        
     bd = BroadSheet.query.filter_by(class_name= c_name ,   term=term , year=year,school_name=user.school_name).all()
     result = student_schema.dump(bd)
     return jsonify(result)
