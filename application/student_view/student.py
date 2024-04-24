@@ -1279,7 +1279,7 @@ def get_studentsheet():
     else:
         c_name =class_name
         
-    bd = BroadSheet.query.filter_by(class_name= c_name , student_number=student_number).all()    
+    bd = BroadSheet.query.filter_by(student_number=student_number).all()    
     result = student_schema.dump(bd)
     return jsonify(result)
 
