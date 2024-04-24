@@ -465,7 +465,7 @@ def add_grade():
    
               
           if (total in range(40,44)):
-              remark  = "PASS"
+              remark  = "WEAK PASS"
               grade =7
               
       
@@ -654,7 +654,7 @@ def add_result_by_excel():
    
               
           if (total in range(40,44)):
-              remark  = "PASS"
+              remark  = "WEAK PASS"
               grade =7
               
       
@@ -1256,6 +1256,32 @@ def get_broadsheet():
                                       ,class_name=c_name).all()
     result = student_schema.dump(rmk)
     return jsonify(result) 
+
+
+
+
+          
+@student.route("/get_studentsheet",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def get_studentsheet():
+    
+    student_number = request.json["student_number"]
+    class_name = request.json["class_name"]
+    term = request.json["term"]
+    year = request.json["year"]
+    if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+                    c_name = class_name[:5] 
+                    
+    elif (clas.class_name =="JHS 2A" or clas.class_name=="JHS 2B"):
+                    c_name = class_name[:5] 
+  
+    
+    else:
+        c_name =class_name
+        
+    bd = BroadSheet.query.filter_by(class_name= c_name ,   term=term , year=year,student_number=student_number).all()    
+    result = student_schema.dump(bd)
+    return jsonify(result)
 
 @student.route("/search_broadsheet",methods=["POST","GET"])
 @flask_praetorian.auth_required
