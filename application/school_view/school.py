@@ -963,8 +963,8 @@ def add_fees_type():
 @school.route("/get_fees_type",methods=['GET'])
 @flask_praetorian.auth_required
 def get_fees_type():
-
-    cls = FeesType.query.all()
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first() 
+    cls = FeesType.query.filter_by(school_name=user.school_name).all()
     result = school_schema.dump(cls)
     return jsonify(result)
 
