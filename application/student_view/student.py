@@ -76,6 +76,7 @@ def add_student():
       picture_one =request.json["picture_one"]
     #   course_name =request.json[""]
       residential_status =request.json["resedential_status"]
+      original_class_name =request.json["class_name"]
       class_name =request.json["class_name"]
       if (class_name =="JHS 1A" or class_name=="JHS 1B"):
                     c_name = class_name[:5] 
@@ -96,7 +97,7 @@ def add_student():
            )
     #   bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
       bd =BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
-                     school_name =usr.school_name)
+                     school_name =usr.school_name,original_class_name=original_class_name)
       usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                    hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                                     school_name=school_name)
@@ -214,6 +215,12 @@ def add_student_b_excel():
     
      except:
             residential_status =""
+            
+     try:
+        original_class_name= request.json["class_name"]
+        
+     except:
+        original_class_name=""
         
     #  try:
     #        residential_status =request.json["Resident"]
@@ -264,7 +271,7 @@ def add_student_b_excel():
            )
      
             bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
-                          school_name=usr.school_name)
+                          school_name=usr.school_name,original_class_name=original_class_name)
             usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
                        hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                        school_name=usr.school_name)
@@ -1131,6 +1138,11 @@ def add_general_remark():
         except:
             last_name= ""
            
+        try:
+            attendance = request.json["Attendace(0 OUT OF total attendance)"]
+        except:
+            attendance=""
+           
         try:    
             attitude =request.json["attitude"]
         except:
@@ -1167,7 +1179,7 @@ def add_general_remark():
         created_by_id =flask_praetorian.current_user().id
         
         
-        my_obj = GeneralRemark(attitude=attitude,interest=interest,conduct=conduct,
+        my_obj = GeneralRemark(attitude=attitude,interest=interest,conduct=conduct,attendance=attendance,
                                teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,
                                term=term,year=year,student_number=student_number,class_name=class_name,
                                created_by_id=created_by_id)
@@ -1249,19 +1261,19 @@ def get_broadsheet():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     stf = Staff.query.filter_by(staff_number=user.username).first()
     clas = Class.query.filter_by(staff_number = stf.staff_number).first()
-    if (clas.class_name =="JHS 1A" or clas.class_name=="JHS 1B"):
-                    c_name = clas.class_name[:5] 
+    # if (clas.class_name =="JHS 1A" or clas.class_name=="JHS 1B"):
+    #                 c_name = clas.class_name[:5] 
                     
-    elif (clas.class_name =="JHS 2A" or clas.class_name=="JHS 2B"):
-                    c_name = clas.class_name[:5] 
+    # elif (clas.class_name =="JHS 2A" or clas.class_name=="JHS 2B"):
+    #                 c_name = clas.class_name[:5] 
   
     
-    else:
-        c_name =clas.class_name
+    # else:
+    #     c_name =clas.class_name
   
    
     rmk = BroadSheet.query.filter_by(school_name=user.school_name
-                                      ,class_name=c_name).all()
+                                      ,original_class_name=clas.class_name).all()
     result = student_schema.dump(rmk)
     return jsonify(result) 
 
