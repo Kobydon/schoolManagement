@@ -217,7 +217,7 @@ def add_student_b_excel():
             residential_status =""
             
      try:
-        original_class_name= request.json["class_name"]
+        original_class_name= request.json["Class"]
         
      except:
         original_class_name=""
@@ -1273,7 +1273,7 @@ def get_broadsheet():
   
    
     rmk = BroadSheet.query.filter_by(school_name=user.school_name
-                                      ).all()
+                                      ,original_class_name=clas.class_name).all()
     result = student_schema.dump(rmk)
     return jsonify(result) 
 
