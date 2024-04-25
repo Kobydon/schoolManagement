@@ -21,7 +21,7 @@ class StudentSchema(ma.Schema):
                 "status","amount","method","balance","paid_by","student","date","fees_type","cls",
                 "other_name",
                 "rme","science","math","social","pos","creativeart","careertech","english","computing",
-                "ghanalanguage","student_name","all_total","school_name","french"
+                "ghanalanguage","student_name","all_total","school_name","french","original_class_name"
 )
         
 student_schema=StudentSchema(many=True)
@@ -1273,7 +1273,7 @@ def get_broadsheet():
   
    
     rmk = BroadSheet.query.filter_by(school_name=user.school_name
-                                      ,original_class_name=clas.class_name).all()
+                                      ).all()
     result = student_schema.dump(rmk)
     return jsonify(result) 
 
