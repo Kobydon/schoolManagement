@@ -622,7 +622,7 @@ def add_result_by_excel():
           year=  today.year
           created_by_id  = flask_praetorian.current_user().id
           scheme = Scheme.query.filter_by(created_by_id=flask_praetorian.current_user().id).first()
-          total = int(exams_score)+ int(class_score)
+          total = exams_score + class_score
           grade=0
           if (total in range(80,101)):
               remark  = "EXCELLENT"
