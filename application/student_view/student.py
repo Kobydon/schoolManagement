@@ -600,12 +600,12 @@ def add_result_by_excel():
         
         
           try:
-                 class_score =  request.json["class_score"]
+                 class_score = str( request.json["class_score"])
       
           except:
                   class_score =  ""          
           try:
-                 exams_score =  request.json["exams_score"]
+                 exams_score =  str(request.json["exams_score"])
       
     
           except:
@@ -622,7 +622,7 @@ def add_result_by_excel():
           year=  today.year
           created_by_id  = flask_praetorian.current_user().id
           scheme = Scheme.query.filter_by(created_by_id=flask_praetorian.current_user().id).first()
-          total = exams_score + int(class_score)
+          total = int(exams_score) + int(class_score)
           grade=0
           if (total in range(80,101)):
               remark  = "EXCELLENT"
