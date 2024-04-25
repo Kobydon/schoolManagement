@@ -610,12 +610,12 @@ def add_result_by_excel():
         
         
           try:
-                 class_score =  str(request.json["class_score"])
+                 class_score =  request.json["class_score"]
       
           except:
                   class_score =  ""          
           try:
-                 exams_score =  str(request.json["exams_score"])
+                 exams_score =  request.json["exams_score"]
       
     
           except:
