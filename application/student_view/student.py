@@ -428,13 +428,13 @@ def add_grade():
           school_name = user.school_name
           student_number = request.json["student_number"]
           term = request.json["term"]
-          t_score = str(request.json["t_score"])
+        
           
           today = datetime.today()
           year=  today.year
           created_by_id  = flask_praetorian.current_user().id
           scheme = Scheme.query.filter_by(created_by_id=flask_praetorian.current_user().id).first()
-          total = int(t_score)
+          total = int(exams_score) + int(class_score)
           grade=0
           if (total in range(80,101)):
               remark  = "EXCELLENT"
@@ -598,6 +598,8 @@ def add_result_by_excel():
           cls = Class.query.filter_by(staff_number = user.username).first()
           # midterm_score  = request.json["midterm_score"]
           class_name = st.class_name
+          t_score = str(request.json["t_score"])
+          
         
         
           try:
@@ -623,7 +625,7 @@ def add_result_by_excel():
           year=  today.year
           created_by_id  = flask_praetorian.current_user().id
           scheme = Scheme.query.filter_by(created_by_id=flask_praetorian.current_user().id).first()
-          total = exams_score + class_score
+          total = int(t_score)
           grade=0
           if (total in range(80,101)):
               remark  = "EXCELLENT"
