@@ -428,12 +428,13 @@ def add_grade():
           school_name = user.school_name
           student_number = request.json["student_number"]
           term = request.json["term"]
+          t_score = str(request.json["t_score"])
           
           today = datetime.today()
           year=  today.year
           created_by_id  = flask_praetorian.current_user().id
           scheme = Scheme.query.filter_by(created_by_id=flask_praetorian.current_user().id).first()
-          total = int(exams_score) + int(class_score)
+          total = int(t_score)
           grade=0
           if (total in range(80,101)):
               remark  = "EXCELLENT"
