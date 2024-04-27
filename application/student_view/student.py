@@ -985,12 +985,12 @@ def get_grade_analysis():
     if(stf.form_master=="yes"):
         cls= Class.query.filter_by(staff_number=stf.staff_number).first()
         if (cls.class_name =="JHS 1A" or cls.class_name=="JHS 1B"):
-                    c_name = class_name[:5] 
+                    c_name = cls.class_name[:5] 
                     
         elif (cls.class_name =="JHS 2A" or cls.class_name=="JHS 2B"):
-                    c_name = class_name[:5] 
+                    c_name = cls.class_name[:5] 
         else:
-                c_name =class_name
+                c_name =cls.class_name
          
         grd = Grading.query.filter_by(class_name=c_name,term=term,year=str(year),school_name=user.school_name).all()
     
