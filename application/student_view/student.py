@@ -813,6 +813,8 @@ def all_total():
     resp.status_code=200
     return resp
             
+ 
+ 
       
 @student.route("/get_grade_by_student",methods=["POST","GET"])
 @flask_praetorian.auth_required
@@ -966,7 +968,31 @@ def search_result():
     grade = Grading.query.filter_by(student_number= student_number ,   term=term , year=year)
     result = student_schema.dump(grade)
     return jsonify(result)
-          
+  
+  
+
+  
+@student.route("/get_grade_analysis",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def get_grade_analysis():
+    user = db.session.query.filter_by(id = flask_praetorian.current_user().id).first()
+    stf  = Staff.query.filter_by(staff_number=user.username).first()
+   
+    acd = Academic.query.filter_by(school_name=user.school_name).first()
+    term = acd.term
+    today = datetime.today()
+    year=  today.year
+    if(stf.form_master=="yes"):
+        # cls= Class.query.filter_by(staff_number=stf.staff_number).first()
+        grd = Grading.query.filter_by(class_name=cls.class_name,term=term,year=year,school_name=user.school_name).all()
+    
+    else:
+        # cls= Class.query.filter_by(class_name=stf.class_name).first()
+        grd = Grading.query.filter_by(subject_name=stf.subject_name,term=term,year=year,school_name=user.school_name).all()
+       
+    result = student_schema.dump(grd)
+    return jsonify(result)   
+     
 @student.route("/get_grade_by_class",methods=["POST","GET"])
 @flask_praetorian.auth_required
 def get_grade_by_class():
