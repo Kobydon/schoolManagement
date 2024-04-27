@@ -535,8 +535,8 @@ def update_staff():
       stf_data.phone =request.json["phone"]
       stf_data.address =request.json["address"]
       stf_data.other_name =request.json["other_name"]
-      dep = Subject.query.filter_by(subject_name=subject_name).first()
-      stf_data.department = dep.department_name
+    #   dep = Subject.query.filter_by(subject_name=subject_name).first()
+    #   stf_data.department = dep.department_name
     #   user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     #   stf_data.sch = School.query.filter_by(username=user.username).first()
     #   n = random.randint(0,100)
@@ -564,8 +564,8 @@ def delete_staff(id):
       stf_data = Staff.query.filter_by(id=id).first()
               
 
-      dp= Departmentb.query.filter_by(department_name=stf_data.department).first()
-      dp.total_teachers = int(dp.total_teachers) - 1
+    #   dp= Departmentb.query.filter_by(department_name=stf_data.department).first()
+    #   dp.total_teachers = int(dp.total_teachers) - 1
       
       db.session.delete(stf_data)
       db.session.commit()
