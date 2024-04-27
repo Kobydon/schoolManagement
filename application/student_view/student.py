@@ -975,7 +975,7 @@ def search_result():
 @student.route("/get_grade_analysis",methods=["POST","GET"])
 @flask_praetorian.auth_required
 def get_grade_analysis():
-    user= User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     stf = Staff.query.filter_by(staff_number=user.username).first()
    
     acd = Academic.query.filter_by(school_name=user.school_name).first()
