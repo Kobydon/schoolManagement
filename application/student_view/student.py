@@ -983,7 +983,7 @@ def get_grade_analysis():
     today = datetime.today()
     year=  today.year
     if(stf.form_master=="yes"):
-        # cls= Class.query.filter_by(staff_number=stf.staff_number).first()
+        cls= Class.query.filter_by(staff_number=stf.staff_number).first()
         grd = Grading.query.filter_by(class_name=cls.class_name,term=term,year=year,school_name=user.school_name).all()
     
     else:
