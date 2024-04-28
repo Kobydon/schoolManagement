@@ -412,8 +412,8 @@ def add_staff_b_excel():
         
             )
         subject = Subjectc.query.filter_by(subject_name =subject).first()
-        dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
-        dep.total_teachers = int(dep.total_teachers)+ len(json_data)
+        # dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
+        # dep.total_teachers = int(dep.total_teachers)+ len(json_data)
         usr = User(firstname=firstname,lastname=lastname,roles=role,username=staff_number,
                    hashed_password= guard.hash_password(staff_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                    school_name=school_name)
@@ -467,8 +467,8 @@ def add_staff():
            address=address,firstname=firstname,lastname=lastname,phone =phone,other_name=other_name,
            )
       subject = Subjectc.query.filter_by(subject_name =subject_name).first()
-      dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
-      dep.total_teachers = int(dep.total_teachers)+ 1
+    #   dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
+    #   dep.total_teachers = int(dep.total_teachers)+ 1
       usr = User(firstname=firstname,lastname=lastname,roles=role,username=staff_number,
                    hashed_password= guard.hash_password(staff_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                    school_name=school_name)
