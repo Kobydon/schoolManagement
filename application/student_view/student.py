@@ -1063,6 +1063,7 @@ def add_remark():
 @flask_praetorian.auth_required
 def get_student_remark():
     student_number = request.json["student_number"]
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     acd = Academic.query.filter_by(school_name=user.school_name).first()
     term = acd.term
     today = datetime.today()
