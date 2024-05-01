@@ -600,6 +600,7 @@ def add_result_by_excel():
           user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
+          b="2"
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           st = Student.query.filter_by(student_number = request.json["student_number"]).first()
           bd = BroadSheet.query.filter_by(student_number=st.student_number).first()
