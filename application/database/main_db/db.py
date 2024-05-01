@@ -728,29 +728,29 @@ class BroadSheet(db.Model):
 
 
 
-# class Grading(db.Model):
+class Grading(db.Model):
            
-#           id = db.Column(db.Integer,primary_key=True)
-#           rank = db.Column(db.String(400))
-#           subject_name=  db.Column(db.String(400))
-#           remark  = db.Column(db.String(400))
-#           term  = db.Column(db.String(400))
-#           class_score = db.Column(db.String(400))
-#           class_name = db.Column(db.String(400))
-#           total = db.Column(db.String(5000))
-#           exams_score =  db.Column(db.String(400))
-#           pos =  db.Column(db.String(400))
-#           created_date  = db.Column(db.String(400))
-#           all_total =  db.Column(db.String(400))
-#           name=db.Column(db.String(400))
-#           school_name = db.Column(db.String(5000))
-#           grade = db.Column(db.String(5000))
-#           student_number = db.Column(db.String(5000))
-#           year = db.Column(db.String(5000))
-#           pos =  db.Column(db.String(400))
-#           change_request =  db.Column(db.String(400))
+          id = db.Column(db.Integer,primary_key=True)
+          rank = db.Column(db.String(400))
+          subject_name=  db.Column(db.String(400))
+          remark  = db.Column(db.String(400))
+          term  = db.Column(db.String(400))
+          class_score = db.Column(db.String(400))
+          class_name = db.Column(db.String(400))
+          total = db.Column(db.String(5000))
+          exams_score =  db.Column(db.String(400))
+          pos =  db.Column(db.String(400))
+          created_date  = db.Column(db.String(400))
+          all_total =  db.Column(db.String(400))
+          name=db.Column(db.String(400))
+          school_name = db.Column(db.String(5000))
+          grade = db.Column(db.String(5000))
+          student_number = db.Column(db.String(5000))
+          year = db.Column(db.String(5000))
+          pos =  db.Column(db.String(400))
+          change_request =  db.Column(db.String(400))
          
-#           created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))
+          created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))
 
 
 class MailSetup(db.Model):
