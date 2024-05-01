@@ -1205,11 +1205,8 @@ def add_general_remark():
             
         except:
              teacher_remark= ""
-        try:
-             term=request.json["term"]
-           
-        except :
-            term=""
+        acd = Academic.query.filter_by(school_name=user.school_name).first()
+        term = acd.term
         today = datetime.today()
         year=  today.year
         created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
