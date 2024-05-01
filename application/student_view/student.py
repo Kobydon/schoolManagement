@@ -602,9 +602,9 @@ def add_result_by_excel():
           remark  = "GOOD"
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           st = Student.query.filter_by(student_number = request.json["student_number"]).first()
-          cls = Class.query.filter_by(staff_number = user.username).first()
+          bd = BroadSheet.query.filter_by(student_number=student_number).first()
           # midterm_score  = request.json["midterm_score"]
-          class_name = st.class_name
+          class_name = bd.class_name
          
           
         
@@ -724,13 +724,13 @@ def add_result_by_excel():
    
           db.session.commit()
      
-          if (class_name =="JHS 1A" or class_name=="JHS 1B"):
-                    c_name = class_name[:5] 
+        #   if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+        #             c_name = class_name[:5] 
                     
-          elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
-                    c_name = class_name[:5] 
-          else:
-                c_name =class_name
+        #   elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+        #             c_name = class_name[:5] 
+        #   else:
+        #         c_name =class_name
          
           
           
@@ -761,7 +761,7 @@ def add_result_by_excel():
       
           if (subject_name=="Career Tech"):
               bd.careertech = total
-          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
+          grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
