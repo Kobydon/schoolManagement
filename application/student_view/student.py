@@ -781,7 +781,8 @@ def add_result_by_excel():
 @student.route("/all_total",methods=["POST"])
 @flask_praetorian.auth_required
 def all_total():
-    all_total = request.json["all_total"]
+    all_total = request.json["t_score"]
+    tot =int(all_total)
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
    
@@ -795,7 +796,7 @@ def all_total():
     subject_name=  request.json["subject_name"]
     # t = Student.query.filter_by(student_number=student_number).first()
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
-    bd.all_total = all_total
+    bd.all_total = tot
     # t.all_total = all_total
     c="n"
     db.session.commit()
