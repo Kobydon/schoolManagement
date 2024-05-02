@@ -637,7 +637,7 @@ def add_result_by_excel():
           
         
           l=2
-          total = class_score + exams_score 
+          total = int(str(class_score)) + int(str(exams_score)) 
 
           
           if (total >=80):
