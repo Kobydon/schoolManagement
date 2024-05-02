@@ -600,6 +600,7 @@ def add_result_by_excel():
           user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
+          grade =0
           b="2"
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           st  = request.json["student_number"]
@@ -638,43 +639,43 @@ def add_result_by_excel():
           
           total = class_score + exams_score 
 
-          grade=0
-          if (total in range(80,101)):
+          
+          if (total >=80):
               remark  = "EXCELLENT"
               grade   = 1
               
               
-          if (total in range(70,79)):
+          if (total >=70):
               remark  = "VERY GOOD"
               grade =2
               
                         
-          if (total in range(65,69)):
+          if (total >=69):
               remark  = " GOOD"
               grade = 3
               
-          if (total in range(60,64)):
+          if (total >=64):
               remark  = "CREDIT"
               grade = 4
           
               
-          if (total in range(55,59)):
+          if (total >=59):
               remark  = " AVERAGE"
               grade = 5
           
               
-          if (total in range(45,49)):
+          if (total >=54):
               remark  = " PASS"
               grade= 6
    
               
-          if (total in range(40,44)):
+          if (total >=49):
               remark  = "WEAK PASS"
               grade =7
               
       
               
-          if (total in range(0,39)):
+          if (total >=39):
               remark  = " FAIL"
               grade = 9 
           
