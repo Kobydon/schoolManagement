@@ -998,7 +998,7 @@ def get_grade_analysis():
          
         grd = Grading.query.filter_by(class_name=c_name,term=term,year=str(year),school_name=user.school_name).all()
     
-    if(stf.form_master!="yes")::
+    if(stf.form_master!="yes"):
         # cls= Class.query.filter_by(class_name=stf.class_name).first()
         grd = Grading.query.filter_by(subject_name=stf.subject_name,term=term,year=str(year),school_name=user.school_name).all()
        
