@@ -796,6 +796,7 @@ def all_total():
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
     bd.all_total = all_total
     # t.all_total = all_total
+    c="n"
     db.session.commit()
     # grd = Student.query.filter(Student.class_name==t.class_name )
 # brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
