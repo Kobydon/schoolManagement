@@ -639,7 +639,7 @@ def add_result_by_excel():
           l=2
           total = int(class_score) + int(exams_score) 
 
-         if (total in range(80,101)):
+          if (total in range(80,101)):
               remark  = "EXCELLENT"
               grade   = 1
               
