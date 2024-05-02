@@ -785,7 +785,7 @@ def all_total():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
    
-    cls = Class.query.filter_by(staff_number = user.username).first()
+    # cls = Class.query.filter_by(staff_number = user.username).first()
     # midterm_score  = request.json["midterm_score"]
     # class_name = request.json["class_name"]
   
@@ -806,7 +806,8 @@ def all_total():
     today = datetime.today()
     year=  today.year
     bd = BroadSheet.query.filter_by(student_number=student_number).first()
-    brd =  BroadSheet.query.filter_by(class_name=bd.class_name,school_name=user.school_name, term =term,year=str(year))
+    class_name =bd.class_name
+    brd =  BroadSheet.query.filter_by(class_name=class_name,school_name=user.school_name, term =term,year=str(year))
     lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
     for(pos,g) in enumerate(lst1):
