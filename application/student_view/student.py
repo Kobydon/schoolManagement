@@ -778,7 +778,7 @@ def add_result_by_excel():
           return  resp            
         
         
-@student.route("/all_total",methods=["PUT"])
+@student.route("/all_total",methods=["POST"])
 @flask_praetorian.auth_required
 def all_total():
     all_total = request.json["all_total"]
