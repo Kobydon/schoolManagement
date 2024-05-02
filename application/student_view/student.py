@@ -778,7 +778,7 @@ def add_result_by_excel():
           return  resp            
         
         
-@student.route("/all_total",methods=["PUT"])
+@student.route("/all_total",methods=["POST"])
 @flask_praetorian.auth_required
 def all_total():
     all_total = request.json["all_total"]
@@ -825,7 +825,7 @@ def all_total():
 @flask_praetorian.auth_required
 def get_grade_by_student():
       student_number = request.json["student_number"]
-      grade = Grading.query.filter_by(student_number=student_number)
+      grade = Grading.query.filter_by(student_number=student_number).all()
       result = student_schema.dump(grade)
       return jsonify(result)
 @student.route("/get_pending_grades",methods=["GET"])
