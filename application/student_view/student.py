@@ -636,7 +636,7 @@ def add_result_by_excel():
           scheme = Scheme.query.filter_by(created_by_id=flask_praetorian.current_user().id).first()
           
         
-          
+          l=2
           total = class_score + exams_score 
 
           
