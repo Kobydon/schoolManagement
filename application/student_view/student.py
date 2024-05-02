@@ -796,7 +796,9 @@ def all_total():
     subject_name=  request.json["subject_name"]
     # t = Student.query.filter_by(student_number=student_number).first()
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
-    bd.all_total = tot
+  
+    tt=int(bd.all_total)
+    bd.all_total = tot + tt
     # t.all_total = all_total
     c="n"
     db.session.commit()
