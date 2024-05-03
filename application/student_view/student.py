@@ -823,6 +823,21 @@ def all_total():
             
  
  
+ 
+@student.route("/my_grade",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def my_grade():
+      subject_name = request.json["subject_name"]
+      class_name = request.json["class_name"]
+      acd = Academic.query.filter_by(school_name=user.school_name).first()
+      term = acd.term
+      today = datetime.today()
+      year=  today.year
+      grade = Grading.query.filter_by(class_name=class_name,subject_name=subject_name,
+                                      created_by_id= flask_praetorian.current_user().id,
+                                      term=term,year=str(year)).all()
+      result = student_schema.dump(grade)
+      return jsonify(result)
       
 @student.route("/get_grade_by_student",methods=["POST","GET"])
 @flask_praetorian.auth_required
