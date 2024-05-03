@@ -567,7 +567,7 @@ def add_grade():
           if (subject_name=="Career Tech"):
               bd.careertech = total
                   
-          grd = Grading.query.filter_by(class_name=c_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
+          grd = Grading.query.filter_by(class_name=c_name ,original_class_name=class_name, subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
@@ -607,6 +607,7 @@ def add_result_by_excel():
           bd = BroadSheet.query.filter_by(student_number=st).first()
           # midterm_score  = request.json["midterm_score"]
           class_name = bd.class_name
+          original_class_name=bd.original_class_name
          
           
         
@@ -680,7 +681,7 @@ def add_result_by_excel():
           
           
           grade = Grading( subject_name= subject_name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
-                     school_name=school_name ,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
+                     school_name=school_name ,original_class_name=original_class_name,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
             
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science"):
@@ -834,7 +835,7 @@ def my_grade():
       term = acd.term
       today = datetime.today()
       year=  today.year
-      grade = Grading.query.filter_by(class_name=class_name,subject_name=subject_name,
+      grade = Grading.query.filter_by(class_name=original_class_name,subject_name=subject_name,
                                       created_by_id= flask_praetorian.current_user().id,
                                       term=term,year=str(year)).all()
       result = student_schema.dump(grade)
