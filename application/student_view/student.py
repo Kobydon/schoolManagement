@@ -248,7 +248,7 @@ def add_student_b_excel():
      student_number = first_three
      student_name = firstname +" "+other_name+" "+last_name
      
-    #  
+    #  dd
     #   
      
     #   course_name =request.json[""]
@@ -605,6 +605,7 @@ def add_result_by_excel():
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           st  = request.json["student_number"]
           bd = BroadSheet.query.filter_by(student_number=st).first()
+     
           name = bd.student_name
           # midterm_score  = request.json["midterm_score"]
           class_name = bd.class_name
