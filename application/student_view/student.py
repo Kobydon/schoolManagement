@@ -835,7 +835,7 @@ def my_grade():
       term = acd.term
       today = datetime.today()
       year=  today.year
-      grade = Grading.query.filter_by(class_name=original_class_name,subject_name=subject_name,
+      grade = Grading.query.filter_by(original_class_name=class_name,subject_name=subject_name,
                                       created_by_id= flask_praetorian.current_user().id,
                                       term=term,year=str(year)).all()
       result = student_schema.dump(grade)
