@@ -827,6 +827,7 @@ def all_total():
 @student.route("/my_grade",methods=["POST","GET"])
 @flask_praetorian.auth_required
 def my_grade():
+      user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       subject_name = request.json["subject_name"]
       class_name = request.json["class_name"]
       acd = Academic.query.filter_by(school_name=user.school_name).first()
