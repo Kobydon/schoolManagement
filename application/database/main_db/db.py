@@ -737,7 +737,7 @@ class Grading(db.Model):
           term  = db.Column(db.String(400))
           class_score = db.Column(db.String(400))
           class_name = db.Column(db.String(400))
-           original_class_name =db.Column(db.String(5000))
+          original_class_name =db.Column(db.String(5000))
           total = db.Column(db.String(5000))
           exams_score =  db.Column(db.String(400))
           pos =  db.Column(db.String(400))
