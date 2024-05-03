@@ -482,7 +482,7 @@ def add_grade():
               remark  = " FAIL"
               grade = 9 
           
-          grade = Grading( subject_name= subject_name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
+          grade = Grading( subject_name= subject_name,name=name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
                   name=name,   school_name=school_name ,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
           
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
@@ -605,6 +605,7 @@ def add_result_by_excel():
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           st  = request.json["student_number"]
           bd = BroadSheet.query.filter_by(student_number=st).first()
+          name = bd.student_name
           # midterm_score  = request.json["midterm_score"]
           class_name = bd.class_name
           original_class_name=bd.original_class_name
@@ -680,7 +681,7 @@ def add_result_by_excel():
               grade = 9 
           
           
-          grade = Grading( subject_name= subject_name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
+          grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
                      school_name=school_name ,original_class_name=original_class_name,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
             
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
