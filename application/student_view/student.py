@@ -894,6 +894,18 @@ def search_pay_dates():
     lst = pay.order_by(desc(FeesPayment.date))
     result = student_schema.dump(lst)
     return jsonify(result)
+
+@student.route("/search_my_dates",methods=["POST"])
+@flask_praetorian.auth_required
+def search_my_dates():
+    date = request.json["date"]
+   
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    bd = BroadSheet.query.filter_by(student_number=user.username).first()
+    pay = FeesPayment.query.filter(FeesPayment.student.contains(bd.student_name),FeesPayment.date.contains(date))
+    lst = pay.order_by(desc(FeesPayment.date))
+    result = student_schema.dump(lst)
+    return jsonify(result)
       
 @student.route("/update_grade",methods=['PUT'])
 @flask_praetorian.auth_required
