@@ -1145,7 +1145,7 @@ def get_payment_list():
 def get_my_payment():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     bd = BroadSheet.query.filter_by(student_number=user.username).first()
-    pmt = FeesPayment.query.filter_by(student=bd.student_name).all()
+    pmt = FeesPayment.query.filter(FeesPayment.student.contains(bd.student_name)).all()
     result = student_schema.dump(pmt)
     return jsonify(result)
 
