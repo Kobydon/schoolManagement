@@ -1139,6 +1139,15 @@ def get_payment_list():
     pmt = FeesPayment.query.filter_by(school_name=user.school_name).all()
     result = student_schema.dump(pmt)
     return jsonify(result)
+
+@student.route("/get_my_payment",methods=['GET'])
+@flask_praetorian.auth_required
+def get_my_payment():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    pmt = FeesPayment.query.filter_by(student_number=user.user_name).all()
+    result = student_schema.dump(pmt)
+    return jsonify(result)
+
 @student.route("/get_payment/<id>",methods=['GET'])
 @flask_praetorian.auth_required
 def get_payment(id):
