@@ -660,46 +660,46 @@ def add_result_by_excel():
           l=2
           total = int(class_score) + int(exams_score) 
 
-          if (total >=80):
+          if (total in range(80,101)):
               remark  = "EXCELLENT"
               grade   = 1
               
               
-          if (total >=79):
+          if (total in range(70,79)):
               remark  = "VERY GOOD"
               grade =2
               
                         
-          if (total >=69):
+          if (total in range(65,69)):
               remark  = " GOOD"
               grade = 3
               
-          if (total  >=64):
+          if (total in range(60,64)):
               remark  = "CREDIT"
               grade = 4
           
               
-          if (total >=59):
+          if (total in range(55,59)):
               remark  = " AVERAGE"
               grade = 5
           
-          if (total >=54):
+          if (total in range(50,54)):
               remark  = " AVERAGE"
               grade = 6
           
               
-          if (total >=49):
+          if (total in range(45,49)):
               remark  = " PASS"
               grade= 7
    
               
-          if (total >=48):
+          if (total in range(40,48)):
               remark  = "WEAK PASS"
               grade =8
               
       
               
-          else:
+          if (total in range(1,39)):
               remark  = " FAIL"
               grade = 9 
           
