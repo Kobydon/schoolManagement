@@ -790,6 +790,7 @@ def search_class():
 
 
 
+
 @school.route("/add_scheme",methods=['POST'])
 @flask_praetorian.auth_required
 def add_scheme():

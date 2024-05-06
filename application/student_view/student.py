@@ -1143,6 +1143,18 @@ def get_my_details():
     result = student_schema.dump(std)
     return jsonify(result)
  
+ 
+
+@student.route("/search_exact_class",methods=['POST'])
+@flask_praetorian.auth_required
+def search_exact_class():
+      user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
+      class_name = request.json["class_name"]
+      std = Student.query.filter_by(class_name=class_name,school_name=user.school_name).all()
+      result =  student_schema.dump(cls_data)
+     
+      return jsonify(result)  
+  
 @student.route("/get_student_by_number",methods=["POST","GET"])
 @flask_praetorian.auth_required
 def get_student_by_number():
