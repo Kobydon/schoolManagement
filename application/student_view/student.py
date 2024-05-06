@@ -1138,7 +1138,7 @@ def get_student_remark():
 def get_my_details():
      
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    std = Student.query.filter_by(student_number=user.username).first()
+    std = Student.query.filter_by(student_number=user.username).all()
    
     result = student_schema.dump(std)
     return jsonify(result)
