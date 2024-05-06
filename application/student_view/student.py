@@ -465,16 +465,20 @@ def add_grade():
           if (total in range(55,59)):
               remark  = " AVERAGE"
               grade = 5
+           
+          if (total in range(50,54)):
+              remark  = " AVERAGE"
+              grade = 6
           
               
           if (total in range(45,49)):
               remark  = " PASS"
-              grade= 6
+              grade= 7
    
               
           if (total in range(40,44)):
               remark  = "WEAK PASS"
-              grade =7
+              grade =8
               
       
               
@@ -667,19 +671,23 @@ def add_result_by_excel():
               remark  = " AVERAGE"
               grade = 5
           
+          if (total in range(50,54)):
+              remark  = " AVERAGE"
+              grade = 6
+          
               
           if (total in range(45,49)):
               remark  = " PASS"
-              grade= 6
+              grade= 7
    
               
           if (total in range(40,44)):
               remark  = "WEAK PASS"
-              grade =7
+              grade =8
               
       
               
-          if (total in range(0,39)):
+          if (total in range(1,39)):
               remark  = " FAIL"
               grade = 9 
           
