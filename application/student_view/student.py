@@ -21,7 +21,7 @@ class StudentSchema(ma.Schema):
                 "status","amount","method","balance","paid_by","student","date","fees_type","cls",
                 "other_name",
                 "rme","science","math","social","pos","creativeart","careertech","english","computing",
-                "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa"
+                "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa","admission_number"
 )
         
 student_schema=StudentSchema(many=True)
@@ -71,7 +71,7 @@ def add_student():
       first_three = sch.school_name[:4] + str(cc)
       student_number = first_three
     
-     
+      admission_number = request.json["admission_number"]
       admitted_year =request.json["admitted_year"]
       picture_one =request.json["picture_one"]
     #   course_name =request.json[""]
@@ -93,7 +93,7 @@ def add_student():
       std = Student(other_name=other_name,created_by_id=created_by_id,picture=picture_one,class_name=clname ,created_date=created_date,parent_name=parent_name,school_name=school_name,
            student_number=student_number, admitted_year=admitted_year ,
            residential_status=residential_status,gender=gender,
-           address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone
+           address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone,admission_number=admission_number
            )
     #   bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
       bd =BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
@@ -148,6 +148,13 @@ def add_student_b_excel():
     
      except:
             class_name =""
+            
+     try:
+          admission_number =request.json["Admission Number"]
+          
+    
+     except:
+            admission_number =""
             
      try:
             gender = request.json["Gender"]
@@ -263,7 +270,7 @@ def add_student_b_excel():
                                       + Student.last_name == student_name).first()
      
      if not check_std:
-            std = Student(created_by_id=created_by_id,class_name=class_name ,created_date=created_date,school_name=school_name,
+            std = Student(created_by_id=created_by_id,admission_number=admission_number,class_name=class_name ,created_date=created_date,school_name=school_name,
                           student_number=student_number,gender=gender,residential_status=residential_status,
                           picture=picture_one,admitted_year=admitted_year,address=address,email=email,parent_phone=phone,
 
@@ -544,31 +551,36 @@ def add_grade():
           
           
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
+        #    bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science"):
               bd.science = total
               
           if (subject_name=="English"):
               bd.english = total
               
-          if (subject_name=="Mathematics"):
+          if (subject_name=="Mathematics" or subject_name=="Math"):
               bd.math = total
+            
+          if (subject_name=="RME"):
+              bd.rme = total
               
-          if (subject_name=="Creative Arts"):
+          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
               bd.creativeart = total
               
-          if (subject_name=="Social Studies"):
+          if (subject_name=="Social Studies" or subject_name=="Social " ):
               bd.social = total
               
-          if (subject_name=="Computing"):
+          if (subject_name=="Computing" or  subject_name=="ICT"):
               bd.computing = total
               
           if (subject_name=="French"):
-              bd.french = total
+              bd.math = total
               
-          if (subject_name=="Ghanaian Language"):
+          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
               bd.ghanalanguage = total
-      
-          if (subject_name=="Career Tech"):
+
+                  
+          if (subject_name=="Career Tech" or subject_name=="Career Technology"):
               bd.careertech = total
                   
           grd = Grading.query.filter_by(class_name=c_name ,original_class_name=class_name, subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
@@ -702,29 +714,29 @@ def add_result_by_excel():
           if (subject_name=="English"):
               bd.english = total
               
-          if (subject_name=="Mathematics"):
+          if (subject_name=="Mathematics" or subject_name=="Math"):
               bd.math = total
             
           if (subject_name=="RME"):
               bd.rme = total
               
-          if (subject_name=="Creative Arts"):
+          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
               bd.creativeart = total
               
-          if (subject_name=="Social Studies"):
+          if (subject_name=="Social Studies" or subject_name=="Social " ):
               bd.social = total
               
-          if (subject_name=="Computing"):
+          if (subject_name=="Computing" or  subject_name=="ICT"):
               bd.computing = total
               
           if (subject_name=="French"):
               bd.math = total
               
-          if (subject_name=="Ghanaian Language"):
+          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
               bd.ghanalanguage = total
 
                   
-          if (subject_name=="Career Tech"):
+          if (subject_name=="Career Tech" or subject_name=="Career Technology"):
               bd.careertech = total
           
           today = datetime.today()

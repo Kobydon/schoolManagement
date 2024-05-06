@@ -335,20 +335,58 @@ def add_staff_b_excel():
       
  
         json_data= request.json
-        subject_name =request.json["Subject"]
-       
-        gender = request.json["Gender"]
-        firstname = request.json["First Name"]
-
-        lastname =request.json["Last Name"]
+        try:
+            subject_name =request.json["Subject"]
+        
+        except:
+            subject_name=""
+        
+        try:    
+            gender = request.json["Gender"]
+            
+        except:
+            gender =""
+            
+        try:
+            firstname = request.json["First Name"]
+        
+        except:
+             firstname =""
+             
+        try:
+            
+            lastname =request.json["Last Name"]
+            
+        except:
+            lastname =""
        
         role =request.json["Role"]
         
         # other_name = request.json["Other Name"]
-        current_management_unit =request.json["Current Management Unit/Cost Centre"]
-        payroll_status =request.json["Payroll Active Status"]
-        at_post =request.json["At Post/On Leave"]
-        onleave_type=request.json["On Leave Type"]
+        try:
+            current_management_unit =request.json["Current Management Unit/Cost Centre"]
+        
+        except:
+            current_management_unit=""
+            
+        try:
+            payroll_status =request.json["Payroll Active Status"]
+            
+        except:
+            payroll_status=""
+            
+        try:
+                
+            at_post =request.json["At Post/On Leave"]
+            
+        except:
+            at_post=""
+            
+        try:
+            onleave_type=request.json["On Leave Type"]
+            
+        except:
+             onleave_type=""
 
         # 
         dep = Subjectc.query.filter_by(subject_name=subject_name).first()
@@ -358,53 +396,120 @@ def add_staff_b_excel():
         sch = School.query.filter_by(username=usr.username).first()
         school_name = sch.school_name
         n = random.randint(0,100)
-        # sc = Staff.query.filter_by(school_name=sch.school_name).count()
-        # cc = int(sc)+1
-        # first_three = sch.school_name[:3] + str(cc)
-        staff_number = str(request.json["Staff No."])
-        national_id = request.json["Ghana Card Number"]
+        sc = Staff.query.filter_by(school_name=sch.school_name).count()
+        cc = int(sc)+1
+        first_three = sch.school_name[:3] + str(cc)
+        # staff_number = str(request.json["Staff No."])
+        try:
+            national_id = request.json["Gh No."]
+            
+        except:
+             national_id =""
 
-        bank_name =request.json["Bank"]
-        bank_account_number= request.json["Account"]
+        try:
+            bank_name =request.json["Bank"]
+            
+        except:
+            bank_name=""
+            
+        try:
+            bank_account_number= request.json["Account"]
+        
+        except :
+            bank_account_number=""
         # 
-        ssn= request.json["SSN"]
+        try:
+            ssn= request.json["SSN"]
+            
+        except:
+            ssn= request.json["SSN"]
+            
         role= request.json["Role"]
         
 
       
-   
-        job_grade =request.json["Job/Grade"]
+        try:
+            job_grade =request.json["Job/Grade"]
+            
+        except:
+            job_grade =""
+            
         try:
           phone =request.json["Phone"]
-          address=""
-          residential_status =request.json["Resident"]
-          bank_branch =request.json["Branch"]
-          other_name = request.json["Other Name"]
-          appointment_date =request.json["Appointment"]
-          year_joined =request.json["Joined"]
-          email = request.json["Email"]
-          promotional_status =request.json["Promotion Status"]
-          bank_branch =request.json["Branch"]
-          ges_number =request.json["Register Number"]
+          
+        except:
+            phone =""
+            
+        try:
+            address=request.json["Phone"]
+            
+        except:
+             address=""
+          
+        try:
+            residential_status =request.json["Resident"]
+        
+        except:
+            residential_status=""
+        try:    
+            bank_branch =request.json["Branch"]
         except:
             bank_branch=""
-            address=""
-            bank_branch=""
-            other_name = ""
-            residential_status=""
-            email="''"
-            promotional_status=""
-            ges_number="''"
-          
-            phone="''"
+        try:    
+            other_name = request.json["Other Name"]
+            
+        except:
+            other_name=""
+        
+        try:
+            appointment_date =request.json["Appointment"]
+            
+        except:
             appointment_date=""
+            
+        try:
+          year_joined =request.json["Joined"]
+          
+        except:
             year_joined=""
+            
+        try:
+            email = request.json["Email"]
+            
+        except :
+            email=""
+            
+        try:
+            promotional_status =request.json["Promotion Status"]
+        
+        except:
+            promotional_status=""
+            
+        try:
+            bank_branch =request.json["Branch"]
+            
+        except:
+            bank_branch=""
+            
+        try:
+             ges_number =request.json["Register Number"]
+             
+        except:
+            ges_number=""
+            
+        try:
+            dob =request.json["DOB"]
+            
+        except:
+            dob=""
+            
+     
           
      
         subject =request.json["Subject"]
         created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
         created_by_id =flask_praetorian.current_user().id
-        stf = Staff(job_grade=job_grade,ges_number=ges_number,ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
+        stf = Staff(dob=dob,job_grade=job_grade,ges_number=ges_number,ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
             bank_branch=bank_branch, bank_account_number=bank_account_number ,national_id=national_id,   staff_number=staff_number,
             residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
             address=address,firstname=firstname,lastname=lastname,email=email,phone =phone,payroll_status=payroll_status,
