@@ -693,7 +693,7 @@ def add_result_by_excel():
               grade= 7
    
               
-          if (total in range(40,44)):
+          if (total in range(40,48)):
               remark  = "WEAK PASS"
               grade =8
               
@@ -736,7 +736,7 @@ def add_result_by_excel():
               bd.ghanalanguage = total
 
                   
-          if (subject_name=="Career Tech" or subject_name=="Career Technology"):
+          if (subject_name=="Career Tech" or subject_name=="Career Technology" or subject_name=="Carer Tech"):
               bd.careertech = total
           
           today = datetime.today()
