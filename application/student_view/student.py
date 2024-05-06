@@ -665,7 +665,7 @@ def add_result_by_excel():
               grade   = 1
               
               
-          if (total >=7)
+          if (total >=7):
               remark  = "VERY GOOD"
               grade =2
               
