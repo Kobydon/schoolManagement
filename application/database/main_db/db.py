@@ -379,7 +379,7 @@ class Staff(db.Model):
       dob = db.Column(db.String(400))
       n =db.Column(db.String(400))
       school_name =db.Column(db.String(400))
-      staff_number = db.Column(db.String(400),)
+      staff_number = db.Column(db.String(400))
       national_id = db.Column(db.String(400))
       subject_name = db.Column(db.String(400))
       bank_name = db.Column(db.String(400))

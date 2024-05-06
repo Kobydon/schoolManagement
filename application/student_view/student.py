@@ -1133,6 +1133,16 @@ def get_student_remark():
     result = student_schema.dump(rmk)
     return jsonify(result)
  
+@student.route("/get_my_details",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def get_my_details():
+     
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    std = Student.query.filter_by(student_number=user.username).first()
+   
+    result = student_schema.dump(std)
+    return jsonify(result)
+ 
 @student.route("/get_student_by_number",methods=["POST","GET"])
 @flask_praetorian.auth_required
 def get_student_by_number():
