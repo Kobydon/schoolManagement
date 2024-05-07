@@ -525,7 +525,7 @@ def add_staff_b_excel():
         find = Staff.query.filter_by(staff_number=staff_number).first()
         if find:
             
-            return 200
+            return jsonify("user_exit")
         
         else:
             stf = Staff(dob=dob,job_grade=job_grade,ges_number=ges_number,ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
