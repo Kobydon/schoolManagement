@@ -521,26 +521,22 @@ def add_staff_b_excel():
      
         subject =request.json["Subject"]
         created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
-        created_by_id =flask_praetorian.current_user()
+        created_by_id =flask_praetorian.current_user().
         find = Staff.query.filter_by(staff_number=staff_number).first()
-        if find:
-            
-            return jsonify("user_exit")
         
-        else:
-            stf = Staff(dob=dob,job_grade=job_grade,ges_number=ges_number,ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
-                bank_branch=bank_branch, bank_account_number=bank_account_number ,national_id=national_id,   staff_number=staff_number,
-                residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
-                address=address,firstname=firstname,lastname=lastname,email=email,phone =phone,payroll_status=payroll_status,
-                other_name=other_name,current_management_unit=current_management_unit,at_post=at_post,onleave_type=onleave_type,gender=gender,
-            
-                )
-            subject = Subjectc.query.filter_by(subject_name =subject).first()
-            # dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
-            # dep.total_teachers = int(dep.total_teachers)+ len(json_data)
-            usr = User(firstname=firstname,lastname=lastname,roles=role,username=staff_number,
-                    hashed_password= guard.hash_password(staff_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
-                    school_name=school_name)
+        stf = Staff(dob=dob,job_grade=job_grade,ges_number=ges_number,ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
+            bank_branch=bank_branch, bank_account_number=bank_account_number ,national_id=national_id,   staff_number=staff_number,
+            residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
+            address=address,firstname=firstname,lastname=lastname,email=email,phone =phone,payroll_status=payroll_status,
+            other_name=other_name,current_management_unit=current_management_unit,at_post=at_post,onleave_type=onleave_type,gender=gender,
+        
+            )
+        subject = Subjectc.query.filter_by(subject_name =subject).first()
+        # dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
+        # dep.total_teachers = int(dep.total_teachers)+ len(json_data)
+        usr = User(firstname=firstname,lastname=lastname,roles=role,username=staff_number,
+                   hashed_password= guard.hash_password(staff_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
+                   school_name=school_name)
         
         db.session.add(stf)
         db.session.add(usr)
