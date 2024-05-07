@@ -388,11 +388,11 @@ def add_staff_b_excel():
         except:
              onleave_type=""
              
-         try:
+        try:
             staff_number=request.json["Staff No."]
             
         except:
-             staff_number=""it 
+             staff_number=""
 
         # 
       
