@@ -120,6 +120,7 @@ def add_student_b_excel():
               
     #   
      json_data = request.json
+     l="kk"
     
      try:
           firstname =request.json["First Name"]
