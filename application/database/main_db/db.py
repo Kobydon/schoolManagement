@@ -810,5 +810,6 @@ class Academic(db.Model):
     closing_date=db.Column(db.String(500))
     created_date =db.Column(db.String(5000))
     reopening_date =db.Column(db.String(400))
+    status =db.Column(db.String(400))
     school_name = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))

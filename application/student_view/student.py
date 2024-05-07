@@ -529,7 +529,7 @@ def add_grade():
               bd.careertech = total
           
           today = datetime.today()
-          acd = Academic.query.filter_by(school_name=user.school_name).first()
+          acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
           term = acd.term
           today = datetime.today()
           bd.year=  today.year
@@ -740,7 +740,7 @@ def add_result_by_excel():
               bd.careertech = total
           
           today = datetime.today()
-          acd = Academic.query.filter_by(school_name=user.school_name).first()
+          acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
           term = acd.term
           today = datetime.today()
           bd.year=  today.year
@@ -828,7 +828,7 @@ def all_total():
     db.session.commit()
     # grd = Student.query.filter(Student.class_name==t.class_name )
 # brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
-    acd = Academic.query.filter_by(school_name=user.school_name).first()
+    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
     term = acd.term
     today = datetime.today()
     year=  today.year
@@ -854,7 +854,7 @@ def my_grade():
       user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       subject_name = request.json["subject_name"]
       class_name = request.json["class_name"]
-      acd = Academic.query.filter_by(school_name=user.school_name).first()
+      acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
       term = acd.term
       today = datetime.today()
       year=  today.year
@@ -1038,7 +1038,7 @@ def get_grade_analysis():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     stf = Staff.query.filter_by(staff_number=user.username).first()
    
-    acd = Academic.query.filter_by(school_name=user.school_name).first()
+    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
     term = acd.term
     today = datetime.today()
     year=  today.year
@@ -1124,7 +1124,7 @@ def add_remark():
 def get_student_remark():
     student_number = request.json["student_number"]
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    acd = Academic.query.filter_by(school_name=user.school_name).first()
+    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
     term = acd.term
     today = datetime.today()
     year=  today.year
@@ -1297,7 +1297,7 @@ def add_general_remark():
             
         except:
              teacher_remark= ""
-        acd = Academic.query.filter_by(school_name=user.school_name).first()
+        acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
         term = acd.term
         today = datetime.today()
         year=  today.year

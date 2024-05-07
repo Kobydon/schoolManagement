@@ -883,9 +883,10 @@ def add_academic_setup():
         reopening_date =request.json["reopen_date"]
         school_name = user.school_name
         created_by_id =flask_praetorian.current_user().id
+        status="current"
         
         acd = Academic(closing_date=closing_date,created_date=created_date,term=term,year=year,
-                       reopening_date=reopening_date,school_name=school_name,created_by_id=created_by_id
+                       reopening_date=reopening_date,school_name=school_name,created_by_id=created_by_id,status=status,
                        )
     
         db.session.add(acd)
