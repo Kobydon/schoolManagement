@@ -902,6 +902,7 @@ def add_academic_setup():
 @school.route("/get_academic_setup",methods=['GET'])
 @flask_praetorian.auth_required
 def get_academic_setup():
+    v="2"
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     acd = Academic.query.filter_by(school_name=user.school_name)
     result = school_schema.dump(acd)
