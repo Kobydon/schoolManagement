@@ -389,7 +389,7 @@ def add_staff_b_excel():
              onleave_type=""
              
         try:
-            staff_number=request.json["Staff No."]
+            staff_number= str(request.json["Staff No."])
             
         except:
              staff_number=""
@@ -420,7 +420,7 @@ def add_staff_b_excel():
             bank_name=""
             
         try:
-            bank_account_number= request.json["Account"]
+            bank_account_number= str(request.json["Account"])
         
         except :
             bank_account_number=""
@@ -453,7 +453,7 @@ def add_staff_b_excel():
             phone =""
             
         try:
-            address=request.json["Phone"]
+            address=request.json["Address"]
             
         except:
              address=""
