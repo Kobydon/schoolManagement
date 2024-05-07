@@ -387,8 +387,15 @@ def add_staff_b_excel():
             
         except:
              onleave_type=""
+             
+         try:
+            staff_number=request.json["Staff No."]
+            
+        except:
+             staff_number=""
 
         # 
+      
         dep = Subjectc.query.filter_by(subject_name=subject_name).first()
         department = dep.department_name
         usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
@@ -399,7 +406,7 @@ def add_staff_b_excel():
         sc = Staff.query.filter_by(school_name=sch.school_name).count()
         cc = int(sc)+1
         first_three = sch.school_name[:3] + str(cc)
-        # staff_number = str(request.json["Staff No."])
+         
         try:
             national_id = request.json["Gh No."]
             
