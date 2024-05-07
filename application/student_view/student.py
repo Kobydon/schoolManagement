@@ -241,6 +241,8 @@ def add_student_b_excel():
      elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
                     c_name = class_name[:5] 
                     
+    elif (class_name =="JHS 3A" or class_name=="JHS 3B" or class_name=="JHS 3C"):
+                    c_name = class_name[:5] 
      else:
          c_name =class_name
      usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
