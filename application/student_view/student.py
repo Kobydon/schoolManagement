@@ -538,6 +538,7 @@ def add_grade():
           
           db.session.add(grade)
    
+   
           db.session.commit()
      
           if (class_name =="JHS 1A" or class_name=="JHS 1B"):
@@ -1049,6 +1050,9 @@ def get_grade_analysis():
                     
         elif (cls.class_name =="JHS 2A" or cls.class_name=="JHS 2B"):
                     c_name = cls.class_name[:5] 
+                    
+        elif (cls.class_name =="JHS 3A" or cls.class_name=="JHS 3B" or cls.class_name=="JHS 3C"):
+                    c_name = cls.class_name[:5] 
         else:
                 c_name =cls.class_name
          
@@ -1422,7 +1426,9 @@ def get_studentsheet():
     elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
                     c_name = class_name[:5] 
   
-    
+  
+    elif (class_name =="JHS 3A" or class_name=="JHS 3B" or class_name=="JHS 3C"):
+                    c_name = cls.class_name[:5]     
     else:
         c_name =class_name
         
