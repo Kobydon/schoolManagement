@@ -898,9 +898,12 @@ def add_academic_setup():
         status="current"
         
         Ad =Academic.query.filter_by(school_name=user.school_name,status="current").first()
-        Ad.status ="old"
+        if Ad:
+            Ad.status ="old"
     
         db.session.commit()
+        
+        
         acd = Academic(closing_date=closing_date,created_date=created_date,term=term,year=year,
                        reopening_date=reopening_date,school_name=school_name,created_by_id=created_by_id,status=status,
                        )
