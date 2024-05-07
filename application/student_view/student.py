@@ -759,8 +759,7 @@ def add_result_by_excel():
         #   else:
         #         c_name =class_name
          
-          
-          
+          l="k"        
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science"):
               bd.science = total
