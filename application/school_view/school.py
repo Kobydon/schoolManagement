@@ -392,12 +392,12 @@ def add_staff_b_excel():
             staff_number=request.json["Staff No."]
             
         except:
-             staff_number=""
+             staff_number=""it 
 
         # 
       
-        dep = Subjectc.query.filter_by(subject_name=subject_name).first()
-        department = dep.department_name
+        # dep = Subjectc.query.filter_by(subject_name=subject_name).first()
+        # department = dep.department_name
         usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
         school_name= usr.school_name
         sch = School.query.filter_by(username=usr.username).first()
@@ -429,12 +429,17 @@ def add_staff_b_excel():
             ssn= request.json["SSN"]
             
         except:
-            ssn= request.json["SSN"]
+            ssn= ""
             
         role= request.json["Role"]
         
 
-      
+        try:
+            department= request.json["Department"]
+            
+        except:
+            department= ""
+            
         try:
             job_grade =request.json["Job/Grade"]
             
