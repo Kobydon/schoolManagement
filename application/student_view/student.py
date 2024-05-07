@@ -1415,7 +1415,7 @@ def get_broadsheet():
 @student.route("/get_studentsheet",methods=["POST","GET"])
 @flask_praetorian.auth_required
 def get_studentsheet():
-    
+    l="s"
     student_number = request.json["student_number"]
     class_name = request.json["class_name"]
     term = request.json["term"]
