@@ -58,7 +58,7 @@ class schoolSchema(ma.Schema):
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name",
-                "exam_name","district","circuit" )
+                "exam_name","district","circuit","status" )
         
 
 
@@ -885,12 +885,16 @@ def add_academic_setup():
         created_by_id =flask_praetorian.current_user().id
         status="current"
         
+        Ad =Academic.query.filter_by(school_name=user.school_name,status="current").first()
+        Ad.status ="old"
+    
+        db.session.commit()
         acd = Academic(closing_date=closing_date,created_date=created_date,term=term,year=year,
                        reopening_date=reopening_date,school_name=school_name,created_by_id=created_by_id,status=status,
                        )
     
         db.session.add(acd)
-    
+       
         db.session.commit()
         db.session.close()
         resp = jsonify("success")
