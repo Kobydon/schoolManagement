@@ -526,6 +526,7 @@ def add_staff_b_excel():
             resp = jsonify("success")
             resp.status_code =200
             return resp
+        
         else:
             stf = Staff(dob=dob,job_grade=job_grade,ges_number=ges_number,ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
                 bank_branch=bank_branch, bank_account_number=bank_account_number ,national_id=national_id,   staff_number=staff_number,

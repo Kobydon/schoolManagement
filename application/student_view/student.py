@@ -95,17 +95,24 @@ def add_student():
     #   subject =request.json["subject"]
       created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
       created_by_id =flask_praetorian.current_user().id
-      std = Student(other_name=other_name,created_by_id=created_by_id,class_name=clname ,created_date=created_date,parent_name=parent_name,school_name=school_name,
-           student_number=student_number, admitted_year=admitted_year ,
-           residential_status=residential_status,gender=gender,
-           address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone,admission_number=admission_number
-           )
+      find = Student.query.filter(Student.first_name.contains(firstname),Student.last_name.contains(lastname),
+                                  Student.other_name.contains(other_name)).first()
+      if find:
+            resp = jsonify("success")
+            resp.status_code =200
+            return resp
+      else:
+            std = Student(other_name=other_name,created_by_id=created_by_id,class_name=clname ,created_date=created_date,parent_name=parent_name,school_name=school_name,
+                student_number=student_number, admitted_year=admitted_year ,
+                residential_status=residential_status,gender=gender,
+                address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone,admission_number=admission_number
+                )
     #   bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
-      bd =BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
-                     school_name =usr.school_name,original_class_name=original_class_name)
-      usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
-                   hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
-                                    school_name=school_name)
+            bd =BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
+                            school_name =usr.school_name,original_class_name=original_class_name)
+            usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
+                        hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
+                                            school_name=school_name)
       db.session.add(std)
       db.session.add(bd)
       db.session.add(usr)
@@ -500,49 +507,55 @@ def add_grade():
           if (total in range(0,40)):
               remark  = " FAIL"
               grade = 9 
-          
-          grade = Grading( subject_name= subject_name,name=name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
-                 school_name=school_name ,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
-          
-          bd = BroadSheet.query.filter_by(student_number=student_number).first()
-          if (subject_name=="Science"):
-              bd.science = total
               
-          if (subject_name=="English"):
-              bd.english = total
-              
-          if (subject_name=="Mathematics"):
-              bd.math = total
-            
-          if (subject_name=="RME"):
-              bd.rme = total
-              
-          if (subject_name=="Creative Arts"):
-              bd.creativeart = total
-              
-          if (subject_name=="Social Studies"):
-              bd.social = total
-              
-          if (subject_name=="Computing"):
-              bd.computing = total
-              
-          if (subject_name=="French"):
-              bd.french = total
-              
-          if (subject_name=="Ghanaian Language"):
-              bd.ghanalanguage = total
+          if (total=="0" or total ==""):
+                resp = jsonify("skipped")
+                resp.status_code=200
+                return rep
+          else:
+                    
+                grade = Grading( subject_name= subject_name,name=name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
+                        school_name=school_name ,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
+                
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                if (subject_name=="Science"):
+                    bd.science = total
+                    
+                if (subject_name=="English"):
+                    bd.english = total
+                    
+                if (subject_name=="Mathematics"):
+                    bd.math = total
+                    
+                if (subject_name=="RME"):
+                    bd.rme = total
+                    
+                if (subject_name=="Creative Arts"):
+                    bd.creativeart = total
+                    
+                if (subject_name=="Social Studies"):
+                    bd.social = total
+                    
+                if (subject_name=="Computing"):
+                    bd.computing = total
+                    
+                if (subject_name=="French"):
+                    bd.french = total
+                    
+                if (subject_name=="Ghanaian Language"):
+                    bd.ghanalanguage = total
 
-                  
-          if (subject_name=="Career Tech"):
-              bd.careertech = total
-          
-          today = datetime.today()
-          acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-          term = acd.term
-          today = datetime.today()
-          bd.year=  today.year
-          bd.term=  term
-       
+                        
+                if (subject_name=="Career Tech"):
+                    bd.careertech = total
+                
+                today = datetime.today()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                bd.year=  today.year
+                bd.term=  term
+            
           
           db.session.add(grade)
    
@@ -562,35 +575,65 @@ def add_grade():
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
         #    bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science"):
-              bd.science = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.science = total
               
           if (subject_name=="English"):
-              bd.english = total
-              
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.english = total
+                
           if (subject_name=="Mathematics" or subject_name=="Math"):
-              bd.math = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.math = total
             
           if (subject_name=="RME"):
-              bd.rme = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.rme = total
               
           if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
-              bd.creativeart = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.creativeart = total
               
           if (subject_name=="Social Studies" or subject_name=="Social " ):
-              bd.social = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.social = total
               
           if (subject_name=="Computing" or  subject_name=="ICT"):
-              bd.computing = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.computing = total
               
           if (subject_name=="French"):
-              bd.math = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.french = total
               
           if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
-              bd.ghanalanguage = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.ghanalanguage = total
 
                   
           if (subject_name=="Career Tech" or subject_name=="Career Technology"):
-              bd.careertech = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.careertech = total
                   
           grd = Grading.query.filter_by(class_name=c_name ,original_class_name=class_name, subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
           lst= grd.order_by(desc(Grading.total)).all()
@@ -712,49 +755,54 @@ def add_result_by_excel():
               remark  = " FAIL"
               grade = 9 
           
-          
-          grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
-                     school_name=school_name ,original_class_name=original_class_name,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
-            
-          bd = BroadSheet.query.filter_by(student_number=student_number).first()
-          if (subject_name=="Science"):
-              bd.science = total
-              
-          if (subject_name=="English"):
-              bd.english = total
-              
-          if (subject_name=="Mathematics" or subject_name=="Math"):
-              bd.math = total
-            
-          if (subject_name=="RME"):
-              bd.rme = total
-              
-          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
-              bd.creativeart = total
-              
-          if (subject_name=="Social Studies" or subject_name=="Social " ):
-              bd.social = total
-              
-          if (subject_name=="Computing" or  subject_name=="ICT"):
-              bd.computing = total
-              
-          if (subject_name=="French"):
-              bd.math = total
-              
-          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
-              bd.ghanalanguage = total
+               
+          if (total=="0" or total ==""):
+                resp = jsonify("skipped")
+                resp.status_code=200
+                return rep
+          else:
+            grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
+                        school_name=school_name ,original_class_name=original_class_name,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
+                
+            bd = BroadSheet.query.filter_by(student_number=student_number).first()
+            if (subject_name=="Science"):
+                bd.science = total
+                
+            if (subject_name=="English"):
+                bd.english = total
+                
+            if (subject_name=="Mathematics" or subject_name=="Math"):
+                bd.math = total
+                
+            if (subject_name=="RME"):
+                bd.rme = total
+                
+            if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
+                bd.creativeart = total
+                
+            if (subject_name=="Social Studies" or subject_name=="Social " ):
+                bd.social = total
+                
+            if (subject_name=="Computing" or  subject_name=="ICT"):
+                bd.computing = total
+                
+            if (subject_name=="French"):
+                bd.math = total
+                
+            if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
+                bd.ghanalanguage = total
 
-                  
-          if (subject_name=="Career Tech" or subject_name=="Career Technology" or subject_name=="Carer Tech"):
-              bd.careertech = total
-          
-          today = datetime.today()
-          acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-          term = acd.term
-          today = datetime.today()
-          bd.year=  today.year
-          bd.term=  term
-       
+                    
+            if (subject_name=="Career Tech" or subject_name=="Career Technology" or subject_name=="Carer Tech"):
+                bd.careertech = total
+            
+            today = datetime.today()
+            acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+            term = acd.term
+            today = datetime.today()
+            bd.year=  today.year
+            bd.term=  term
+        
           
           db.session.add(grade)
    
@@ -771,31 +819,65 @@ def add_result_by_excel():
           l="k"        
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science"):
-              bd.science = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.science = total
               
           if (subject_name=="English"):
-              bd.english = total
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.english = total
+                
+          if (subject_name=="Mathematics" or subject_name=="Math"):
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.math = total
+            
+          if (subject_name=="RME"):
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.rme = total
               
-          if (subject_name=="Mathematics"):
-              bd.math = total
+          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.creativeart = total
               
-          if (subject_name=="Creative Arts"):
-              bd.creativeart = total
+          if (subject_name=="Social Studies" or subject_name=="Social " ):
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.social = total
               
-          if (subject_name=="Social Studies"):
-              bd.social = total
-              
-          if (subject_name=="Computing"):
-              bd.computing = total
+          if (subject_name=="Computing" or  subject_name=="ICT"):
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.computing = total
               
           if (subject_name=="French"):
-              bd.math = french
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.french = total
               
-          if (subject_name=="Ghanaian Language"):
-              bd.ghanalanguage = total
-      
-          if (subject_name=="Career Tech"):
-              bd.careertech = total
+          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.ghanalanguage = total
+
+                  
+          if (subject_name=="Career Tech" or subject_name=="Career Technology"):
+              if(total =="0" or total==""):
+                  return jsonify("skipped")
+              else:
+                bd.careertech = total
           grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
@@ -815,40 +897,43 @@ def add_result_by_excel():
 @flask_praetorian.auth_required
 def all_total():
     all_total = request.json["all_total"]
-    tot =int(all_total)
-    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    if (all_total =="0" or all_total ==""):
+        return jsonify("skipped")
+    else:
+        tot =int(all_total)
+        user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+        
     
-   
-    # cls = Class.query.filter_by(staff_number = user.username).first()
-    # midterm_score  = request.json["midterm_score"]
-    # class_name = request.json["class_name"]
-  
-  
- 
-    student_number = request.json["student_number"]
-    subject_name=  request.json["subject_name"]
-    # t = Student.query.filter_by(student_number=student_number).first()
-    bd  = BroadSheet.query.filter_by(student_number=student_number).first()
-  
-    tt=int(bd.all_total)
-    bd.all_total = tot + tt
-    # t.all_total = all_total
-    c="n"
-    db.session.commit()
-    # grd = Student.query.filter(Student.class_name==t.class_name )
-# brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
-    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-    term = acd.term
-    today = datetime.today()
-    year=  today.year
-    bd = BroadSheet.query.filter_by(student_number=student_number).first()
-    c =bd.class_name
-    brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-    lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+        # cls = Class.query.filter_by(staff_number = user.username).first()
+        # midterm_score  = request.json["midterm_score"]
+        # class_name = request.json["class_name"]
+    
+    
+    
+        student_number = request.json["student_number"]
+        subject_name=  request.json["subject_name"]
+        # t = Student.query.filter_by(student_number=student_number).first()
+        bd  = BroadSheet.query.filter_by(student_number=student_number).first()
+    
+        tt=int(bd.all_total)
+        bd.all_total = tot + tt
+        # t.all_total = all_total
+        c="n"
+        db.session.commit()
+        # grd = Student.query.filter(Student.class_name==t.class_name )
+    # brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
+        acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+        term = acd.term
+        today = datetime.today()
+        year=  today.year
+        bd = BroadSheet.query.filter_by(student_number=student_number).first()
+        c =bd.class_name
+        brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+        lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
-    for(pos,g) in enumerate(lst1):
-          
-                  g.pos = pos+1
+        for(pos,g) in enumerate(lst1):
+            
+                    g.pos = pos+1
     db.session.commit()
     resp = jsonify("success")
     resp.status_code=200
