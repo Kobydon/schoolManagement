@@ -761,7 +761,7 @@ def add_result_by_excel():
                 resp.status_code=200
                 return rep
           else:
-            gidi = Grading.query.filter_by(student_number=student_number).first()
+            gidi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name).first()
             if gidi:
                 return jsonify("skipped")
             
@@ -823,76 +823,105 @@ def add_result_by_excel():
          
           l="k"        
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
-          if (bd.all_total !="0"):
-              return jsonify("skipped")
-          else:
-            if (subject_name=="Science"):
-                if(total =="0" or total==""):
+        
+        
+          if (subject_name=="Science"):
+                if(bd.science is not None):
                     return jsonify("skipped")
                 else:
-                    bd.science = total
+                    if(total =="0" or total==""):
+                        return jsonify("skipped")
+                    else:
+                        bd.science = total
                 
-            if (subject_name=="English"):
-                if(total =="0" or total==""):
+          if (subject_name=="English"):
+                 if(bd.english is not None):
                     return jsonify("skipped")
-                else:
-                    bd.english = total
+                 else:
+                    if(total =="0" or total==""):
+                        return jsonify("skipped")
+                    else:
+                        bd.english = total
                     
-            if (subject_name=="Mathematics" or subject_name=="Math"):
-                if(total =="0" or total==""):
+          if (subject_name=="Mathematics" or subject_name=="Math"):
+                if(bd.math is not None):
                     return jsonify("skipped")
                 else:
-                    bd.math = total
+                    if(total =="0" or total==""):
+                        return jsonify("skipped")
+                    else:
+                        bd.math = total
                 
-            if (subject_name=="RME"):
-                if(total =="0" or total==""):
+          if (subject_name=="RME"):
+              if(bd.rme is not None):
                     return jsonify("skipped")
-                else:
-                    bd.rme = total
+              else:
+                    if(total =="0" or total==""):
+                        return jsonify("skipped")
+                    else:
+                        bd.rme = total
                 
-            if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
-                if(total =="0" or total==""):
+          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
+                if(bd.creative is not None):
                     return jsonify("skipped")
                 else:
-                    bd.creativeart = total
+                    if(total =="0" or total==""):
+                        return jsonify("skipped")
+                    else:
+                        bd.creativeart = total
                 
-            if (subject_name=="Social Studies" or subject_name=="Social " ):
-                if(total =="0" or total==""):
+          if (subject_name=="Social Studies" or subject_name=="Social " ):
+                if(bd.social is not None):
                     return jsonify("skipped")
                 else:
-                    bd.social = total
+                    if(total =="0" or total==""):
+                        return jsonify("skipped")
+                    else:
+                        bd.social = total
                 
-            if (subject_name=="Computing" or  subject_name=="ICT"):
-                if(total =="0" or total==""):
+          if (subject_name=="Computing" or  subject_name=="ICT"):
+                if(bd.computing is not None):
                     return jsonify("skipped")
                 else:
-                    bd.computing = total
+                    if(total =="0" or total==""):
+                        return jsonify("skipped")
+                    else:
+                        bd.computing = total
                 
-            if (subject_name=="French"):
-                if(total =="0" or total==""):
+          if (subject_name=="French"):
+                if(bd.french is not None):
                     return jsonify("skipped")
                 else:
-                    bd.french = total
+                    if(total =="0" or total==""):
+                        return jsonify("skipped")
+                    else:
+                        bd.french = total
                 
-            if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
-                if(total =="0" or total==""):
+          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
+                if(bd.ghanalanguage is not None):
                     return jsonify("skipped")
                 else:
-                    bd.ghanalanguage = total
+                    if(total =="0" or total==""):
+                        return jsonify("skipped")
+                    else:
+                        bd.ghanalanguage = total
 
                     
-            if (subject_name=="Career Tech" or subject_name=="Career Technology"):
-                if(total =="0" or total==""):
+          if (subject_name=="Career Tech" or subject_name=="Career Technology"):
+                if(bd.careertech is not None):
                     return jsonify("skipped")
                 else:
-                    bd.careertech = total
+                    if(total =="0" or total==""):
+                        return jsonify("skipped")
+                    else:
+                        bd.careertech = total
             grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
             lst= grd.order_by(desc(Grading.total)).all()
             for(rank,g) in enumerate(lst):
             
                 g.rank = rank+1
             
-         
+            
             
           db.session.commit()
           db.session.close()
