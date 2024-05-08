@@ -915,16 +915,16 @@ def add_result_by_excel():
                         return jsonify("skipped")
                     else:
                         bd.careertech = total
-          grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
-          lst= grd.order_by(desc(Grading.total)).all()
-          for(rank,g) in enumerate(lst):
+                        grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
+                        lst= grd.order_by(desc(Grading.total)).all()
+                        for(rank,g) in enumerate(lst):
+                            
+                                g.rank = rank+1
+                            
+                            
             
-                g.rank = rank+1
-            
-            
-            
-          db.session.commit()
-          db.session.close()
+                                db.session.commit()
+                                db.session.close()
           resp = jsonify("Success")
           resp.status_code=200
           return  resp            
