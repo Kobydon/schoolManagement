@@ -71,7 +71,11 @@ def add_student():
       first_three = sch.school_name[:4] + str(cc)
       student_number = first_three
     
-      admission_number = request.json["admission_number"]
+      try:
+            admission_number = request.json["admission_number"]
+            
+      except:
+            admission_number =""
       admitted_year =request.json["admitted_year"]
     #   picture_one =request.json["picture_one"]
     #   course_name =request.json[""]
