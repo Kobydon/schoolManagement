@@ -58,7 +58,7 @@ class schoolSchema(ma.Schema):
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name",
-                "exam_name","district","circuit","status" )
+                "exam_name","district","circuit","status" ,"role")
         
 
 
@@ -1313,11 +1313,19 @@ def add_notice():
     name= request.json["name"]
     note =request.json["note"]
     date =request.json["date"]
+    # note =request.json["note"]
+    role =  request.json["role"]
+    if (role =="all"):
+        rle ="admin,accountant,student,teacher"
+        
+    else:
+        rle =role
+        
     # usr = user.firstname +" " + user.lastname
     created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
     ntc = Notice(name=name,note=note,date=date,
                    created_by_id=flask_praetorian.current_user().id ,
-                   created_date=created_date,school_name=user.school_name)
+                   created_date=created_date,school_name=user.school_name,role=rle)
   
     db.session.add(ntc)
     db.session.commit()
@@ -1332,7 +1340,7 @@ def add_notice():
 @flask_praetorian.auth_required
 def get_notice_list():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    ntc = Notice.query.filter_by(school_name=user.school_name)
+    ntc = Notice.query.filter(Notice.school_name.contains(user.school_name),Notice.role.contains(user.roles))
     btc = ntc.order_by(desc(Notice.date))
     result = school_schema.dump(btc)
     return jsonify(result)
@@ -1353,10 +1361,16 @@ def get_notice(id):
 @school.route("/update_notice",methods=['PUT'])
 @flask_praetorian.auth_required
 def update_notice():
+    role =  request.json["role"]
+    if (role =="all"):
+        rle ="admin,accountant,student,teacher"
+        
+    else:
+        rle =role
     id = request.json["id"]
     sub_data = Notice.query.filter_by(id=id).first()
     sub_data.name = request.json["name"]
-   
+    sub_data.role = rle
     sub_data.note = request.json["note"]
     sub_data.date =request.json["date"]
     db.session.commit()

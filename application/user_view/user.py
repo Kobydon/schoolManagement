@@ -210,11 +210,11 @@ def update_user_profile():
             # user.about =request.json["about"]
             user.lastname =request.json["lastname"]
             
-            picture = request.json["picture"]
-            if picture is None:
-                user.picture= user.picture
-            else:
-                 user.picture = picture
+            # picture = request.json["picture"]
+            # if picture is None:
+            #     user.picture= user.picture
+            # else:
+            #      user.picture = picture
                  
             if password is None :
                  user.password = user.password
