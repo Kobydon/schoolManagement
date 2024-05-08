@@ -1353,6 +1353,15 @@ def get_notice_list():
     return jsonify(result)
 
 
+@school.route("/get_all_notice_list",methods=['GET'])
+@flask_praetorian.auth_required
+def get_all_notice_list():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    ntc = Notice.query.filter(Notice.school_name ==user.school_name)
+    btc = ntc.order_by(desc(Notice.date))
+    result = school_schema.dump(btc)
+    return jsonify(result)
+
 
 @school.route("/get_notice/<id>",methods=['GET'])
 @flask_praetorian.auth_required
