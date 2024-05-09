@@ -915,9 +915,9 @@ def add_result_by_excel():
                         return jsonify("skipped")
                     else:
                         bd.careertech = total
-          grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
-          lst= grd.order_by(desc(Grading.total)).all()
-          for(rank,g) in enumerate(lst):
+            grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
+            lst= grd.order_by(desc(Grading.total)).all()
+            for(rank,g) in enumerate(lst):
             
                 g.rank = rank+1
             
@@ -951,18 +951,13 @@ def all_total():
         subject_name =  request.json["subject_name"]
         # t = Student.query.filter_by(student_number=student_number).first()
         bd  = BroadSheet.query.filter_by(student_number=student_number).first()
-        if bd:
         
     
-            tt=int(bd.all_total)
-            bd.all_total = tot + tt
-            # t.all_total = all_total
-            c="n"
-            db.session.commit()
-            
-        else:
-            return jsonify("skipped")
-       
+        tt=int(bd.all_total)
+        bd.all_total = tot + tt
+        # t.all_total = all_total
+        c="n"
+        db.session.commit()
         # grd = Student.query.filter(Student.class_name==t.class_name )
     # brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
         acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
