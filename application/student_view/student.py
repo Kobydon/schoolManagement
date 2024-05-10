@@ -830,7 +830,7 @@ def add_result_by_excel():
 def all_total():
     all_total = request.json["all_total"]
     canpost = request.json["canpost"]
-    tot =float(all_total)
+    tot =int(all_total)
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
    
@@ -846,7 +846,7 @@ def all_total():
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
     
     if(canpost!="skip"):
-        tt=float(bd.all_total)
+        tt=int(bd.all_total)
         bd.all_total=tt+tot
         # t.all_total = all_total
         c="n"
