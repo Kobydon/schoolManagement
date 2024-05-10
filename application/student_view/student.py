@@ -690,7 +690,7 @@ def add_result_by_excel():
               remark  = " GOOD"
               grade = 3
               
-          if (total in range(60,64)):
+          if (total in range(60,65)):
               remark  = "CREDIT"
               grade = 4
           
