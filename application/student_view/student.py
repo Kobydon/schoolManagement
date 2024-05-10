@@ -766,6 +766,9 @@ def add_result_by_excel():
           if gdi:
               return jsonify("skip")
           
+          if total =="":
+              return jsonify("skip")
+          
           else:
                 db.session.add(grade)
         
