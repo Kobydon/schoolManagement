@@ -20,7 +20,7 @@ class StudentSchema(ma.Schema):
                 "attendance","class_term","grade","rank","pos","term","grade_id","staff_number","name",
                 "status","amount","method","balance","paid_by","student","date","fees_type","cls",
                 "other_name",
-                "rme","science","math","social","pos","creativeart","careertech","english","computing","answer"
+                "rme","science","math","social","pos","creativeart","careertech","english","computing",
                 "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa","admission_number"
 )
         
@@ -764,14 +764,11 @@ def add_result_by_excel():
        
           gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name).first()
           if gdi:
-              answer ={"answer":"skip"}
-              result = student_schema.dump(answer)
-              return "skip"
+              
+              return jsonify("skip")
           
           if total =="":
-              answer ={"answer":"skip"}
-              result = student_schema.dump(answer)
-              return "skip"
+              return jsonify("skip")
           
           else:
                 db.session.add(grade)
