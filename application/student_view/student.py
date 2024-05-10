@@ -764,7 +764,6 @@ def add_result_by_excel():
        
           gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name).first()
           if gdi:
-              
               return jsonify("skip")
           
           if total =="":
@@ -845,16 +844,14 @@ def all_total():
     subject_name=  request.json["subject_name"]
     # t = Student.query.filter_by(student_number=student_number).first()
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
-    
-    if(canpost=="skip"):
-       return jsonify("skip")
+
    
-    else:
-         tt=int(bd.all_total)
-         bd.all_total=tt+tot
+  
+    tt=int(bd.all_total)
+    bd.all_total=tt+tot
         # t.all_total = all_total
          c="n"
-         db.session.commit()
+    db.session.commit()
     # grd = Student.query.filter(Student.class_name==t.class_name )
 # brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
     acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
