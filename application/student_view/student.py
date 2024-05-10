@@ -766,12 +766,12 @@ def add_result_by_excel():
           if gdi:
               answer ={"answer":"skip"}
               result = student_schema.dump(answer)
-              return jsonify(result)
+              return "skip"
           
           if total =="":
               answer ={"answer":"skip"}
               result = student_schema.dump(answer)
-              return result
+              return "skip"
           
           else:
                 db.session.add(grade)
