@@ -1769,3 +1769,4 @@ def update_exam_attendance():
     resp = jsonify("success")
     resp.status_code=201
     return resp
+  

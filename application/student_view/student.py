@@ -20,7 +20,7 @@ class StudentSchema(ma.Schema):
                 "attendance","class_term","grade","rank","pos","term","grade_id","staff_number","name",
                 "status","amount","method","balance","paid_by","student","date","fees_type","cls",
                 "other_name",
-                "rme","science","math","social","pos","creativeart","careertech","english","computing",
+                "rme","science","math","social","pos","creativeart","careertech","english","computing","answer"
                 "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa","admission_number"
 )
         
@@ -66,8 +66,8 @@ def add_student():
      
       sch = School.query.filter_by(username=usr.username).first()
     
-      sc = Student.query.filter_by(school_name=sch.school_name).count()
-      cc = int(sc)+1
+    #   sc = Student.query.filter_by(school_name=sch.school_name).count()
+    #   cc = int(sc)+1
       first_three = sch.school_name[:4] + str(cc)
       
       student_number = first_three
@@ -764,10 +764,14 @@ def add_result_by_excel():
        
           gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name).first()
           if gdi:
-              return jsonify("skip")
+              answer ={"answer":"skip"}
+              result = student_schema.dump(answer)
+              return jsonify(result)
           
           if total =="":
-              return jsonify("skip")
+              answer ={"answer":"skip"}
+              result = student_schema.dump(answer)
+              return jsonify(result)
           
           else:
                 db.session.add(grade)
@@ -845,17 +849,16 @@ def all_total():
     # t = Student.query.filter_by(student_number=student_number).first()
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
     
-    # if(canpost=="skip"):
-    #    return jsonify("skip")
+    if(canpost=="skip"):
+       return jsonify("skip")
    
-    # else:
-    tt=int(bd.all_total)
-    bd.all_total=tt+tot
-# t.all_total = all_total
-    c="n"
-    
-    db.session.commit()
-    
+    else:
+         tt=int(bd.all_total)
+         bd.all_total=tt+tot
+        # t.all_total = all_total
+         c="n"
+         db.session.commit()
+    # grd = Student.query.filter(Student.class_name==t.class_name )
 # brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
     acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
     term = acd.term
