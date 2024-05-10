@@ -674,7 +674,7 @@ def add_result_by_excel():
           
         
           l=2
-          total = int(class_score) + int(exams_score) 
+          total = float(class_score) + float(exams_score) 
 
           if (total in range(80,101)):
               remark  = "EXCELLENT"
@@ -762,10 +762,14 @@ def add_result_by_excel():
           bd.year=  today.year
           bd.term=  term
        
+          gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name).first()
+          if gdi:
+              return jsonify("skip")
           
-          db.session.add(grade)
-   
-          db.session.commit()
+          else:
+                db.session.add(grade)
+        
+                db.session.commit()
      
         #   if (class_name =="JHS 1A" or class_name=="JHS 1B"):
         #             c_name = class_name[:5] 
@@ -836,9 +840,10 @@ def all_total():
     subject_name=  request.json["subject_name"]
     # t = Student.query.filter_by(student_number=student_number).first()
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
+    
   
     tt=int(bd.all_total)
-    bd.all_total = tot + tt
+    bd.all_total =all_total
     # t.all_total = all_total
     c="n"
     db.session.commit()
