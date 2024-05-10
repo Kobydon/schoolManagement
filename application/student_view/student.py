@@ -771,7 +771,7 @@ def add_result_by_excel():
           if total =="":
               answer ={"answer":"skip"}
               result = student_schema.dump(answer)
-              return jsonify(result)
+              return result
           
           else:
                 db.session.add(grade)
