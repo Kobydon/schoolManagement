@@ -843,7 +843,7 @@ def all_total():
     
   
     tt=int(bd.all_total)
-    bd.all_total =all_total
+    bd.all_total+=tt
     # t.all_total = all_total
     c="n"
     db.session.commit()
