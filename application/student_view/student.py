@@ -826,7 +826,7 @@ def add_result_by_excel():
 @flask_praetorian.auth_required
 def all_total():
     all_total = request.json["all_total"]
-    tot =int(all_total)
+    tot =float(all_total)
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
    
@@ -842,7 +842,7 @@ def all_total():
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
     
   
-    tt=int(bd.all_total)
+    tt=float(bd.all_total)
     bd.all_total+=tt
     # t.all_total = all_total
     c="n"
