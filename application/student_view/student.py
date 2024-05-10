@@ -845,14 +845,14 @@ def all_total():
     # t = Student.query.filter_by(student_number=student_number).first()
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
     
-    if(canpost=="skip"):
-       return jsonify("skip")
+    # if(canpost=="skip"):
+    #    return jsonify("skip")
    
-    else:
-         tt=int(bd.all_total)
-         bd.all_total=tt+tot
-        # t.all_total = all_total
-         c="n"
+    # else:
+    tt=int(bd.all_total)
+    bd.all_total=tt+tot
+# t.all_total = all_total
+    c="n"
     
     db.session.commit()
     
