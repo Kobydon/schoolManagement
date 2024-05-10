@@ -829,6 +829,7 @@ def add_result_by_excel():
 @flask_praetorian.auth_required
 def all_total():
     all_total = request.json["all_total"]
+    canpost = request.json["canpost"]
     tot =float(all_total)
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
@@ -844,12 +845,12 @@ def all_total():
     # t = Student.query.filter_by(student_number=student_number).first()
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
     
-  
-    tt=float(bd.all_total)
-    bd.all_total=tt+tot
-    # t.all_total = all_total
-    c="n"
-    db.session.commit()
+    if(canpost!="skip"):
+        tt=float(bd.all_total)
+        bd.all_total=tt+tot
+        # t.all_total = all_total
+        c="n"
+        db.session.commit()
     # grd = Student.query.filter(Student.class_name==t.class_name )
 # brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
     acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
