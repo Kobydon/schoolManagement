@@ -846,10 +846,11 @@ def all_total():
     bd  = BroadSheet.query.filter_by(student_number=student_number).first()
     
     if(subject_name=="Computing"):
-       bd  = BroadSheet.query.filter_by(student_number =student_number,computing!="").first()
-       if(bd):
-       
-            return jsonify("skip")
+        
+        b  = BroadSheet.query.filter(BroadSheet.student_number =student_number,BroadSheet.computing!="").first()
+        if(b):
+        
+                return jsonify("skip")
    
     else:
          tt=int(bd.all_total)
