@@ -674,7 +674,7 @@ def add_result_by_excel():
           
         
           l=2
-          total = int(class_score) + int(exams_score) 
+          total = float(class_score) + float(exams_score) 
 
           if (total in range(80,101)):
               remark  = "EXCELLENT"
@@ -830,7 +830,7 @@ def add_result_by_excel():
 def all_total():
     all_total = request.json["all_total"]
     canpost = request.json["canpost"]
-    tot =int(all_total)
+    tot =float(all_total)
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
    
@@ -849,7 +849,7 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,computing="").first()
         if(b):
-                tt=int(bd.all_total)
+                tt=float(bd.all_total)
                 bd.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
