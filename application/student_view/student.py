@@ -830,7 +830,9 @@ def add_result_by_excel():
 @student.route("/all_total",methods=["POST"])
 @flask_praetorian.auth_required
 def all_total():
-   
+    all_total = request.json["all_total"]
+    # canpost = request.json["canpost"]
+    tot =int(all_total)
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
    
@@ -849,15 +851,11 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,computing="").first()
         if(b):
-                all_total = request.json["all_total"]
-
-                tot =int(all_total)
                 tt=int(bd.all_total)
-                bd.all_total=tt+tot
+                b.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
-                db.session.close()
                 acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
                 term = acd.term
                 today = datetime.today()
@@ -871,7 +869,6 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-                db.session.close()
     else:
         return jsonify("skip")
     
@@ -882,15 +879,11 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,social="").first()
         if(b):
-                all_total = request.json["all_total"]
-
-                tot =int(all_total)
                 tt=int(bd.all_total)
-                bd.all_total=tt+tot
+                b.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
-                db.session.close()
                 acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
                 term = acd.term
                 today = datetime.today()
@@ -904,7 +897,6 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-                db.session.close()
     else:
         return jsonify("skip")
     
@@ -914,15 +906,11 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,rme="").first()
         if(b):
-                all_total = request.json["all_total"]
-
-                tot =int(all_total)
                 tt=int(bd.all_total)
-                bd.all_total=tt+tot
+                b.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
-                db.session.close()
                 acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
                 term = acd.term
                 today = datetime.today()
@@ -936,7 +924,6 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-                db.session.close()
     else:
         return jsonify("skip")
     
@@ -946,15 +933,11 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,math="").first()
         if(b):
-                all_total = request.json["all_total"]
-
-                tot =int(all_total)
                 tt=int(bd.all_total)
-                bd.all_total=tt+tot
+                b.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
-                db.session.close()
                 acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
                 term = acd.term
                 today = datetime.today()
@@ -968,7 +951,6 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-                db.session.close()
     else:
         return jsonify("skip")
     
@@ -977,15 +959,11 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,careertech="").first()
         if(b):
-                all_total = request.json["all_total"]
-
-                tot =int(all_total)
                 tt=int(bd.all_total)
-                bd.all_total=tt+tot
+                b.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
-                db.session.close()
                 acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
                 term = acd.term
                 today = datetime.today()
@@ -999,7 +977,6 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-                db.session.close()
     else:
         return jsonify("skip")
     
@@ -1009,15 +986,11 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,english="").first()
         if(b):
-                all_total = request.json["all_total"]
-
-                tot =int(all_total)
                 tt=int(bd.all_total)
-                bd.all_total=tt+tot
+                b.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
-                db.session.close()
                 acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
                 term = acd.term
                 today = datetime.today()
@@ -1031,7 +1004,6 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-                db.session.close()
     else:
         return jsonify("skip")
     
@@ -1042,12 +1014,11 @@ def all_total():
         b  = BroadSheet.query.filter_by(student_number =student_number,science="").first()
         if(b):
                 tt=int(bd.all_total)
-                bd.all_total=tt+tot
+                b.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 
                 db.session.commit()
-                db.session.close()
                 acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
                 term = acd.term
                 today = datetime.today()
@@ -1061,7 +1032,6 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-                db.session.close()
     else:
         return jsonify("skip")
     
@@ -1070,15 +1040,11 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,creativeart="").first()
         if(b):
-                all_total = request.json["all_total"]
-
-                tot =int(all_total)
                 tt=int(bd.all_total)
-                bd.all_total=tt+tot
+                b.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
-                db.session.close()
                 acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
                 term = acd.term
                 today = datetime.today()
@@ -1092,7 +1058,6 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-                db.session.close()
     else:
         return jsonify("skip")
     
@@ -1102,16 +1067,12 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,french="").first()
         if(b):
-                all_total = request.json["all_total"]
-
-                tot =int(all_total)
                 tt=int(bd.all_total)
-                bd.all_total=tt+tot
+                b.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 
                 db.session.commit()
-                db.session.close()
                 acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
                 term = acd.term
                 today = datetime.today()
@@ -1125,7 +1086,6 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-                db.session.close()
     else:
         return jsonify("skip")
     
@@ -1136,15 +1096,11 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,ghanalanguage="").first()
         if(b):
-                all_total = request.json["all_total"]
-
-                tot =int(all_total)
                 tt=int(bd.all_total)
-                bd.all_total=tt+tot
+                b.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
-                db.session.close()
                 acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
                 term = acd.term
                 today = datetime.today()
@@ -1158,7 +1114,6 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-                db.session.close()
     else:
         return jsonify("skip")
     
