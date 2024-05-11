@@ -850,9 +850,10 @@ def all_total():
     grading= db.session.query(Grading).filter(Grading.student_number ==b.student_number).all()
 
     tt=sum(int(grade.total) for grade in grading )
-    b.all_total=tt
-    
-    db.session.commit()
+    if b:
+        b.all_total=tt
+        
+        db.session.commit()
     acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
     term = acd.term
     today = datetime.today()
