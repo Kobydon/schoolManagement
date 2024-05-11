@@ -326,7 +326,7 @@ def get_student_by_class():
     # stf = Staff.query.filter_by(staff_number=user.username).first()
     cls = Class.query.filter_by(school_name = user.school_name).first()
     std = Student.query.filter_by(school_name = user.school_name,class_name=cls.class_name)
-    la = std.order_by(Student.first_name.asc(),Student.student_number.asc())
+    la = std.order_by(desc(Student.first_name),desc(Student.student_number))
     result = student_schema.dump(la)
     return jsonify(result)
 @student.route("/get_student",methods=['GET'])
@@ -434,7 +434,7 @@ def change_grade():
 def get_all_students():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     std = Student.query.filter_by(school_name=user.school_name)
-    la = std.order_by(Student.first_name.asc(),Student.student_number.asc())
+    la = std.order_by(desc(Student.first_name),desc(Student.student_number))
     result = student_schema.dump(la)
     return jsonify(result) 
   
@@ -1020,7 +1020,7 @@ def my_grade():
       grade = Grading.query.filter_by(original_class_name=class_name,subject_name=subject_name,
                                       created_by_id= flask_praetorian.current_user().id,
                                       term=term,year=str(year))
-      la = grade.order_by(Grading.total.asc())
+      la = grade.order_by(desc(Grading.total))
       result = student_schema.dump(la)
       return jsonify(result)
       
@@ -1565,7 +1565,7 @@ def get_broadsheet():
    
     rmk = BroadSheet.query.filter_by(school_name=user.school_name
                                       ,original_class_name=clas.class_name)
-    la = rmk.order_by(BroadSheet.all_total.asc())
+    la = rmk.order_by(desc(BroadSheet.all_total))
     result = student_schema.dump(la)
     return jsonify(result) 
 
@@ -1616,7 +1616,7 @@ def search_broadsheet():
         c_name =class_name
         
     bd = BroadSheet.query.filter_by(class_name= c_name ,   term=term , year=year,school_name=user.school_name)
-    la = bd.order_by(BroadSheet.all_total.asc())
+    la = bd.order_by(desc(BroadSheet.all_total))
     result = student_schema.dump(la)
     return jsonify(result)
           
