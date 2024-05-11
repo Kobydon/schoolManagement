@@ -13,7 +13,7 @@ from flask import session
 from  application.user_view.user import user
 from  application.student_view.student import student
 from  application.school_view.school import school
-from application.database.main_db.db import db
+from application.database.main_db.db import *
 # from  application.client_view.client import client
 #from  application.room_view.room import room
 #from  application.employee_view.employee import employee
