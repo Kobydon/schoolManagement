@@ -832,7 +832,7 @@ def add_result_by_excel():
 def all_total():
     all_total = request.json["all_total"]
     # canpost = request.json["canpost"]
-    tot =int(all_total)
+    # tot =int(all_total)
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
    
@@ -845,285 +845,40 @@ def all_total():
     student_number = request.json["student_number"]
     subject_name=  request.json["subject_name"]
     # t = Student.query.filter_by(student_number=student_number).first()
-    bd  = BroadSheet.query.filter_by(student_number=student_number).first()
+    # bd  = BroadSheet.query.filter_by(student_number=student_number).first()
     
-    if(subject_name=="Computing"):
+    
         
-        b  = BroadSheet.query.filter(BroadSheet.student_number ==student_number,BroadSheet.computing =="").first()
+    b  = BroadSheet.query.filter(BroadSheet.student_number ==student_number).first()
+    grading= Grading.filter(Grading.student_number ==student_number,Grading.total !="").first()
 
-        tt=int(bd.all_total)
-        b.all_total=tt+tot
-        # t.all_total = all_total
-        c="n"
-        db.session.commit()
-        acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-        term = acd.term
-        today = datetime.today()
-        year=  today.year
-        bd = BroadSheet.query.filter_by(student_number=student_number).first()
-        c =bd.class_name
-        brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-        lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+    tt=sum(int(bd.total) for grade in grading )
+    b.all_total=tt
+    
+    db.session.commit()
+    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+    term = acd.term
+    today = datetime.today()
+    year=  today.year
+    bd = BroadSheet.query.filter_by(student_number=student_number).first()
+    c =bd.class_name
+    brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+    lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
-        for(pos,g) in enumerate(lst1):
-            
-                    g.pos = pos+1
-        db.session.commit()
+    for(pos,g) in enumerate(lst1):
         
-    else:
-        return jsonify("skip")
+                g.pos = pos+1
+             
         
-    
-    
-     
-    if(subject_name=="Social Studies"):
+   
         
-        b  = BroadSheet.query.filter_by(student_number =student_number,social="").first()
-        if(b):
-                tt=int(bd.all_total)
-                b.all_total=tt+tot
-                # t.all_total = all_total
-                c="n"
-                db.session.commit()
-                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-                term = acd.term
-                today = datetime.today()
-                year=  today.year
-                bd = BroadSheet.query.filter_by(student_number=student_number).first()
-                c =bd.class_name
-                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-
-                for(pos,g) in enumerate(lst1):
-                    
-                            g.pos = pos+1
-                db.session.commit()
-        else:
-            return jsonify("skip")
-        
-    
-     
-    if(subject_name=="RME"):
-        
-        b  = BroadSheet.query.filter_by(student_number =student_number,rme="").first()
-        if(b):
-                tt=int(bd.all_total)
-                b.all_total=tt+tot
-                # t.all_total = all_total
-                c="n"
-                db.session.commit()
-                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-                term = acd.term
-                today = datetime.today()
-                year=  today.year
-                bd = BroadSheet.query.filter_by(student_number=student_number).first()
-                c =bd.class_name
-                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-
-                for(pos,g) in enumerate(lst1):
-                    
-                            g.pos = pos+1
-                db.session.commit()
-        else:
-            return jsonify("skip")
-    
-    
-     
-    if(subject_name=="Math " or subject_name=="Mathematics "):
-        
-        b  = BroadSheet.query.filter_by(student_number =student_number,math="").first()
-        if(b):
-                tt=int(bd.all_total)
-                b.all_total=tt+tot
-                # t.all_total = all_total
-                c="n"
-                db.session.commit()
-                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-                term = acd.term
-                today = datetime.today()
-                year=  today.year
-                bd = BroadSheet.query.filter_by(student_number=student_number).first()
-                c =bd.class_name
-                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-
-                for(pos,g) in enumerate(lst1):
-                    
-                            g.pos = pos+1
-                db.session.commit()
-        else:
-            return jsonify("skip")
-        
-      
-    if(subject_name=="Career Tech " or subject_name=="Career Technology "):
-        
-        b  = BroadSheet.query.filter_by(student_number =student_number,careertech="").first()
-        if(b):
-                tt=int(bd.all_total)
-                b.all_total=tt+tot
-                # t.all_total = all_total
-                c="n"
-                db.session.commit()
-                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-                term = acd.term
-                today = datetime.today()
-                year=  today.year
-                bd = BroadSheet.query.filter_by(student_number=student_number).first()
-                c =bd.class_name
-                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-
-                for(pos,g) in enumerate(lst1):
-                    
-                            g.pos = pos+1
-                db.session.commit()
-        else:
-            return jsonify("skip")
-    
-    
-       
-    if(subject_name=="English "):
-        
-        b  = BroadSheet.query.filter_by(student_number =student_number,english="").first()
-        if(b):
-                tt=int(bd.all_total)
-                b.all_total=tt+tot
-                # t.all_total = all_total
-                c="n"
-                db.session.commit()
-                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-                term = acd.term
-                today = datetime.today()
-                year=  today.year
-                bd = BroadSheet.query.filter_by(student_number=student_number).first()
-                c =bd.class_name
-                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-
-                for(pos,g) in enumerate(lst1):
-                    
-                            g.pos = pos+1
-                db.session.commit()
-        else:
-            return jsonify("skip")
-        
-    
-    
-    if(subject_name=="Science "):
-        
-        b  = BroadSheet.query.filter_by(student_number =student_number,science="").first()
-        if(b):
-                tt=int(bd.all_total)
-                b.all_total=tt+tot
-                # t.all_total = all_total
-                c="n"
-                
-                db.session.commit()
-                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-                term = acd.term
-                today = datetime.today()
-                year=  today.year
-                bd = BroadSheet.query.filter_by(student_number=student_number).first()
-                c =bd.class_name
-                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-
-                for(pos,g) in enumerate(lst1):
-                    
-                            g.pos = pos+1
-                db.session.commit()
-        else:
-            return jsonify("skip")
-        
-        
-    if(subject_name=="Creative Art " or subject_name=="Creative Arts & Design " or subject_name=="Creative Arts"):
-        
-        b  = BroadSheet.query.filter_by(student_number =student_number,creativeart="").first()
-        if(b):
-                tt=int(bd.all_total)
-                b.all_total=tt+tot
-                # t.all_total = all_total
-                c="n"
-                db.session.commit()
-                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-                term = acd.term
-                today = datetime.today()
-                year=  today.year
-                bd = BroadSheet.query.filter_by(student_number=student_number).first()
-                c =bd.class_name
-                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-
-                for(pos,g) in enumerate(lst1):
-                    
-                            g.pos = pos+1
-                db.session.commit()
-        else:
-            return jsonify("skip")
-    
-    
-     
-    if(subject_name=="French "):
-        
-        b  = BroadSheet.query.filter_by(student_number =student_number,french="").first()
-        if(b):
-                tt=int(bd.all_total)
-                b.all_total=tt+tot
-                # t.all_total = all_total
-                c="n"
-                
-                db.session.commit()
-                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-                term = acd.term
-                today = datetime.today()
-                year=  today.year
-                bd = BroadSheet.query.filter_by(student_number=student_number).first()
-                c =bd.class_name
-                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-
-                for(pos,g) in enumerate(lst1):
-                    
-                            g.pos = pos+1
-                db.session.commit()
-        else:
-            return jsonify("skip")
-    
-    
-     
-    if(subject_name=="Asante Twi " or subject_name =="Twi" or subject_name =="Ghanaian Language"):
-        
-        
-        b  = BroadSheet.query.filter_by(student_number =student_number,ghanalanguage="").first()
-        if(b):
-                tt=int(bd.all_total)
-                b.all_total=tt+tot
-                # t.all_total = all_total
-                c="n"
-                db.session.commit()
-                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-                term = acd.term
-                today = datetime.today()
-                year=  today.year
-                bd = BroadSheet.query.filter_by(student_number=student_number).first()
-                c =bd.class_name
-                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-
-                for(pos,g) in enumerate(lst1):
-                    
-                            g.pos = pos+1
-                db.session.commit()
-        else:
-            return jsonify("skip")
-        
-    
     
 
-    resp = jsonify("success")
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("Success")
     resp.status_code=200
-    return resp
+    return  resp    
             
  
  
