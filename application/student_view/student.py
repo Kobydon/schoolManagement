@@ -852,7 +852,7 @@ def all_total():
     b  = BroadSheet.query.filter(BroadSheet.student_number ==student_number).first()
     grading= Grading.filter(Grading.student_number ==student_number,Grading.total !="").first()
 
-    tt=sum(int(bd.total) for grade in grading )
+    tt=sum(int(grade.total) for grade in grading )
     b.all_total=tt
     
     db.session.commit()
