@@ -849,7 +849,7 @@ def all_total():
     
     if(subject_name=="Computing"):
         
-        b  = BroadSheet.query.filter_by(student_number =student_number,computing="").first()
+        b  = BroadSheet.query.filter(BroadSheet.student_number ==student_number,BroadSheet.computing =="").first()
         if(b):
                 tt=int(bd.all_total)
                 b.all_total=tt+tot
