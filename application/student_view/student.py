@@ -972,7 +972,8 @@ def all_total():
     
     
      
-    if(subject_name=="Asante Twi " or subject_name =="Twi" or subject_name ="Ghanaian Language"):
+    if(subject_name=="Asante Twi " or subject_name =="Twi" or subject_name =="Ghanaian Language"):
+        
         
         b  = BroadSheet.query.filter_by(student_number =student_number,ghanalanguage="").first()
         if(b):
