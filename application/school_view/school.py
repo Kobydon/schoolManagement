@@ -610,7 +610,8 @@ def add_staff():
 @flask_praetorian.auth_required
 def get_staff():
     user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
-    stf = Staff.query.filter_by(school_name = user.school_name)
+    stf = Staff.query.filter_by(school_name = user.school_name).all()
+    la = stf.order_by(Staff.firstname.asc()).all
     result = staff_schema.dump(stf)
     return jsonify(result)
 

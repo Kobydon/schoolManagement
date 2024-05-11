@@ -326,7 +326,8 @@ def get_student_by_class():
     # stf = Staff.query.filter_by(staff_number=user.username).first()
     cls = Class.query.filter_by(school_name = user.school_name).first()
     std = Student.query.filter_by(school_name = user.school_name,class_name=cls.class_name).all()
-    result = student_schema.dump(std)
+    la = std.order_by(Student.first_name.asc(),Student.student_number.asc()).all
+    result = student_schema.dump(la)
     return jsonify(result)
 @student.route("/get_student",methods=['GET'])
 @flask_praetorian.auth_required
@@ -433,7 +434,8 @@ def change_grade():
 def get_all_students():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     std = Student.query.filter_by(school_name=user.school_name)
-    result = student_schema.dump(std)
+    la = std.order_by(Student.first_name.asc(),Student.student_number.asc()).all
+    result = student_schema.dump(la)
     return jsonify(result) 
   
       
@@ -830,7 +832,7 @@ def add_result_by_excel():
 def all_total():
     all_total = request.json["all_total"]
     canpost = request.json["canpost"]
-    tot =float(all_total)
+    tot =int(all_total)
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
    
@@ -849,15 +851,141 @@ def all_total():
         
         b  = BroadSheet.query.filter_by(student_number =student_number,computing="").first()
         if(b):
-                tt=float(bd.all_total)
+                tt=int(bd.all_total)
                 bd.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
     else:
         return jsonify("skip")
-    # grd = Student.query.filter(Student.class_name==t.class_name )
-# brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
+    
+    
+    
+     
+    if(subject_name=="Social Studies"):
+        
+        b  = BroadSheet.query.filter_by(student_number =student_number,social="").first()
+        if(b):
+                tt=int(bd.all_total)
+                bd.all_total=tt+tot
+                # t.all_total = all_total
+                c="n"
+                db.session.commit()
+    else:
+        return jsonify("skip")
+    
+    
+     
+    if(subject_name=="RME"):
+        
+        b  = BroadSheet.query.filter_by(student_number =student_number,rme="").first()
+        if(b):
+                tt=int(bd.all_total)
+                bd.all_total=tt+tot
+                # t.all_total = all_total
+                c="n"
+                db.session.commit()
+    else:
+        return jsonify("skip")
+    
+    
+     
+    if(subject_name=="Math " or subject_name=="Mathematics "):
+        
+        b  = BroadSheet.query.filter_by(student_number =student_number,math="").first()
+        if(b):
+                tt=int(bd.all_total)
+                bd.all_total=tt+tot
+                # t.all_total = all_total
+                c="n"
+                db.session.commit()
+    else:
+        return jsonify("skip")
+    
+      
+    if(subject_name=="Career Tech " or subject_name=="Career Technology "):
+        
+        b  = BroadSheet.query.filter_by(student_number =student_number,careertech="").first()
+        if(b):
+                tt=int(bd.all_total)
+                bd.all_total=tt+tot
+                # t.all_total = all_total
+                c="n"
+                db.session.commit()
+    else:
+        return jsonify("skip")
+    
+    
+       
+    if(subject_name=="English "):
+        
+        b  = BroadSheet.query.filter_by(student_number =student_number,english="").first()
+        if(b):
+                tt=int(bd.all_total)
+                bd.all_total=tt+tot
+                # t.all_total = all_total
+                c="n"
+                db.session.commit()
+    else:
+        return jsonify("skip")
+    
+    
+    
+    if(subject_name=="Science "):
+        
+        b  = BroadSheet.query.filter_by(student_number =student_number,science="").first()
+        if(b):
+                tt=int(bd.all_total)
+                bd.all_total=tt+tot
+                # t.all_total = all_total
+                c="n"
+                db.session.commit()
+    else:
+        return jsonify("skip")
+    
+       
+    if(subject_name=="Creative Art " or subject_name=="Creative Arts & Design " or subject_name=="Creative Arts"):
+        
+        b  = BroadSheet.query.filter_by(student_number =student_number,creativeart="").first()
+        if(b):
+                tt=int(bd.all_total)
+                bd.all_total=tt+tot
+                # t.all_total = all_total
+                c="n"
+                db.session.commit()
+    else:
+        return jsonify("skip")
+    
+    
+     
+     if(subject_name=="French "):
+        
+        b  = BroadSheet.query.filter_by(student_number =student_number,french="").first()
+        if(b):
+                tt=int(bd.all_total)
+                bd.all_total=tt+tot
+                # t.all_total = all_total
+                c="n"
+                db.session.commit()
+    else:
+        return jsonify("skip")
+    
+    
+     
+     if(subject_name=="Asante Twi " or subject_name =="Twi" or subject_name ="Ghanaian Language"):
+        
+        b  = BroadSheet.query.filter_by(student_number =student_number,ghanalanguage="").first()
+        if(b):
+                tt=int(bd.all_total)
+                bd.all_total=tt+tot
+                # t.all_total = all_total
+                c="n"
+                db.session.commit()
+    else:
+        return jsonify("skip")
+    
+    
+    
     acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
     term = acd.term
     today = datetime.today()
@@ -891,7 +1019,8 @@ def my_grade():
       grade = Grading.query.filter_by(original_class_name=class_name,subject_name=subject_name,
                                       created_by_id= flask_praetorian.current_user().id,
                                       term=term,year=str(year)).all()
-      result = student_schema.dump(grade)
+      la = grade.order_by(Grading.total.asc()).all
+      result = student_schema.dump(la)
       return jsonify(result)
       
 @student.route("/get_grade_by_student",methods=["POST","GET"])
@@ -1192,6 +1321,7 @@ def search_exact_class():
 def get_student_by_number():
     student_number = request.json["student_number"]
     std = Student.query.filter_by(student_number = student_number)
+    # la = rmk.order_by(Grading.total.asc()).all
     result = student_schema.dump(std)
     return jsonify(result)
 @student.route("/add_payment",methods=['POST'])
@@ -1434,7 +1564,8 @@ def get_broadsheet():
    
     rmk = BroadSheet.query.filter_by(school_name=user.school_name
                                       ,original_class_name=clas.class_name).all()
-    result = student_schema.dump(rmk)
+    la = rmk.order_by(BroadSheet.all_total.asc()).all
+    result = student_schema.dump(la)
     return jsonify(result) 
 
 
@@ -1484,7 +1615,8 @@ def search_broadsheet():
         c_name =class_name
         
     bd = BroadSheet.query.filter_by(class_name= c_name ,   term=term , year=year,school_name=user.school_name).all()
-    result = student_schema.dump(bd)
+    la = bd.order_by(BroadSheet.all_total.asc()).all
+    result = student_schema.dump(la)
     return jsonify(result)
           
 
