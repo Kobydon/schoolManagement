@@ -832,7 +832,7 @@ def add_result_by_excel():
 def all_total():
     all_total = request.json["all_total"]
     # canpost = request.json["canpost"]
-    # tot =int(all_total)
+    tot =int(all_total)
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
 
@@ -847,33 +847,39 @@ def all_total():
     
         
     b  = BroadSheet.query.filter(BroadSheet.student_number ==student_number).first()
-    grading= db.session.query(Grading).filter(Grading.student_number ==b.student_number).all()
+    grading= db.session.query(Grading).filter(student_number =b.student_number,subject_name=subject_name).first()
+    if(grading):
+          return jsonify("already exist")
+        
 
-    tt=sum(int(grade.total) for grade in grading )
-    if b:
-        b.all_total=tt
+    else:
         
-        db.session.commit()
-    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-    term = acd.term
-    today = datetime.today()
-    year=  today.year
-    bd = BroadSheet.query.filter_by(student_number=student_number).first()
-    c =bd.class_name
-    brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-    lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+                tt= int(b.all_total)
 
-    for(pos,g) in enumerate(lst1):
-        
-                g.pos = pos+1
-             
-        
-   
-        
-    
+                b.all_total=tt + tot
+                
+                db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
-    db.session.commit()
-    db.session.close()
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
+                        
+                    
+            
+                    
+                
+
+                db.session.commit()
+                db.session.close()
+                
     resp = jsonify("Success")
     resp.status_code=200
     return  resp    
