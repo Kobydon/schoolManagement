@@ -34,11 +34,7 @@ app =app
 with app.app_context():
              db.create_all()
 with app.app_context():      
-        db.session.query(BroadSheet).update({BroadSheet.all_total:0,BroadSheet.rme:"",BroadSheet.creativeart:"",
-                                             ,BroadSheet.computing:"",BroadSheet.math:"",
-                                             BroadSheet.french:"",BroadSheet.socialstudies:"",
-                                             BroadSheet.english:"",
-                                             ,BroadSheet.science:""})   
+        db.session.query(BroadSheet).update({BroadSheet.all_total:0,BroadSheet.rme:"",BroadSheet.creativeart:"",BroadSheet.computing:"",BroadSheet.math:"", BroadSheet.french:"",BroadSheet.socialstudies:"",BroadSheet.english:"",BroadSheet.science:""})   
         db.session.commit()  
 if __name__ =='__main__':
     app.run(debug='True')
