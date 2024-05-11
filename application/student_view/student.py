@@ -812,10 +812,11 @@ def add_result_by_excel():
       
         #   if (subject_name=="Career Tech"):
         #       bd.careertech = total
-          bd = BroadSheet.query.filter_by(student_number=student_number).first()
-          grading = Grading.query.filter_by(student_number=student_number).all()
+          bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
+          grading = db.session.query(Grading).filter_by(student_number=student_number).all()
           total_marks = sum(int(grade.total) for garde in grading)
           bd.all_total = total_marks
+          print(bd.all_total)
           grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
@@ -826,7 +827,7 @@ def add_result_by_excel():
             
           db.session.commit()
           db.session.close()
-          print(bd.all_total)
+        
           resp = jsonify("Success")
           resp.status_code=200
           return  resp            
