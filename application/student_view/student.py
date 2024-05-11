@@ -835,10 +835,7 @@ def all_total():
     # tot =int(all_total)
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
-   
-    # cls = Class.query.filter_by(staff_number = user.username).first()
-    # midterm_score  = request.json["midterm_score"]
-    # class_name = request.json["class_name"]
+
   
   
  
@@ -850,7 +847,7 @@ def all_total():
     
         
     b  = BroadSheet.query.filter(BroadSheet.student_number ==student_number).first()
-    grading= Grading.filter(Grading.student_number ==student_number,Grading.total !="").first()
+    grading= db.session.query(Grading).filter(Grading.student_number ==student_number,Grading.total !="").all()
 
     tt=sum(int(grade.total) for grade in grading )
     b.all_total=tt
