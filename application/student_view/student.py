@@ -325,9 +325,9 @@ def get_student_by_class():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     # stf = Staff.query.filter_by(staff_number=user.username).first()
     cls = Class.query.filter_by(school_name = user.school_name).first()
-    std = Student.query.filter_by(school_name = user.school_name,class_name=cls.class_name).all()
-    la = std.order_by(Student.first_name.asc(),Student.student_number.asc()).all
-    result = student_schema.dump(la)
+    std = Student.query.filter_by(school_name = user.school_name,class_name=cls.class_name).order_by(Student.first_name.asc(),Student.student_number.asc()).all
+    # la = std
+    result = student_schema.dump(std)
     return jsonify(result)
 @student.route("/get_student",methods=['GET'])
 @flask_praetorian.auth_required
@@ -433,9 +433,9 @@ def change_grade():
 @flask_praetorian.auth_required
 def get_all_students():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    std = Student.query.filter_by(school_name=user.school_name)
-    la = std.order_by(Student.first_name.asc(),Student.student_number.asc()).all
-    result = student_schema.dump(la)
+    std = Student.query.filter_by(school_name=user.school_name).order_by(Student.first_name.asc(),Student.student_number.asc()).all()
+    # la = std
+    result = student_schema.dump(std)
     return jsonify(result) 
   
       
@@ -1019,9 +1019,9 @@ def my_grade():
       year=  today.year
       grade = Grading.query.filter_by(original_class_name=class_name,subject_name=subject_name,
                                       created_by_id= flask_praetorian.current_user().id,
-                                      term=term,year=str(year)).all()
-      la = grade.order_by(Grading.total.asc()).all
-      result = student_schema.dump(la)
+                                      term=term,year=str(year)).order_by(Grading.total.asc()).all
+   
+      result = student_schema.dump(grade)
       return jsonify(result)
       
 @student.route("/get_grade_by_student",methods=["POST","GET"])
@@ -1564,9 +1564,9 @@ def get_broadsheet():
   
    
     rmk = BroadSheet.query.filter_by(school_name=user.school_name
-                                      ,original_class_name=clas.class_name).all()
-    la = rmk.order_by(BroadSheet.all_total.asc()).all
-    result = student_schema.dump(la)
+                                      ,original_class_name=clas.class_name).order_by(BroadSheet.all_total.asc()).all
+    # la = rmk
+    result = student_schema.dump(rmk)
     return jsonify(result) 
 
 
@@ -1615,9 +1615,9 @@ def search_broadsheet():
     else:
         c_name =class_name
         
-    bd = BroadSheet.query.filter_by(class_name= c_name ,   term=term , year=year,school_name=user.school_name).all()
-    la = bd.order_by(BroadSheet.all_total.asc()).all
-    result = student_schema.dump(la)
+    bd = BroadSheet.query.filter_by(class_name= c_name ,   term=term , year=year,school_name=user.school_name).order_by(BroadSheet.all_total.asc()).all
+   
+    result = student_schema.dump(bd)
     return jsonify(result)
           
 
