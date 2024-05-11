@@ -853,7 +853,7 @@ def all_total():
          bd.all_total=tt+tot
         # t.all_total = all_total
          c="n"
-         db.session.commit()
+    db.session.commit()
     # grd = Student.query.filter(Student.class_name==t.class_name )
 # brd =  BroadSheet.query.filter(BroadSheet.class_name==bd.class_name)
     acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
