@@ -856,6 +856,19 @@ def all_total():
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
+                db.session.commit()
     else:
         return jsonify("skip")
     
@@ -871,6 +884,19 @@ def all_total():
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
+                db.session.commit()
     else:
         return jsonify("skip")
     
@@ -884,6 +910,19 @@ def all_total():
                 bd.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
+                db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
                 db.session.commit()
     else:
         return jsonify("skip")
@@ -899,6 +938,19 @@ def all_total():
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
+                db.session.commit()
     else:
         return jsonify("skip")
     
@@ -911,6 +963,19 @@ def all_total():
                 bd.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
+                db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
                 db.session.commit()
     else:
         return jsonify("skip")
@@ -926,6 +991,19 @@ def all_total():
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
+                db.session.commit()
     else:
         return jsonify("skip")
     
@@ -939,6 +1017,20 @@ def all_total():
                 bd.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
+                
+                db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
                 db.session.commit()
     else:
         return jsonify("skip")
@@ -953,6 +1045,19 @@ def all_total():
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
+                db.session.commit()
     else:
         return jsonify("skip")
     
@@ -966,6 +1071,20 @@ def all_total():
                 bd.all_total=tt+tot
                 # t.all_total = all_total
                 c="n"
+                
+                db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
                 db.session.commit()
     else:
         return jsonify("skip")
@@ -982,24 +1101,25 @@ def all_total():
                 # t.all_total = all_total
                 c="n"
                 db.session.commit()
+                acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+                term = acd.term
+                today = datetime.today()
+                year=  today.year
+                bd = BroadSheet.query.filter_by(student_number=student_number).first()
+                c =bd.class_name
+                brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+                lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+
+                for(pos,g) in enumerate(lst1):
+                    
+                            g.pos = pos+1
+                db.session.commit()
     else:
         return jsonify("skip")
     
     
     
-    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-    term = acd.term
-    today = datetime.today()
-    year=  today.year
-    bd = BroadSheet.query.filter_by(student_number=student_number).first()
-    c =bd.class_name
-    brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
-    lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
-    for(pos,g) in enumerate(lst1):
-          
-                  g.pos = pos+1
-    db.session.commit()
     resp = jsonify("success")
     resp.status_code=200
     return resp
