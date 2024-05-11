@@ -847,7 +847,7 @@ def all_total():
     
         
     b  = BroadSheet.query.filter(BroadSheet.student_number ==student_number).first()
-    grading= db.session.query(Grading).filter(student_number =b.student_number,subject_name=subject_name).first()
+    grading= db.session.query(Grading).filter_by(student_number =b.student_number,subject_name=subject_name).first()
     if(grading):
           return jsonify("already exist")
         
