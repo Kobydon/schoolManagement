@@ -13,7 +13,7 @@ from flask import session
 from  application.user_view.user import user
 from  application.student_view.student import student
 from  application.school_view.school import school
-from application.database.main_db.db import *
+from application.database.main_db.db import db
 # from  application.client_view.client import client
 #from  application.room_view.room import room
 #from  application.employee_view.employee import employee
@@ -33,8 +33,6 @@ app =app
 
 with app.app_context():
              db.create_all()
-with app.app_context():      
-        db.session.query(BroadSheet).update({BroadSheet.all_total:0,BroadSheet.rme:"",BroadSheet.creativeart:"",BroadSheet.computing:"",BroadSheet.math:"", BroadSheet.french:"",BroadSheet.socialstudies:"",BroadSheet.english:"",BroadSheet.science:""})   
-        db.session.commit()  
+             
 if __name__ =='__main__':
     app.run(debug='True')
