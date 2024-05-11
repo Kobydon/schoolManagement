@@ -849,7 +849,7 @@ def all_total():
     
     if(subject_name=="Computing"):
         
-        b  = BroadSheet.query.filter_by(student_number =student_number).first()
+        b  = BroadSheet.query.filter_by(student_number =student_number,computing="").first()
         if(b):
                 tt=int(bd.all_total)
                 b.all_total=tt+tot
@@ -869,9 +869,9 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-    else:
-        return jsonify("skip")
-    
+        else:
+            return jsonify("skip")
+        
     
     
      
@@ -897,9 +897,9 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-    else:
-        return jsonify("skip")
-    
+        else:
+            return jsonify("skip")
+        
     
      
     if(subject_name=="RME"):
@@ -924,8 +924,8 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-    else:
-        return jsonify("skip")
+        else:
+            return jsonify("skip")
     
     
      
@@ -951,9 +951,9 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-    else:
-        return jsonify("skip")
-    
+        else:
+            return jsonify("skip")
+        
       
     if(subject_name=="Career Tech " or subject_name=="Career Technology "):
         
@@ -977,8 +977,8 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-    else:
-        return jsonify("skip")
+        else:
+            return jsonify("skip")
     
     
        
@@ -1004,9 +1004,9 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-    else:
-        return jsonify("skip")
-    
+        else:
+            return jsonify("skip")
+        
     
     
     if(subject_name=="Science "):
@@ -1032,10 +1032,10 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-    else:
-        return jsonify("skip")
-    
-       
+        else:
+            return jsonify("skip")
+        
+        
     if(subject_name=="Creative Art " or subject_name=="Creative Arts & Design " or subject_name=="Creative Arts"):
         
         b  = BroadSheet.query.filter_by(student_number =student_number,creativeart="").first()
@@ -1058,8 +1058,8 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-    else:
-        return jsonify("skip")
+        else:
+            return jsonify("skip")
     
     
      
@@ -1086,8 +1086,8 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-    else:
-        return jsonify("skip")
+        else:
+            return jsonify("skip")
     
     
      
@@ -1114,9 +1114,9 @@ def all_total():
                     
                             g.pos = pos+1
                 db.session.commit()
-    else:
-        return jsonify("skip")
-    
+        else:
+            return jsonify("skip")
+        
     
     
 
