@@ -528,7 +528,7 @@ def add_grade():
           if (subject_name=="RME"):
               bd.rme = total
               
-          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" r subject_name=="Creative Art"):
+          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" or subject_name=="Creative Art"):
               bd.creativeart = total
               
           if (subject_name=="Social Studies" or subject_name=="Social "):
