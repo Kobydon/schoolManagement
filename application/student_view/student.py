@@ -514,7 +514,7 @@ def add_grade():
               grade = 9 
           
           grade = Grading( subject_name= subject_name,name=name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=year,grade=grade,
-                 school_name=school_name ,exams_score= new_exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
+                 school_name=school_name ,exams_score= new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
           
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science" or subject_name=="science"  or subject_name=="Integrated Science"):
@@ -709,7 +709,7 @@ def add_result_by_excel():
           
           
           grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=year,grade=grade,
-                     school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
+                     school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
             
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science"):
