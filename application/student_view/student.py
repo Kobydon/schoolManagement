@@ -1057,7 +1057,7 @@ def get_grade_analysis():
     if(stf.form_master=="yes"):
         cls= Class.query.filter_by(staff_number=stf.staff_number,school_name=user.school_name).first()
         
-         grd = Grading.query.filter_by(original_class_class_name=cls.class_name,term=term,year=str(year),school_name=user.school_name).all()
+        grd = Grading.query.filter_by(original_class_class_name=cls.class_name,term=term,year=str(year),school_name=user.school_name).all()
     
     
     if(stf.form_master=="no"):
@@ -1448,17 +1448,17 @@ def search_broadsheet():
     class_name = request.json["class_name"]
     term = request.json["term"]
     year = request.json["year"]
-    if (class_name =="JHS 1A" or class_name=="JHS 1B"):
-                    c_name = class_name[:5] 
+    # if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+    #                 c_name = class_name[:5] 
                     
-    elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
-                    c_name = class_name[:5] 
+    # elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+    #                 c_name = class_name[:5] 
   
     
-    else:
-        c_name =class_name
+    # else:
+    #     c_name =class_name
         
-    bd = BroadSheet.query.filter_by(class_name= c_name ,   term=term , year=year,school_name=user.school_name)
+    bd = BroadSheet.query.filter_by(original_class_name= class_name ,   term=term , year=year,school_name=user.school_name)
     la = bd.order_by(desc(BroadSheet.all_total))
     result = student_schema.dump(la)
     return jsonify(result)
