@@ -466,8 +466,8 @@ def add_grade():
           created_by_id  = flask_praetorian.current_user().id
           scheme = Scheme.query.filter_by(created_by_id=flask_praetorian.current_user().id).first()
           total = int(exams_score) + int(class_score)
-          new_class_score = int(class_score)
-          new_exams_score = int(exams_score)
+          new_class_score = float(class_score)
+          new_exams_score = float(exams_score)
           grade=0
           if (total in range(80,101)):
               remark  = "EXCELLENT"
@@ -579,7 +579,7 @@ def add_grade():
      
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
           grading = db.session.query(Grading).filter_by(student_number=student_number).all()
-          total_marks = sum(int(grade.total) for garde in grading)
+          total_marks = sum(float(grade.total) for garde in grading)
           bd.all_total = total_marks
           print(bd.all_total)
                   
@@ -645,8 +645,8 @@ def add_result_by_excel():
                   exams_score =  ""
           
           # total = request.json["total"]
-          new_class_score = int(class_score)
-          new_exams_score = int(exams_score)
+          new_class_score = float(class_score)
+          new_exams_score = float(exams_score)
           created_date  = datetime.now().strftime('%Y-%m-%d %H:%M')
           school_name = user.school_name
           student_number = request.json["student_number"]
@@ -659,7 +659,7 @@ def add_result_by_excel():
           
         
           l=2
-          total = int(class_score) + int(exams_score) 
+          total = float(class_score) + float(exams_score) 
 
           if (total in range(80,101)):
               remark  = "EXCELLENT"
@@ -797,7 +797,7 @@ def add_result_by_excel():
         #       bd.careertech = total
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
           grading = db.session.query(Grading).filter_by(student_number=student_number).all()
-          total_marks = sum(int(grade.total) for garde in grading)
+          total_marks = sum(float(grade.total) for garde in grading)
           bd.all_total = total_marks
           print(bd.all_total)
           grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
