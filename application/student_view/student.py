@@ -1052,6 +1052,7 @@ def get_grade_analysis():
     term = acd.term
     today = datetime.today()
     year=  today.year
+    c_name=""
     if(stf.form_master=="yes"):
         cls= Class.query.filter_by(staff_number=stf.staff_number,school_name=user.school_name).first()
         if (cls.class_name =="JHS 1A" or cls.class_name=="JHS 1B"):
