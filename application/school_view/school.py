@@ -58,7 +58,7 @@ class schoolSchema(ma.Schema):
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name",
-                "exam_name","district","circuit","status" ,"role")
+                "exam_name","district","circuit","status" ,"role","image")
         
 
 
@@ -1414,9 +1414,45 @@ def delete_notice(id):
 
 
 
+@school.route("/add_signature",methods=['POST'])
+@flask_praetorian.auth_required
+def add_signature():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    image= request.json["image"]
+   
+    # usr = user.firstname +" " + user.lastname
+    # created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
+    sgn = Signature(image=image,school_name=user.school_name)
+  
+    db.session.add(sgn)
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
 
 
+@school.route("/get_signature",methods=['GET'])
+@flask_praetorian.auth_required
+def get_signature():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    sgn = Signature.query.filter_by(school_name=user.school_name)
+    
+    result = school_schema.dump(sgn)
+    return jsonify(result)
 
+
+@school.route("/delete_signature/<id>",methods=['DELETE'])
+@flask_praetorian.auth_required
+def delete_signature(id):
+      sub_data = Signature.query.filter_by(id=id).first()
+      
+      db.session.delete(sub_data)
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code =201
+      return resp
 
 
 
