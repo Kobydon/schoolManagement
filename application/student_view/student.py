@@ -553,12 +553,19 @@ def add_grade():
           today = datetime.today()
           bd.year=  today.year
           bd.term=  term
-       
+          gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name).first()
+          if gdi:
+              return jsonify("skip")
           
-          db.session.add(grade)
-   
-   
-          db.session.commit()
+          if total =="":
+              return jsonify("skip")
+          
+          else:
+                db.session.add(grade)
+        
+                db.session.commit()
+          
+        
      
           if (class_name =="JHS 1A" or class_name=="JHS 1B"):
                     c_name = class_name[:5] 
