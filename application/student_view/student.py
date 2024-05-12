@@ -1053,20 +1053,12 @@ def get_grade_analysis():
     today = datetime.today()
     year=  today.year
     c_name=""
+    grd = Grading.query.filter_by(term=term,year=str(year),school_name=user.school_name).all()
     if(stf.form_master=="yes"):
         cls= Class.query.filter_by(staff_number=stf.staff_number,school_name=user.school_name).first()
-        if (cls.class_name =="JHS 1A" or cls.class_name=="JHS 1B"):
-                    c_name = cls.class_name[:5] 
-                    
-        elif (cls.class_name =="JHS 2A" or cls.class_name=="JHS 2B"):
-                    c_name = cls.class_name[:5] 
-                    
-        elif (cls.class_name =="JHS 3A" or cls.class_name=="JHS 3B" or cls.class_name=="JHS 3C"):
-                    c_name = cls.class_name[:5] 
-        else:
-                c_name =cls.class_name
-         
-    grd = Grading.query.filter_by(class_name=c_name,term=term,year=str(year),school_name=user.school_name).all()
+        
+         grd = Grading.query.filter_by(original_class_class_name=cls.class_name,term=term,year=str(year),school_name=user.school_name).all()
+    
     
     if(stf.form_master=="no"):
         # cls= Class.query.filter_by(class_name=stf.class_name).first()
