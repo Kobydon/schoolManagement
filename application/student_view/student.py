@@ -324,7 +324,7 @@ def get_student_by_class():
    
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     # stf = Staff.query.filter_by(staff_number=user.username).first()
-    cls = Class.query.filter_by(school_name = user.school_name).first()
+    cls = Class.query.filter_by(staff_number = user.username).first()
     std = Student.query.filter_by(school_name = user.school_name,class_name=cls.class_name)
     la = std.order_by(desc(Student.first_name),desc(Student.student_number))
     result = student_schema.dump(la)
