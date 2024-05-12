@@ -1422,7 +1422,7 @@ def add_signature():
    
     # usr = user.firstname +" " + user.lastname
     # created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
-    sgn = Signature(image=image,school_name=user.school_name)
+    sgn = Signaturer(image=image,school_name=user.school_name)
   
     db.session.add(sgn)
     db.session.commit()
@@ -1436,7 +1436,7 @@ def add_signature():
 @flask_praetorian.auth_required
 def get_signature():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    sgn = Signature.query.filter_by(school_name=user.school_name)
+    sgn = Signaturer.query.filter_by(school_name=user.school_name)
     
     result = school_schema.dump(sgn)
     return jsonify(result)
@@ -1445,7 +1445,7 @@ def get_signature():
 @school.route("/delete_signature/<id>",methods=['DELETE'])
 @flask_praetorian.auth_required
 def delete_signature(id):
-      sub_data = Signature.query.filter_by(id=id).first()
+      sub_data = Signaturer.query.filter_by(id=id).first()
       
       db.session.delete(sub_data)
       db.session.commit()

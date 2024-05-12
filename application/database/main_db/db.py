@@ -430,11 +430,15 @@ class Course(db.Model):
 
 class Signature(db.Model):
           id = db.Column(db.Integer,primary_key=True)
-          image = db.Column(db.String(400))
+          image = db.Column(db.String(1000000))
           school_name = db.Column(db.String(400),unique=True)
          
         
 
+class Signaturer(db.Model):
+          id = db.Column(db.Integer,primary_key=True)
+          image = db.Column(db.String(1000000))
+          school_name = db.Column(db.String(400),unique=True)
 
 class FeesType(db.Model):
     id =db.Column(db.Integer,primary_key=True)
