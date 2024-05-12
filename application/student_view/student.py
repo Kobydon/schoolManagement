@@ -466,6 +466,8 @@ def add_grade():
           created_by_id  = flask_praetorian.current_user().id
           scheme = Scheme.query.filter_by(created_by_id=flask_praetorian.current_user().id).first()
           total = int(exams_score) + int(class_score)
+          new_class_score = int(class_score)
+          new_ exams_score = int(exams_score)
           grade=0
           if (total in range(80,101)):
               remark  = "EXCELLENT"
@@ -510,26 +512,26 @@ def add_grade():
               remark  = " FAIL"
               grade = 9 
           
-          grade = Grading( subject_name= subject_name,name=name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
-                 school_name=school_name ,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
+          grade = Grading( subject_name= subject_name,name=name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=year,grade=grade,
+                 school_name=school_name ,exams_score= new_ exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
           
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
-          if (subject_name=="Science"):
+          if (subject_name=="Science" or subject_name=="science"  or subject_name=="Integrated Science"):
               bd.science = total
               
           if (subject_name=="English"):
               bd.english = total
               
-          if (subject_name=="Mathematics"):
+          if (subject_name=="Mathematics" or subject_name=="math"):
               bd.math = total
             
           if (subject_name=="RME"):
               bd.rme = total
               
-          if (subject_name=="Creative Arts"):
+          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" r subject_name=="Creative Art"):
               bd.creativeart = total
               
-          if (subject_name=="Social Studies"):
+          if (subject_name=="Social Studies" or subject_name=="Social "):
               bd.social = total
               
           if (subject_name=="Computing"):
@@ -538,11 +540,11 @@ def add_grade():
           if (subject_name=="French"):
               bd.french = total
               
-          if (subject_name=="Ghanaian Language"):
+          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"):
               bd.ghanalanguage = total
 
                   
-          if (subject_name=="Career Tech"):
+          if (subject_name=="Career Tech" or subject_name=="Career Technology"):
               bd.careertech = total
           
           today = datetime.today()
@@ -566,40 +568,13 @@ def add_grade():
           else:
                 c_name =class_name
          
-          
-          
-          bd = BroadSheet.query.filter_by(student_number=student_number).first()
-        #    bd = BroadSheet.query.filter_by(student_number=student_number).first()
-          if (subject_name=="Science"):
-              bd.science = total
-              
-          if (subject_name=="English"):
-              bd.english = total
-              
-          if (subject_name=="Mathematics" or subject_name=="Math"):
-              bd.math = total
-            
-          if (subject_name=="RME"):
-              bd.rme = total
-              
-          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
-              bd.creativeart = total
-              
-          if (subject_name=="Social Studies" or subject_name=="Social " ):
-              bd.social = total
-              
-          if (subject_name=="Computing" or  subject_name=="ICT"):
-              bd.computing = total
-              
-          if (subject_name=="French"):
-              bd.math = total
-              
-          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
-              bd.ghanalanguage = total
-
-                  
-          if (subject_name=="Career Tech" or subject_name=="Career Technology"):
-              bd.careertech = total
+        
+     
+          bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
+          grading = db.session.query(Grading).filter_by(student_number=student_number).all()
+          total_marks = sum(int(grade.total) for garde in grading)
+          bd.all_total = total_marks
+          print(bd.all_total)
                   
           grd = Grading.query.filter_by(class_name=c_name ,original_class_name=class_name, subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
           lst= grd.order_by(desc(Grading.total)).all()
@@ -663,7 +638,8 @@ def add_result_by_excel():
                   exams_score =  ""
           
           # total = request.json["total"]
-         
+          new_class_score = int(class_score)
+          new_exams_score = int(exams_score)
           created_date  = datetime.now().strftime('%Y-%m-%d %H:%M')
           school_name = user.school_name
           student_number = request.json["student_number"]
@@ -722,8 +698,8 @@ def add_result_by_excel():
               grade = 9 
           
           
-          grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=class_score,created_date=created_date,term=term,year=year,grade=grade,
-                     school_name=school_name ,original_class_name=original_class_name,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
+          grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=year,grade=grade,
+                     school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
             
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science"):
