@@ -465,6 +465,7 @@ def add_grade():
           year=  today.year
           created_by_id  = flask_praetorian.current_user().id
           scheme = Scheme.query.filter_by(created_by_id=flask_praetorian.current_user().id).first()
+          tl = float(class_score) + float(exams_score) 
           total = int(exams_score) + int(class_score)
           new_class_score = float(class_score)
           new_exams_score = float(exams_score)
@@ -517,35 +518,35 @@ def add_grade():
           
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science" or subject_name=="science"  or subject_name=="Integrated Science"):
-              bd.science = total
+              bd.science = tl
               
           if (subject_name=="English"):
-              bd.english = total
+              bd.english = tl
               
           if (subject_name=="Mathematics" or subject_name=="math"):
-              bd.math = total
+              bd.math = tl
             
           if (subject_name=="RME"):
-              bd.rme = total
+              bd.rme = tl
               
           if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" or subject_name=="Creative Art"):
-              bd.creativeart = total
+              bd.creativeart = tl
               
           if (subject_name=="Social Studies" or subject_name=="Social "):
-              bd.social = total
+              bd.social = tl
               
           if (subject_name=="Computing"):
-              bd.computing = total
+              bd.computing = tl
               
           if (subject_name=="French"):
-              bd.french = total
+              bd.french = tl
               
           if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"):
-              bd.ghanalanguage = total
+              bd.ghanalanguage = tl
 
                   
           if (subject_name=="Career Tech" or subject_name=="Career Technology"):
-              bd.careertech = total
+              bd.careertech = tl
           
           today = datetime.today()
           acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
@@ -659,48 +660,50 @@ def add_result_by_excel():
           
         
           l=2
-          total = float(class_score) + float(exams_score) 
+          tl = float(class_score) + float(exams_score) 
 
-          if total >=80:
+          total = int(class_score) + int(exams_score) 
+
+          if (total in range(80,101)):
               remark  = "EXCELLENT"
               grade   = 1
               
               
-          if total >=70:
+          if (total in range(70,80)):
               remark  = "VERY GOOD"
               grade =2
               
                         
-          if total >=65:
+          if (total in range(65,70)):
               remark  = " GOOD"
               grade = 3
               
-          if >=60:
+          if (total in range(60,65)):
               remark  = "CREDIT"
               grade = 4
           
               
-          if >=55:
+          if (total in range(55,60)):
               remark  = " AVERAGE"
               grade = 5
           
-          if total >=50:
+          if (total in range(50,55)):
               remark  = " AVERAGE"
               grade = 6
           
               
-          if total  >=45:
+          if (total in range(45,50)):
               remark  = " PASS"
               grade= 7
    
               
-          if total >=40:
+          if (total in range(40,49)):
               remark  = "WEAK PASS"
               grade =8
               
       
               
-          else :
+          if (total in range(1,40)):
               remark  = " FAIL"
               grade = 9 
           
@@ -710,35 +713,35 @@ def add_result_by_excel():
             
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
           if (subject_name=="Science"):
-              bd.science = total
+              bd.science = tl
               
           if (subject_name=="English"):
-              bd.english = total
+              bd.english = tl
               
           if (subject_name=="Mathematics" or subject_name=="Math"):
-              bd.math = total
+              bd.math = tl
             
           if (subject_name=="RME"):
-              bd.rme = total
+              bd.rme = tl
               
           if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
-              bd.creativeart = total
+              bd.creativeart = tl
               
           if (subject_name=="Social Studies" or subject_name=="Social " ):
-              bd.social = total
+              bd.social = tl
               
           if (subject_name=="Computing" or  subject_name=="ICT"):
-              bd.computing = total
+              bd.computing = tl
               
           if (subject_name=="French"):
-              bd.math = total
+              bd.math = tl
               
           if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
-              bd.ghanalanguage = total
+              bd.ghanalanguage = tl
 
                   
           if (subject_name=="Career Tech" or subject_name=="Career Technology" or subject_name=="Carer Tech"):
-              bd.careertech = total
+              bd.careertech = tl
           
           today = datetime.today()
           acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
