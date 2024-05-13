@@ -512,8 +512,8 @@ def add_grade():
           if (total in range(0,40)):
               remark  = " FAIL"
               grade = 9 
-          
-          grade = Grading( subject_name= subject_name,name=name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=year,grade=grade,
+          acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+          grade = Grading( subject_name= subject_name,name=name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=acd.year,grade=grade,
                  school_name=school_name ,exams_score= new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
           
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
@@ -552,7 +552,7 @@ def add_grade():
           acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
           term = acd.term
           today = datetime.today()
-          bd.year=  today.year
+          bd.year=  acd.year
           bd.term=  term
           gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name).first()
           if gdi:
@@ -584,7 +584,7 @@ def add_grade():
           bd.all_total = total_marks
           print(bd.all_total)
                   
-          grd = Grading.query.filter_by(class_name=c_name ,original_class_name=class_name, subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
+          grd = Grading.query.filter_by(class_name=c_name ,original_class_name=class_name, subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
@@ -707,8 +707,8 @@ def add_result_by_excel():
               remark  = " FAIL"
               grade = 9 
           
-          
-          grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=year,grade=grade,
+          acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+          grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=acd.year,grade=grade,
                      school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
             
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
@@ -747,7 +747,7 @@ def add_result_by_excel():
           acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
           term = acd.term
           today = datetime.today()
-          bd.year=  today.year
+          bd.year=  acd.year
           bd.term=  term
           
           gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name).first()
@@ -803,7 +803,7 @@ def add_result_by_excel():
          
           bd.all_total = total_marks
           print(bd.all_total)
-          grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
+          grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
@@ -845,7 +845,7 @@ def all_total():
         year=  today.year
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         c =bd.class_name
-        brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=str(year))
+        brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
         lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
         for(pos,g) in enumerate(lst1):
