@@ -6,7 +6,7 @@ from  application.settings.settings import *
 from  application.settings.setup import app
 # from application.forms import LoginForm
 from application.database.main_db.db import *
-from sqlalchemy import or_,and_ ,desc
+from sqlalchemy import or_,and_ ,desc ,cast, Float ,func
 from datetime import datetime
 from datetime import date
 from flask import session
@@ -799,8 +799,8 @@ def add_result_by_excel():
         #   if (subject_name=="Career Tech"):
         #       bd.careertech = total
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
-          grading = db.session.query(Grading).filter_by(student_number=student_number).all()
-          total_marks = sum(float(grade.total) for garde in grading)
+          total_marks = db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number).scalar()
+         
           bd.all_total = total_marks
           print(bd.all_total)
           grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=str(year))     
@@ -1490,3 +1490,7 @@ def delete_remark(id):
      resp = jsonify("success")
      resp.status_code=201
      return resp
+ 
+ 
+ 
+ 
