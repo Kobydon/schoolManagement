@@ -734,7 +734,7 @@ def add_result_by_excel():
               bd.computing = tl
               
           if (subject_name=="French"):
-              bd.math = tl
+              bd.french = tl
               
           if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
               bd.ghanalanguage = tl
