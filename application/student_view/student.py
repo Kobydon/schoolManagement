@@ -580,7 +580,7 @@ def add_grade():
      
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
           grading = db.session.query(Grading).filter_by(student_number=student_number).all()
-          total_marks = sum(float(grade.total) for garde in grading)
+          total_marks =  db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number).scalar()
           bd.all_total = total_marks
           print(bd.all_total)
                   
