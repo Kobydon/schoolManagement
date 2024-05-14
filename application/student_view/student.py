@@ -842,15 +842,12 @@ def all_total():
         year=  today.year
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         c =bd.class_name
-        brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
-        lsti= brd.order_by(desc(BroadSheet.all_total)).all()
+        brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year).update({
+            BroadSheet.pos: func.rank().over(order_by=desc(BroadSheet.all_total))
+        })
+      
 
-        for(pos,g) in enumerate(lsti):
-          
-            g.pos = rank+1
-            
-         
-        
+    
         db.session.commit()
         db.session.close()
         resp = jsonify("Success")
