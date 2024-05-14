@@ -6,8 +6,7 @@ from  application.settings.settings import *
 from  application.settings.setup import app
 # from application.forms import LoginForm
 from application.database.main_db.db import *
-from sqlalchemy import *
-from sqlalchemy.sql.functions import *
+from sqlalchemy import or_,and_ ,desc ,cast, Float ,func
 from datetime import datetime
 from datetime import date
 from flask import session
@@ -828,13 +827,15 @@ def all_total():
         # tot =int(all_total)
         user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
-        school_name = user.school_name
+
   
   
  
         student_number = request.json["student_number"]
         subject_name=  request.json["subject_name"]
-  
+    # t = Student.query.filter_by(student_number=student_number).first()
+    # bd  = BroadSheet.query.filter_by(student_number=student_number).first()
+    
     
         
    
@@ -844,13 +845,18 @@ def all_total():
         year=  today.year
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         c =bd.class_name
-        BroadSheet.query.filter(BroadSheet.class_name==c,BroadSheet.school_name==school_name,
-                                BroadSheet.term ==term,BroadSheet.year==acd.year).update({
-                                    BroadSheet.pos:func.rank().over(order_by=BroadSheet.all_total.desc()) })
-        
+        BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
+        for(pos,g) in enumerate(lst):
+          
+                g.pos = rank+1
+                
+                
 
-        db.session.commit()
-        db.session.close()
+                
+            
+
+                db.session.commit()
+                db.session.close()
         
         resp = jsonify("Success")
         resp.status_code=200
