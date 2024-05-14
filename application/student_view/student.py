@@ -826,9 +826,6 @@ def all_total():
         canpost = request.json["canpost"]
         # tot =int(all_total)
         user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    
-
-  
   
  
         student_number = request.json["student_number"]
@@ -848,21 +845,17 @@ def all_total():
         brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
         lst1= brd.order_by(desc(BroadSheet.all_total)).all()
 
-        for(pos,g) in enumerate(lst1):
+        for(pos,g) in enumerate(lst):
+          
+            g.pos = rank+1
             
-                    g.pos = pos+1
-                
-            
-
-            
+         
         
-
         db.session.commit()
         db.session.close()
-        
         resp = jsonify("Success")
         resp.status_code=200
-        return  resp    
+             
             
  
  
