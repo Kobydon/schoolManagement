@@ -845,19 +845,20 @@ def all_total():
         year=  today.year
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         c =bd.class_name
-        brd= BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
+        brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
         lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-        for(rank,g) in enumerate(lst1):
-          
-            g.rank = rank+1
+
+        for(pos,g) in enumerate(lst1):
             
+                    g.pos = pos+1
+                
             
 
             
         
 
-            db.session.commit()
-            db.session.close()
+        db.session.commit()
+        db.session.close()
         
         resp = jsonify("Success")
         resp.status_code=200
