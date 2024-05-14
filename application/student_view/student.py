@@ -844,7 +844,7 @@ def all_total():
         c =bd.class_name
         brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year).update({
             BroadSheet.pos: func.rank().over(order_by=desc(BroadSheet.all_total))
-        })
+        },synchronize_session=False)
       
 
     
