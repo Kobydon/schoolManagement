@@ -845,8 +845,8 @@ def all_total():
         year=  today.year
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         c =bd.class_name
-        brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name)
-        lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+        brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
+        lst1= brd.order_by(BroadSheet.all_total.asc()).all()
 
         for(pos,g) in enumerate(lst1):
             
