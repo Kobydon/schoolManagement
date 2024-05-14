@@ -843,9 +843,9 @@ def all_total():
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         c =bd.class_name
         broadsheets =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
-        lst1= brd.order_by(desc(BroadSheet.all_total)).all()
+        lsti= brd.order_by(desc(BroadSheet.all_total)).all()
         
-        for(pos,g) in enumerate(lst):
+        for(pos,g) in enumerate(lsti):
           
             g.pos = pos+1
             
