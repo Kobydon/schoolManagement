@@ -844,19 +844,18 @@ def all_total():
         c =bd.class_name
         broadsheets =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
         lst1= brd.order_by(desc(BroadSheet.all_total)).all()
-        pos=1
-        for broadsheet in  enumerate(lst1):
+        
+        for(pos,g) in enumerate(lst):
           
-            broadsheet.pos +=1
+            g.pos = pos+1
             
          
-        
+            
         db.session.commit()
         db.session.close()
         resp = jsonify("Success")
         resp.status_code=200
-             
-            
+        return  resp    
  
  
  
