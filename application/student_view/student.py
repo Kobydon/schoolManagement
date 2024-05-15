@@ -1064,7 +1064,7 @@ def get_grade_analysis():
         grd = Grading.query.filter_by(original_class_name=cls.class_name,term=term,year=acd.year,school_name=user.school_name).all()
     
     
-    if(stf.form_master=="no"):
+    else:
         # cls= Class.query.filter_by(class_name=stf.class_name).first()
         grd = Grading.query.filter_by(created_by_id=flask_praetorian.current_user().id,term=term,year=acd.year,school_name=user.school_name).all()
        
