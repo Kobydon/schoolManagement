@@ -43,7 +43,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://sus_fk82_user:ezIVJH1XIZP5
 app.config['SECRET_KEY'] = '0527'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['TESTING'] = False
-app.config["JWT_ACCESS_LIFESPAN"] = {"hours": 43}
+app.config["JWT_ACCESS_LIFESPAN"] = {"hours": 720}
 app.config["JWT_REFRESH_LIFESPAN"] = {"days": 30}
 
 # guard.init_app(app, User)
