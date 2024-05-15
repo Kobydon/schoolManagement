@@ -727,7 +727,7 @@ def add_result_by_excel():
           if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
               bd.creativeart = tl
               
-          if (subject_name=="Social Studies" or subject_name=="Social " ):
+          if (subject_name=="Social Studies" or subject_name=="Social" ):
               bd.social = tl
               
           if (subject_name=="Computing" or  subject_name=="ICT"):
@@ -736,7 +736,7 @@ def add_result_by_excel():
           if (subject_name=="French"):
               bd.french = tl
               
-          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name==" Twi"):
+          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name=="Twi"):
               bd.ghanalanguage = tl
 
                   
