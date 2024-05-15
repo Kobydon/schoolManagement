@@ -801,7 +801,7 @@ def add_result_by_excel():
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
           total_marks = db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number).scalar()
          
-          bd.all_total = total_marks
+          bd.all_total = round( total_marks,1)
           print(bd.all_total)
           grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
           lst= grd.order_by(desc(Grading.total)).all()
