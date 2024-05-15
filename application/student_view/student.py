@@ -1409,9 +1409,9 @@ def get_broadsheet():
     # else:
     #     c_name =clas.class_name
   
-   
+    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
     rmk = BroadSheet.query.filter_by(school_name=user.school_name
-                                      ,original_class_name=clas.class_name)
+                                      ,original_class_name=clas.class_name,term =acd.term ,year=acd.year)
     la = rmk.order_by(desc(BroadSheet.all_total))
     result = student_schema.dump(la)
     return jsonify(result) 
