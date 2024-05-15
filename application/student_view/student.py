@@ -1061,7 +1061,7 @@ def get_grade_analysis():
     if(stf.form_master=="yes"):
         cls= Class.query.filter_by(staff_number=stf.staff_number,school_name=user.school_name).first()
         
-        grd = Grading.query.filter_by(original_class_class_name=cls.class_name,term=term,year=str(year),school_name=user.school_name).all()
+        grd = Grading.query.filter_by(original_class_name=cls.class_name,term=term,year=str(year),school_name=user.school_name).all()
     
     
     if(stf.form_master=="no"):
