@@ -966,7 +966,8 @@ def update_grade():
           
         
           Grade.student_number = request.json["student_number"]
-          Grade.term = request.json["term"]
+        #   Grade.term = request.json["term"]
+          Grade.total =tl
           Grade.change_request ="Success"
           p_grade = PendingGrade.query.filter_by(id =id).first()
           p_grade.status="Success"
