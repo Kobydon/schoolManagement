@@ -414,7 +414,9 @@ def change_grade():
         
           grade_id =request.json["id"]
           created_by_id  = flask_praetorian.current_user().id
-          total = int(exams_score) + int(class_score)
+          new_e = float(exams_score)
+          new_c = float(class_score)
+          total = int(new_e) + int(new_c)
          
           
           grade = PendingGrade( grade_id=grade_id,status=status,subject_name= subject_name,class_score=class_score,created_date=created_date,term=term,staff_number=staff_number,
