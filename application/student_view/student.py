@@ -1086,7 +1086,19 @@ def search_result():
     grade = Grading.query.filter_by(student_number= student_number ,   term=term , year=year)
     result = student_schema.dump(grade)
     return jsonify(result)
-  
+
+@student.route("/search_my_result",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def search_my_result():
+    
+    student_number = request.json["student_number"]
+    class_name = request.json["class_name"]
+    term = request.json["term"]
+    year = request.json["year"]
+    grade = Grading.query.filter_by(student_number= student_number ,   term=term , year=year,
+                                    created_by_id =flask_praetorian.current_user().id)
+    result = student_schema.dump(grade)
+    return jsonify(result)
   
 
   
