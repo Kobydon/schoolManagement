@@ -825,7 +825,7 @@ def add_result_by_excel():
 @flask_praetorian.auth_required
 def all_total():
         all_total = request.json["all_total"]
-        canpost = request.json["canpost"]
+        # canpost = request.json["canpost"]
         # tot =int(all_total)
         user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     
