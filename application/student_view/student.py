@@ -944,6 +944,7 @@ def search_my_dates():
 @flask_praetorian.auth_required
 def update_grade():
           user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+          student_number = request.json["student_number"]
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
           id = request.json["id"]
@@ -952,6 +953,10 @@ def update_grade():
           cls = Class.query.filter_by(staff_number = user.username).first()
           # midterm_score  = request.json["midterm_score"]
           class_name = request.json["class_name"]
+          tl = float(request.json["class_score"]) + float(request.json["exams_score"]) 
+        #   total = int(exams_score) + int(class_score)
+        #   new_class_score = float(class_score)
+        #   new_exams_score = float(exams_score)
           Grade = Grading.query.filter_by(id=grade_id).first()
           Grade.class_score = request.json["class_score"]
           # total = request.json["total"]
@@ -970,53 +975,92 @@ def update_grade():
           total = int( request.json["exams_score"]) + int(request.json["class_score"])
           grade=0
           if (total in range(80,101)):
-              Grade.remark  = "EXCELLENT"
-              Grade.grade   = 1
+              remark  = "EXCELLENT"
+              grade   = 1
               
               
-          if (total in range(70,79)):
-              Grade.remark  = "VERY GOOD"
-              Grade.grade =2
+          if (total in range(70,80)):
+              remark  = "VERY GOOD"
+              grade =2
               
                         
-          if (total in range(60,69)):
-              Grade.remark  = " GOOD"
-              Grade.grade = 3
+          if (total in range(65,70)):
+              remark  = " GOOD"
+              grade = 3
               
-          if (total in range(55,59)):
-              Grade.remark  = "CREDIT"
-              Grade.grade = 4
+          if (total in range(60,65)):
+              remark  = "CREDIT"
+              grade = 4
           
               
-          if (total in range(50,54)):
-              Grade.remark  = " AVERAGE"
-              Grade.grade = 5
+          if (total in range(55,60)):
+              remark  = " AVERAGE"
+              grade = 5
+           
+          if (total in range(50,55)):
+              remark  = " AVERAGE"
+              grade = 6
           
               
-          if (total in range(45,49)):
-              Grade.remark  = " PASS"
-              Grade.grade= 6
+          if (total in range(45,50)):
+              remark  = " PASS"
+              grade= 7
    
               
-          if (total in range(40,44)):
-              Grade.remark  = "  WEAK PASS"
-              Grade.grade =7
+          if (total in range(40,45)):
+              remark  = "WEAK PASS"
+              grade =8
+              
+      
+              
+          if (total in range(0,40)):
+              remark  = " FAIL"
+              grade = 9 
               
               
-          if (total in range(34,39)):
-              Grade.remark  = " VERY WEAK PASS"
-              Grade.grade = 8
+          bd = BroadSheet.query.filter_by(student_number=student_number).first()
+          if (subject_name=="Science" or subject_name=="science"  or subject_name=="Integrated Science"):
+              bd.science = tl
               
-          if (total in range(0,33)):
-              Grade.remark  = " FAIL"
-              Grade.grade = 9 
-         
+          if (subject_name=="English"):
+              bd.english = tl
+              
+          if (subject_name=="Mathematics" or subject_name=="math"):
+              bd.math = tl
+            
+          if (subject_name=="RME"):
+              bd.rme = tl
+              
+          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" or subject_name=="Creative Art"):
+              bd.creativeart = tl
+              
+          if (subject_name=="Social Studies" or subject_name=="Social "):
+              bd.social = tl
+              
+          if (subject_name=="Computing"):
+              bd.computing = tl
+              
+          if (subject_name=="French"):
+              bd.french = tl
+              
+          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"):
+              bd.ghanalanguage = tl
+
+                  
+          if (subject_name=="Career Tech" or subject_name=="Career Technology"):
+              bd.careertech = tl
+          
    
           db.session.commit()
-        
+          bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
+          grading = db.session.query(Grading).filter_by(student_number=student_number).all()
+          total_marks =  db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number).scalar()
+          bd.all_total = round( total_marks,1)
+        #   print(bd.all_total)
+                  
           grd = Grading.query.filter(Grading.class_name==class_name , Grading.subject_name==subject_name)
           
-      
+         
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
