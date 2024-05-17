@@ -956,7 +956,7 @@ def update_grade():
           # midterm_score  = request.json["midterm_score"]
           class_name = request.json["class_name"]
           tl = float(request.json["class_score"]) + float(request.json["exams_score"]) 
-        #   total = int(exams_score) + int(class_score)
+        #   total = int(exams_score) + int(class_score)9
         #   new_class_score = float(class_score)
         #   new_exams_score = float(exams_score)
           Grade = Grading.query.filter_by(id=grade_id).first()
@@ -972,9 +972,12 @@ def update_grade():
           p_grade.status="Success"
           # today = datetime.today()
           # year=  today.year
+          exam= request.json["exams_score"]
+          classa = request.json["class_score"]
+          e_score = float(exam)
+          cscore = float(classa)
         
-        
-          total = int( request.json["exams_score"]) + int(request.json["class_score"])
+          total = int(e_score) + int(classa)
           grade=0
           if (total in range(80,101)):
               remark  = "EXCELLENT"
