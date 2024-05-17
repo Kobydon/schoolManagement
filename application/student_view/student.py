@@ -1062,7 +1062,7 @@ def update_grade():
           grading = db.session.query(Grading).filter_by(student_number=student_number).all()
           total_marks =  db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number).scalar()
           bd.all_total = round( total_marks,1)
-        #   print(bd.all_total)
+          print(bd.all_total)
                   
           grd = Grading.query.filter(Grading.class_name==class_name , Grading.subject_name==subject_name)
           
