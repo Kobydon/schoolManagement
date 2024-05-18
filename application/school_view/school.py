@@ -742,7 +742,7 @@ def get_class():
     return jsonify(result)
 
 
-@school.route("/search_class_list")
+@school.route("/search_class_list",methods=['POST','GET'])
 @flask_praetorian.auth_required
 def search_class_list():
     class_name = request.json["class_name"]
