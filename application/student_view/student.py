@@ -887,14 +887,25 @@ def get_grade_by_student():
       grade = Grading.query.filter_by(student_number=student_number).all()
       result = student_schema.dump(grade)
       return jsonify(result)
-@student.route("/get_pending_grades",methods=["GET"])
+@student.route("/get_grade_by_student",methods=["POST","GET"])
 @flask_praetorian.auth_required
-def get_pending_grades():
-      # student_number = request.json["student_number"]
-      user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
-      grade = PendingGrade.query.filter_by(school_name=user.school_name)
+def get_grade_by_student():
+      student_number = request.json["student_number"]
+      grade = Grading.query.filter_by(student_number=student_number).all()
       result = student_schema.dump(grade)
       return jsonify(result)
+
+  
+@student.route("/get_all_grades",methods=["GET"])
+@flask_praetorian.auth_required
+def get_all_grades():
+      # student_number = request.json["student_number"]
+      user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+      grade = Grading.query.filter_by(school_name=user.school_name)
+      result = student_schema.dump(grade)
+      return jsonify(result)
+      
+      
       
 @student.route("/get_grade_id/<id>",methods=["POST","GET"])
 @flask_praetorian.auth_required
@@ -1092,6 +1103,23 @@ def search_result():
     grade = Grading.query.filter_by(student_number= student_number ,   term=term , year=year)
     result = student_schema.dump(grade)
     return jsonify(result)
+
+
+
+
+
+@student.route("/get_grade",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def get_grade():
+    user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+    # student_number = request.json["student_number"]
+    class_name = request.json["class_name"]
+    term = request.json["term"]
+    year = request.json["year"]
+    grade = Grading.query.filter_by( term=term , year=year,original_class_name=class_name,school_name=user.school_name)
+    result = student_schema.dump(grade)
+    return jsonify(result)
+
 
 @student.route("/search_my_result",methods=["POST","GET"])
 @flask_praetorian.auth_required
