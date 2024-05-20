@@ -887,13 +887,7 @@ def get_grade_by_student():
       grade = Grading.query.filter_by(student_number=student_number).all()
       result = student_schema.dump(grade)
       return jsonify(result)
-@student.route("/get_grade_by_student",methods=["POST","GET"])
-@flask_praetorian.auth_required
-def get_grade_by_student():
-      student_number = request.json["student_number"]
-      grade = Grading.query.filter_by(student_number=student_number).all()
-      result = student_schema.dump(grade)
-      return jsonify(result)
+
 
   
 @student.route("/get_all_grades",methods=["GET"])
