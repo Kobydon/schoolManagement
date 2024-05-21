@@ -556,7 +556,7 @@ def add_grade():
           today = datetime.today()
           bd.year=  acd.year
           bd.term=  term
-          gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name).first()
+          gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name,term=term,year=acd.year).first()
           if gdi:
               return jsonify("skip")
           
@@ -752,7 +752,7 @@ def add_result_by_excel():
           bd.year=  acd.year
           bd.term=  term
           
-          gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name).first()
+          gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name,term=term,year=acd.year).first()
           if gdi:
               return jsonify("skip")
           
@@ -951,6 +951,7 @@ def search_my_dates():
 @flask_praetorian.auth_required
 def update_grade():
           user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+          acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
           student_number = request.json["student_number"]
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
@@ -1069,7 +1070,7 @@ def update_grade():
           bd.all_total = round( total_marks,1)
           print(bd.all_total)
                   
-          grd = Grading.query.filter(Grading.class_name==class_name , Grading.subject_name==subject_name)
+          grd = Grading.query.filter(Grading.class_name==class_name , Grading.subject_name==subject_name,Grading.year==acd.year,Grading.term==acd.term)
           
          
           lst= grd.order_by(desc(Grading.total)).all()
