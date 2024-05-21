@@ -419,7 +419,7 @@ def change_grade():
           total = int(new_e) + int(new_c)
          
           
-          grade = PendGrade( grade_id=grade_id,status=status,subject_name= subject_name,class_score=class_score,created_date=created_date,term=term,staff_number=staff_number,
+          grade = PendingGrade( grade_id=grade_id,status=status,subject_name= subject_name,class_score=class_score,created_date=created_date,term=term,staff_number=staff_number,
                      school_name=school_name ,exams_score=exams_score ,created_by_id=created_by_id,total= total ,student_number=student_number ,class_name=class_name )
           db.session.add(grade)
           grd = Grading.query.filter_by(id=id).first()
@@ -913,7 +913,7 @@ def get_grade_id(id):
 @flask_praetorian.auth_required
 def get_pending_grade_id(id):
       # student_number = request.json["student_number"]
-      grade = PendGrade.query.filter_by(id=id)
+      grade = PendingGrade.query.filter_by(id=id)
       result = student_schema.dump(grade)
       return jsonify(result)
 @student.route("/get_pending_grades",methods=["GET"])
@@ -921,8 +921,8 @@ def get_pending_grade_id(id):
 def get_pending_grades():
     
     user = User.query.filter_by(id=flask_praetorian.current_user().id)
-    pay = PendGrade.query.filter_by(school_name=user.school_name)
-    lst = pay.order_by(desc(PendGrade.created_date))
+    pay = db.session.query(PendingGrade).filter_by(school_name=user.school_name)
+    lst = pay.order_by(desc(PendingGrade.created_date))
     result = student_schema.dump(lst)
     return jsonify(result)
 
@@ -931,8 +931,8 @@ def get_pending_grades():
 def searchdates():
     date = request.json["date"]
     print(date)
-    pay = PendGrade.query.filter(PendGrade.created_date.contains(date) )
-    lst = pay.order_by(desc(PendGrade.created_date))
+    pay = PendingGrade.query.filter(PendingGrade.created_date.contains(date) )
+    lst = pay.order_by(desc(PendingGrade.created_date))
     result = student_schema.dump(lst)
     return jsonify(result)
 @student.route("/search_pay_dates",methods=["POST"])
@@ -985,7 +985,7 @@ def update_grade():
           Grade.term = request.json["term"]
           Grade.total =tl
           Grade.change_request ="Success"
-          p_grade = PendGrade.query.filter_by(id =id).first()
+          p_grade = PendingGrade.query.filter_by(id =id).first()
           p_grade.status="Success"
           # today = datetime.today()
           # year=  today.year
