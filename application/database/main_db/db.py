@@ -132,6 +132,14 @@ class User(db.Model):
     
     )
     
+    dnpen  = db.relationship('PendGrade', 
+    foreign_keys ='PendGrade.created_by_id',
+    backref = 'dsfgg',
+    lazy=True
+    
+    )
+    
+    
     genremarkie  = db.relationship('GeneralRemark', 
     foreign_keys ='GeneralRemark.created_by_id',
     backref = 'genremar',
@@ -684,6 +692,27 @@ class Refund(db.Model):
           created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))
 
        
+
+class PendGrade(db.Model):
+           
+          id = db.Column(db.Integer,primary_key=True)
+       
+          subject_name=  db.Column(db.String(400))
+     
+          term  = db.Column(db.String(400))
+          class_score = db.Column(db.String(400))
+          class_name = db.Column(db.String(400))
+          total = db.Column(db.String(5000))
+          exams_score =  db.Column(db.String(400))
+         
+          created_date  = db.Column(db.String(400))
+          grade_id = db.Column(db.String(400))
+          school_name = db.Column(db.String(5000))
+          staff_number = db.Column(db.String(5000))
+          student_number = db.Column(db.String(5000))
+
+          status =   db.Column(db.String(400))
+          created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))
 
 
 
