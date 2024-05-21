@@ -1347,6 +1347,7 @@ def search_house():
 def add_general_remark():
         user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
         cl = Class.query.filter_by(staff_number= user.username).first()
+        acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
         
         try:
             student_number =request.json["student_number"]
@@ -1392,22 +1393,25 @@ def add_general_remark():
             
         except:
              teacher_remark= ""
-        acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+        # acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
         term = acd.term
         today = datetime.today()
-        year=  today.year
+        year=  acd.year
         created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
         class_name = cl.class_name
         created_by_id =flask_praetorian.current_user().id
         
-        
-        my_obj = GeneralRemark(attitude=attitude,interest=interest,conduct=conduct,attendance=attendance,
-                               teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,
-                               term=term,year=year,student_number=student_number,class_name=class_name,
-                               created_by_id=created_by_id)
-        db.session.add(my_obj)
-        db.session.commit()
-        db.session.close()
+        gdi = GeneralRemark.query.filter_by(student_number=student_number,year=year,term=term).first()
+        if gdi:
+            return jsonify("Skip")
+        else:
+            my_obj = GeneralRemark(attitude=attitude,interest=interest,conduct=conduct,attendance=attendance,
+                                teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,
+                                term=term,year=year,student_number=student_number,class_name=class_name,
+                                created_by_id=created_by_id)
+            db.session.add(my_obj)
+            db.session.commit()
+            db.session.close()
         resp = jsonify("success")
         resp.status_code=200
         return resp
