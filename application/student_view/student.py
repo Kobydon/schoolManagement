@@ -1221,8 +1221,8 @@ def get_student_remark():
     acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
     term = acd.term
     today = datetime.today()
-    year=  today.year
-    rmk = GeneralRemark.query.filter_by(student_number = student_number,term=term,year=str(year))
+    year=  acd.year
+    rmk = GeneralRemark.query.filter_by(student_number = student_number,term=term,year=year)
     result = student_schema.dump(rmk)
     return jsonify(result)
  
