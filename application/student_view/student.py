@@ -916,15 +916,17 @@ def get_pending_grade_id(id):
       grade = PendingGrade.query.filter_by(id=id)
       result = student_schema.dump(grade)
       return jsonify(result)
+      return jsonify(result)
+  
 @student.route("/get_pending_grades",methods=["GET"])
 @flask_praetorian.auth_required
 def get_pending_grades():
-    
-    user = User.query.filter_by(id=flask_praetorian.current_user().id)
-    pay = db.session.query(PendingGrade).filter_by(school_name=user.school_name)
-    lst = pay.order_by(desc(PendingGrade.created_date))
-    result = student_schema.dump(lst)
-    return jsonify(result)
+      # student_number = request.json["student_number"]
+      user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+      grade = PendingGrade.query.filter_by(school_name=user.school_name)
+      result = student_schema.dump(grade)
+      return jsonify(result)
+      
 
 @student.route("/searchdates",methods=["POST"])
 @flask_praetorian.auth_required
