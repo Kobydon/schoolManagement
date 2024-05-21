@@ -1406,7 +1406,8 @@ def add_general_remark():
             return jsonify("Skip")
         else:
             my_obj = GeneralRemark(attitude=attitude,interest=interest,conduct=conduct,attendance=attendance,
-                                teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,
+                                teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,first_name=first_name,
+                                last_name=last_name,
                                 term=term,year=year,student_number=student_number,class_name=class_name,
                                 created_by_id=created_by_id)
             db.session.add(my_obj)
