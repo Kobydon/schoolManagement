@@ -921,7 +921,7 @@ def get_pending_grade_id(id):
 def get_pending_grades():
     
     user = User.query.filter_by(id=flask_praetorian.current_user().id)
-    pay = PendingGrade.query.filter(school_name=user.school_name)
+    pay = PendingGrade.query.filter_by(school_name=user.school_name)
     lst = pay.order_by(desc(PendingGrade.created_date))
     result = student_schema.dump(lst)
     return jsonify(result)
