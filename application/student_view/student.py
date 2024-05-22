@@ -1537,7 +1537,7 @@ def get_studentsheet():
   
   
     elif (class_name =="JHS 3A" or class_name=="JHS 3B" or class_name=="JHS 3C"):
-                    c_name = cls.class_name[:5]     
+                    c_name = class_name[:5]     
     else:
         c_name =class_name
         
