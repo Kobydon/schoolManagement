@@ -68,7 +68,7 @@ def add_student():
     
       sc = User.query.filter_by(school_name=sch.school_name).count()
       cc = int(sc)+1
-      first_three = sch.school_name[:4] + str(cc)
+      first_three = sch.school_name[:4] + "270"
       
       student_number = first_three
     
@@ -1526,7 +1526,7 @@ def get_broadsheet():
 def get_studentsheet():
     l="s"
     student_number = request.json["student_number"]
-    class_name = request.json["class_name"]
+    class_name = request.json["class_name"]  
     term = request.json["term"]
     year = request.json["year"]
     if (class_name =="JHS 1A" or class_name=="JHS 1B"):
