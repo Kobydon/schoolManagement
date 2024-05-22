@@ -66,7 +66,7 @@ def add_student():
      
       sch = School.query.filter_by(username=usr.username).first()
     
-      sc = User.query.filter_by(school_name=sch.school_name).count()
+      sc = Student.query.filter_by(school_name=sch.school_name).count()
       cc = int(sc)+1
       first_three = sch.school_name[:5] + str(cc)
       
