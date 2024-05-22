@@ -996,7 +996,7 @@ def update_grade():
           e_score = float(exam)
           cscore = float(classa)
         
-          total = int(e_score) + int(classa)
+          total = int(e_score) + int(cscore)
           grade=0
           if (total in range(80,101)):
               remark  = "EXCELLENT"
