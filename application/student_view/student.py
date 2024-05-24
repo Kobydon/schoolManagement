@@ -397,17 +397,18 @@ def delete_student(id):
 def change_grade():
           user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           subject_name=  request.json["subject_name"]
+          student_number = request.json["student_number"]
           id = request.json["id"]
-          # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-          cls = Class.query.filter_by(staff_number = user.username).first()
+          stc = Student.query.filter_by(student_number=student_number).first()
+        #   cls = Class.query.filter_by(staff_number = user.username).first()
           # midterm_score  = request.json["midterm_score"]
-          class_name = cls.class_name
+          class_name = stc.class_name
           class_score = request.json["class_score"]
           # total = request.json["total"]
           exams_score =  request.json["exams_score"]
           created_date  = datetime.now().strftime('%Y-%m-%d %H:%M')
           school_name = user.school_name
-          student_number = request.json["student_number"]
+       
           term = request.json["term"]
           status = "Pending"
           staff_number = user.username

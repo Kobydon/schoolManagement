@@ -1757,10 +1757,10 @@ def add_exam_attendance():
     created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
     exam_name =  request.json["exam_name"]
     created_by_id = flask_praetorian.current_user().id
-    find =  ExamAttendance.query.filter_by(student_number =id,exam_name=exam_name,subject_name=subject_name).first()
+    find =  ExamAttend.query.filter_by(student_number =id,exam_name=exam_name,subject_name=subject_name).first()
     if find:
          print("yes")
-         atd =  ExamAttendance.query.filter_by(student_number =id,exam_name=exam_name,subject_name=subject_name).first()
+         atd =  ExamAttend.query.filter_by(student_number =id,exam_name=exam_name,subject_name=subject_name).first()
   
          atd.status = request.json["status"]
          atd.subject_name = request.json["subject_name"]
@@ -1777,7 +1777,7 @@ def add_exam_attendance():
          return resp
     
     else:
-        atd = ExamAttendance(class_name=class_name,subject_name=subject_name,student_number=student_number,
+        atd = ExamAttend(class_name=class_name,subject_name=subject_name,student_number=student_number,
                             status="Present",name=name,school_name=school_name,created_date=created_date,
                             exam_name=exam_name,created_by_id=created_by_id )
     
@@ -1798,7 +1798,7 @@ def get_exam_attendance():
     term = request.json["term"]
     year= request.json["year"]
    
-    atd = ExamAttendance.query.filter_by(school_name=user.school_name,year=year,term=term,exam_name=exam_name,subject_name=subject_name, class_name=class_name)
+    atd = ExamAttend.query.filter_by(school_name=user.school_name,year=year,term=term,exam_name=exam_name,subject_name=subject_name, class_name=class_name)
     result = student_schema.dump(atd)
     return jsonify(result)
 
@@ -1808,7 +1808,7 @@ def get_exam_attendance():
 def update_exam_attendance():
     # user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     id = request.json["id"]
-    atd =  ExamAttendance.query.filter_by(student_number =id).first()
+    atd =  ExamAttend.query.filter_by(student_number =id).first()
   
     atd.status = request.json["status"]
    

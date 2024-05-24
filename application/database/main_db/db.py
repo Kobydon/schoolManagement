@@ -298,8 +298,8 @@ class User(db.Model):
     backref = 'brodieshitie',
     lazy=True)
 
-    exam_att  = db.relationship('ExamAttendance', 
-    foreign_keys ='ExamAttendance.created_by_id',
+    exam_att  = db.relationship('ExamAttend', 
+    foreign_keys ='ExamAttend.created_by_id',
     backref = 'e_atnd',
     lazy=True)
     
@@ -489,7 +489,7 @@ class FeesPayment(db.Model):
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
     
 
-class ExamAttendance(db.Model):
+class ExamAttend(db.Model):
     id =db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(5000))
     class_name = db.Column(db.String(5000))
@@ -503,6 +503,22 @@ class ExamAttendance(db.Model):
     term = db.Column(db.String(400))
     year = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+
+
+# class ExamAttendance(db.Model):
+#     id =db.Column(db.Integer,primary_key=True)
+#     name = db.Column(db.String(5000))
+#     class_name = db.Column(db.String(5000))
+#     school_name = db.Column(db.String(5000))
+#     subject_name = db.Column(db.String(5000))
+#     student_number = db.Column(db.String(400))
+#     status = db.Column(db.String(400))
+#     created_date = db.Column(db.String(400))
+#     exam_name = db.Column(db.String(400))
+#     created_date = db.Column(db.String(400))
+#     term = db.Column(db.String(400))
+#     year = db.Column(db.String(400))
+#     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
 
 class Schedule(db.Model):
