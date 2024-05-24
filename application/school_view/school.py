@@ -1358,8 +1358,8 @@ def add_notice():
 @flask_praetorian.auth_required
 def get_notice_list():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    ntc=Noticer.query.filter(Notice.school_name.contains(user.school_name),Notice.role.contains(user.roles))
-    btc = ntc.order_by(desc(Notice.date))
+    ntc=Noticer.query.filter(Noticer.school_name.contains(user.school_name),Noticer.role.contains(user.roles))
+    btc = ntc.order_by(desc(Noticer.date))
     result = school_schema.dump(btc)
     return jsonify(result)
 
@@ -1368,8 +1368,8 @@ def get_notice_list():
 @flask_praetorian.auth_required
 def get_all_notice_list():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    ntc=Noticer.query.filter(Notice.school_name ==user.school_name)
-    btc = ntc.order_by(desc(Notice.date))
+    ntc=Noticer.query.filter(Noticer.school_name ==user.school_name)
+    btc = ntc.order_by(desc(Noticer.date))
     result = school_schema.dump(btc)
     return jsonify(result)
 

@@ -170,12 +170,12 @@ class User(db.Model):
     )
     
               
-    notcn_by  = db.relationship('Notice', 
-    foreign_keys ='Notice.created_by_id',
-    backref = 'noticn',
-    lazy=True
+    # notcn_by  = db.relationship('Notice', 
+    # foreign_keys ='Notice.created_by_id',
+    # backref = 'noticn',
+    # lazy=True
     
-    )
+    # )
     
     
     mailiee_by  = db.relationship('MailSetup', 
@@ -569,16 +569,16 @@ class Holiday(db.Model):
   
 
 
-class Notice(db.Model):
-    id =db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(5000))
-    date = db.Column(db.String(5000))
-    note = db.Column(db.String(400))
-    created_date = db.Column(db.String(400))
-    role = db.Column(db.String(400))
-    school_name = db.Column(db.String(400))
+# class Notice(db.Model):
+#     id =db.Column(db.Integer,primary_key=True)
+#     name = db.Column(db.String(5000))
+#     date = db.Column(db.String(5000))
+#     note = db.Column(db.String(400))
+#     created_date = db.Column(db.String(400))
+#     role = db.Column(db.String(400))
+#     school_name = db.Column(db.String(400))
  
-    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+#     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
 
 
