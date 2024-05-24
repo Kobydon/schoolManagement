@@ -99,7 +99,12 @@ class User(db.Model):
     lazy=True
     
     )
- 
+    nitcr_bff  = db.relationship('Noticer', 
+    foreign_keys ='Noticer.created_by_id',
+    backref = 'erflcw',
+    lazy=True
+    
+    )
     
 
 
@@ -575,6 +580,20 @@ class Notice(db.Model):
  
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
+
+
+class Noticer(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(5000))
+    date = db.Column(db.String(5000))
+    note = db.Column(db.String(400))
+    created_date = db.Column(db.String(400))
+    role = db.Column(db.String(400))
+    school_name = db.Column(db.String(400))
+ 
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+  
+
 
 class Subject(db.Model):
     id =db.Column(db.Integer,primary_key=True)

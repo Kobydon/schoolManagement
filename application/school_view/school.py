@@ -1341,7 +1341,7 @@ def add_notice():
         
     # usr = user.firstname +" " + user.lastname
     created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
-    ntc = Notice(name=name,note=note,date=date,
+    ntc=Noticer(name=name,note=note,date=date,
                    created_by_id=flask_praetorian.current_user().id ,
                    created_date=created_date,school_name=user.school_name,role=rle)
   
@@ -1358,7 +1358,7 @@ def add_notice():
 @flask_praetorian.auth_required
 def get_notice_list():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    ntc = Notice.query.filter(Notice.school_name.contains(user.school_name),Notice.role.contains(user.roles))
+    ntc=Noticer.query.filter(Notice.school_name.contains(user.school_name),Notice.role.contains(user.roles))
     btc = ntc.order_by(desc(Notice.date))
     result = school_schema.dump(btc)
     return jsonify(result)
@@ -1368,7 +1368,7 @@ def get_notice_list():
 @flask_praetorian.auth_required
 def get_all_notice_list():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    ntc = Notice.query.filter(Notice.school_name ==user.school_name)
+    ntc=Noticer.query.filter(Notice.school_name ==user.school_name)
     btc = ntc.order_by(desc(Notice.date))
     result = school_schema.dump(btc)
     return jsonify(result)
@@ -1378,7 +1378,7 @@ def get_all_notice_list():
 @flask_praetorian.auth_required
 def get_notice(id):
 
-    ntc = Notice.query.filter_by(id=id)
+    ntc=Noticer.query.filter_by(id=id)
     result = school_schema.dump(ntc)
     return jsonify(result)
 
@@ -1395,7 +1395,7 @@ def update_notice():
     else:
         rle =role
     id = request.json["id"]
-    sub_data = Notice.query.filter_by(id=id).first()
+    sub_data=Noticer.query.filter_by(id=id).first()
     sub_data.name = request.json["name"]
     sub_data.role = rle
     sub_data.note = request.json["note"]
@@ -1409,7 +1409,7 @@ def update_notice():
 @school.route("/delete_notice/<id>",methods=['DELETE'])
 @flask_praetorian.auth_required
 def delete_notice(id):
-      sub_data = Notice.query.filter_by(id=id).first()
+      sub_data=Noticer.query.filter_by(id=id).first()
       
       db.session.delete(sub_data)
       db.session.commit()
