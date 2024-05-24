@@ -494,6 +494,9 @@ class ExamAttendance(db.Model):
     status = db.Column(db.String(400))
     created_date = db.Column(db.String(400))
     exam_name = db.Column(db.String(400))
+    created_date = db.Column(db.String(400))
+    term = db.Column(db.String(400))
+    year = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
 

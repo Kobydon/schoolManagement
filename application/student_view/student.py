@@ -1350,9 +1350,10 @@ def delete_payment(id):
 @student.route("/search_house",methods=['POST'])
 @flask_praetorian.auth_required
 def search_house():
+      user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
       class_name = request.json["class_name"]
     
-      std = Student.query.filter_by(class_name=class_name)
+      std = Student.query.filter_by(class_name=class_name,school_name=user.school_name)
       result = student_schema.dump(std)
       return jsonify(result)
 @student.route("/add_general_remark",methods=['POST'])

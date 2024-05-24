@@ -1743,6 +1743,9 @@ def delete_schedule(id):
 @flask_praetorian.auth_required
 def add_exam_attendance():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+    term = acd.term
+    year=acd.year
     id = request.json["id"]
     std =  Student.query.filter_by(student_number =id).first()
     class_name = request.json["class_name"]
@@ -1765,7 +1768,8 @@ def add_exam_attendance():
     
    
          atd.exam_name =  request.json["exam_name"]
-    
+         atd.year =year
+         atd.term =term
          db.session.commit()
          db.session.close()
          resp = jsonify("success")
@@ -1791,9 +1795,10 @@ def get_exam_attendance():
     exam_name= request.json["exam_name"]
     subject_name = request.json["subject_name"]
     class_name= request.json["class_name"]
-    
+    term = request.json["term"]
+    year= request.json["year"]
    
-    atd = ExamAttendance.query.filter_by(school_name=user.school_name,exam_name=exam_name,subject_name=subject_name, class_name=class_name)
+    atd = ExamAttendance.query.filter_by(school_name=user.school_name,year=year,term=term,exam_name=exam_name,subject_name=subject_name, class_name=class_name)
     result = student_schema.dump(atd)
     return jsonify(result)
 
