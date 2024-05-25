@@ -640,7 +640,7 @@ def add_result_by_excel():
                  class_score =  request.json["class_core"]
       
           except:
-                  class_score =  0        
+                  class_score =  0         
           try:
                  exams_score =  request.json["exams_score"]
       
@@ -649,8 +649,21 @@ def add_result_by_excel():
                   exams_score = 0
           
           # total = request.json["total"]
-          new_class_score = float(class_score)
-          new_exams_score = float(exams_score)
+          if class_score is not None:
+                new_class_score = float(class_score)
+                class_score =  float(class_score)
+          else:
+                 new_class_score =0.0
+                 class_score = 0.0
+                 
+          if exams_score is not None:
+                new_exams_score = float(exams_score)
+                exams_score = float(exams_score)
+                
+          else:
+                 new_exams_score =0.0
+                 exams_score =0.0
+          
           created_date  = datetime.now().strftime('%Y-%m-%d %H:%M')
           school_name = user.school_name
           student_number = request.json["student_number"]
@@ -663,7 +676,7 @@ def add_result_by_excel():
           
         
           l=2
-          tl = float(class_score) + float(exams_score) 
+          tl = class_score + exams_score
 
           total = int(class_score) + int(exams_score) 
 
