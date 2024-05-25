@@ -640,13 +640,13 @@ def add_result_by_excel():
                  class_score =  request.json["class_core"]
       
           except:
-                  class_score =  ""          
+                  class_score =  0        
           try:
                  exams_score =  request.json["exams_score"]
       
     
           except:
-                  exams_score =  ""
+                  exams_score = 0
           
           # total = request.json["total"]
           new_class_score = float(class_score)
