@@ -333,7 +333,7 @@ def get_student_by_class():
 @flask_praetorian.auth_required
 def get_student():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
-    std = Student.query.filter_by(school_name = user.school_name).order_(Student.frist_name.asc())
+    std = Student.query.filter_by(school_name = user.school_name).order_(Student.first_name.asc())
     result = student_schema.dump(std)
     return jsonify(result)
 @student.route("/get_student_info/<id>",methods=['GET'])
