@@ -417,7 +417,7 @@ def change_grade():
           created_by_id  = flask_praetorian.current_user().id
           new_e = float(exams_score)
           new_c = float(class_score)
-          total = int(new_e) + int(new_c)
+          total = new_e + new_c
          
           
           grade = PendingGrade( grade_id=grade_id,status=status,subject_name= subject_name,class_score=class_score,created_date=created_date,term=term,staff_number=staff_number,
@@ -1088,7 +1088,7 @@ def update_grade():
           if (subject_name=="Career Tech" or subject_name=="Career Technology"):
               bd.careertech = tl
           
-   
+     
           db.session.commit()
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
           grading = db.session.query(Grading).filter_by(student_number=student_number).all()
