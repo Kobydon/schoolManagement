@@ -164,13 +164,18 @@ def get_school_detail():
 @school.route("/add_subject",methods=['POST'])
 @flask_praetorian.auth_required
 def add_subject():
-    department_name= request.json["department_name"]
+    # try:
+    #     department_name= request.json["department_name"]
+        
+    # except:
+    #     department_name=""
+        
     subject_name =request.json["subject_name"] 
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
     subj = Subjectc(department_name=department_name,
                    subject_name=subject_name,created_by_id=flask_praetorian.current_user().id ,school_name=user.school_name )
-    dep = Departmentb.query.filter_by(department_name=department_name).first()
-    dep.total_subjects = int(dep.total_subjects)+ 1
+    # dep = Departmentb.query.filter_by(department_name=department_name).first()
+    # dep.total_subjects = int(dep.total_subjects)+ 1
     db.session.add(subj)
     db.session.commit()
     db.session.close()
@@ -218,8 +223,8 @@ def update_subject():
 @flask_praetorian.auth_required
 def delete_subject(id):
       sub_data = Subjectc.query.filter_by(id=id).first()
-      dep = Departmentb.query.filter_by(department_name=sub_data.department_name).first()
-      dep.total_subjects = int(dep.total_subjects) - 1
+    #   dep = Departmentb.query.filter_by(department_name=sub_data.department_name).first()
+    #   dep.total_subjects = int(dep.total_subjects) - 1
       db.session.delete(sub_data)
       db.session.commit()
       db.session.close()
@@ -564,7 +569,7 @@ def add_staff():
       phone =request.json["phone"]
       address =request.json["address"]
       dep = Subjectc.query.filter_by(subject_name=subject_name).first()
-      department = dep.department_name
+      department = request.json["department"]
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       school_name= usr.school_name
       role= request.json["role"]
@@ -711,7 +716,11 @@ def delete_staff(id):
 def add_class():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     class_name= request.json["class_name"]
-    staff_number =request.json["staff_number"]
+    try:
+        staff_number =request.json["staff_number"]
+        
+    except:
+        staff_number = ""
     cls = Class(class_name=class_name,staff_number=staff_number ,school_name =user.school_name,
                 created_by_id = flask_praetorian.current_user().id , created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                 class_size=0)
@@ -721,7 +730,7 @@ def add_class():
         st.for_class = request.json["class_name"]
         
     else: 
-         st.for_class = "no"
+         st.for_class = ""
         
     
     db.session.add(cls)
