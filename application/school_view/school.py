@@ -666,7 +666,7 @@ def update_staff():
       stf_data.address =request.json["address"]
       stf_data.other_name =request.json["other_name"]
     #   dep = Subject.query.filter_by(subject_name=subject_name).first()
-    #   stf_data.department = dep.department_name
+      stf_data.department =  request.json["deparment"]
     #   user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     #   stf_data.sch = School.query.filter_by(username=user.username).first()
     #   n = random.randint(0,100)
