@@ -750,7 +750,7 @@ def add_class():
 @flask_praetorian.auth_required
 def get_class():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
-    cls = Class.query.filter_by(school_name=user.school_name)
+    cls = Class.query.filter_by(school_name=user.school_name).order_by(Class.class_name.asc())
     result = class_schema.dump(cls)
     return jsonify(result)
 
