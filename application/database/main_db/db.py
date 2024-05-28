@@ -636,6 +636,7 @@ class Class(db.Model):
     class_size =db.Column(db.String(400))
     school_name = db.Column(db.String(400))
     roll_number = db.Column(db.String(400))
+    grade_together=db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
     
 
@@ -753,7 +754,8 @@ class BroadSheet(db.Model):
            
           id = db.Column(db.Integer,primary_key=True)
           student_name = db.Column(db.String(400))
-         
+          owop = db.Column(db.String(400))
+          history= db.Column(db.String(400))
           english  = db.Column(db.String(400))
           math  = db.Column(db.String(400))
           science = db.Column(db.String(400))
@@ -766,7 +768,7 @@ class BroadSheet(db.Model):
           pos =  db.Column(db.String(400))
           created_date  = db.Column(db.String(400))
           all_total =  db.Column(db.String(400))
-          computing=db.Column(db.Integer)
+          computing=db.Column(db.String(400))
           school_name = db.Column(db.String(5000))
           original_class_name =db.Column(db.String(5000))
           french = db.Column(db.String(5000))

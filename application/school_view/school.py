@@ -58,7 +58,7 @@ class schoolSchema(ma.Schema):
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name",
-                "exam_name","district","circuit","status" ,"role","image")
+                "exam_name","district","circuit","status" ,"role","image","grade_together")
         
 
 
@@ -1835,3 +1835,18 @@ def update_exam_attendance():
     resp.status_code=201
     return resp
   
+  
+  
+@school.route("/update_grade_together",methods=['PUT'])
+@flask_praetorian.auth_required
+def update_grade_together():
+    id =request.json["id"]
+    status = request.json["status"]
+    Cla = Class.query.filter_by(id=id).first()
+    cla.grade_together = status
+    
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code=201
+    return resp

@@ -752,6 +752,13 @@ def add_result_by_excel():
           if (subject_name=="French"):
               bd.french = tl
               
+          if (subject_name=="History"):
+              bd.history = tl
+              
+          if (subject_name=="OWOP"):
+              bd.owop = tl
+              
+              
           if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name=="Twi"):
               bd.ghanalanguage = tl
 
@@ -819,7 +826,12 @@ def add_result_by_excel():
          
           bd.all_total = round( total_marks,1)
           print(bd.all_total)
-          grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
+          classe = Class.query.filter_by(class_name=class_name).first()
+          if (classe.grade_together =="1"):
+                    grd = Grading.query.filter_by(original_class_name= bd.original_class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
+          else:
+                grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
+          
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
           
