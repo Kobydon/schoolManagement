@@ -29,7 +29,7 @@ class DepartmentSchema(ma.Schema):
 
 class classSchema(ma.Schema):
     class Meta:
-        fields=("id","staff_number","class_name","class_size"
+        fields=("id","staff_number","class_name","class_size","grade_together"
 )
         
         
@@ -58,7 +58,7 @@ class schoolSchema(ma.Schema):
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name",
-                "exam_name","district","circuit","status" ,"role","image","grade_together")
+                "exam_name","district","circuit","status" ,"role","image")
         
 
 
