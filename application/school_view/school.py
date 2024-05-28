@@ -1843,7 +1843,7 @@ def update_grade_together():
     id =request.json["id"]
     status = request.json["status"]
     Cla = Class.query.filter_by(id=id).first()
-    cla.grade_together = status
+    Cla.grade_together = status
     
     db.session.commit()
     db.session.close()
