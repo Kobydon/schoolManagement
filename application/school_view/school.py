@@ -1900,9 +1900,9 @@ def add_sba():
 @flask_praetorian.auth_required
 def get_sba_default():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    ntc = SBA.query.filter_by(school_name=user.school_name,default="1")
-    btc = ntc.order_by(desc(SBA.created_date))
-    result = school_schema.dump(btc)
+    ntc = SBA.query.filter_by(school_name=user.school_name,default="1").order_by(SBA.created_date.asc())
+    # btc = ntc.order_by(desc(SBA.created_date))
+    result = school_schema.dump(ntc)
     return jsonify(result)
 
 
