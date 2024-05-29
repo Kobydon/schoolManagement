@@ -1857,7 +1857,7 @@ def update_default():
     id =request.json["id"]
     default = request.json["status"]
     sba = SBA.query.filter_by(id=id).first()
-    sba.default = status
+    sba.default = default
     
     db.session.commit()
     db.session.close()
