@@ -1896,6 +1896,15 @@ def add_sba():
     return resp
 
 
+@school.route("/get_sba_default",methods=['GET'])
+@flask_praetorian.auth_required
+def get_sba_default():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    ntc = SBA.query.filter_by(school_name=user.school_name,default="1")
+    btc = ntc.order_by(desc(SBA.created_date))
+    result = school_schema.dump(btc)
+    return jsonify(result)
+
 
 @school.route("/get_sba_list",methods=['GET'])
 @flask_praetorian.auth_required
