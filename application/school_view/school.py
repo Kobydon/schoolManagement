@@ -1883,7 +1883,7 @@ def add_sba():
     default =""
     # usr = user.firstname +" " + user.lastname
     created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
-    ntc = SBA(name=name,category=category,default=default
+    ntc = SBA(name=name,category=category,default=default,
                    created_by_id=flask_praetorian.current_user().id ,
                    created_date=created_date,school_name=user.school_name)
   
