@@ -58,7 +58,7 @@ class schoolSchema(ma.Schema):
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name",
-                "exam_name","district","circuit","status" ,"role","image")
+                "exam_name","district","circuit","status" ,"role","image","percentage","default","category")
         
 
 
@@ -1879,11 +1879,12 @@ def update_default():
 def add_sba():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     name= request.json["name"]
-    category =request.json["category"]
+    category =request.json["category"],
+    percentage =request.json["percentage"]
     default =""
     # usr = user.firstname +" " + user.lastname
     created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
-    ntc = SBA(name=name,category=category,default=default,
+    ntc = SBA(name=name,category=category,default=default,percentage=percentage,
                    created_by_id=flask_praetorian.current_user().id ,
                    created_date=created_date,school_name=user.school_name)
   
@@ -1926,7 +1927,8 @@ def update_sba():
     sub_data.name = request.json["name"]
    
     sub_data.category = request.json["category"]
-  
+    sub_data.percentage = request.json["percentage"]
+     
     db.session.commit()
     db.session.close()
     resp = jsonify("success")
