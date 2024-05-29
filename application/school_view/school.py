@@ -1850,3 +1850,98 @@ def update_grade_together():
     resp = jsonify("success")
     resp.status_code=201
     return resp
+
+@school.route("/update_default",methods=['PUT'])
+@flask_praetorian.auth_required
+def update_default():
+    id =request.json["id"]
+    default = request.json["status"]
+    sba = SBA.query.filter_by(id=id).first()
+    sba.default = status
+    
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code=201
+    return resp
+
+
+
+
+
+
+
+
+
+
+@school.route("/add_sba",methods=['POST'])
+@flask_praetorian.auth_required
+def add_sba():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    name= request.json["name"]
+    category =request.json["category"]
+    default =""
+    # usr = user.firstname +" " + user.lastname
+    created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
+    ntc = SBA(name=name,category=category,default=default
+                   created_by_id=flask_praetorian.current_user().id ,
+                   created_date=created_date,school_name=user.school_name)
+  
+    db.session.add(ntc)
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
+
+
+
+@school.route("/get_sba_list",methods=['GET'])
+@flask_praetorian.auth_required
+def get_sba_list():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    ntc = SBA.query.filter_by(school_name=user.school_name)
+    btc = ntc.order_by(desc(SBA.created_date))
+    result = school_schema.dump(btc)
+    return jsonify(result)
+
+
+
+@school.route("/get_sba/<id>",methods=['GET'])
+@flask_praetorian.auth_required
+def get_sba(id):
+
+    ntc = SBA.query.filter_by(id=id)
+    result = school_schema.dump(ntc)
+    return jsonify(result)
+
+
+
+
+@school.route("/update_sba",methods=['PUT'])
+@flask_praetorian.auth_required
+def update_sba():
+    id = request.json["id"]
+    sub_data = SBA.query.filter_by(id=id).first()
+    sub_data.name = request.json["name"]
+   
+    sub_data.category = request.json["category"]
+  
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =201
+    return resp
+
+@school.route("/delete_sba/<id>",methods=['DELETE'])
+@flask_praetorian.auth_required
+def delete_sba(id):
+      sub_data = SBA.query.filter_by(id=id).first()
+      
+      db.session.delete(sub_data)
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code =201
+      return resp
+

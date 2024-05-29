@@ -264,6 +264,11 @@ class User(db.Model):
     backref = 'classie',
     lazy=True)
     
+    sb_byy  = db.relationship('SBA', 
+    foreign_keys ='SBA.created_by_id',
+    backref = 'classsetyasie',
+    lazy=True)
+    
     school_by  = db.relationship('School', 
     foreign_keys ='School.created_by_id',
     backref = 'schoolie',
@@ -571,6 +576,15 @@ class Event(db.Model):
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
 
+class SBA(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(5000))
+    category = db.Column(db.String(5000))
+    default = db.Column(db.String(400))
+    created_date = db.Column(db.String(400))
+    school_name = db.Column(db.String(400))
+ 
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
 
 
 class Holiday(db.Model):
