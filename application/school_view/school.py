@@ -848,7 +848,7 @@ def add_scheme():
     created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
     scm = Scheme(exams_score=exams_score,
                 class_score=class_score,
-                   school_name=school_name,subject_name=subject_name,created_date=created_date,
+                   school_name=school_name,created_date=created_date,
                    created_by_id=created_by_id)
     
     db.session.add(scm)
