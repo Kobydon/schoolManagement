@@ -863,6 +863,7 @@ class Scheme(db.Model):
     exams_score = db.Column(db.String(5000))
     class_score = db.Column(db.String(5000))
     school_name = db.Column(db.String(5000))
+    default = db.Column(db.String(5000))
     created_date  = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   

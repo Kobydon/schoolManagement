@@ -841,9 +841,9 @@ def add_scheme():
     # midterm_score =request.json["midterm_score"]
     class_score =request.json["class_score"]
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
-    stf = Staff.query.filter_by(staff_number=user.username).first()
-    school_name = stf.school_name
-    subject_name = request.json["subject_name"]
+   
+    school_name = user.school_name
+    # subject_name = request.json["subject_name"]
     created_by_id= flask_praetorian.current_user().id
     created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
     scm = Scheme(exams_score=exams_score,
@@ -1865,6 +1865,21 @@ def update_default():
     resp.status_code=201
     return resp
 
+@school.route("/update_scheme_default",methods=['PUT'])
+@flask_praetorian.auth_required
+def update_scheme_default():
+    id =request.json["id"]
+    default = request.json["status"]
+    sba = Scheme.query.filter_by(id=id).first()
+    sba.default = default
+    
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code=201
+    return resp
+
+
 
 
 
@@ -1894,6 +1909,16 @@ def add_sba():
     resp = jsonify("success")
     resp.status_code =200
     return resp
+
+
+@school.route("/get_scheme_default",methods=['GET'])
+@flask_praetorian.auth_required
+def get_scheme_default():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    ntc = Scheme.query.filter_by(school_name=user.school_name,default="1").order_by(Scheme.created_date.asc())
+    # btc = ntc.order_by(desc(SBA.created_date))
+    result = schema_schema.dump(ntc)
+    return jsonify(result)
 
 
 @school.route("/get_sba_default",methods=['GET'])
