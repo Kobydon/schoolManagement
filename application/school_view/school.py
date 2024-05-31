@@ -523,7 +523,7 @@ def add_staff_b_excel():
      
           
      
-        subject =request.json["Subject"]
+        # subject =request.json["Subject"]
         created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
         created_by_id =flask_praetorian.current_user().id
         find = Staff.query.filter_by(staff_number = staff_number).first()
