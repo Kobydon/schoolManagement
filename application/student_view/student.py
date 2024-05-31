@@ -834,7 +834,7 @@ def add_result_by_excel():
           if (classe.grade_together =="1"):
                     grd = Grading.query.filter_by(class_name= bd.class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
           else:
-                grd = Grading.query.filter_by(original_classc_name=bd.original_class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
+                grd = Grading.query.filter_by(original_class_name=bd.original_class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
           
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
