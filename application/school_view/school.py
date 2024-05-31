@@ -785,8 +785,9 @@ def update_class():
    
     cls_data = Class.query.filter_by(id=id).first()
     ct = Staff.query.filter_by(staff_number=cls_data.staff_number).first()
-    ct.form_master = "no"
-    ct.for_class = ""
+    if ct:
+        ct.form_master = "no"
+        ct.for_class = ""
     db.session.commit()
     cls_data.class_name = request.json["class_name"]
     cls_data.staff_number=request.json["staff_number"]
