@@ -1976,7 +1976,7 @@ def get_sba_default():
 @flask_praetorian.auth_required
 def get_sba_class_score():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    ntc =  db.session.query(func.sum(cast(SBA.percentage,Float))).filter(SBA.category=="class_score",school_name=user.school_name).scalar()
+    ntc =  db.session.query(func.sum(cast(SBA.percentage,Float))).filter(SBA.category=="class_score",SBA.school_name==user.school_name).scalar()
     # btc = ntc.order_by(desc(SBA.created_date))
     print(ntc)
     result = school_schema.dump(ntc)
@@ -1986,7 +1986,7 @@ def get_sba_class_score():
 @flask_praetorian.auth_required
 def get_sba_exam_score():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    ntc =  db.session.query(func.sum(cast(SBA.percentage,Float))).filter(SBA.category=="exam_score",school_name=user.school_name).scalar()
+    ntc =  db.session.query(func.sum(cast(SBA.percentage,Float))).filter(SBA.category=="exam_score",SBA.school_name==user.school_name).scalar()
     # btc = ntc.order_by(desc(SBA.created_date))
     result = school_schema.dump(ntc)
     return jsonify(result)
