@@ -765,24 +765,24 @@ def get_class():
 @flask_praetorian.auth_required
 def search_class_list():
     # class_name = request.json["class_name"]
-    user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
-    
-    std = db.session.query(Grading, GeneralRemark, BroadSheet, School).\
-    join( GeneralRemark, (Grading.student_number ==  GeneralRemark.student_number) & 
-                         (Grading.class_name ==  GeneralRemark.class_name)).\
-    join(BroadSheet, (Grading.student_number == BroadSheet.student_number) & 
-                         (Grading.class_name == BroadSheet.class_name)).\
-    join(School, (Grading.school_name == user.school_name)).\
-    filter(Grading.class_name == 'JHS 1B').\
-    filter(School.school_name == user.school_name).\
-    all()
+        user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+    # Join the three tables based on their relationships
+        std = db.session.query(GeneralRemark, Grading, BroadSheet).\
+        join(Grading, GeneralRemark.student_number == Grading.student_number).\
+        join(BroadSheet, GeneralRemark.student_number == BroadSheet.student_number).\
+        filter(GeneralRemark.class_name == "JHS 1B",
+               Grading.class_name == "JHS 1B",
+               BroadSheet.class_name == "JHS 1B",
+               GeneralRemark.school_name == user.school_name,
+               Grading.school_name ==  user.school_name,
+               BroadSheet.school_name ==  user.school_name).\
+        all()
 
         
+     
         
-        
-    
-    result = student_schema.dump(std)
-    return jsonify(result)
+        result = student_schema.dump(std)
+        return jsonify(result)
 
 
 
