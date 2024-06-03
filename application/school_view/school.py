@@ -18,7 +18,13 @@ class StudentSchema(ma.Schema):
     class Meta:
         fields=("id","first_name","last_name","student_number","email","parent_name","admitted_year",
                 "address","residential_status","parent_phone","address","phone","created_date",
-                "form","class_name","status","subject_name","name","other_name"
+                "form","class_name" ,"exams_score","midterm_score","class_score","total","remark","subject_name",
+                "attitude","teacher_remark","interest","headmaster_remark","conduct",
+                "attendance","class_term","grade","rank","pos","term","grade_id","staff_number","name",
+                "status","amount","method","balance","paid_by","student","date","fees_type","cls",
+                "other_name",
+                "rme","science","math","social","pos","creativeart","careertech","english","computing",
+                "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa","admission_number"
 )
    
 class DepartmentSchema(ma.Schema):
