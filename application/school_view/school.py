@@ -785,7 +785,8 @@ def search_class_list():
             Grading.rank,
             Grading.remark,
             BroadSheet.all_total
-            BroadSheet.pos
+            BroadSheet.pos,
+            BroadSheet.name
          ).join(
             Grading, GeneralRemark.student_number == Grading.student_number
          ).join(
