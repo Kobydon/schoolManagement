@@ -5,10 +5,10 @@ from  application.extensions.extensions import *
 from  application.settings.settings import *
 from  application.settings.setup import app
 from sqlalchemy.dialects.sqlite import *
-
+from sqlalchemy import or_,and_ ,desc ,cast, Float ,func
 # from application.forms import LoginForm
 from application.database.main_db.db import *
-from sqlalchemy import or_,desc,and_
+from sqlalchemy import or_,desc
 from datetime import datetime
 from datetime import date
 from flask import session
