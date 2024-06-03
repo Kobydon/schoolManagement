@@ -773,7 +773,6 @@ def search_class_list():
         filter(GeneralRemark.class_name == "JHS 1B",
                Grading.class_name == "JHS 1B",
                BroadSheet.class_name == "JHS 1B",
-               GeneralRemark.school_name == user.school_name,
                Grading.school_name ==  user.school_name,
                BroadSheet.school_name ==  user.school_name).\
         all()
