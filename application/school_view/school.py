@@ -787,12 +787,12 @@ def search_class_list():
             BroadSheet.school_name == school_name
          ).all()
 
-         return query
+         result = student_schema.dump(query)
 # Example usage:
-      
+         return jsonify(result)
 
         # Return the formatted data
-         print(jsonify(query))
+        
 
 
 @school.route("/get_class_info/<id>",methods=['GET'])
