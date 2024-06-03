@@ -21,7 +21,7 @@ class StudentSchema(ma.Schema):
                 "form","class_name" ,"exams_score","midterm_score","class_score","total","remark","subject_name",
                 "attitude","teacher_remark","interest","headmaster_remark","conduct",
                 "attendance","class_term","grade","rank","pos","term","grade_id","staff_number","name",
-                "status","amount","method","balance","paid_by","student","date","fees_type","cls",
+                "status","amount","method","balance","paid_by","student","date","fees_type","cls","student_name",
                 "other_name",
                 "rme","science","math","social","pos","creativeart","careertech","english","computing",
                 "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa","admission_number"
@@ -786,7 +786,7 @@ def search_class_list():
             Grading.remark,
             BroadSheet.all_total,
             BroadSheet.pos,
-            BroadSheet.name
+            BroadSheet.student_name
          ).join(
             Grading, GeneralRemark.student_number == Grading.student_number
          ).join(
