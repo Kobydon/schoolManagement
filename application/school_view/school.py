@@ -775,26 +775,26 @@ def search_class_list():
          ).join(
          Grading, GeneralRemark.student_number == Grading.student_number
          ).join(
-        BroadSheet, GeneralRemark.student_number == BroadSheet.student_number
-        ).filter(
-        GeneralRemark.class_name == class_name,
-        Grading.class_name == class_name,
-        BroadSheet.class_name == class_name,
-        Grading.school_name == school_name,
-        BroadSheet.school_name == school_name
-        ).all()
+         BroadSheet, GeneralRemark.student_number == BroadSheet.student_number
+         ).filter(
+         GeneralRemark.class_name == class_name,
+         Grading.class_name == class_name,
+         BroadSheet.class_name == class_name,
+         Grading.school_name == school_name,
+         BroadSheet.school_name == school_name
+         ).all()
 
-        return query
+         return query
 
 # Example usage:
-        class_name = "JHS 1B"     # Example class_name
-        school_name = "Immaculate Santa Maria R/C jhs"  # Example school_name
+         class_name = "JHS 1B"     # Example class_name
+         school_name = "Immaculate Santa Maria R/C jhs"  # Example school_name
 
-        data = join_data(class_name, school_name)
+         data = join_data(class_name, school_name)
 
         # Convert the query result into the specified format
-        formatted_data = []
-        for row in data:
+         formatted_data = []
+         for row in data:
             formatted_data.append({
                 "student_number": row.student_number,
                 "attitude": row.attitude,
