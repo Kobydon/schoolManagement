@@ -771,10 +771,10 @@ def search_class_list():
     # Join the three tables based on their relationships
                 # Join the three tables based on their relationships
          query = db.session.query(
-            GeneralRemark.student_number,
-            GeneralRemark.attitude,
-            Grading.total,
-            BroadSheet.all_total
+            GeneralRemark,
+            GeneralRemark,
+            Grading,
+            BroadSheet
          ).join(
             Grading, GeneralRemark.student_number == Grading.student_number
          ).join(
