@@ -772,10 +772,7 @@ def search_class_list():
         join(BroadSheet, GeneralRemark.student_number == BroadSheet.student_number).\
         filter(GeneralRemark.class_name == "JHS 1B",
                Grading.class_name == "JHS 1B",
-               BroadSheet.class_name == "JHS 1B",
-               Grading.school_name ==  user.school_name,
-               BroadSheet.school_name ==  user.school_name).\
-        all()
+               BroadSheet.class_name == "JHS 1B").all()
 
         
      
