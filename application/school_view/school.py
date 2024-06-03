@@ -760,7 +760,21 @@ def get_class():
 def search_class_list():
     # class_name = request.json["class_name"]
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
-    std = Student.query.filter_by(class_name="JHS 1B",school_name=user.school_name).all()
+    
+    std = db.session.query(Grading, Remark, BroadSheet, School).\
+    join(Remark, (Grading.student_number == Remark.student_number) & 
+                         (Grading.class_name == Remark.class_name)).\
+    join(BroadSheet, (Grading.student_number == BroadSheet.student_number) & 
+                         (Grading.class_name == BroadSheet.class_name)).\
+    join(School, (Grading.school_name == user.school_name)).\
+    filter(Grading.class_name == 'JHS 1B').\
+    filter(School.name == user.school_name).\
+    all()
+
+        
+        
+        
+    
     result = student_schema.dump(std)
     return jsonify(result)
 
