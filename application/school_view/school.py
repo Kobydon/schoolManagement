@@ -774,7 +774,7 @@ def search_class_list():
                          (Grading.class_name == BroadSheet.class_name)).\
     join(School, (Grading.school_name == user.school_name)).\
     filter(Grading.class_name == 'JHS 1B').\
-    filter(School.name == user.school_name).\
+    filter(School.school_name == user.school_name).\
     all()
 
         
