@@ -832,6 +832,7 @@ def search_class_list():
         if not student_data:
             student_data = {
                 'student_number': student_number,
+                'name':name,
                 'grading': [],
                 'general_remark': [],
                 'broad_sheet': []
