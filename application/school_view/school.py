@@ -806,9 +806,9 @@ def search_class_list():
     for row in query:
         student_number = row[0]  # Accessing attributes using index
         subject_name = row[8]  # Adjust indices according to the order of attributes in your query
-        exams_score = row[11]
-        class_score = row[10]
-        rank = row[12]
+        exams_score = row[10]
+        class_score = row[9]
+        rank = row[11]
         total = row[7]
         remark = row[13]
         attitude = row[1]
@@ -819,7 +819,7 @@ def search_class_list():
         attendance = row[4]
         all_total = row[14]
         pos = row[15]
-        grade =row[13]
+        grade =row[12]
 
         # Check if student number is already in grouped_data
         student_data = next((data for data in grouped_data if data['student_number'] == student_number), None)
@@ -841,7 +841,8 @@ def search_class_list():
             'class_score': class_score,
             'total': total,
             'rank': rank,
-            'grade':grade
+            'grade':grade,
+            'remark':remark
         })
 
     # Update or append general remark
