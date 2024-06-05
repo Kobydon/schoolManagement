@@ -846,8 +846,7 @@ def search_class_list():
             'total': total,
             'rank': rank,
             'grade':grade,
-            'remark':remark,
-            'name' : name
+            'remark':remark
         })
 
     # Update or append general remark
