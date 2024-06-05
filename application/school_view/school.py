@@ -801,7 +801,7 @@ def search_class_list():
 
          grouped_data = []
 
-         for row in data:
+         for row in query:
                 student_number = row.Grading.student_number
                 subject_name = row.Grading.subject_name
                 exams_score = row.Grading.exams_score
