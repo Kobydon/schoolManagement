@@ -766,9 +766,12 @@ def get_class():
 def search_class_list():
     
     # class_name = request.json["class_name"]
-    class_name = "JHS 1B"     # Example class_name
-    school_name = "Immaculate Santa Maria R/C jhs"  # Example school_name
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+    class_name = request.json["class_name"]
+    term = request.json["term"]
+    year = request.json["year"]# Example class_name
+    school_name = user.school_name  # Example school_name
+    
     # Join the three tables based on their relationships
                 # Join the three tables based on their relationships
     query = db.session.query(
@@ -799,7 +802,11 @@ def search_class_list():
     Grading.original_class_name == class_name,
     BroadSheet.original_class_name == class_name,
     Grading.school_name == school_name,
-    BroadSheet.school_name == school_name
+    BroadSheet.school_name == school_name,
+    BroadSheet.year == year,
+    BroadSheet.term == term,
+    Grading.year == year,
+    Grading.term == term,
     ).all()
 
     grouped_data = []
