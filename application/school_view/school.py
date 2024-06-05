@@ -764,10 +764,11 @@ def get_class():
 @school.route("/search_class_list",methods=['POST'])
 @flask_praetorian.auth_required
 def search_class_list():
+    
     # class_name = request.json["class_name"]
-         class_name = "JHS 1B"     # Example class_name
-         school_name = "Immaculate Santa Maria R/C jhs"  # Example school_name
-         user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+        class_name = "JHS 1B"     # Example class_name
+        school_name = "Immaculate Santa Maria R/C jhs"  # Example school_name
+        user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     # Join the three tables based on their relationships
                 # Join the three tables based on their relationships
         query = db.session.query(
