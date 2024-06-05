@@ -799,9 +799,52 @@ def search_class_list():
             BroadSheet.school_name == school_name
          ).all()
 
-         result = student_schema.dump(query)
-# Example usage:
-         return jsonify(result)
+         grouped_data = []
+
+         for row in data:
+                student_number = row.Grading.student_number
+                subject_name = row.Grading.subject_name
+                exams_score = row.Grading.exams_score
+                class_score = row.Grading.class_score
+                rank = row.Grading.rank
+                total = row.Grading.total
+                remark = row.Grading.remark
+                attitude = row.GeneralRemark.attitude
+                conduct = row.GeneralRemark.conduct
+                interest = row.GeneralRemark.interest
+                teacher_remark = row.GeneralRemark.teacher_remark
+                headmaster_remark = row.GeneralRemark.headmaster_remark
+                attendance = row.GeneralRemark.attendance
+                all_total = row.BroadSheet.all_total,
+                pos = row.BroadSheet.pos,
+
+                student_data = {
+                    'student_number': student_number,
+                    'grading': [],
+                    'general_remark': [],
+                    'broad_sheet': []
+                }
+
+                student_data['grading'].append({'subject': subject_name, 'exams_score': exams_score, 'class_score': class_score, 'total': total, 'rank': rank})
+                student_data['general_remark'].append({'attitude': attitude,'conduct': conduct,'interest': interest,
+                                                       'headmaster_remark': headmaster_remark,'attendance': attendance,'teacher_remark': teacher_remark})
+                student_data['broad_sheet'].append({'all_total': all_total,'pos': pos})
+
+                grouped_data.append(student_data)
+
+        # Group the data by student number
+         grouped_data = [
+            {
+                'student_number': student_data['student_number'],
+                'grading': student_data['grading'],
+                'general_remark': student_data['general_remark'],
+                'broad_sheet': student_data['broad_sheet']
+            }
+            for student_data in grouped_data
+            if student_data['student_number'] not in [d['student_number'] for d in grouped_data]
+         ]
+         print(group_data)
+         return grouped_data
 
         # Return the formatted data
         
