@@ -770,32 +770,38 @@ def search_class_list():
          user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     # Join the three tables based on their relationships
                 # Join the three tables based on their relationships
-         query = db.session.query(
-            GeneralRemark.student_number,
-            GeneralRemark.attitude,
-            GeneralRemark.conduct,
-            GeneralRemark.interest,
-            GeneralRemark.attendance,
-            GeneralRemark.teacher_remark,
-            GeneralRemark.headmaster_remark,
-            Grading.total,
-            Grading.subject_name,
-            Grading.class_score,
-            Grading.exams_score,
-            Grading.rank,
-            Grading.remark,
-            BroadSheet.all_total,
-            BroadSheet.pos,
-            BroadSheet.student_name
-         ).join(
+        query = db.session.query(
+        GeneralRemark.student_number,
+        GeneralRemark.attitude,
+        GeneralRemark.conduct,
+        GeneralRemark.interest,
+        GeneralRemark.attendance,
+        GeneralRemark.teacher_remark,
+        GeneralRemark.headmaster_remark,
+        Grading.total,
+        Grading.subject_name,
+        Grading.class_score,
+        Grading.exams_score,
+        Grading.rank,
+        Grading.remark,
+        BroadSheet.all_total,
+        BroadSheet.pos,
+        BroadSheet.student_name
+        ).join(
             Grading, GeneralRemark.student_number == Grading.student_number
-         ).join(
+        ).join(
             BroadSheet, GeneralRemark.student_number == BroadSheet.student_number
-         ).all()
+        ).filter(
+            GeneralRemark.class_name == class_name,
+            Grading.original_class_name == class_name,
+            BroadSheet.original_class_name == class_name,
+            Grading.school_name == school_name,
+            BroadSheet.school_name == school_name
+        ).all()
 
-         grouped_data = []
+        grouped_data = []
 
-         for row in query:
+        for row in query:
                 student_number = row[0]  # Accessing attributes using index
                 subject_name = row[8]  # Adjust indices according to the order of attributes in your query
                 exams_score = row[11]
@@ -812,34 +818,24 @@ def search_class_list():
                 all_total = row[14]
                 pos = row[15]
 
-                student_data = {
-                    'student_number': student_number,
-                    'grading': [],
-                    'general_remark': [],
-                    'broad_sheet': []
-                }
-
-                student_data['grading'].append({'subject': subject_name, 'exams_score': exams_score, 'class_score': class_score, 'total': total, 'rank': rank})
-                student_data['general_remark'].append({'attitude': attitude,'conduct': conduct,'interest': interest,
-                                                       'headmaster_remark': headmaster_remark,'attendance': attendance,'teacher_remark': teacher_remark})
-                student_data['broad_sheet'].append({'all_total': all_total,'pos': pos})
-
-                grouped_data.append(student_data)
-
-        # Group the data by student number
-         grouped_data = [
-            {
-                'student_number': student_data['student_number'],
-                'grading': student_data['grading'],
-                'general_remark': student_data['general_remark'],
-                'broad_sheet': student_data['broad_sheet']
+            student_data = {
+                'student_number': student_number,
+                'grading': [],
+                'general_remark': [],
+                'broad_sheet': []
             }
-            for student_data in grouped_data
-            if student_data['student_number'] not in [d['student_number'] for d in grouped_data]
-         ]
-         print(grouped_data)
-         return grouped_data
 
+            student_data['grading'].append({'subject': subject_name, 'exams_score': exams_score, 'class_score': class_score, 'total': total, 'rank': rank})
+            student_data['general_remark'].append({'attitude': attitude,'conduct': conduct,'interest': interest,
+                                                'headmaster_remark': headmaster_remark,'attendance': attendance,'teacher_remark': teacher_remark})
+            student_data['broad_sheet'].append({'all_total': all_total,'pos': pos})
+
+            grouped_data.append(student_data)
+
+# No need to group the data again by student number
+
+        print(grouped_data)
+        return grouped_data
         # Return the formatted data
         
 
