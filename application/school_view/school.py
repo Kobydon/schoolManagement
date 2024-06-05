@@ -784,6 +784,7 @@ def search_class_list():
     Grading.class_score,
     Grading.exams_score,
     Grading.rank,
+    Grading.grade,
     Grading.remark,
     BroadSheet.all_total,
     BroadSheet.pos,
@@ -818,6 +819,7 @@ def search_class_list():
         attendance = row[4]
         all_total = row[14]
         pos = row[15]
+        grade =row[13]
 
         # Check if student number is already in grouped_data
         student_data = next((data for data in grouped_data if data['student_number'] == student_number), None)
@@ -838,7 +840,8 @@ def search_class_list():
             'exams_score': exams_score,
             'class_score': class_score,
             'total': total,
-            'rank': rank
+            'rank': rank,
+            'grade':grade
         })
 
     # Update or append general remark
