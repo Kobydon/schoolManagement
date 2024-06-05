@@ -788,7 +788,8 @@ def search_class_list():
     Grading.remark,
     BroadSheet.all_total,
     BroadSheet.pos,
-    BroadSheet.student_name
+    BroadSheet.student_name,
+    Grading.name
     ).join(
     Grading, GeneralRemark.student_number == Grading.student_number
     ).join(
@@ -804,7 +805,8 @@ def search_class_list():
     grouped_data = []
 
     for row in query:
-        student_number = row[0]  # Accessing attributes using index
+        student_number = row[0]
+        # Accessing attributes using index
         subject_name = row[8]  # Adjust indices according to the order of attributes in your query
         exams_score = row[10]
         class_score = row[9]
@@ -820,6 +822,8 @@ def search_class_list():
         all_total = row[14]
         pos = row[15]
         grade =row[12]
+        name=  row[17]
+        
 
         # Check if student number is already in grouped_data
         student_data = next((data for data in grouped_data if data['student_number'] == student_number), None)
@@ -842,7 +846,8 @@ def search_class_list():
             'total': total,
             'rank': rank,
             'grade':grade,
-            'remark':remark
+            'remark':remark,
+            'name' : name
         })
 
     # Update or append general remark

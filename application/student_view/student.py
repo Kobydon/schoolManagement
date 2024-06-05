@@ -630,7 +630,7 @@ def add_result_by_excel():
           st = db.session.query(Student).filter_by(student_number=s_num).first()
           bd = BroadSheet.query.filter_by(student_number=s_num).first()
           
-          name = st.first_name+" "+st.other_name+" "+st.last_name
+          name = st.last_name+" "+st.other_name+" "+st.first_name
           print(name)
           # midterm_score  = request.json["midterm_score"]
           class_name = bd.class_name
