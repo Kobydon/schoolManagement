@@ -802,21 +802,21 @@ def search_class_list():
          grouped_data = []
 
          for row in query:
-                student_number = row.GeneralRemark.student_number
-                subject_name = row.Grading.subject_name
-                exams_score = row.Grading.exams_score
-                class_score = row.Grading.class_score
-                rank = row.Grading.rank
-                total = row.Grading.total
-                remark = row.Grading.remark
-                attitude = row.GeneralRemark.attitude
-                conduct = row.GeneralRemark.conduct
-                interest = row.GeneralRemark.interest
-                teacher_remark = row.GeneralRemark.teacher_remark
-                headmaster_remark = row.GeneralRemark.headmaster_remark
-                attendance = row.GeneralRemark.attendance
-                all_total = row.BroadSheet.all_total,
-                pos = row.BroadSheet.pos,
+                student_number = row[0]  # Accessing attributes using index
+                subject_name = row[8]  # Adjust indices according to the order of attributes in your query
+                exams_score = row[11]
+                class_score = row[10]
+                rank = row[12]
+                total = row[7]
+                remark = row[13]
+                attitude = row[1]
+                conduct = row[2]
+                interest = row[3]
+                teacher_remark = row[5]
+                headmaster_remark = row[6]
+                attendance = row[4]
+                all_total = row[14]
+                pos = row[15]
 
                 student_data = {
                     'student_number': student_number,
