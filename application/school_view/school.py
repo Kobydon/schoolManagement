@@ -819,19 +819,19 @@ def search_class_list():
                 all_total = row[14]
                 pos = row[15]
 
-            student_data = {
-                'student_number': student_number,
-                'grading': [],
-                'general_remark': [],
-                'broad_sheet': []
-            }
+                student_data = {
+                    'student_number': student_number,
+                    'grading': [],
+                    'general_remark': [],
+                    'broad_sheet': []
+                }
 
-            student_data['grading'].append({'subject': subject_name, 'exams_score': exams_score, 'class_score': class_score, 'total': total, 'rank': rank})
-            student_data['general_remark'].append({'attitude': attitude,'conduct': conduct,'interest': interest,
-                                                'headmaster_remark': headmaster_remark,'attendance': attendance,'teacher_remark': teacher_remark})
-            student_data['broad_sheet'].append({'all_total': all_total,'pos': pos})
+                student_data['grading'].append({'subject': subject_name, 'exams_score': exams_score, 'class_score': class_score, 'total': total, 'rank': rank})
+                student_data['general_remark'].append({'attitude': attitude,'conduct': conduct,'interest': interest,
+                                                    'headmaster_remark': headmaster_remark,'attendance': attendance,'teacher_remark': teacher_remark})
+                student_data['broad_sheet'].append({'all_total': all_total,'pos': pos})
 
-            grouped_data.append(student_data)
+                grouped_data.append(student_data)
 
 # No need to group the data again by student number
 
