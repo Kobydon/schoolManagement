@@ -843,7 +843,7 @@ def search_class_list():
             for student_data in grouped_data
             if student_data['student_number'] not in [d['student_number'] for d in grouped_data]
          ]
-         print(group_data)
+         print(grouped_data)
          return grouped_data
 
         # Return the formatted data
