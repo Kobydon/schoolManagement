@@ -791,12 +791,6 @@ def search_class_list():
             Grading, GeneralRemark.student_number == Grading.student_number
          ).join(
             BroadSheet, GeneralRemark.student_number == BroadSheet.student_number
-         ).filter(
-            GeneralRemark.class_name == class_name,
-            Grading.original_class_name == class_name,
-            BroadSheet.original_class_name == class_name,
-            Grading.school_name == school_name,
-            BroadSheet.school_name == school_name
          ).all()
 
          grouped_data = []
