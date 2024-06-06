@@ -792,6 +792,7 @@ class BroadSheet(db.Model):
           term = db.Column(db.String(5000))
           pos =  db.Column(db.String(400))
           class_name =db.Column(db.String(400))
+          aggregate = db.Column(db.String(400))
          
           created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))
 
@@ -815,6 +816,7 @@ class Grading(db.Model):
           created_date  = db.Column(db.String(400))
           all_total =  db.Column(db.String(400))
           name=db.Column(db.String(400))
+          
           school_name = db.Column(db.String(5000))
           grade = db.Column(db.String(5000))
           student_number = db.Column(db.String(5000))

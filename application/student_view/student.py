@@ -824,10 +824,16 @@ def add_result_by_excel():
       
         #   if (subject_name=="Career Tech"):
         #       bd.careertech = total
+         
+          agre_score= Grading.query.filter_by(student_number=student_number).order_by(Grading.grade.asc()).limit(6).all()
+        #   best_three = agre_score[:6]
+          aggregate = sum(int(student.grade) for student in agre_score )
+          
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
           total_marks = db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number).scalar()
          
           bd.all_total = round( total_marks,1)
+          bd.aggregate = aggregate
           print(bd.all_total)
           classe = Class.query.filter_by(class_name=class_name).first()
           if (classe.grade_together =="1"):
