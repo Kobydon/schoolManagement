@@ -474,46 +474,72 @@ def add_grade():
           grade=0
           if (total in range(80,101)):
               remark  = "EXCELLENT"
-              grade   = 1
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 1
+              else:
+                grade   = "A"
               
               
           if (total in range(70,80)):
               remark  = "VERY GOOD"
-              grade =2
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 2
+              else:
+                grade   = "B"
               
                         
           if (total in range(65,70)):
               remark  = " GOOD"
-              grade = 3
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = "C"
+              else:
+                grade = 3
               
           if (total in range(60,65)):
               remark  = "CREDIT"
-              grade = 4
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 4
+              else:
+                grade   = "D"
           
               
           if (total in range(55,60)):
               remark  = " AVERAGE"
-              grade = 5
-           
+               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 5
+               else:
+                grade   = "E"
           if (total in range(50,55)):
               remark  = " AVERAGE"
-              grade = 6
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 6
+              else:
+                grade   = "F"
           
               
           if (total in range(45,50)):
               remark  = " PASS"
-              grade= 7
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 7
+              else:
+                grade   = "G"
    
               
-          if (total in range(40,45)):
+          if (total in range(40,49)):
               remark  = "WEAK PASS"
-              grade =8
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 8
+              else:
+                grade   = "H"
               
       
               
-          if (total in range(0,40)):
+          if (total in range(1,40)):
               remark  = " FAIL"
-              grade = 9 
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 9
+              else:
+                grade   = "I"
           acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
           grade = Grading( subject_name= subject_name,name=name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=acd.year,grade=grade,
                  school_name=school_name ,exams_score= new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
@@ -685,47 +711,72 @@ def add_result_by_excel():
 
           if (total in range(80,101)):
               remark  = "EXCELLENT"
-              grade   = 1
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 1
+              else:
+                grade   = "A"
               
               
           if (total in range(70,80)):
               remark  = "VERY GOOD"
-              grade =2
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 2
+              else:
+                grade   = "B"
               
                         
           if (total in range(65,70)):
               remark  = " GOOD"
-              grade = 3
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = "C"
+              else:
+                grade = 3
               
           if (total in range(60,65)):
               remark  = "CREDIT"
-              grade = 4
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 4
+              else:
+                grade   = "D"
           
               
           if (total in range(55,60)):
               remark  = " AVERAGE"
-              grade = 5
-          
+               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 5
+               else:
+                grade   = "E"
           if (total in range(50,55)):
               remark  = " AVERAGE"
-              grade = 6
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 6
+              else:
+                grade   = "F"
           
               
           if (total in range(45,50)):
               remark  = " PASS"
-              grade= 7
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 7
+              else:
+                grade   = "G"
    
               
           if (total in range(40,49)):
               remark  = "WEAK PASS"
-              grade =8
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 8
+              else:
+                grade   = "H"
               
       
               
           if (total in range(1,40)):
               remark  = " FAIL"
-              grade = 9 
-          
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  grade = 9
+              else:
+                grade   = "I"
           acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
           grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=acd.year,grade=grade,
                      school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
@@ -1322,10 +1373,12 @@ def add_payment():
     paid_by = request.json["paid_by"]
     cls =request.json["class"]
     school_name = user.school_name
+    std = Student.query.filter_by(student_number=student).first()
+    name = std.last_name +" "+ std.other_name+" "+ std.first_name
     created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
     created_by_id = flask_praetorian.current_user().id
     balance = int(ftype.total_amount)- int(amount)
-    pmt = FeesPayment(student=student , method=method,fees_type=fees_type,date=date,created_date=created_date,
+    pmt = FeesPayment(student=name ,student_number=student, method=method,fees_type=fees_type,date=date,created_date=created_date,
  amount=amount,created_by_id=created_by_id ,balance=balance,school_name=school_name,cls= cls,paid_by=paid_by)
     db.session.add(pmt)
     db.session.commit()
@@ -1346,7 +1399,7 @@ def get_payment_list():
 def get_my_payment():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     bd = BroadSheet.query.filter_by(student_number=user.username).first()
-    pmt = FeesPayment.query.filter(FeesPayment.student.contains(bd.student_name)).all()
+    pmt = FeesPayment.query.filter(FeesPayment.student_number.contains(bd.student_number)).all()
     result = student_schema.dump(pmt)
     return jsonify(result)
 
