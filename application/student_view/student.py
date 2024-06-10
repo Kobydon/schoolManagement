@@ -505,7 +505,7 @@ def add_grade():
               
           if (total in range(55,60)):
               remark  = " AVERAGE"
-               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 5
                else:
                 grade   = "E"
