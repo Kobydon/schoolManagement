@@ -1737,7 +1737,7 @@ def promote_student():
          db.session.commit()
          
      else:
-        new =BroadSheet(student_name =bc.student_name,class_name=c_name,student_number=bc.student_number,,promotion_status="Promoted",
+        new =BroadSheet(student_name =bc.student_name,class_name=c_name,student_number=bc.student_number,promotion_status="Promoted",
                             school_name =user.school_name,original_class_name=original_class_name,year=year)
         
         db.session.add(new)
