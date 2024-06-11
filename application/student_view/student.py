@@ -1667,7 +1667,7 @@ def search_broadsheet():
 def get_search_broadsheet_class():
     
     user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
-    class_name = request.json["class_name"]
+    class_name = request.json["promotion_class"]
     # term = request.json["term"]
     # year = request.json["year"]
     # if (class_name =="JHS 1A" or class_name=="JHS 1B"):
