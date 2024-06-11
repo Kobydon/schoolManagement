@@ -1726,8 +1726,8 @@ def promote_student():
      bd = BroadSheet.query.filter_by(student_number=student_number,year=year).first()
      bc = BroadSheet.query.filter_by(student_number=student_number).first()
      std = Student.query.filter_by(student_number=student_number).first()
-   
-     std.class_name = class_name
+     if std:
+         std.class_name = class_name
      
      if bd:
          bd.class_name=c_name
@@ -1739,7 +1739,9 @@ def promote_student():
      else:
         new =BroadSheet(student_name =bc.student_name,class_name=c_name,student_number=bc.student_number,
                             school_name =user.school_name,original_class_name=original_class_name,year=year)
-    
+        
+        db.session.add(new)
+        db.session.commit()
      resp = jsonify("success")
      resp.status_code=200
      return resp
