@@ -1738,7 +1738,7 @@ def promote_student():
          
      else:
         new =BroadSheet(student_name =bc.student_name,class_name=c_name,student_number=bc.student_number,promotion_status="Promoted",
-                            school_name =user.school_name,original_class_name=original_class_name,year=year)
+                         all_total="0",   school_name =user.school_name,original_class_name=original_class_name,year=year)
         
         db.session.add(new)
         db.session.commit()
@@ -1783,7 +1783,7 @@ def repeat_student():
          
      else:
         new =BroadSheet(student_name =bc.student_name,class_name=c_name,student_number=bc.student_number,promotion_status="Repeated",
-                        all_total="",
+                        all_total="0",
                             school_name =user.school_name,original_class_name=original_class_name,year=year)
     
      resp = jsonify("success")
