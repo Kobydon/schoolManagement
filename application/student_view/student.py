@@ -1726,8 +1726,8 @@ def promote_student():
      bd = BroadSheet.query.filter_by(student_number=student_number,year=year).first()
      bc = BroadSheet.query.filter_by(student_number=student_number).first()
      std = Student.query.filter_by(student_number=student_number).first()
-     if std:
-         std.class_name = class_name
+   
+     std.class_name = class_name
      
      if bd:
          bd.class_name=c_name
