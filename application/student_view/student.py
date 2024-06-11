@@ -1782,7 +1782,8 @@ def repeat_student():
          db.session.commit()
          
      else:
-        new =BroadSheet(student_name =bc.student_name,class_name=c_name,student_number=bc.student_number,
+        new =BroadSheet(student_name =bc.student_name,class_name=c_name,student_number=bc.student_number,promotion_status="",
+                        all_total="",
                             school_name =user.school_name,original_class_name=original_class_name,year=year)
     
      resp = jsonify("success")
