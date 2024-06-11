@@ -1662,7 +1662,28 @@ def search_broadsheet():
     result = student_schema.dump(la)
     return jsonify(result)
           
-
+@student.route("/get_search_broadsheet_class",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def get_search_broadsheet_class():
+    
+    user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
+    class_name = request.json["class_name"]
+    # term = request.json["term"]
+    # year = request.json["year"]
+    # if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+    #                 c_name = class_name[:5] 
+                    
+    # elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+    #                 c_name = class_name[:5] 
+  
+    
+    # else:
+    #     c_name =class_name
+        
+    bd = BroadSheet.query.filter_by(original_class_name= class_name ,school_name=user.school_name)
+    la = bd.order_by(desc(BroadSheet.all_total))
+    result = student_schema.dump(la)
+    return jsonify(result)
 
 @student.route("/get_general_remark",methods=['GET'])
 @flask_praetorian.auth_required
@@ -1683,3 +1704,83 @@ def delete_remark(id):
  
  
  
+@student.route("/promote_student",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def promote_student():
+    
+     user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
+     class_name = request.json["promotion_class"]
+     student_number = request.json["student_number"]
+     original_class_name =class_name
+     year = request.json["year"]
+     if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+                    c_name = class_name[:5] 
+                    
+     elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+                    c_name = class_name[:5] 
+                    
+     elif (class_name =="JHS 3A" or class_name=="JHS 3B" or class_name=="JHS 3C"):
+                    c_name = class_name[:5] 
+     else:
+         c_name =class_name
+     bd = BroadSheet.query.filter_by(student_number=student_number,year=year).first()
+     std = Student.query.filter_by(student_number=student_number,year=year).first()
+     if std:
+         std.class_name = class_name
+     
+     if bd:
+         bd.class_name=c_name
+         bd.original_class_name=class_name
+         bd.year = year
+         bd.promotion_status= "Promoted"
+         db.session.commit()
+         
+     else:
+        new =BroadSheet(student_name =bd.student_name,class_name=c_name,student_number=db.student_number,
+                            school_name =user.school_name,original_class_name=original_class_name,year=year)
+    
+     resp = jsonify("success")
+     resp.status_code=200
+     return resp
+
+
+
+ 
+@student.route("/repeat_student",methods=["POST","GET"])
+@flask_praetorian.auth_required
+def repeat_student():
+    
+     user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
+     class_name = request.json["promotion_class"]
+     student_number = request.json["student_number"]
+     original_class_name =class_name
+     year = request.json["year"]
+     if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+                    c_name = class_name[:5] 
+                    
+     elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+                    c_name = class_name[:5] 
+                    
+     elif (class_name =="JHS 3A" or class_name=="JHS 3B" or class_name=="JHS 3C"):
+                    c_name = class_name[:5] 
+     else:
+         c_name =class_name
+     bd = BroadSheet.query.filter_by(student_number=student_number,year=year).first()
+     std = Student.query.filter_by(student_number=student_number,year=year).first()
+     if std:
+         std.class_name = class_name
+     
+     if bd:
+         bd.class_name=c_name
+         bd.original_class_name=class_name
+         bd.year = year
+         bd.promotion_status= "Repeated"
+         db.session.commit()
+         
+     else:
+        new =BroadSheet(student_name =bd.student_name,class_name=c_name,student_number=db.student_number,
+                            school_name =user.school_name,original_class_name=original_class_name,year=year)
+    
+     resp = jsonify("success")
+     resp.status_code=200
+     return resp
