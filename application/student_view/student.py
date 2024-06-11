@@ -291,7 +291,7 @@ def add_student_b_excel():
           first_name=firstname,last_name=last_name,other_name=other_name,dob=dob
            )
      
-            bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,all_total="0",
+            bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
                           school_name=usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="")
             usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
                        hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
