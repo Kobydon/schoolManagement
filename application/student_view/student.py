@@ -1768,9 +1768,9 @@ def repeat_student():
                     c_name = class_name[:5] 
      else:
          c_name =class_name
-     bd = BroadSheet.query.filter_by(student_number=student_number).first()
+     bd = BroadSheet.query.filter_by(student_number=student_number,year=year).first()
      bc = BroadSheet.query.filter_by(student_number=student_number).first()
-     std = Student.query.filter_by(student_number=student_number,year=year).first()
+     std = Student.query.filter_by(student_number=student_number).first()
      if std:
          std.class_name = class_name
      
