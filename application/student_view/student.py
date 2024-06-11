@@ -109,7 +109,7 @@ def add_student():
                 )
     #   bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
             bd =BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,
-                            school_name =usr.school_name,original_class_name=original_class_name)
+                            school_name =usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="")
             usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                         hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                                             school_name=school_name)
@@ -292,7 +292,7 @@ def add_student_b_excel():
            )
      
             bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,all_total="0",
-                          school_name=usr.school_name,original_class_name=original_class_name)
+                          school_name=usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="")
             usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
                        hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                        school_name=usr.school_name)
@@ -1724,7 +1724,7 @@ def promote_student():
      else:
          c_name =class_name
      bd = BroadSheet.query.filter_by(student_number=student_number,year=year).first()
-     std = Student.query.filter_by(student_number=student_number,year=year).first()
+     std = Student.query.filter_by(student_number=student_number).first()
      if std:
          std.class_name = class_name
      
