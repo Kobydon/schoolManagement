@@ -793,6 +793,7 @@ class BroadSheet(db.Model):
           pos =  db.Column(db.String(400))
           class_name =db.Column(db.String(400))
           promotion_status =db.Column(db.String(400))
+          current_status= db.Column(db.String(400))
           aggregate = db.Column(db.String(400))
          
           created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))

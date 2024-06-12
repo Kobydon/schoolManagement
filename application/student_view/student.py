@@ -1680,7 +1680,8 @@ def get_search_broadsheet_class():
     # else:
     #     c_name =class_name
         
-    bd = BroadSheet.query.filter_by(original_class_name= class_name ,school_name=user.school_name)
+    bd = BroadSheet.query.filter(BroadSheet.original_class_name== class_name ,BroadSheet.school_name==user.school_name,
+                                 BroadSheet.current_status.in_(['new',""]))
     la = bd.order_by(desc(BroadSheet.all_total))
     result = student_schema.dump(la)
     return jsonify(result)
@@ -1710,6 +1711,7 @@ def promote_student():
     
      user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
      class_name = request.json["promotion_class"]
+     old_class = request.json["class_name"]
      student_number = request.json["student_number"]
      original_class_name =class_name
      year = request.json["year"]
@@ -1726,6 +1728,9 @@ def promote_student():
      bd = BroadSheet.query.filter_by(student_number=student_number,year=year).first()
      bc = BroadSheet.query.filter_by(student_number=student_number).first()
      std = Student.query.filter_by(student_number=student_number).first()
+     old_data = BroadSheet.query.filter_by(student_number=student_number,original_class_name=old_class).first()
+     if old_data:
+         old_data.current_status ="old"
      if std:
          std.class_name = class_name
      
@@ -1738,7 +1743,7 @@ def promote_student():
          
      else:
         new =BroadSheet(student_name =bc.student_name,class_name=c_name,student_number=bc.student_number,promotion_status="Promoted",
-                         all_total="0",   school_name =user.school_name,original_class_name=original_class_name,year=year)
+                         all_total="0", current_status="new",  school_name =user.school_name,original_class_name=original_class_name,year=year)
         
         db.session.add(new)
         db.session.commit()
@@ -1771,6 +1776,9 @@ def repeat_student():
      bd = BroadSheet.query.filter_by(student_number=student_number,year=year).first()
      bc = BroadSheet.query.filter_by(student_number=student_number).first()
      std = Student.query.filter_by(student_number=student_number).first()
+     old_data = BroadSheet.query.filter_by(student_number=student_number,original_class_name=old_class).first()
+     if old_data:
+         old_data.current_status ="old"
      if std:
          std.class_name = class_name
      
@@ -1783,7 +1791,7 @@ def repeat_student():
          
      else:
         new =BroadSheet(student_name =bc.student_name,class_name=c_name,student_number=bc.student_number,promotion_status="Repeated",
-                        all_total="0",
+                        all_total="0",current_status="new",
                             school_name =user.school_name,original_class_name=original_class_name,year=year)
         db.session.add(new)
         db.session.commit()
