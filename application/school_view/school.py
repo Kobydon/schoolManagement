@@ -793,7 +793,8 @@ def search_class_list():
     BroadSheet.pos,
     BroadSheet.student_name,
     Grading.name,
-    BroadSheet.aggregate
+    BroadSheet.aggregate,
+    BroadSheet.promotion_status
     ).join(
     Grading, GeneralRemark.student_number == Grading.student_number
     ).join(
@@ -832,6 +833,7 @@ def search_class_list():
         grade =row[12]
         name=  row[17]
         aggregate=row[18]
+        promotion_status=row[19]
         
 
         # Check if student number is already in grouped_data
@@ -875,7 +877,8 @@ def search_class_list():
             student_data['broad_sheet'].append({
                 'all_total': all_total,
                 'pos': pos,
-                'aggregate':aggregate
+                'aggregate':aggregate,
+                'promotion_status':promotion_status
             })
 
 # No need to group the data again by student number
