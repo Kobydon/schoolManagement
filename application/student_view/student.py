@@ -491,9 +491,9 @@ def add_grade():
           if (total in range(65,70)):
               remark  = " GOOD"
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                  grade = "C"
+                  grade = 3
               else:
-                grade = 3
+                grade = "C"
               
           if (total in range(60,65)):
               remark  = "CREDIT"
@@ -728,9 +728,9 @@ def add_result_by_excel():
           if (total in range(65,70)):
               remark  = " GOOD"
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                  grade = "C"
+                  grade = 3
               else:
-                grade = 3
+                grade = "C"
               
           if (total in range(60,65)):
               remark  = "CREDIT"
