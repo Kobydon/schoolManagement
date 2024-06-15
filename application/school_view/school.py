@@ -178,8 +178,7 @@ def add_subject():
         
     subject_name =request.json["subject_name"] 
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
-    subj = Subjectc(department_name=department_name,
-                   subject_name=subject_name,created_by_id=flask_praetorian.current_user().id ,school_name=user.school_name )
+    subj = Subjectc( subject_name=subject_name,created_by_id=flask_praetorian.current_user().id ,school_name=user.school_name )
     # dep = Departmentb.query.filter_by(department_name=department_name).first()
     # dep.total_subjects = int(dep.total_subjects)+ 1
     db.session.add(subj)
