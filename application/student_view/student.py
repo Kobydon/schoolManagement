@@ -1731,6 +1731,7 @@ def promote_student():
      old_data = BroadSheet.query.filter_by(student_number=student_number,original_class_name=old_class).first()
      if old_data:
          old_data.current_status ="old"
+         old_data.promotion_status="Promoted"
      if std:
          std.class_name = class_name
      
@@ -1779,6 +1780,7 @@ def repeat_student():
      old_data = BroadSheet.query.filter_by(student_number=student_number,original_class_name=old_class).first()
      if old_data:
          old_data.current_status ="old"
+         old_data.promotion_status="Repeated"
      if std:
          std.class_name = class_name
      
