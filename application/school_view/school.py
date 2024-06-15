@@ -726,7 +726,7 @@ def add_class():
         
     except:
         staff_number = ""
-    cls = Class(class_name=class_name,staff_number=staff_number ,school_name =user.school_name,
+    cls = Class(class_name=class_name,staff_number=staff_number ,school_name =user.school_name,grade_together="0",
                 created_by_id = flask_praetorian.current_user().id , created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                 class_size=0)
     try:
