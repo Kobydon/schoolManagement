@@ -9,12 +9,14 @@ from sqlalchemy import or_,and_ ,desc ,cast, Float ,func
 # from application.forms import LoginForm
 from application.database.main_db.db import *
 from sqlalchemy import or_,desc
-from datetime import datetime
+from datetime import datetime,timedelta
 from datetime import date
 from flask import session
 import random
 import schedule
 import time
+
+
 
 class StudentSchema(ma.Schema):
     class Meta:
@@ -2129,31 +2131,33 @@ def delete_sba(id):
       return resp
 
 
-def update_countdown_and_schedule(interval_minutes=1):
+def update_countdown_and_schedule():
     def update_countdown():
-        schools = School.query.all()
+        schools = Academic.query.all()
         for school in schools:
+            # Convert string dates to datetime objects
+            closing_date = datetime.strptime(school.closing_date, '%Y-%m-%d')
+            reopening_date = datetime.strptime(school.reopening_date, '%Y-%m-%d')
+
             # Calculate the difference in days between closing_date and reopening_date
-            countdown_days = db.session.query(func.datediff(school.closing_date, school.reopening_date)).scalar()
+            countdown_days = (closing_date - reopening_date).days
             school.countdown = countdown_days
-            db.session.commit()
+            db.session.add(school)
+        db.session.commit()
 
-    # Define the update_countdown job and schedule it
-    update_countdown()
+    # Define the update_countdown job and schedule it to run daily at midnight (00:00)
+    schedule.every().day.at("00:00").do(update_countdown)
 
-    # Schedule the update_countdown function to run at specified intervals (in minutes)
-    schedule.every(interval_minutes).minutes.do(update_countdown)
-
-    # Keep the scheduler running indefinitely
+    # Run the scheduler to ensure the update happens at the specified time
     while True:
         schedule.run_pending()
-        time.sleep(1)  # Sleep for 1 second between schedule checks
+        time.sleep(1)
 @flask_praetorian.auth_required      
 def update_user_status():
     user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
     
     if user.school_name:
-        school = School.query.filter_by(school_name=user.school_name).first()
+        school = Academic.query.filter_by(school_name=user.school_name).first()
         
         if school.countdown == 0:
             user.is_active = False
