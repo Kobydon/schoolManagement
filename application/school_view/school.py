@@ -49,7 +49,7 @@ class schemeSchema(ma.Schema):
 )
    
    
-schema_schema=schemeSchema(many=True)tim
+schema_schema=schemeSchema(many=True)
 class_schema = classSchema(many=True)
 
 department_schema = DepartmentSchema(many=True)
