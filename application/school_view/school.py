@@ -49,7 +49,7 @@ class schemeSchema(ma.Schema):
 )
    
    
-schema_schema=schemeSchema(many=True)
+schema_schema=schemeSchema(many=True)tim
 class_schema = classSchema(many=True)
 
 department_schema = DepartmentSchema(many=True)
@@ -2133,14 +2133,14 @@ def delete_sba(id):
 
 def update_countdown_and_schedule():
     def update_countdown():
-        schools = Academic.query.all()
+        schools = Academic.query.filter_by(status="current").all()
         for school in schools:
             # Convert string dates to datetime objects
             closing_date = datetime.strptime(school.closing_date, '%Y-%m-%d')
             reopening_date = datetime.strptime(school.reopening_date, '%Y-%m-%d')
 
             # Calculate the difference in days between closing_date and reopening_date
-            countdown_days = (closing_date - reopening_date).days
+            countdown_days = (reopening_date - closing_date ).days
             school.countdown = countdown_days
             db.session.add(school)
         db.session.commit()
