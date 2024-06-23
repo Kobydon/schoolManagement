@@ -2144,7 +2144,8 @@ def update_countdown_and_schedule():
             # Calculate the difference in days between current_date and closing_date
             countdown_days = (closing_date - current_date).days
             school.countdown = countdown_days
-            db.session.add(school)
+            # db.session.add(school)
+            print(countdown_days)
         db.session.commit()
 
     # Run update_countdown initially when the script starts
