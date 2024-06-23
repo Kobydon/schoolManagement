@@ -112,7 +112,7 @@ def register():
         population = request.json["population"]
         motto= request.json["motto"]
         try:
-            church_logo = request.json["motto"]
+            church_logo = request.json["church_logo"]
         except:
             church_logo = ""
         report_type ="default"
