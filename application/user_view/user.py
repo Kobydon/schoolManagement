@@ -21,7 +21,7 @@ class User_schema(ma.Schema):
     class Meta:
         fields=("id","firstname","lastname","about","email","username","hashed_password",
                 "roles","city","country","address","phone","created_date","school_name",
-            "account_status",,"photo","picture","is_active"
+            "account_status","photo","picture","is_active"
 )
         
 
