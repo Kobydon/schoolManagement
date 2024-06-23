@@ -2133,25 +2133,31 @@ def delete_sba(id):
 
 def update_countdown_and_schedule():
     def update_countdown():
+        # Get the current date
+        current_date = date.today()
+
         schools = Academic.query.filter_by(status="current").all()
         for school in schools:
-            # Convert string dates to datetime objects
-            closing_date = datetime.strptime(school.closing_date, '%Y-%m-%d')
-            reopening_date = datetime.strptime(school.reopening_date, '%Y-%m-%d')
+            # Convert string closing_date to datetime object
+            closing_date = datetime.strptime(school.closing_date, '%Y-%m-%d').date()
 
-            # Calculate the difference in days between closing_date and reopening_date
-            countdown_days = (reopening_date - closing_date ).days
+            # Calculate the difference in days between current_date and closing_date
+            countdown_days = (closing_date - current_date).days
             school.countdown = countdown_days
             db.session.add(school)
         db.session.commit()
 
-    # Define the update_countdown job and schedule it to run daily at midnight (00:00)
-    schedule.every().day.at("00:00").do(update_countdown)
+    # Run update_countdown initially when the script starts
+    update_countdown()
 
-    # Run the scheduler to ensure the update happens at the specified time
+    # Schedule update_countdown to run daily at any time within the day
+    schedule.every().day.do(update_countdown)
+
+    # Keep the script running to allow scheduled jobs to execute
     while True:
         schedule.run_pending()
         time.sleep(1)
+
 @flask_praetorian.auth_required      
 def update_user_status():
     user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
