@@ -2166,10 +2166,10 @@ def update_countdown_and_schedule():
 def update_user_status():
     user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
     
-    if user.school_name:
-        school = Academic.query.filter_by(school_name=user.school_name).first()
+   
+    school = Academic.query.filter_by(school_name=user.school_name,status="current").first()
         
-        if int(school.countdown) <= 0:
+    if int(school.countdown) <= 0:
             user.is_active = False
             db.session.commit()
             return "User status updated successfully"
