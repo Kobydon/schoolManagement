@@ -165,6 +165,7 @@ def get_schools():
 @school.route("/get_school_detail",methods=['GET'])
 @flask_praetorian.auth_required
 def get_school_detail():
+    update_countdown_and_schedule()
     user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     sch =School.query.filter_by(school_name= user.school_name)
     result = school_schema.dump(sch)
@@ -197,6 +198,7 @@ def add_subject():
 @school.route("/get_subjects",methods=['GET'])
 @flask_praetorian.auth_required
 def get_subjects():
+    update_countdown_and_schedule()
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
     subj = Subjectc.query.filter_by(school_name=user.school_name)
     result = department_schema.dump(subj)
@@ -279,6 +281,7 @@ def add_department():
 @school.route("/get_department",methods=['GET'])
 @flask_praetorian.auth_required
 def get_department():
+    update_countdown_and_schedule()
 
     dep = Departmentb.query.filter_by(created_by_id = flask_praetorian.current_user().id)
     result = department_schema.dump(dep)
@@ -2146,7 +2149,7 @@ def update_countdown_and_schedule():
             school.countdown = countdown_days
             # db.session.add(school)
             print(countdown_days)
-        db.session.commit()
+            db.session.commit()
 
     # Run update_countdown initially when the script starts
     update_countdown()
