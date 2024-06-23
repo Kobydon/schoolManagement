@@ -2162,21 +2162,16 @@ def update_countdown_and_schedule():
     while True:
         schedule.run_pending()
         time.sleep(1)
-
-@flask_praetorian.auth_required
+@flask_praetorian.auth_required      
 def update_user_status():
-    current_user_id = flask_praetorian.current_user().id
-    user = User.query.get(current_user_id)
-    
-    if not user:
-        return jsonify({"message": "User not found"}), 404
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
     
     if user.school_name:
         school = Academic.query.filter_by(school_name=user.school_name).first()
         
-        if school and int(school.countdown) <= 0:
+        if int(school.countdown) <= 0:
             user.is_active = False
             db.session.commit()
-            return jsonify({"message": "User status updated successfully"}), 200
+            return "User status updated successfully"
     
-    return jsonify({"message": "Unable to update user status"}), 400
+    return "Unable to update user status"
