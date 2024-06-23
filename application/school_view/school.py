@@ -2156,7 +2156,7 @@ def update_countdown_and_schedule():
 
     def update_user_active_status():
         # Query schools where countdown is <= 0
-         schools_to_update = Academic.query.filter(Academic.countdown.cast(db.Integer) < 0).all()
+        schools_to_update = Academic.query.filter(Academic.countdown.cast(db.Integer) < 0).all()
 
         for school in schools_to_update:
             # Update User table is_active to False where school_name matches
