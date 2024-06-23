@@ -2147,9 +2147,22 @@ def update_countdown_and_schedule():
             # Update countdown only if it has changed
             if school.countdown != countdown_days:
                 school.countdown = countdown_days
-                # db.session.add(school)
 
-        # Commit changes after updating all schools
+            # Check if countdown is less than or equal to zero
+            if countdown_days <= 0:
+                # Update User table where school_name matches user.school_name
+                update_users(school.school_name)
+
+        # Commit changes to Academic table after updating all schools
+        db.session.commit()
+
+    def update_users(school_name):
+        # Update User table is_active to False where school.school_name matches user.school_name
+        users_to_update = User.query.filter_by(school_name=school_name).all()
+        for user in users_to_update:
+            user.is_active = False
+
+        # Commit changes to User table
         db.session.commit()
 
     # Run update_countdown initially when the script starts
@@ -2162,6 +2175,7 @@ def update_countdown_and_schedule():
     while True:
         schedule.run_pending()
         time.sleep(1)
+
 @flask_praetorian.auth_required      
 def update_user_status():
     user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
