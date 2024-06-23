@@ -198,7 +198,7 @@ def add_subject():
 @school.route("/get_subjects",methods=['GET'])
 @flask_praetorian.auth_required
 def get_subjects():
-    update_countdown_and_schedule()
+    
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
     subj = Subjectc.query.filter_by(school_name=user.school_name)
     result = department_schema.dump(subj)
@@ -2131,8 +2131,6 @@ def delete_sba(id):
       resp = jsonify("success")
       resp.status_code =201
       return resp
-
-
 def update_countdown_and_schedule():
     def update_countdown():
         # Get the current date
@@ -2145,10 +2143,14 @@ def update_countdown_and_schedule():
 
             # Calculate the difference in days between current_date and closing_date
             countdown_days = (closing_date - current_date).days
-            school.countdown = countdown_days
-            # db.session.add(school)
-            print(countdown_days)
-            db.session.commit()
+
+            # Update countdown only if it has changed
+            if school.countdown != countdown_days:
+                school.countdown = countdown_days
+                # db.session.add(school)
+
+        # Commit changes after updating all schools
+        db.session.commit()
 
     # Run update_countdown initially when the script starts
     update_countdown()
@@ -2160,7 +2162,6 @@ def update_countdown_and_schedule():
     while True:
         schedule.run_pending()
         time.sleep(1)
-
 @flask_praetorian.auth_required      
 def update_user_status():
     user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
