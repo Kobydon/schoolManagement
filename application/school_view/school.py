@@ -111,7 +111,11 @@ def register():
         region = request.json["region"]
         population = request.json["population"]
         motto= request.json["motto"]
-
+        try:
+            church_logo = request.json["motto"]
+        except:
+            church_logo = ""
+        report_type ="default"
         headmaster= request.json["head_master"]
         color_one= request.json["color_one"]
         color_two= request.json["color_two"]
@@ -125,17 +129,22 @@ def register():
         created_by_id = flask_praetorian.current_user().id
         
         
-        sch = School(district=district,circuit=circuit,school_name=school_name,school_anthem=school_anthem,established_year=established_year,population=population,color_one=color_one,
+        sch = School(district=district,church_logo=church_logo,report_type=report_type,circuit=circuit,school_name=school_name,school_anthem=school_anthem,established_year=established_year,population=population,color_one=color_one,
                      address= address,color_two=color_two,color_three=color_three,username=username,password = hashed_password,
                      motto=motto,headmaster=headmaster,phone=phone,created_by_id = created_by_id,
                      level=level,region=region,mail=mail,logo =logo,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'))
         usr = User(firstname = school_name ,lastname =school_name,roles="admin",username=username,hashed_password=hashed_password,
                    created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),school_name=school_name)
      
-        
-        db.session.add(sch)
-        db.session.add(usr)
-        db.session.commit()
+        sc = School.query.filter_by(school_name=school_name).first()
+        if sc:
+            sc.report_type="missionary"
+            sc.church_logo = church_logo
+            db.session.commit()
+        else:
+            db.session.add(sch)
+            db.session.add(usr)
+            db.session.commit()
         db.session.close()
         resp = jsonify("success")
         resp.status_code =200
