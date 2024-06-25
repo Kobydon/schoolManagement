@@ -346,6 +346,9 @@ def get_student_info(id):
 def update_student():
     #   subject_name =request.json["subject_name"]
       id = request.json["id"]
+      first_name = request.json["first_name"]
+      last_name =request.json["last_name"]
+      other_name = request.json["other_name"]
       stf_data = Student.query.filter_by(id=id).first()
       stf_data.first_name =request.json["first_name"]
       class_name = request.json["class_name"]
