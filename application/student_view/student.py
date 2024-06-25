@@ -348,13 +348,13 @@ def update_student():
       id = request.json["id"]
       stf_data = Student.query.filter_by(id=id).first()
       stf_data.first_name =request.json["first_name"]
-      
+      class_name = request.json["class_name"]
       stf_data.last_name =request.json["last_name"]
       stf_data.email = request.json["email"]
       stf_data.parent_phone =request.json["phone"]
       stf_data.address =request.json["address"]
       stf_data.other_name =request.json["other_name"]
-     
+      
     #   user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     #   stf_data.sch = School.query.filter_by(username=user.username).first()
     #   n = random.randint(0,100)
@@ -367,7 +367,20 @@ def update_student():
     #   course_name =request.json[""]
       stf_data.residential_status =request.json["resedential_status"]
       stf_data.admitted_year =request.json["admitted_year"]
+
+      if (class_name =="JHS 1A" or class_name=="JHS 1B"):
+            c_name = class_name[:5] 
+            
+      elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
+            c_name = class_name[:5] 
+      else:
+        c_name =class_name
     #   stf_data.year_joined =request.json["year_joined"]
+      bd  = BroadSheet.query.filter_by(student_number = stf_data.student_number).first()
+      bd.name = last_name +""+other_name+""+first_name
+      
+      bd.class_name =class_name
+      bd.original_class_name =c_name
       db.session.commit()
       db.session.close()
       resp = jsonify("success")

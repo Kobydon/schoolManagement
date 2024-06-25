@@ -715,7 +715,7 @@ class School(db.Model):
         district = db.Column(db.String(400))
         circuit = db.Column(db.String(400))
         phone = db.Column(db.String(400))
-        church_logo = db.Column(db.String(400))
+        church_logo = db.Column(db.String(1000000))
         report_type = db.Column(db.String(400))
         created_date = db.Column(db.String(400))
         
