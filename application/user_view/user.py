@@ -147,6 +147,12 @@ def get_signin_client():
 @user.route("/get_info",methods=['GET'])
 @flask_praetorian.auth_required
 def get_info():
+    # user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+    # acd=Academic.query.filter_by(school_name=user.school_name).first()
+    # if(int(acd.countdown)<0):
+    #     user.is_active = False
+    #     db.session.commit()
+    
     info = db.session.query(User).filter_by(id=flask_praetorian.current_user().id).all()
     results =user_schema.dump(info)
     return jsonify(results)
