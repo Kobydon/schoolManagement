@@ -333,7 +333,7 @@ def get_student_by_class():
 def get_student():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     # acd=Academic.query.filter_by(school_name=user.school_name).first()
-    # if(int(acd.countdown)<0):
+    # if(int(acd.countdopwn)<0):
     #     user.is_active = False
     #     db.session.commit()
     std = Student.query.filter_by(school_name = user.school_name).order_by(Student.first_name.asc())

@@ -1061,11 +1061,16 @@ def add_academic_setup():
         user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
         year =request.json["year"]
         term=request.json["term"]
+        current_date =date.today()
         closing_date=request.json["closing_date"]
         created_date= datetime.now().strftime('%Y-%m-%d %H:%M')
         reopening_date =request.json["reopen_date"]
         school_name = user.school_name
         created_by_id =flask_praetorian.current_user().id
+        close_date = datetime.strptime(closing_date, '%Y-%m-%d').date()
+
+            # Calculate the difference in days between current_date and closing_date
+        countdown_days = (close_date - current_date).days
         status="current"
         
         Ad =Academic.query.filter_by(school_name=user.school_name,status="current").first()
@@ -1075,7 +1080,7 @@ def add_academic_setup():
         db.session.commit()
         
         
-        acd = Academic(closing_date=closing_date,created_date=created_date,term=term,year=year,
+        acd = Academic(closing_date=closing_date,created_date=created_date,term=term,year=year,countdown_days=countdown_days,
                        reopening_date=reopening_date,school_name=school_name,created_by_id=created_by_id,status=status,
                        )
     
