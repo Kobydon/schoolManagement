@@ -2178,7 +2178,7 @@ def update_countdown_and_schedule():
         db.session.commit()
 
     # Run update_countdown initially when the script starts
-    update_user_active_status()
+    # update_user_active_status()
     update_countdown()
 
     # Schedule update_countdown to run daily at any time within the day
