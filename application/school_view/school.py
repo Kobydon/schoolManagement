@@ -1095,7 +1095,7 @@ def get_academic_setup():
     
     v="2"
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    acd = Academic.query.filter_by(school_name=user.school_name,status="current").order_by(desc(Academic.year))
+    acd = Academic.query.filter_by(school_name=user.school_name).order_by(desc(Academic.year))
     result = school_schema.dump(acd)
     return jsonify(result)
 
