@@ -775,6 +775,19 @@ def get_class():
     return jsonify(result)
 
 
+@school.route("/search_academic",methods=['POST'])
+@flask_praetorian.auth_required
+def search_academic():
+    
+    # class_name = request.json["class_name"]
+    user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+    term = request.json["term"]
+    year = request.json["year"]# Example class_name
+    school_name = user.school_name  # Example school_name
+    acd = Academic.query.filter_by(school_name=user.school_name,term=term,year=year)
+    result = school_schema.dump(acd)
+    return jsonify(result)
+
 @school.route("/search_class_list",methods=['POST'])
 @flask_praetorian.auth_required
 def search_class_list():
