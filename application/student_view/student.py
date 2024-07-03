@@ -1455,13 +1455,15 @@ def get_sub_payment_list():
     result = student_schema.dump(pmt)
     return jsonify(result)
 
-@student.route("/get_all_sub_payment_list",methods=['GET'])
-@flask_praetorian.auth_required
-def get_all_sub_payment_list():
-    # user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    pmt = SubPayment.query.all()
-    la = pmt.order_by(desc(SubPayment.date))
-    result = student_schema.dump(la)
+@app.route('/subpayments', methods=['GET'])
+def get_sub_payments():
+    # Query to get all SubPayments in descending order of date
+    sub_payments = SubPayment.query.order_by(desc(SubPayment.date)).all()
+    
+    # Serialize the query result using the schema
+    result = student_schema.dump(sub_payments)
+    
+    # Return JSON response
     return jsonify(result)
 @student.route("/update_sub_payment",methods=['GET'])
 @flask_praetorian.auth_required
