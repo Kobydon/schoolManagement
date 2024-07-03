@@ -1466,7 +1466,7 @@ def get_all_sub_payment_list():
     
     # Return JSON response
     return jsonify(result)
-@student.route("/update_sub_payment",methods=['GET'])
+@student.route("/update_sub_payment",methods=['PUT'])
 @flask_praetorian.auth_required
 def update_sub_payment():
     id = request.json["id"] 
