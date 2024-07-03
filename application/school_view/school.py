@@ -798,7 +798,7 @@ def search_class_list():
     term = request.json["term"]
     year = request.json["year"]# Example class_name
     school_name = user.school_name  # Example school_name
-    acd = Academic.query.filter_by(school_name=user.school_name,term=term,year=year).first()
+    # acd = Academic.query.filter_by(school_name=user.school_name,term=term,year=year).first()
     
     # Join the three tables based on their relationships
                 # Join the three tables based on their relationships
@@ -873,8 +873,6 @@ def search_class_list():
         if not student_data:
             student_data = {
                 'student_number': student_number,
-                'closing_date' : acd.closing_date,
-                'reopen_date':acd.reopening_date,
                 'name':name,
                 'grading': [],
                 'general_remark': [],
