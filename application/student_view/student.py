@@ -1458,9 +1458,10 @@ def get_sub_payment_list():
 @student.route("/get_all_sub_payment_list",methods=['GET'])
 @flask_praetorian.auth_required
 def get_all_sub_payment_list():
-    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    pmt = SubPayment.query.filter_by(school_name=user.school_name).all()
-    result = student_schema.dump(pmt)
+    # user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    pmt = SubPayment.query.all()
+    la = pmt.order_by(desc(SubPayment.date))
+    result = student_schema.dump(la)
     return jsonify(result)
 @student.route("/update_sub_payment",methods=['GET'])
 @flask_praetorian.auth_required
