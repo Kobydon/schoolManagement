@@ -1470,7 +1470,7 @@ def get_all_sub_payment_list():
 @flask_praetorian.auth_required
 def update_sub_payment():
     id = request.json["id"] 
-    pmt = SubPayment.query.filter_by(id=user.id).first()
+    pmt = SubPayment.query.filter_by(id=id).first()
     acd=Academic.query.filter_by(school_name=pmt.school_name,status="current").first()
     user = User.query.filter_by(school_name=pmt.school_name,roles="admin").first()
     acd.countdown="10"
