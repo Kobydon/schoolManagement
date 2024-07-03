@@ -184,7 +184,14 @@ class User(db.Model):
     lazy=True
     
     )
+        
+        
+    sub_by  = db.relationship('SubPayment', 
+    foreign_keys ='SubPayment.created_by_id',
+    backref = 'subiepay',
+    lazy=True
     
+    )
         
     feess_by  = db.relationship('FeesType', 
     foreign_keys ='FeesType.created_by_id',
@@ -492,6 +499,20 @@ class FeesPayment(db.Model):
     balance = db.Column(db.String(400))
     student_number = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+    
+
+class SubPayment(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    fees_type = db.Column(db.String(5000))
+    school_name = db.Column(db.String(5000))
+    created_date = db.Column(db.String(400))
+    amount = db.Column(db.String(400))
+    method = db.Column(db.String(400))
+    date = db.Column(db.String(400))
+    status = db.Column(db.String(400))
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+    
+
     
 
 class ExamAttend(db.Model):

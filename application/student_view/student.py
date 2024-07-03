@@ -1406,6 +1406,70 @@ def add_payment():
     resp = jsonify("success")
     resp.status_code =200
     return resp
+
+@student.route("/add_sub_payment",methods=['POST'])
+@flask_praetorian.auth_required
+def add_sub_payment():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    # student= request.json["student"]
+    amount =request.json["amount"]
+    method= request.json["method"]
+    fees_type ="Subscription"
+    # ftype = FeesType.query.filter_by(fees_type=fees_type).first()
+    date =request.json["date"]
+    # paid_by = request.json["paid_by"]
+    # cls =request.json["class"]
+    school_name = user.school_name
+    status= "Pending"
+    # std = Student.query.filter_by(student_number=student).first()
+    # name = std.last_name +" "+ std.other_name+" "+ std.first_name
+    created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
+    created_by_id = flask_praetorian.current_user().id
+    # balance = int(ftype.total_amount)- int(amount)
+    pmt = SubPayment(status=status , method=method,fees_type=fees_type,date=date,created_date=created_date,
+                      amount=amount,created_by_id=created_by_id ,school_name=school_name)
+    db.session.add(pmt)
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
+
+
+
+@student.route("/get_sub_payment_list",methods=['GET'])
+@flask_praetorian.auth_required
+def get_sub_payment_list():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    pmt = SubPayment.query.filter_by(school_name=user.school_name).all()
+    result = student_schema.dump(pmt)
+    return jsonify(result)
+
+@student.route("/get_all_sub_payment_list",methods=['GET'])
+@flask_praetorian.auth_required
+def get_all_sub_payment_list():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    pmt = SubPayment.query.filter_by(school_name=user.school_name).all()
+    result = student_schema.dump(pmt)
+    return jsonify(result)
+@student.route("/update_sub_payment",methods=['GET'])
+@flask_praetorian.auth_required
+def update_sub_payment():
+    id = request.json["id"] 
+    pmt = SubPayment.query.filter_by(id=user.id).first()
+    acd=Academic.query.filter_by(school_name=pmt.school_name,status="current").first()
+    user = User.query.filter_by(school_name=pmt.school_name,roles="admin").first()
+    acd.countdown="10"
+    pmt.status="Success"
+    user.is_active=True
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
+
+
+
 @student.route("/get_payment_list",methods=['GET'])
 @flask_praetorian.auth_required
 def get_payment_list():
