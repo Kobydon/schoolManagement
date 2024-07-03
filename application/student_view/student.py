@@ -1048,6 +1048,16 @@ def searchdates():
     lst = pay.order_by(desc(PendingGrade.created_date))
     result = student_schema.dump(lst)
     return jsonify(result)
+
+@student.route("/search_sub_date",methods=["POST"])
+@flask_praetorian.auth_required
+def search_sub_date():
+    date = request.json["date"]
+    print(date)
+    pay = FeesPayment.query.filter(SubPayment.date.contains(date) )
+    lst = pay.order_by(desc(SubPayment.date))
+    result = student_schema.dump(lst)
+    return jsonify(result)
 @student.route("/search_pay_dates",methods=["POST"])
 @flask_praetorian.auth_required
 def search_pay_dates():
@@ -1416,7 +1426,7 @@ def add_sub_payment():
     method= request.json["method"]
     fees_type ="Subscription"
     # ftype = FeesType.query.filter_by(fees_type=fees_type).first()
-    date =request.json["date"]
+    date =datetime.now().strftime('%Y-%m-%d')
     # paid_by = request.json["paid_by"]
     # cls =request.json["class"]
     school_name = user.school_name
