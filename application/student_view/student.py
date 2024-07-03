@@ -1455,8 +1455,8 @@ def get_sub_payment_list():
     result = student_schema.dump(pmt)
     return jsonify(result)
 
-@app.route('/subpayments', methods=['GET'])
-def get_sub_payments():
+@app.route('/get_all_sub_payment_list', methods=['GET'])
+def get_all_sub_payment_list():
     # Query to get all SubPayments in descending order of date
     sub_payments = SubPayment.query.order_by(desc(SubPayment.date)).all()
     
