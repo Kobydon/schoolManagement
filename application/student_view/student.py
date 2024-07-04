@@ -39,7 +39,10 @@ def add_student():
       email = request.json["email"]
       phone =request.json["phone"]
       address =request.json["address"]
-      other_name =request.json["other_name"]
+      try:
+        other_name =request.json["other_name"]
+      except:
+          other_name=""
       student_name = firstname +" "+other_name+" "+lastname
       
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
@@ -68,7 +71,7 @@ def add_student():
     
       sc = User.query.filter_by(school_name=sch.school_name).count()
       cc = int(sc)+1
-      first_three = sch.school_name[:5] + str(cc)
+      first_three = sch.school_name[:6] + str(cc)
       
       student_number = first_three
     
