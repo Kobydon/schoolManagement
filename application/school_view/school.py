@@ -174,7 +174,7 @@ def get_schools():
 @school.route("/get_school_detail",methods=['GET'])
 @flask_praetorian.auth_required
 def get_school_detail():
-  
+    update_countdown_and_schedule()
     user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     sch =School.query.filter_by(school_name= user.school_name)
     result = school_schema.dump(sch)
@@ -2167,30 +2167,39 @@ def delete_sba(id):
       return resp
 def update_countdown_and_schedule():
     def update_countdown():
-        # Get the current date
-        current_date = date.today()
+        from models import Academic, db  # Import SQLAlchemy model and db session here
 
-        schools = Academic.query.filter_by(status="current").all()
-        for school in schools:
-            # Convert string closing_date to datetime object
-            closing_date = datetime.strptime(school.closing_date, '%Y-%m-%d').date()
+        try:
+            # Get the current date
+            current_date = date.today()
 
-            # Calculate the difference in days between current_date and closing_date
-            countdown_days = (closing_date - current_date).days
+            # Query all academic institutions with status="current"
+            schools = Academic.query.filter_by(status="current").all()
 
-            # Update countdown only if it has changed
-            if school.countdown != countdown_days:
-                school.countdown = countdown_days
+            for school in schools:
+                # Convert string closing_date to datetime object
+                closing_date = datetime.strptime(school.closing_date, '%Y-%m-%d').date()
 
-        # Commit changes to Academic table after updating all schools
-        db.session.commit()
+                # Calculate the difference in days between current_date and closing_date
+                countdown_days = (closing_date - current_date).days
 
-        # Update User table based on Academic countdown
-       
+                # Update countdown only if it has changed
+                if school.countdown != countdown_days:
+                    school.countdown = countdown_days
 
-  
+            # Flush changes to the session
+            db.session.flush()
+
+            # Commit changes to Academic table after updating all schools
+            db.session.commit()
+
+            # TODO: Implement updating User table based on Academic countdown
+
+        except Exception as e:
+            print(f"Error updating countdown: {str(e)}")
+            db.session.rollback()  # Rollback changes in case of error
+
     # Run update_countdown initially when the script starts
-    # update_user_active_status()
     update_countdown()
 
     # Schedule update_countdown to run daily at any time within the day
@@ -2200,16 +2209,3 @@ def update_countdown_and_schedule():
     while True:
         schedule.run_pending()
         time.sleep(1)
-@flask_praetorian.auth_required      
-def update_user_status():
-    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
-    
-   
-    school = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-        
-    if int(school.countdown) <= 0:
-            user.is_active = False
-            db.session.commit()
-            return "User status updated successfully"
-    
-    return "Unable to update user status"
