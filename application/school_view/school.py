@@ -174,7 +174,7 @@ def get_schools():
 @school.route("/get_school_detail",methods=['GET'])
 @flask_praetorian.auth_required
 def get_school_detail():
-    # update_countdown_and_schedule()
+    update_countdown_and_schedule()
     user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     sch =School.query.filter_by(school_name= user.school_name)
     result = school_schema.dump(sch)
