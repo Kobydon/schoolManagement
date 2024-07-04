@@ -1353,9 +1353,9 @@ def get_student_remark():
     student_number = request.json["student_number"]
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-    term = acd.term
+    term = request.json["term"]
     today = datetime.today()
-    year=  acd.year
+    year=  request.json["year"]
     rmk = GeneralRemark.query.filter_by(student_number = student_number,term=term,year=year)
     result = student_schema.dump(rmk)
     return jsonify(result)
