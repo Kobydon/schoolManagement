@@ -2167,7 +2167,7 @@ def delete_sba(id):
       return resp
 def update_countdown_and_schedule():
     def update_countdown():
-        from models import Academic, db  # Import SQLAlchemy model and db session here
+         # Import SQLAlchemy model and db session here
 
         try:
             # Get the current date
