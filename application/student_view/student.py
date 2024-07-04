@@ -71,6 +71,7 @@ def add_student():
     
       sc = User.query.filter_by(school_name=sch.school_name).count()
       cc = int(sc)+1
+    #   if(usr.school_name=="Immaculate")
       first_three = sch.school_name[:6] + str(cc)
       
       student_number = first_three
