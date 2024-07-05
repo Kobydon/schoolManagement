@@ -82,8 +82,8 @@ def update_countdown_and_schedule():
 
          
 if __name__ =='__main__':
-    # with app.app_context():
-    update_countdown_and_schedule()  # Start the scheduling loop
+    with app.app_context():
+        update_countdown_and_schedule()  # Start the scheduling loop
         # update_user_status()
     # Run the Flask app
     app.run(debug=True)
