@@ -31,14 +31,12 @@ app.register_blueprint(school,url_prefix="/school")
 
 app =app 
 
-with app.app_context():
-             db.create_all()
-             
-if __name__ =='__main__':
+if __name__ == '__main__':
     with app.app_context():
-        update_countdown_and_schedule()  # Start the scheduling loop
-        # update_user_status()
-    # Run the Flask app
+        db.create_all()
+
+    with app.app_context():
+        update_countdown_and_schedule()
     app.run(debug=True)
     
     # app.run(debug='True')
