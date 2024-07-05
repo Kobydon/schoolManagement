@@ -973,15 +973,40 @@ def cls_data(id):
       resp.status_code =201
       return resp
     
-@school.route("/search_class",methods=['POST'])
-@flask_praetorian.auth_required
+@school.route("/search_class", methods=['POST'])
+@flask_praetorian.auth_required  # Requires authentication using flask_praetorian
 def search_class():
-      user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
-      class_name = request.json["class_name"]
-      cls_data = Student.query.filter_by(class_name=class_name,school_name=user.school_name)
-      result =  student_schema.dump(cls_data)
-     
-      return jsonify(result)    
+    # Fetch the current user
+    user = db.session.query(User).filter_by(id=flask_praetorian.current_user().id).first()
+    
+    # Get the class_name from JSON request data
+    class_name = request.json["class_name"]
+    
+    # Query the Class table to find the class based on class_name
+    clss = Class.query.filter_by(class_name=class_name).first()
+    
+    # Check if classes should be grouped together based on grade
+    if clss.grade_together == "1":
+        # Define how classes are grouped together based on class_name pattern
+        if class_name in ["JHS 1A", "JHS 1B"]:
+            c_name = class_name[:5]
+        elif class_name in ["JHS 2A", "JHS 2B"]:
+            c_name = class_name[:5]
+        elif class_name in ["JHS 3A", "JHS 3B", "JHS 3C"]:
+            c_name = class_name[:5]
+        else:
+            c_name = class_name
+        # Query BroadSheet for classes that match the grouped name and school_name
+        cls_data = BroadSheet.query.filter_by(original_class_name=c_name, school_name=user.school_name).all()
+    else:
+        # Query BroadSheet for classes that match the exact class_name and school_name
+        cls_data = BroadSheet.query.filter_by(class_name=class_name, school_name=user.school_name).all()
+    
+    # Serialize the query results using student_schema (assuming it's defined elsewhere)
+    result = student_schema.dump(cls_data)
+    
+    # Return JSON response
+    return jsonify(result)
 
 
 
