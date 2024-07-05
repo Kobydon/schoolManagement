@@ -981,6 +981,8 @@ def search_class():
     
     # Get the class_name from JSON request data
     class_name = request.json["class_name"]
+    year = request.json["year"]
+    term = request.json["term"]
     
     # Query the Class table to find the class based on class_name
     clss = Class.query.filter_by(class_name=class_name).first()
@@ -997,10 +999,10 @@ def search_class():
         else:
             c_name = class_name
         # Query BroadSheet for classes that match the grouped name and school_name
-        cls_data = BroadSheet.query.filter_by(original_class_name=c_name, school_name=user.school_name).all()
+        cls_data = BroadSheet.query.filter_by(original_class_name=c_name, school_name=user.school_name,year=year,term=term).all()
     else:
         # Query BroadSheet for classes that match the exact class_name and school_name
-        cls_data = BroadSheet.query.filter_by(class_name=class_name, school_name=user.school_name).all()
+        cls_data = BroadSheet.query.filter_by(class_name=class_name, school_name=user.school_name,year=year,term=term).all()
     
     # Serialize the query results using student_schema (assuming it's defined elsewhere)
     result = student_schema.dump(cls_data)
