@@ -176,13 +176,12 @@ def get_schools():
 def get_school_detail():
     
     # update_countdown_and_schedule()
-    
-    with app.app_context():
-        update_countdown_and_schedule()
+     with app.app_context():
         
-    user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
-    sch =School.query.filter_by(school_name= user.school_name)
-    result = school_schema.dump(sch)
+        update_countdown_and_schedule()
+        user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
+        sch =School.query.filter_by(school_name= user.school_name)
+        result = school_schema.dump(sch)
     return jsonify(result)
 
 
