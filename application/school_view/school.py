@@ -176,6 +176,10 @@ def get_schools():
 def get_school_detail():
     
     # update_countdown_and_schedule()
+    
+    with app.app_context():
+        update_countdown_and_schedule()
+        
     user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     sch =School.query.filter_by(school_name= user.school_name)
     result = school_schema.dump(sch)
@@ -972,6 +976,8 @@ def cls_data(id):
       resp = jsonify("success")
       resp.status_code =201
       return resp
+ 
+    
     
 @school.route("/search_class", methods=['POST'])
 @flask_praetorian.auth_required  # Requires authentication using flask_praetorian
@@ -2193,6 +2199,7 @@ def delete_sba(id):
       resp = jsonify("success")
       resp.status_code =201
       return resp
+  
 def update_countdown_and_schedule():
     def update_countdown():
          # Import SQLAlchemy model and db session here
