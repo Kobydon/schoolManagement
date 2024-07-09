@@ -182,7 +182,7 @@ def get_school_detail():
         user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
         sch =School.query.filter_by(school_name= user.school_name)
         result = school_schema.dump(sch)
-    return jsonify(result)
+        return jsonify(result)
 
 
 @school.route("/add_subject",methods=['POST'])
