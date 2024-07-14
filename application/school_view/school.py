@@ -93,7 +93,7 @@ school_schema=schoolSchema(many=True)
 school = Blueprint("school", __name__)
 guard.init_app(app, User)
 
-
+@flask_praetorian.auth_required
 def update_countdown_and_schedule():
     def update_countdown():
          # Import SQLAlchemy model and db session here
@@ -219,7 +219,7 @@ def get_schools():
 @flask_praetorian.auth_required
 def get_school_detail():
     
-    # update_countdown_and_schedule()
+     update_countdown_and_schedule()
     
     user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     sch =School.query.filter_by(school_name= user.school_name)
