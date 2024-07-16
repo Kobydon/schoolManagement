@@ -499,7 +499,7 @@ def add_grade():
           grade=0
           if (total in range(75,101)):
               remark  = "EXCELLENT"
-              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+              if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
                   grade = 1
               else:
                 grade   = "A"
@@ -507,7 +507,7 @@ def add_grade():
               
           if (total in range(65,75)):
               remark  = "VERY GOOD"
-              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+              if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
                   grade = 2
               else:
                 grade   = "B"
@@ -515,14 +515,14 @@ def add_grade():
                         
           if (total in range(65,75)):
               remark  = " GOOD"
-              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+              if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
                   grade = 3
               else:
                 grade = "C"
               
           if (total in range(60,65)):
               remark  = "CREDIT"
-              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+              if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
                   grade = 4
               else:
                 grade   = "D"
@@ -530,13 +530,13 @@ def add_grade():
               
           if (total in range(55,60)):
               remark  = " AVERAGE"
-              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+              if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
                   grade = 5
               else:
                 grade   = "E"
           if (total in range(50,55)):
               remark  = " AVERAGE"
-              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+              if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
                   grade = 6
               else:
                 grade   = "F"
@@ -544,7 +544,7 @@ def add_grade():
               
           if (total in range(45,50)):
               remark  = " PASS"
-              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+              if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
                   grade = 7
               else:
                 grade   = "G"
@@ -552,7 +552,7 @@ def add_grade():
               
           if (total in range(40,49)):
               remark  = "WEAK PASS"
-              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+              if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
                   grade = 8
               else:
                 grade   = "H"
@@ -561,7 +561,7 @@ def add_grade():
               
           if (total in range(1,40)):
               remark  = " FAIL"
-              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+              if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
                   grade = 9
               else:
                 grade   = "I"
