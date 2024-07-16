@@ -720,33 +720,88 @@ def get_staff_info(id):
 @school.route("/update_staff",methods=['PUT'])
 @flask_praetorian.auth_required
 def update_staff():
-      subject_name =request.json["subject_name"]
+  
       id = request.json["id"]
       stf_data = Staff.query.filter_by(id=id).first()
-      stf_data.firstname =request.json["first_name"]
+      try:
+              
+            stf_data.subject_name =request.json["subject_name"]
+            
+      except:
+          stf_data.subject_name =""
+      try:
+          first_name= request.json["first_name"]
+          stf_data.firstname =first_name
+      except:
+          stf_data.firstname =""
+    #   2418072three9
+      try:
+        lastname=request.json["last_name"]
+        stf_data.lastname  = lastname
+      except:
+           stf_data.lastname  = ""
+        
+      try:
+        stf_data.email =request.json["email"]
+      except:
+            stf_data.email=""
+     
+      try:     
+        stf_data.phone =request.json["phone"]
+      except:
+          stf_data.phone =""
       
-      stf_data.lastname =request.json["last_name"]
-      stf_data.email = request.json["email"]
-      stf_data.phone =request.json["phone"]
-      stf_data.address =request.json["address"]
-      stf_data.other_name =request.json["other_name"]
+      try:    
+        stf_data.address =request.json["address"]
+      except:
+          stf_data.address =""
+          
+      try:
+            stf_data.other_name =request.json["other_name"]
+      except:
+          stf_data.other_name =""
     #   dep = Subject.query.filter_by(subject_name=subject_name).first()
-      stf_data.department =  request.json["deparment"]
+      try:
+        stf_data.department =  request.json["deparment"]
+        
+      except:
+          stf_data.department =  ""
     #   user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     #   stf_data.sch = School.query.filter_by(username=user.username).first()
     #   n = random.randint(0,100)
     #   first_three = sch.school_name[sch:3] + str(n)
-      
-      stf_data.national_id = request.json["national_id"]
-      stf_data.subject_name =request.json["subject_name"]
-      stf_data.bank_name =request.json["bank_name"]
-      stf_data.bank_account_number =request.json["account_number"]
-      stf_data.bank_branch =request.json["bank_branch"]
+      try:
+        stf_data.national_id = request.json["national_id"]
+      except:
+         
+        stf_data.subject_name =""
+      try:
+        stf_data.bank_name =request.json["bank_name"]
+        
+      except:
+         stf_data.bank_name =""
+         
+      try:
+        stf_data.bank_account_number =request.json["account_number"]
+    
+      except:
+              
+        stf_data.bank_branch =""
     #   stf_data.role =request.json["role"]
     #   course_name =request.json[""]
-      stf_data.residential_status =request.json["resedential_status"]
-      stf_data.appointment_date =request.json["appointment_date"]
-      stf_data.year_joined =request.json["year_joined"]
+    
+      try:   
+        stf_data.residential_status =request.json["resedential_status"]
+        
+      except:
+        stf_data.appointment_date =""
+        
+      try:
+        stf_data.year_joined =request.json["year_joined"]
+        
+      except:
+          stf_data.year_joined =""
+        
       db.session.commit()
       db.session.close()
       resp = jsonify("success")
