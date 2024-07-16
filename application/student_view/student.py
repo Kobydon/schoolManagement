@@ -497,7 +497,7 @@ def add_grade():
           new_class_score = float(class_score)
           new_exams_score = float(exams_score)
           grade=0
-          if (total in range(80,101)):
+          if (total in range(75,101)):
               remark  = "EXCELLENT"
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 1
@@ -505,7 +505,7 @@ def add_grade():
                 grade   = "A"
               
               
-          if (total in range(70,80)):
+          if (total in range(65,75)):
               remark  = "VERY GOOD"
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 2
@@ -513,7 +513,7 @@ def add_grade():
                 grade   = "B"
               
                         
-          if (total in range(65,70)):
+          if (total in range(65,75)):
               remark  = " GOOD"
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 3
