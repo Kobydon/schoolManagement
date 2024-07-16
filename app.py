@@ -12,7 +12,7 @@ from datetime import datetime
 from flask import session
 from  application.user_view.user import user
 from  application.student_view.student import student
-from  application.school_view.school import school,update_countdown_and_schedule
+from  application.school_view.school import school,update_countdown()
 from application.database.main_db.db import db
 # from  application.client_view.client import client
 #from  application.room_view.room import room
@@ -34,7 +34,7 @@ app =app
 if __name__ == '__main__':
     with app.app_context():
         
-        update_countdown_and_schedule()
+        update_countdown()
         db.create_all()
     # with app.app_context():
         
