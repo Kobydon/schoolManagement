@@ -729,6 +729,13 @@ def update_staff():
             
       except:
           stf_data.subject_name =""
+          
+      try:
+              
+            stf_data.gender =request.json["gender"]
+            
+      except:
+             stf_data.gender =""
       try:
           first_name= request.json["first_name"]
           stf_data.firstname =first_name
