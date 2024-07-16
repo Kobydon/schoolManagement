@@ -257,6 +257,7 @@ def get_subjects():
     user = User.query.filter_by(id=flask_praetorian.current_user().id  ).first()
     subj = Subjectc.query.filter_by(school_name=user.school_name)
     result = department_schema.dump(subj)
+    update_countdown_and_schedule()
     return jsonify(result)
 
 
