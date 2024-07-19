@@ -1909,7 +1909,7 @@ def promote_student():
      old_class = request.json["class_name"]
      student_number = request.json["student_number"]
      original_class_name =class_name
-    #  year = request.json["year"]
+     year = request.json["year"]
      if (class_name =="JHS 1A" or class_name=="JHS 1B"):
                     c_name = class_name[:5] 
                     
@@ -1958,6 +1958,7 @@ def repeat_student():
      class_name = request.json["promotion_class"]
      student_number = request.json["student_number"]
      original_class_name =class_name
+     old_class = request.json["promotion_class"]
      year = request.json["year"]
      if (class_name =="JHS 1A" or class_name=="JHS 1B"):
                     c_name = class_name[:5] 
@@ -1989,7 +1990,7 @@ def repeat_student():
      else:
         new =BroadSheet(student_name =bc.student_name,class_name=c_name,student_number=bc.student_number,promotion_status="Repeated",
                         all_total="0",current_status="new",
-                            school_name =user.school_name,original_class_name=original_class_name,year=year)
+                            school_name =user.school_name,original_class_name=original_class_name)
         db.session.add(new)
         db.session.commit()
     
