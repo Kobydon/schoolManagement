@@ -49,7 +49,7 @@ def add_student():
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       school_name= usr.school_name
       sch = School.query.filter_by(username=usr.username).first()
-      acd=Academic.query.filter_by(school_name=user.school_name,status="current").first()
+      acd=Academic.query.filter_by(school_name=usr.school_name,status="current").first()
     
       n = random.randint(0,100)
     #   first_three = sch.school_name[:4] + str(n)
@@ -266,7 +266,7 @@ def add_student_b_excel():
      else:
          c_name =class_name
      usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-     acd=Academic.query.filter_by(school_name=user.school_name,status="current").first()
+     acd=Academic.query.filter_by(school_name=usr.school_name,status="current").first()
      school_name= usr.school_name
      sch = School.query.filter_by(username=usr.username).first()
      school_name = sch.school_name
@@ -1220,7 +1220,7 @@ def update_grade():
           remark  = "GOOD"
           id = request.json["id"]
           term= request.json["term"]
-          year = request.json["year"]
+          year = request.json
           grade_id = request.json["grade_id"]
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           cls = Class.query.filter_by(staff_number = user.username).first()
