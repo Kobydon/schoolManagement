@@ -733,7 +733,16 @@ def add_result_by_excel():
     elif 1 <= total_score < 40:
         remark = "FAIL"
         grade = 9 if any(x in student.class_name.lower() for x in ["jhs", "basic7", "basic8", "basic9"]) else "I"
-    
+    if (student.class_name =="JHS 1A" or student.class_name=="JHS 1B"):
+                    c_name = student.class_name[:5] 
+                    
+    elif (student.class_name =="JHS 2A" or student.class_name=="JHS 2B"):
+                    c_name = student.class_name[:5] 
+                    
+    elif (student.class_name =="JHS 3A" or student.class_name=="JHS 3B" or student.class_name=="JHS 3C"):
+                    c_name = student.class_name[:5] 
+    else:
+         c_name =student.class_name
     # Create a new grading entry
     new_grade = Grading(name=f"{student.last_name} {student.other_name} {student.first_name}",
                         subject_name=subject_name,
@@ -745,7 +754,7 @@ def add_result_by_excel():
                         year=academic_session.year,
                         grade=grade,
                         school_name=user.school_name,
-                        original_class_name=student.original_class_name,
+                        original_class_name=c_name,
                         created_by_id=flask_praetorian.current_user().id,
                         total=total_score,
                         student_number=student_number,
@@ -788,7 +797,7 @@ def add_result_by_excel():
                                     promotion_status="",
                                     all_total="0",
                                     school_name=user.school_name,
-                                    original_class_name=student.original_class_name,
+                                    original_class_name=c_name,
                                     term=academic_session.term,
                                     year=academic_session.year)
         db.session.add(new_broadsheet)
