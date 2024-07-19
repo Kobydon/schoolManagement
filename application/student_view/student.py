@@ -754,11 +754,11 @@ def add_result_by_excel():
                         year=academic_session.year,
                         grade=grade,
                         school_name=user.school_name,
-                        original_class_name=c_name,
+                        original_class_name=student.class_name,
                         created_by_id=flask_praetorian.current_user().id,
                         total=total_score,
                         student_number=student_number,
-                        class_name=student.class_name)
+                        class_name=student.c_name)
     
     # Update the BroadSheet with subject scores
     broadsheet = BroadSheet.query.filter_by(student_number=student_number).first()
@@ -792,12 +792,12 @@ def add_result_by_excel():
         broadsheet.term = term
     else:
         new_broadsheet = BroadSheet(student_name=f"{student.last_name} {student.other_name} {student.first_name}",
-                                    class_name=student.class_name,
+                                    class_name=c_name,
                                     student_number=student_number,
                                     promotion_status="",
                                     all_total="0",
                                     school_name=user.school_name,
-                                    original_class_name=c_name,
+                                    original_class_name=student.class_name,
                                     term=academic_session.term,
                                     year=academic_session.year,
                                     )
@@ -1160,6 +1160,7 @@ def update_broadsheet_total_marks(student_number):
         db.session.commit()
 
 def update_grades_ranks(class_name, subject_name, year, term):
+    bd = BroadSheet.query.filter_by(student_number=student_number).first()
     acd = Academic.query.filter_by(school_name=user.school_name, status="current").first()
     if acd:
         if Class.query.filter_by(class_name=class_name, grade_together="1").first():
