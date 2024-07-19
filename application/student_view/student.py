@@ -799,7 +799,8 @@ def add_result_by_excel():
                                     school_name=user.school_name,
                                     original_class_name=c_name,
                                     term=academic_session.term,
-                                    year=academic_session.year)
+                                    year=academic_session.year,
+                                    )
         db.session.add(new_broadsheet)
     
     # Check if grading entry already exists for the student and subject
@@ -813,6 +814,36 @@ def add_result_by_excel():
     # Add and commit the new grading entry
     db.session.add(new_grade)
     db.session.commit()
+    br = BroadSheet.query.filter_by(student_number=student_number,term=term,year=academic_session.year).first()
+    if br:
+        if subject_name == "Science":
+            broadsheet.science = total_score
+        elif subject_name == "English":
+            broadsheet.english = total_score
+        elif subject_name in ["Mathematics", "Math"]:
+            broadsheet.math = total_score
+        elif subject_name == "RME":
+            broadsheet.rme = total_score
+        elif subject_name in ["Creative Arts", "Creative Arts & Design"]:
+            broadsheet.creativeart = total_score
+        elif subject_name in ["Social Studies", "Social"]:
+            broadsheet.social = total_score
+        elif subject_name in ["Computing", "ICT"]:
+            broadsheet.computing = total_score
+        elif subject_name == "French":
+            broadsheet.french = total_score
+        elif subject_name == "History":
+            broadsheet.history = total_score
+        elif subject_name == "OWOP":
+            broadsheet.owop = total_score
+        elif subject_name in ["Ghanaian Language", "Asante Twi", "Twi"]:
+            broadsheet.ghanalanguage = total_score
+        elif subject_name in ["Career Tech", "Career Technology", "Carer Tech"]:
+            broadsheet.careertech = total_score
+        
+        broadsheet.year = academic_session.year
+        broadsheet.term = term
+        
     
     # Calculate aggregate and update BroadSheet
     top_six_grades = Grading.query.filter_by(student_number=student_number,
@@ -833,21 +864,29 @@ def add_result_by_excel():
                                              school_name=user.school_name,
                                              term=term,
                                              year=academic_session.year).order_by(desc(Grading.total)).all()
+        for rank, g in enumerate(all_grades):
+            g.rank = rank + 1
+    
+            db.session.commit()
+            db.session.close()
+    
+    
+
     else:
         all_grades = Grading.query.filter_by(original_class_name=broadsheet.original_class_name,
                                              subject_name=subject_name,
                                              school_name=user.school_name,
                                              term=term,
                                              year=academic_session.year).order_by(desc(Grading.total)).all()
+        for rank, g in enumerate(all_grades):
+            g.rank = rank + 1
     
-    for rank, g in enumerate(all_grades):
-        g.rank = rank + 1
-    
-    db.session.commit()
-    db.session.close()
-    
+            db.session.commit()
+            db.session.close()
+            
     return jsonify({"message": "Grades added successfully"}), 200
-
+    
+   
         
 @student.route("/all_total", methods=["POST"])
 @flask_praetorian.auth_required
@@ -881,18 +920,26 @@ def all_total():
         if Class.query.filter_by(class_name=original_class_name, grade_together="1").first():
             brd = BroadSheet.query.filter_by(class_name=class_name, school_name=user.school_name,
                                              term=acd.term, year=acd.year)
+            lst1 = brd.order_by(cast(BroadSheet.all_total, Float).desc()).all()
+            rank = 1
+            for student in lst1:
+                 student.pos = rank
+                 rank += 1
+        
+                 db.session.commit()
         else:
             brd = BroadSheet.query.filter_by(original_class_name=original_class_name, school_name=user.school_name,
                                              term=acd.term, year=acd.year)
+            lst1 = brd.order_by(cast(BroadSheet.all_total, Float).desc()).all()
+            rank = 1
+            for student in lst1:
+                 student.pos = rank
+                 rank += 1
+        
+                 db.session.commit()
         
         # Update ranks based on total marks in the BroadSheet
-        lst1 = brd.order_by(cast(BroadSheet.all_total, Float).desc()).all()
-        rank = 1
-        for student in lst1:
-            student.pos = rank
-            rank += 1
         
-        db.session.commit()
         return jsonify("Success"), 200
     
     except KeyError as e:
