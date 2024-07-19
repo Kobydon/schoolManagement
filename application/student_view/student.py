@@ -1296,7 +1296,7 @@ def update_grade():
           
      
           db.session.commit()
-          bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
+          bd = db.session.query(BroadSheet).filter_by(student_number=student_number,year=acd.year,term=acd.term).first()
           grading = db.session.query(Grading).filter_by(student_number=student_number).all()
           total_marks =  db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number).scalar()
           bd.all_total = round( total_marks,1)
