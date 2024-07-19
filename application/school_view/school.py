@@ -1242,7 +1242,7 @@ def add_academic_setup():
                 student_number=entry.student_number, student_name=entry.student_name, class_name=entry.class_name,
                 original_class_name=entry.original_class_name, year=year, term=term,
                 owop="", history="", english="", math="", science="", socialstudies="", ghanalanguage="",
-                creativeart="", social="", rme="", careertech="", pos="", created_date="", all_total="",
+                creativeart="", social="", rme="", careertech="", pos="", created_date="", all_total="0",
                 computing="", french="", promotion_status="", current_status="", aggregate="", school_name=school_name
             )
             db.session.add(new_entry)
