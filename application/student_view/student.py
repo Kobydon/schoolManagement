@@ -31,6 +31,7 @@ guard.init_app(app, User)
 @flask_praetorian.auth_required
 def add_student():
       
+      
       parent_name =request.json["parent_name"]
       firstname =request.json["first_name"]
       gender = request.json["gender"]
@@ -48,6 +49,7 @@ def add_student():
       usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
       school_name= usr.school_name
       sch = School.query.filter_by(username=usr.username).first()
+      acd=Academic.query.filter_by(school_name=user.school_name,status="current").first()
     
       n = random.randint(0,100)
     #   first_three = sch.school_name[:4] + str(n)
@@ -114,7 +116,7 @@ def add_student():
                 )
     #   bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
             bd =BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,current_status="",
-                            school_name =usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="")
+                            school_name =usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="",term=acd.term,year=acd.year)
             usr = User(firstname=firstname,lastname=lastname,roles="student", username= student_number,
                         hashed_password= guard.hash_password(student_number),email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                                             school_name=school_name)
@@ -264,6 +266,7 @@ def add_student_b_excel():
      else:
          c_name =class_name
      usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+     acd=Academic.query.filter_by(school_name=user.school_name,status="current").first()
      school_name= usr.school_name
      sch = School.query.filter_by(username=usr.username).first()
      school_name = sch.school_name
@@ -297,7 +300,7 @@ def add_student_b_excel():
            )
      
             bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,current_status="",
-                          school_name=usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="")
+                          school_name=usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="",term=acd.term,year=acd.year)
             usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
                        hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                        school_name=usr.school_name)
@@ -856,7 +859,7 @@ def add_result_by_excel():
             
           else:
                new =BroadSheet(student_name =bd.student_name,class_name=bd.class_name,student_number=bd.student_number,promotion_status="",
-                         all_total="0",  school_name =user.school_name,original_class_name=bd.original_class_name,year=acd.year)
+                         all_total="0",  school_name =user.school_name,original_class_name=bd.original_class_name,term=acd.term,year=acd.year)
         
                db.session.add(new)
                db.session.commit()
