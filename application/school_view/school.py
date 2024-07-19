@@ -1205,37 +1205,57 @@ def delete_scheme(id):
 
 
 
-@school.route("/add_academic_setup",methods=['POST'])
+
+@school.route("/add_academic_setup", methods=['POST'])
 @flask_praetorian.auth_required
 def add_academic_setup():
-        user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-        year =request.json["year"]
-        term=request.json["term"]
-        closing_date=request.json["closing_date"]
-        created_date= datetime.now().strftime('%Y-%m-%d %H:%M')
-        reopening_date =request.json["reopen_date"]
+    try:
+        user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+        year = request.json["year"]
+        term = request.json["term"]
+        closing_date = request.json["closing_date"]
+        created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
+        reopening_date = request.json["reopen_date"]
         school_name = user.school_name
-        created_by_id =flask_praetorian.current_user().id
-        status="current"
+        created_by_id = flask_praetorian.current_user().id
+        status = "current"
         
-        Ad =Academic.query.filter_by(school_name=user.school_name,status="current").first()
+        # Update existing Academic setup status to "old"
+        Ad = Academic.query.filter_by(school_name=user.school_name, status="current").first()
         if Ad:
-            Ad.status ="old"
+            Ad.status = "old"
     
         db.session.commit()
         
-        
-        acd = Academic(closing_date=closing_date,created_date=created_date,term=term,year=year,
-                       reopening_date=reopening_date,school_name=school_name,created_by_id=created_by_id,status=status,
-                       )
-    
+        # Add new Academic setup
+        acd = Academic(
+            closing_date=closing_date, created_date=created_date, term=term, year=year,
+            reopening_date=reopening_date, school_name=school_name, created_by_id=created_by_id, status=status
+        )
         db.session.add(acd)
-       
         db.session.commit()
+        
+        # Query BroadSheet and insert new data
+        broadsheet_entries = BroadSheet.query.filter_by(school_name=user.school_name).all()
+        for entry in broadsheet_entries:
+            new_entry = BroadSheet(
+                student_number=entry.student_number, student_name=entry.student_name, class_name=entry.class_name,
+                original_class_name=entry.original_class_name, year=year, term=term,
+                owop="", history="", english="", math="", science="", socialstudies="", ghanalanguage="",
+                creativeart="", social="", rme="", careertech="", pos="", created_date="", all_total="",
+                computing="", french="", promotion_status="", current_status="", aggregate="", school_name=school_name
+            )
+            db.session.add(new_entry)
+        
+        db.session.commit()
+        return jsonify("success"), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+    
+    finally:
         db.session.close()
-        resp = jsonify("success")
-        resp.status_code =200
-        return resp
 
 @school.route("/get_academic_current",methods=['GET'])
 @flask_praetorian.auth_required

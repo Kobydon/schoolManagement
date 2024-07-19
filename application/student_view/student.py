@@ -641,7 +641,7 @@ def add_grade():
           print(bd.all_total)
                   
           classe = Class.query.filter_by(class_name=class_name).first()
-          if(classe.grade_together =="1"):
+          if(int(classe.grade_together) > 0):
                     grd = Grading.query.filter_by(original_class_name= bd.original_class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
           else:
                 grd = Grading.query.filter_by(class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
@@ -948,83 +948,48 @@ def add_result_by_excel():
                      school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
             
           bd = BroadSheet.query.filter_by(student_number=student_number).first()
-          if bd.year ==acd.year:
+          
                 
-            if (subject_name=="Science"):
+          if (subject_name=="Science"):
                 bd.science = tl
                 
-            if (subject_name=="English"):
+          if (subject_name=="English"):
                 bd.english = tl
                 
-            if (subject_name=="Mathematics" or subject_name=="Math"):
+          if (subject_name=="Mathematics" or subject_name=="Math"):
                 bd.math = tl
                 
-            if (subject_name=="RME"):
+          if (subject_name=="RME"):
                 bd.rme = tl
                 
-            if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
+          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
                 bd.creativeart = tl
                 
-            if (subject_name=="Social Studies" or subject_name=="Social" ):
+          if (subject_name=="Social Studies" or subject_name=="Social" ):
                 bd.social = tl
                 
-            if (subject_name=="Computing" or  subject_name=="ICT"):
+          if (subject_name=="Computing" or  subject_name=="ICT"):
                 bd.computing = tl
                 
-            if (subject_name=="French"):
+          if (subject_name=="French"):
                 bd.french = tl
                 
-            if (subject_name=="History"):
+          if (subject_name=="History"):
                 bd.history = tl
                 
-            if (subject_name=="OWOP"):
+          if (subject_name=="OWOP"):
                 bd.owop = tl
                 
                 
-            if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name=="Twi"):
+          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name=="Twi"):
                 bd.ghanalanguage = tl
 
                     
-            if (subject_name=="Career Tech" or subject_name=="Career Technology" or subject_name=="Carer Tech"):
+          if (subject_name=="Career Tech" or subject_name=="Career Technology" or subject_name=="Carer Tech"):
                 bd.careertech = tl
             
      
-        #   if (class_name =="JHS 1A" or class_name=="JHS 1B"):
-        #             c_name = class_name[:5] 
-                    
-        #   elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
-        #             c_name = class_name[:5] 
-        #   else:
-        #         c_name =class_name
-         
-        #   l="k"        
-        #   bd = BroadSheet.query.filter_by(student_number=student_number).first()
-        #   if (subject_name=="Science"):
-        #       bd.science = total
-              
-        #   if (subject_name=="English"):
-        #       bd.english = total
-              
-        #   if (subject_name=="Mathematics"):
-        #       bd.math = total
-              
-        #   if (subject_name=="Creative Arts"):
-        #       bd.creativeart = total
-              
-        #   if (subject_name=="Social Studies"):
-        #       bd.social = total
-              
-        #   if (subject_name=="Computing"):
-        #       bd.computing = total
-              
-        #   if (subject_name=="French"):
-        #       bd.math = french
-              
-        #   if (subject_name=="Ghanaian Language"):
-        #       bd.ghanalanguage = total
       
-        #   if (subject_name=="Career Tech"):
-        #       bd.careertech = total
          
           agre_score= Grading.query.filter_by(student_number=student_number,term=acd.term,year=acd.year).order_by(Grading.grade.asc()).limit(6).all()
         #   best_three = agre_score[:6]
@@ -1037,7 +1002,7 @@ def add_result_by_excel():
           bd.aggregate = aggregate
           print(bd.all_total)
           classe = Class.query.filter_by(class_name=class_name).first()
-          if (classe.grade_together =="1"):
+          if (int(classe.grade_together) > 0):
                     grd = Grading.query.filter_by(class_name= bd.class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
           else:
                 grd = Grading.query.filter_by(original_class_name=bd.original_class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
@@ -1084,7 +1049,7 @@ def all_total():
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         c =bd.class_name
         classe = Class.query.filter_by(class_name=bd.original_class_name).first()
-        if (classe.grade_together =="1"):
+        if (int(classe.grade_together) > 0):
                      brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
         else:
                 brd =  BroadSheet.query.filter_by(original_class_name=bd.original_class_name,school_name=user.school_name, term =term,year=acd.year)
