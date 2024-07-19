@@ -1920,7 +1920,7 @@ def promote_student():
                     c_name = class_name[:5] 
      else:
          c_name =class_name
-     bd = BroadSheet.query.filter_by(student_number=student_number,year=year).first()
+     bd = BroadSheet.query.filter_by(student_number=student_number,promotion_status= "Promoted").first()
      bc = BroadSheet.query.filter_by(student_number=student_number).first()
      std = Student.query.filter_by(student_number=student_number).first()
      old_data = BroadSheet.query.filter_by(student_number=student_number,original_class_name=old_class).first()
@@ -1959,7 +1959,7 @@ def repeat_student():
      student_number = request.json["student_number"]
      original_class_name =class_name
      old_class = request.json["promotion_class"]
-     year = request.json["year"]
+    #  year = request.json["year"]
      if (class_name =="JHS 1A" or class_name=="JHS 1B"):
                     c_name = class_name[:5] 
                     
@@ -1970,7 +1970,7 @@ def repeat_student():
                     c_name = class_name[:5] 
      else:
          c_name =class_name
-     bd = BroadSheet.query.filter_by(student_number=student_number,year=year).first()
+     bd = BroadSheet.query.filter_by(student_number=student_number,promotion_status="Repeated").first()
      bc = BroadSheet.query.filter_by(student_number=student_number).first()
      std = Student.query.filter_by(student_number=student_number).first()
      old_data = BroadSheet.query.filter_by(student_number=student_number,original_class_name=old_class).first()
@@ -1983,7 +1983,7 @@ def repeat_student():
      if bd:
          bd.class_name=c_name
          bd.original_class_name=class_name
-         bd.year = year
+        #  bd.year = year
          bd.promotion_status= "Repeated"
          db.session.commit()
          
