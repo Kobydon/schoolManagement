@@ -840,52 +840,58 @@ def add_result_by_excel():
     return jsonify({"message": "Grades added successfully"}), 200
 
         
-@student.route("/all_total",methods=["POST"])
+@student.route("/all_total", methods=["POST"])
 @flask_praetorian.auth_required
 def all_total():
-        all_total = request.json["all_total"]
-        # canpost = request.json["canpost"]
-        # tot =int(all_total)
-        user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    
-
-  
-  
- 
-        student_number = request.json["student_number"]
-        subject_name=  request.json["subject_name"]
-    # t = Student.query.filter_by(student_number=student_number).first()
-    # bd  = BroadSheet.query.filter_by(student_number=student_number).first()
-    
-    
+    try:
+        data = request.json
+        all_total = data["all_total"]
+        student_number = data["student_number"]
+        subject_name = data["subject_name"]
         
-   
-        acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-        term = acd.term
+        user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+        if not user:
+            return jsonify("User not found"), 404
+        
+        acd = Academic.query.filter_by(school_name=user.school_name, status="current").first()
+        if not acd:
+            return jsonify("Current academic year not found"), 404
+        
         today = datetime.today()
-        year=  today.year
+        year = today.year
+        
+        # Fetch BroadSheet for the student
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
-        c =bd.class_name
-        classe = Class.query.filter_by(class_name=bd.original_class_name).first()
-        if (classe.grade_together =="1"):
-                     brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
+        if not bd:
+            return jsonify(f"BroadSheet not found for student number {student_number}"), 404
+        
+        class_name = bd.class_name
+        original_class_name = bd.original_class_name
+        
+        # Determine which BroadSheet records to update based on class grading policy
+        if Class.query.filter_by(class_name=original_class_name, grade_together="1").first():
+            brd = BroadSheet.query.filter_by(class_name=class_name, school_name=user.school_name,
+                                             term=acd.term, year=acd.year)
         else:
-                brd =  BroadSheet.query.filter_by(original_class_name=bd.original_class_name,school_name=user.school_name, term =term,year=acd.year)
-       
-        lst1= brd.order_by(cast(BroadSheet.all_total, Float).desc()).all()
-      
+            brd = BroadSheet.query.filter_by(original_class_name=original_class_name, school_name=user.school_name,
+                                             term=acd.term, year=acd.year)
+        
+        # Update ranks based on total marks in the BroadSheet
+        lst1 = brd.order_by(cast(BroadSheet.all_total, Float).desc()).all()
         rank = 1
         for student in lst1:
             student.pos = rank
             rank += 1
-        db.session.commit()
         
-        resp = jsonify("Success")
-        resp.status_code=200
-        return  resp    
-            
- 
- 
+        db.session.commit()
+        return jsonify("Success"), 200
+    
+    except KeyError as e:
+        return jsonify(f"Missing key in request JSON: {str(e)}"), 400
+    
+    except Exception as e:
+        return jsonify(f"An error occurred: {str(e)}"), 500
+
  
 @student.route("/my_grade",methods=["POST","GET"])
 @flask_praetorian.auth_required
