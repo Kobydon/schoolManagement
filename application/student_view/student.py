@@ -1219,6 +1219,8 @@ def update_grade():
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
           id = request.json["id"]
+          term= request.json["term"]
+          year = request.json["year"]
           grade_id = request.json["grade_id"]
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           cls = Class.query.filter_by(staff_number = user.username).first()
@@ -1293,7 +1295,7 @@ def update_grade():
               grade = 9 
               
               
-          bd = BroadSheet.query.filter_by(student_number=student_number).first()
+          bd = BroadSheet.query.filter_by(student_number=student_number,year=year,term=term).first()
           if (subject_name=="Science" or subject_name=="science"  or subject_name=="Integrated Science"):
               bd.science = tl
               
