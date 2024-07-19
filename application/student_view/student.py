@@ -758,7 +758,7 @@ def add_result_by_excel():
                         created_by_id=flask_praetorian.current_user().id,
                         total=total_score,
                         student_number=student_number,
-                        class_name=student.c_name)
+                        class_name=c_name)
     
     # Update the BroadSheet with subject scores
     broadsheet = BroadSheet.query.filter_by(student_number=student_number).first()
