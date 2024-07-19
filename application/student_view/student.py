@@ -809,61 +809,7 @@ def add_result_by_excel():
           grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=acd.year,grade=grade,
                      school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
             
-          bd = BroadSheet.query.filter_by(student_number=student_number).first()
-          if bd.year ==acd.year:
-                
-            if (subject_name=="Science"):
-                bd.science = tl
-                
-            if (subject_name=="English"):
-                bd.english = tl
-                
-            if (subject_name=="Mathematics" or subject_name=="Math"):
-                bd.math = tl
-                
-            if (subject_name=="RME"):
-                bd.rme = tl
-                
-            if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" ):
-                bd.creativeart = tl
-                
-            if (subject_name=="Social Studies" or subject_name=="Social" ):
-                bd.social = tl
-                
-            if (subject_name=="Computing" or  subject_name=="ICT"):
-                bd.computing = tl
-                
-            if (subject_name=="French"):
-                bd.french = tl
-                
-            if (subject_name=="History"):
-                bd.history = tl
-                
-            if (subject_name=="OWOP"):
-                bd.owop = tl
-                
-                
-            if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name=="Twi"):
-                bd.ghanalanguage = tl
-
-                    
-            if (subject_name=="Career Tech" or subject_name=="Career Technology" or subject_name=="Carer Tech"):
-                bd.careertech = tl
-            
-            today = datetime.today()
-            acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-            term = acd.term
-            today = datetime.today()
-            bd.year=  acd.year
-            bd.term=  term
-            
-          else:
-               new =BroadSheet(student_name =bd.student_name,class_name=bd.class_name,student_number=bd.student_number,promotion_status="",
-                         all_total="0",  school_name =user.school_name,original_class_name=bd.original_class_name,term=acd.term,year=acd.year)
-        
-               db.session.add(new)
-               db.session.commit()
-            
+          bd = BroadSheet.query.filter_by(student_number=student_number).first()          
           gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name,term=term,year=acd.year).first()
           if gdi:
               return jsonify("skip")
@@ -875,79 +821,9 @@ def add_result_by_excel():
                 db.session.add(grade)
         
                 db.session.commit()
-                if (total in range(80,101)):
-                     remark  = "EXCELLENT"
-                if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                     grade = 1
-                else:
-                  grade   = "A"
-              
-              
-                if (total in range(70,80)):
-                    remark  = "VERY GOOD"
-                if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                     grade = 2
-                else:
-                     grade   = "B"
-              
-                        
-                if (total in range(65,70)):
-                     remark  = " GOOD"
-                if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                   grade = 3
-                else:
-                     grade = "C"
-              
-                if (total in range(60,65)):
-                     remark  = "CREDIT"
-                if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                      grade = 4
-                else:
-                     grade   = "D"
-          
-              
-                if (total in range(55,60)):
-                     remark  = " AVERAGE"
-                if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                     grade = 5
-                else:
-                     grade   = "E"
-                if (total in range(50,55)):
-                       remark  = " AVERAGE"
-                if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                         grade = 6
-                else:
-                 grade   = "F"
-          
-              
-                if (total in range(45,50)):
-                        remark  = " PASS"
-                if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                          grade = 7
-                else:
-                     grade   = "G"
-   
-              
-                if (total in range(40,49)):
-                      remark  = "WEAK PASS"
-                if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                      grade = 8
-                else:
-                     grade   = "H"
-              
-      
-              
-                if (total in range(1,40)):
-                         remark  = " FAIL"
-                if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                           grade = 9
-                else:
-                     grade   = "I"
-          acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-          grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=acd.year,grade=grade,
-                     school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
+               
             
-          bd = BroadSheet.query.filter_by(student_number=student_number).first()
+          bd = BroadSheet.query.filter_by(student_number=student_number,year= acd.year,term=acd.term).first()
           
                 
           if (subject_name=="Science"):
