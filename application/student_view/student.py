@@ -1001,6 +1001,7 @@ def add_result_by_excel():
           bd.all_total = round( total_marks,1)
           bd.aggregate = aggregate
           print(bd.all_total)
+          grd=""
           classe = Class.query.filter_by(class_name=class_name).first()
           if (int(classe.grade_together) > 0):
                     grd = Grading.query.filter_by(class_name= bd.class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
@@ -1049,6 +1050,7 @@ def all_total():
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         c =bd.class_name
         classe = Class.query.filter_by(class_name=bd.original_class_name).first()
+        brd=""
         if (int(classe.grade_together) > 0):
                      brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
         else:
