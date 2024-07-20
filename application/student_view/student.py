@@ -300,7 +300,10 @@ def add_student_b_excel():
            )
      
             bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,current_status="",
-                          school_name=usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="",term=acd.term,year=acd.year)
+                          school_name=usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="",term=acd.term,year=acd.year,
+                           owop="", history="", english="", math="", science="", socialstudies="", ghanalanguage="",
+                creativeart="", social="", rme="", careertech="", pos="", created_date="",
+                computing="", french="", aggregate="")
             usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
                        hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                        school_name=usr.school_name)
