@@ -675,6 +675,7 @@ def add_grade():
 @flask_praetorian.auth_required
 def add_result_by_excel():
           user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+          acd=Academic.query.filter_by(school_name=pmt.school_name,status="current").first()
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
           grade =0
@@ -682,7 +683,7 @@ def add_result_by_excel():
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           s_num  = request.json["student_number"]
           st = db.session.query(Student).filter_by(student_number=s_num).first()
-          bd = BroadSheet.query.filter_by(student_number=s_num).first()
+          bd = BroadSheet.query.filter_by(student_number=s_num,term=acd.term,year=acd.year).first()
           
           name = st.last_name+" "+st.other_name+" "+st.first_name
           print(name)
@@ -805,7 +806,6 @@ def add_result_by_excel():
                   grade = 9
               else:
                 grade   = "I"
-          acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
           grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=acd.year,grade=grade,
                      school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
             
