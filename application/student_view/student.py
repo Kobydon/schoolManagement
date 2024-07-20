@@ -675,7 +675,7 @@ def add_grade():
 @flask_praetorian.auth_required
 def add_result_by_excel():
           user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-          acd=Academic.query.filter_by(school_name=pmt.school_name,status="current").first()
+          acd=Academic.query.filter_by(school_name=user.school_name,status="current").first()
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
           grade =0
