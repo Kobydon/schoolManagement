@@ -76,7 +76,7 @@ def add_student():
       if(usr.school_name=="Immaculate Santa Maria R/C jhs"):
             first_three = sch.school_name[:6] + str(cc)
       else:
-           first_three = sch.school_name[:7] + str(cc)
+           first_three = sch.school_name[:8] + str(cc)
       student_number = first_three
     
       try:
