@@ -404,23 +404,42 @@ def update_student():
       resp = jsonify("success")
       resp.status_code =201
       return resp
-@student.route("/delete_student/<id>",methods=['DELETE'])
+@student.route("/delete_student/<id>", methods=['DELETE'])
 @flask_praetorian.auth_required
 def delete_student(id):
-      std = Student.query.filter_by(id=id).first()
-      cls= Class.query.filter_by(class_name=std.class_name).first()
-      cls.class_size = int(cls.class_size) - 1
-      user = User.query.filter_by(username=std.student_number).first()
-      bd = BroadSheet.query.filter_by(student_number=std.student_number).first()
-      db.session.delete(user)
-      db.session.delete(bd)
-      db.session.delete(std)
-      db.session.commit()
-      db.session.close()
-      resp = jsonify("success")
-      resp.status_code =201
-      return resp
+    # Find the student by ID
+    student = Student.query.filter_by(id=id).first()
     
+    if not student:
+        resp = jsonify({"error": "Student not found"})
+        resp.status_code = 404
+        return resp
+
+    # Update class size
+    cls = Class.query.filter_by(class_name=student.class_name).first()
+    if cls:
+        cls.class_size = max(0, int(cls.class_size) - 1)
+    
+    # Find and delete associated user and broadsheet records
+    user = User.query.filter_by(username=student.student_number).first()
+    broadsheet = BroadSheet.query.filter_by(student_number=student.student_number).first()
+    
+    if user:
+        db.session.delete(user)
+    if broadsheet:
+        db.session.delete(broadsheet)
+    
+    # Delete student record
+    db.session.delete(student)
+    
+    # Commit the changes
+    db.session.commit()
+    
+    # Return success response
+    resp = jsonify({"message": "success"})
+    resp.status_code = 201
+    return resp
+
     
 @student.route("/change_grade",methods=['POST'])
 @flask_praetorian.auth_required
