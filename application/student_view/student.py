@@ -916,7 +916,8 @@ def add_result_by_excel():
          
           agre_score= Grading.query.filter_by(student_number=student_number,term=acd.term,year=acd.year).order_by(Grading.grade.asc()).limit(6).all()
         #   best_three = agre_score[:6]
-          aggregate = sum(int(student.grade) for student in agre_score )
+          if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+             aggregate = sum(int(student.grade) for student in agre_score )
           
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()
           total_marks = db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number,Grading.term==acd.term,Grading.year==acd.year).scalar()
@@ -926,10 +927,10 @@ def add_result_by_excel():
           print(bd.all_total)
           grd=""
           classe = Class.query.filter_by(class_name=class_name).first()
-        #   if (int(classe.grade_together) > 0):
-          grd = Grading.query.filter_by(class_name= bd.class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
-        #   else:
-                # grd = Grading.query.filter_by(original_class_name=bd.original_class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
+          if (int(classe.grade_together) > 0):
+                    grd = Grading.query.filter_by(class_name= bd.class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
+          else:
+                grd = Grading.query.filter_by(original_class_name=bd.original_class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
           
           lst= grd.order_by(desc(Grading.total)).all()
           for(rank,g) in enumerate(lst):
