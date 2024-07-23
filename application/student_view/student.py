@@ -783,57 +783,75 @@ def add_result_by_excel():
               
                         
           if (total in range(65,70)):
-              remark  = " GOOD"
+              
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 3
+                  remark  = " GOOD"
               else:
                 grade = "C"
+                remark  = " GOOD"
               
           if (total in range(60,65)):
-              remark  = "CREDIT"
+              
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 4
+                  remark  = "CREDIT"
               else:
-                grade   = "D"
+                grade   = "C"
+                remark  = "GOOD"
+
           
               
           if (total in range(55,60)):
-               remark  = " AVERAGE"
+               
                if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 5
+                  remark  = " AVERAGE"
                else:
-                grade   = "E"
+                grade   = "D"
+                remark  = "CREDIT"
           if (total in range(50,55)):
-              remark  = " AVERAGE"
+              
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 6
+                  remark  = " AVERAGE"
               else:
-                grade   = "F"
+                grade   = "D"
+                remark  = " CREDIT"
           
               
           if (total in range(45,50)):
-              remark  = " PASS"
+              
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 7
+                  remark  = " PASS"
               else:
-                grade   = "G"
+                grade   = "D"
+                remark  = " CREDIT"
    
               
           if (total in range(40,49)):
               remark  = "WEAK PASS"
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 8
-              else:
-                grade   = "H"
               
+          if (total in range(35,45) and  any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"])):
+                     grade = "E"
+                     remark  = "PASS"
+             
+                 
+                      
       
               
           if (total in range(1,40)):
               remark  = " FAIL"
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 9
-              else:
-                grade   = "I"
+             
+          if (total in range(1,35) and  any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"])):
+                     grade = "F"
+                     remark  = "FAIL" 
+
           grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=acd.year,grade=grade,
                      school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
             
