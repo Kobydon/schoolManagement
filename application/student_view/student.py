@@ -1178,6 +1178,12 @@ def update_grade():
             
           if (subject_name=="RME"):
               bd.rme = tl
+
+          if (subject_name=="OWOP" or subject_name=="O.W.O.P"):
+              bd.owop = tl
+            
+          if (subject_name=="History" or subject_name=="history"):
+              bd.history = tl
               
           if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" or subject_name=="Creative Art"):
               bd.creativeart = tl
