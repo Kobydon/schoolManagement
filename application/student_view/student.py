@@ -21,7 +21,8 @@ class StudentSchema(ma.Schema):
                 "status","amount","method","balance","paid_by","student","date","fees_type","cls",
                 "other_name","promotion_status",
                 "rme","science","math","social","pos","creativeart","careertech","english","computing",
-                "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa","admission_number"
+                "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa","admission_number","history",
+                "owop"
 )
         
 student_schema=StudentSchema(many=True)
@@ -625,7 +626,12 @@ def add_grade():
                   
           if (subject_name=="Career Tech" or subject_name=="Career Technology"):
               bd.careertech = tl
-          
+          if (subject_name=="History" or subject_name=="history"):
+              bd.history = tl
+
+                  
+          if (subject_name=="OWOP" or subject_name=="O.W.O.P"):
+              bd.owop = tl
           today = datetime.today()
           acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
           term = acd.term
@@ -875,7 +881,7 @@ def add_result_by_excel():
           if (subject_name=="History"):
                 bd.history = tl
                 
-          if (subject_name=="OWOP"):
+          if (subject_name=="OWOP" or subject_name=="O.W.O.P"):
                 bd.owop = tl
                 
                 
