@@ -866,7 +866,7 @@ def add_result_by_excel():
           if (subject_name=="RME"):
                 bd.rme = tl
                 
-          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" subject_name=="Creative Art" ):
+          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" or subject_name=="Creative Art" ):
                 bd.creativeart = tl
                 
           if (subject_name=="Social Studies" or subject_name=="Social" ):
