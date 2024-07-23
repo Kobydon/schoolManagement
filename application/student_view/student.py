@@ -916,14 +916,15 @@ def add_result_by_excel():
          
           agre_score= Grading.query.filter_by(student_number=student_number,term=acd.term,year=acd.year).order_by(Grading.grade.asc()).limit(6).all()
         #   best_three = agre_score[:6]
+          bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()
           if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
              aggregate = sum(int(student.grade) for student in agre_score )
-          
-          bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()
+             bd.aggregate = aggregate
+        
           total_marks = db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number,Grading.term==acd.term,Grading.year==acd.year).scalar()
          
           bd.all_total = round( total_marks,1)
-          bd.aggregate = aggregate
+          
           print(bd.all_total)
           grd=""
           classe = Class.query.filter_by(class_name=class_name).first()
