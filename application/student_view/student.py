@@ -834,6 +834,9 @@ def add_result_by_excel():
               remark  = "PASS"
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 8
+
+              else:
+                   grade="E"
               
          
       
@@ -842,6 +845,8 @@ def add_result_by_excel():
               remark  = " FAIL"
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 9
+              else:
+                    grade ="F"
 
 
         #   if 35 <= total < 45:
