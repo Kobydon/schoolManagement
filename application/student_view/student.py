@@ -929,7 +929,7 @@ def add_result_by_excel():
                 bd.aggregate = aggregate
           else: bd.aggregate="-"
                 
-          total_marks = db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number,Grading.term==acd.term,Grading.year==acd.year).scalar()
+          total_marks = db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==bd.student_number,Grading.term==acd.term,Grading.year==acd.year).scalar()
          
           bd.all_total = round( total_marks,1)
           
