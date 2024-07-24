@@ -863,7 +863,7 @@ def add_result_by_excel():
             
         #   bd = BroadSheet.query.filter_by(student_number=student_number).first()  
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()        
-          gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name,term=term,year=acd.year).first()
+          gdi = Grading.query.filter_by(student_number=student_number,subject_name=subject_name,term=acd.term,year=acd.year).first()
           if gdi:
               return jsonify("skip")
           
