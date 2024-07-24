@@ -841,7 +841,7 @@ def add_result_by_excel():
          
       
               
-          if (total in range(1,40)):
+          if (total in range(0,40)):
               remark  = " FAIL"
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
                   grade = 9
@@ -924,12 +924,14 @@ def add_result_by_excel():
         #   best_three = agre_score[:6]
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()
           cnm= bd.class_name
-          if class_name.startswith("JHS ") and class_name.split()[1].isdigit() and int(class_name.split()[1]) in range(1, 4):
+          if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):  
                 aggregate = sum(int(student.grade) for student in agre_score)
                 bd.aggregate = aggregate
-          else:
-                bd.aggregate = "-"
-
+                
+          total_marks = db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number,Grading.term==acd.term,Grading.year==acd.year).scalar()
+         
+          bd.all_total = round( total_marks,1)
+          
           print(bd.all_total)
           grd=""
           classe = Class.query.filter_by(class_name=class_name).first()
