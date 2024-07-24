@@ -1236,7 +1236,7 @@ def update_grade():
           db.session.commit()
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number,year=acd.year,term=acd.term).first()
           grading = db.session.query(Grading).filter_by(student_number=student_number).all()
-          total_marks =  db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number).scalar()
+          total_marks =  db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number,term=acd.term,year=acd.year).scalar()
           bd.all_total = round( total_marks,1)
           print(bd.all_total)
                   
@@ -1503,6 +1503,22 @@ def get_all_sub_payment_list():
     
     # Return JSON response
     return jsonify(result)
+
+
+
+@student.route('/get_sub_id/<id>', methods=['GET'])
+@flask_praetorian.auth_required
+def get_sub_id(id):
+    # Query to get all SubPayments in descending order of date
+    sub_payments = SubPayment.query.filter_by(id=id).all()
+    
+    # Serialize the query result using the schema
+    result = student_schema.dump(sub_payments)
+    
+    # Return JSON response
+    return jsonify(result)
+
+    
 @student.route("/update_sub_payment",methods=['PUT'])
 @flask_praetorian.auth_required
 def update_sub_payment():
