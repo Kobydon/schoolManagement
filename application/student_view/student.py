@@ -918,10 +918,12 @@ def add_result_by_excel():
           agre_score= Grading.query.filter_by(student_number=student_number,term=acd.term,year=acd.year).order_by(Grading.grade.asc()).limit(6).all()
         #   best_three = agre_score[:6]
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()
-          if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-             aggregate = sum(int(student.grade) for student in agre_score )
-             bd.aggregate = aggregate
-        
+          cnm= bd.class_name
+          if cnm=="JHS 1 " or cnm =="JHS 2" or cnm=="JHS 3":
+                aggregate = sum(int(student.grade) for student in agre_score )
+                bd.aggregate = aggregate
+          else: bd.aggregate="-"
+                
           total_marks = db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number,Grading.term==acd.term,Grading.year==acd.year).scalar()
          
           bd.all_total = round( total_marks,1)
