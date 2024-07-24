@@ -871,7 +871,7 @@ def add_result_by_excel():
                 db.session.commit()
                
             
-          bd = BroadSheet.query.filter_by(student_number=student_number,year= acd.year,term=acd.term).first()
+        #   bd = BroadSheet.query.filter_by(student_number=student_number,year= acd.year,term=acd.term).first()
           
                 
           if (subject_name=="Science"):
