@@ -844,14 +844,14 @@ def add_result_by_excel():
                   grade = 9
 
 
-          if 35 <= total < 45:
-                remark = "PASS"
-                if any(x in class_name.lower() for x in ["basic 1", "basic 2", "basic 3", "basic 4", "basic 5", "basic 6"]):
-                    grade = "E"
+        #   if 35 <= total < 45:
+        #         remark = "PASS"
+        #         if any(x in class_name.lower() for x in ["basic 1", "basic 2", "basic 3", "basic 4", "basic 5", "basic 6"]):
+        #             grade = "E"
              
-          if 1 <= total < 35 and any(x in class_name.lower() for x in ["basic 1", "basic 2", "basic 3", "basic 4", "basic 5", "basic 6"]):
-                    grade = "F"
-                    remark = "FAIL"
+        #   if 1 <= total < 35 and any(x in class_name.lower() for x in ["basic 1", "basic 2", "basic 3", "basic 4", "basic 5", "basic 6"]):
+        #             grade = "F"
+        #             remark = "FAIL"
 
           grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=term,year=acd.year,grade=grade,
                      school_name=school_name ,original_class_name=original_class_name,exams_score=new_exams_score ,created_by_id=created_by_id,total= tl ,student_number=student_number ,class_name=class_name )
