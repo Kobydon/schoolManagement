@@ -75,7 +75,7 @@ def add_student():
       sc = User.query.filter_by(school_name=sch.school_name).count()
       cc = int(sc)+1
       if(usr.school_name=="Immaculate Santa Maria R/C jhs"):
-            first_three = sch.school_name[:6] + str(cc)
+            first_three = sch.school_name[:8] + str(cc)
       else:
            first_three = sch.school_name[:8] + str(cc)
       student_number = first_three
@@ -95,7 +95,7 @@ def add_student():
                     c_name = class_name[:5] 
                     
       elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
-                    c_name = class_name[:5] 
+                    c_name = class_name[:6] 
       else:
           c_name =class_name
       cls= Class.query.filter_by(class_name= class_name).first()
@@ -1393,7 +1393,7 @@ def get_student_remark():
     term = request.json["term"]
     today = datetime.today()
     year=  request.json["year"]
-    rmk = GeneralRemark.query.filter_by(student_number = student_number,term=term,year=year)
+    rmk = GeneralRemark.query.filter_by(student_number = student_number,term=acd.term,year=acd.year)
     result = student_schema.dump(rmk)
     return jsonify(result)
  
