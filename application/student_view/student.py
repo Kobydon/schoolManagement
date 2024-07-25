@@ -934,7 +934,7 @@ def add_result_by_excel():
           
           print(bd.all_total)
           grd=""
-          classe = Class.query.filter_by(class_name=class_name).first()
+          classe = Class.query.filter_by(class_name=bd.class_name).first()
           if (int(classe.grade_together) > 0):
                     grd = Grading.query.filter_by(class_name= bd.class_name , subject_name=subject_name,school_name=user.school_name,term=acd.term,year=acd.year)     
           else:
