@@ -854,7 +854,7 @@ def add_result_by_excel():
                 if any(x in class_name.lower() for x in ["basic 1", "basic 2", "basic 3", "basic 4", "basic 5", "basic 6"]):
                     grade = "E"
              
-          if 1 <= total < 35 and any(x in class_name.lower() for x in ["basic 1", "basic 2", "basic 3", "basic 4", "basic 5", "basic 6"]):
+          if 0<= total < 35 and any(x in class_name.lower() for x in ["basic 1", "basic 2", "basic 3", "basic 4", "basic 5", "basic 6"]):
                     grade = "F"
                     remark = "FAIL"
 
