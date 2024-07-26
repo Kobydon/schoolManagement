@@ -702,7 +702,7 @@ def add_grade():
 @student.route("/add_result_by_excel",methods=['POST'])
 @flask_praetorian.auth_required
 def add_result_by_excel():
-          user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+          user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
           acd=Academic.query.filter_by(school_name=user.school_name,status="current").first()
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
@@ -873,7 +873,12 @@ def add_result_by_excel():
           else:
                 db.session.add(grade)
         
-                db.session.commit()
+                try:
+    # Perform database operations
+                    db.session.commit()
+                except Exception as e:
+                    db.session.rollback()  # Rollback the transaction on error
+                    raise e  #d
                
             
         #   bd = BroadSheet.query.filter_by(student_number=student_number,year= acd.year,term=acd.term).first()
