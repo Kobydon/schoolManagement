@@ -956,7 +956,7 @@ def add_result_by_excel():
           try:
             # Perform database operations
             db.session.commit()
-            db.session.close()
+           
           except Exception as e:
             db.session.rollback()  # Rollback the transaction on error
             raise e  #
@@ -1010,7 +1010,7 @@ def all_total():
            db.session.commit()
            db.session.close()
         except Exception as e:
-                db.session.rollback()  # Rollback the transaction on error
+            db.session.rollback()  # Rollback the transaction on error
         raise e  #
         
         resp = jsonify("Success")
