@@ -362,9 +362,24 @@ def get_student_info(id):
 def update_student():
     #   subject_name =request.json["subject_name"]
       id = request.json["id"]
-      first_name = request.json["first_name"]
-      last_name =request.json["last_name"]
-      other_name = request.json["other_name"]
+      try:
+           first_name= request.json["first_name"]  + ""
+      except:
+             first_name= "" 
+
+      try:
+           other_name= request.json["other_name"]  + ""
+      except:
+             other_name= ""
+
+      try:
+           last_name= request.json["last_name"]
+      except:
+             last_name= ""
+
+      first_name = first_name
+      last_name =  last_name
+      other_name = other_name
       stf_data = Student.query.filter_by(id=id).first()
       stf_data.first_name =request.json["first_name"]
       class_name = request.json["class_name"]
@@ -396,7 +411,7 @@ def update_student():
         c_name =class_name
     #   stf_data.year_joined =request.json["year_joined"]
       bd  = BroadSheet.query.filter_by(student_number = stf_data.student_number).first()
-      bd.name = last_name +""+other_name+""+first_name
+      bd.name = last_name +other_name+first_name
       
       bd.class_name =class_name
       bd.original_class_name =c_name
