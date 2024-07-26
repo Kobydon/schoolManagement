@@ -702,7 +702,8 @@ def add_grade():
 @student.route("/add_result_by_excel",methods=['POST'])
 @flask_praetorian.auth_required
 def add_result_by_excel():
-          user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
+          user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+
           acd=Academic.query.filter_by(school_name=user.school_name,status="current").first()
           subject_name=  request.json["subject_name"]
           remark  = "GOOD"
@@ -876,7 +877,6 @@ def add_result_by_excel():
                 try:
     # Perform database operations
                     db.session.commit()
-                    db.session.close()
                 except Exception as e:
                     db.session.rollback()  # Rollback the transaction on error
                     raise e  #d
@@ -953,14 +953,9 @@ def add_result_by_excel():
             
          
             
-          try:
-            # Perform database operations
-            db.session.commit()
-           
-          except Exception as e:
-            db.session.rollback()  # Rollback the transaction on error
-            raise e  #
-                
+          db.session.commit()
+          db.session.close()
+        
           resp = jsonify("Success")
           resp.status_code=200
           return  resp            
@@ -1005,13 +1000,7 @@ def all_total():
         for student in lst1:
             student.pos = rank
             rank += 1
-        try:
-    # Perform database operations
-           db.session.commit()
-           db.session.close()
-        except Exception as e:
-            db.session.rollback()  # Rollback the transaction on error
-        raise e  #
+        db.session.commit()
         
         resp = jsonify("Success")
         resp.status_code=200
