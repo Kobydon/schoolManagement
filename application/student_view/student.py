@@ -876,6 +876,7 @@ def add_result_by_excel():
                 try:
     # Perform database operations
                     db.session.commit()
+                    db.session.close()
                 except Exception as e:
                     db.session.rollback()  # Rollback the transaction on error
                     raise e  #d
@@ -952,9 +953,14 @@ def add_result_by_excel():
             
          
             
-          db.session.commit()
-          db.session.close()
-        
+          try:
+            # Perform database operations
+            db.session.commit()
+            db.session.close()
+          except Exception as e:
+            db.session.rollback()  # Rollback the transaction on error
+            raise e  #
+                
           resp = jsonify("Success")
           resp.status_code=200
           return  resp            
@@ -999,7 +1005,13 @@ def all_total():
         for student in lst1:
             student.pos = rank
             rank += 1
-        db.session.commit()
+        try:
+    # Perform database operations
+           db.session.commit()
+           db.session.close()
+        except Exception as e:
+                db.session.rollback()  # Rollback the transaction on error
+        raise e  #
         
         resp = jsonify("Success")
         resp.status_code=200
