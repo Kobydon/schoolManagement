@@ -698,8 +698,9 @@ def get_staff_inf():
 @school.route("/get_staf_a",methods=['POST'])
 @flask_praetorian.auth_required
 def get_staf_a():
+    user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     class_name = request.json["class_name"]
-    cls = Class.query.filter_by(class_name=class_name).first()
+    cls = Class.query.filter_by(class_name=class_name,school_name=user.school_name).first()
     
     stf = Staff.query.filter_by(staff_number = cls.staff_number).all()
     result = staff_schema.dump(stf)
