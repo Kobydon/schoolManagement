@@ -899,7 +899,15 @@ def add_result_by_excel():
             
         #   bd = BroadSheet.query.filter_by(student_number=student_number,year= acd.year,term=acd.term).first()
           
-                
+          if (subject_name=="Numeracy"):
+                bd.numeracy = tl
+
+          if (subject_name=="Literacy"):
+                bd.literacy = tl
+                      
+          if (subject_name=="Writing"):
+                bd.numeracy = tl
+                                 
           if (subject_name=="Science"):
                 bd.science = tl
                 
@@ -931,7 +939,7 @@ def add_result_by_excel():
                 bd.owop = tl
                 
                 
-          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name=="Twi"):
+          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name=="Twi" or "GA-LANGUAGE"):
                 bd.ghanalanguage = tl
 
                     
