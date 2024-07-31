@@ -929,7 +929,7 @@ def add_result_by_excel():
           if (subject_name=="Computing" or  subject_name=="ICT"):
                 bd.computing = tl
                 
-          if (subject_name=="French"):
+          if (subject_name=="French" or subject_name=="FRENCH"):
                 bd.french = tl
                 
           if (subject_name=="History"):
