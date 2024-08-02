@@ -1238,22 +1238,11 @@ def add_academic_setup():
         db.session.commit()
         
         # Query BroadSheet and insert new data
-        broadsheet_entries = Student.query.filter_by(school_name=user.school_name).all()
+        broadsheet_entries = BroadSheet.query.filter_by(school_name=user.school_name).all()
         for entry in broadsheet_entries:
-            if (entry.class_name =="JHS 1A" or entry.class_name =="JHS 1B"):
-                    c_name = entry.class_name[:5] 
-                    
-            elif (entry.class_name  =="JHS 2A" or entry.class_name =="JHS 2B"):
-                    c_name = entry.class_name [:5] 
-                    
-            elif (entry.class_name  =="JHS 3A" or entry.class_name =="JHS 3B" or entry.class_name =="JHS 3C"):
-                    c_name = entry.class_name [:5] 
-            else:
-                  c_name =entry.class_name
-            name = entry.last_name +""+ entry.other_name +""+ entry.first_name
             new_entry = BroadSheet(
-                student_number=entry.student_number, student_name=name, class_name=c_name,
-                original_class_name=entry.class_name, year=year, term=term,
+                student_number=entry.student_number, student_name=entry.student_name, class_name=entry.class_name,
+                original_class_name=entry.original_class_name, year=year, term=term,
                 owop="", history="", english="", math="", science="", socialstudies="", ghanalanguage="",
                 creativeart="", social="", rme="", careertech="", pos="", created_date="", all_total="0",
                 computing="", french="", promotion_status="", current_status="", aggregate="", school_name=school_name
