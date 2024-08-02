@@ -305,7 +305,7 @@ def add_student_b_excel():
                            owop="", history="", english="", math="", science="", socialstudies="", ghanalanguage="",
                 creativeart="", social="", rme="", careertech="", pos="", created_date="",
                 computing="", french="", aggregate="")
-            usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
+            usr = User(firstname=student_name,roles="student", username= student_number,
                        hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                        school_name=usr.school_name)
             
