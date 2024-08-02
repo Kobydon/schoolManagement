@@ -1416,6 +1416,16 @@ def cancel_mail():
 
 
 
+@school.route("/search_fees_type",methods=['GET'])
+@flask_praetorian.auth_required
+def search_fees_type():
+    class_name= request.json["class_name"]
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first() 
+    cls = FeesType.query.filter_by(school_name=user.school_name,class_name=class_name).all()
+    result = school_schema.dump(cls)
+    return jsonify(result)
+
+
 
 
 
