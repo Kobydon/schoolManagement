@@ -462,6 +462,7 @@ class FeesType(db.Model):
     fees_type = db.Column(db.String(5000))
     note = db.Column(db.String(5000))
     school_name = db.Column(db.String(5000))
+    class_name = db.Column(db.String(5000))
     created_date = db.Column(db.String(400))
     total_amount = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))

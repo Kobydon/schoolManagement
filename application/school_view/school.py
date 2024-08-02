@@ -1426,8 +1426,9 @@ def add_fees_type():
     fees_type= request.json["fees_type"]
     note =request.json["note"]
     total_amount =request.json["total_amount"]
+    class_name =request.json["class_name"]
     school_name = user.school_name
-    cls = FeesType(fees_type=fees_type,note=note ,total_amount=total_amount,
+    cls = FeesType(fees_type=fees_type,note=note ,total_amount=total_amount,class_name=class_name,
                 created_by_id = flask_praetorian.current_user().id , created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                 school_name=school_name
                )
