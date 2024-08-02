@@ -1416,7 +1416,7 @@ def cancel_mail():
 
 
 
-@school.route("/search_fees_type",methods=['GET'])
+@school.route("/search_fees_type",methods=['POST'])
 @flask_praetorian.auth_required
 def search_fees_type():
     class_name= request.json["class_name"]
