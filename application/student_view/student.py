@@ -164,7 +164,7 @@ def add_student_b_excel():
             last_name =""
             
      try:
-          class_name =request.json["class_name"]
+          class_name =request.json["Class"]
           
     
      except:
@@ -245,7 +245,7 @@ def add_student_b_excel():
             residential_status =""
             
      try:
-        original_class_name= request.json["class_name"]
+        original_class_name= request.json["Class"]
         
      except:
         original_class_name=""
@@ -276,8 +276,8 @@ def add_student_b_excel():
      sc = User.query.filter_by(school_name=sch.school_name).count()
      cc = int(sc)+1
      first_three = sch.school_name[:4] + str(cc)
-     student_number = request.json["student_number"]
-     student_name =  request.json["student_name"]
+     student_number = first_three
+     student_name = firstname +" "+other_name+" "+last_name
      
     #  dd
     #   
@@ -297,7 +297,7 @@ def add_student_b_excel():
                           student_number=student_number,gender=gender,residential_status=residential_status,
                           picture=picture_one,admitted_year=admitted_year,address=address,email=email,parent_phone=phone,
 
-          first_name=student_name,last_name=last_name,other_name=other_name,dob=dob
+          first_name=firstname,last_name=last_name,other_name=other_name,dob=dob
            )
      
             bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,current_status="",
@@ -305,7 +305,7 @@ def add_student_b_excel():
                            owop="", history="", english="", math="", science="", socialstudies="", ghanalanguage="",
                 creativeart="", social="", rme="", careertech="", pos="", created_date="",
                 computing="", french="", aggregate="")
-            usr = User(firstname=student_name,roles="student", username= student_number,
+            usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
                        hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                        school_name=usr.school_name)
             
@@ -963,7 +963,7 @@ def add_result_by_excel():
           
           print(bd.all_total)
           grd=""
-          classe = Class.query.filter_by(class_name=bd.original_class_name).first()
+          classe = Class.query.filter_by(class_name=bd.class_name).first()
           if (int(classe.grade_together) > 0):
                     grd = Grading.query.filter_by(class_name= bd.class_name , subject_name=subject_name,school_name=user.school_name,term=acd.term,year=acd.year)     
           else:
@@ -1939,18 +1939,7 @@ def promote_student():
      return resp
 
 
-# def delete_duplicates(session, school_name, term):
-#     session.query(BroadSheet).filter(
-#         BroadSheet.id.not_in(
-#             session.query(func.min(BroadSheet.id)).filter(
-#                 BroadSheet.school_name == school_name,
-#                 BroadSheet.term == term
-#             ).group_by(BroadSheet.school_name, BroadSheet.term).subquery()
-#         ),
-#         BroadSheet.school_name == school_name,
-#         BroadSheet.term == term
-#     ).delete(synchronize_session=False)
-#     session.commit()
+
  
 @student.route("/repeat_student",methods=["POST","GET"])
 @flask_praetorian.auth_required
