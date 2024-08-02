@@ -1240,7 +1240,7 @@ def add_academic_setup():
         # Query BroadSheet and insert new data
         broadsheet_entries = Student.query.filter_by(school_name=user.school_name).all()
         for entry in broadsheet_entries:
-            if (entry.class_me =="JHS 1A" or entry.class_name =="JHS 1B"):
+            if (entry.class_name =="JHS 1A" or entry.class_name =="JHS 1B"):
                     c_name = entry.class_name[:5] 
                     
             elif (entry.class_name  =="JHS 2A" or entry.class_name =="JHS 2B"):
