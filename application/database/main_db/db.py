@@ -638,7 +638,7 @@ class Noticer(db.Model):
     id =db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(5000))
     date = db.Column(db.String(5000))
-    note = db.Column(db.String(400))
+    note = db.Column(db.String(100000))
     created_date = db.Column(db.String(400))
     role = db.Column(db.String(400))
     school_name = db.Column(db.String(400))
