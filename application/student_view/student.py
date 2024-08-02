@@ -164,7 +164,7 @@ def add_student_b_excel():
             last_name =""
             
      try:
-          class_name =request.json["Class"]
+          class_name =request.json["class_name"]
           
     
      except:
@@ -245,7 +245,7 @@ def add_student_b_excel():
             residential_status =""
             
      try:
-        original_class_name= request.json["Class"]
+        original_class_name= request.json["class_name"]
         
      except:
         original_class_name=""
