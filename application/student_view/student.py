@@ -1939,7 +1939,18 @@ def promote_student():
      return resp
 
 
-
+# def delete_duplicates(session, school_name, term):
+#     session.query(BroadSheet).filter(
+#         BroadSheet.id.not_in(
+#             session.query(func.min(BroadSheet.id)).filter(
+#                 BroadSheet.school_name == school_name,
+#                 BroadSheet.term == term
+#             ).group_by(BroadSheet.school_name, BroadSheet.term).subquery()
+#         ),
+#         BroadSheet.school_name == school_name,
+#         BroadSheet.term == term
+#     ).delete(synchronize_session=False)
+#     session.commit()
  
 @student.route("/repeat_student",methods=["POST","GET"])
 @flask_praetorian.auth_required
