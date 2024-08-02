@@ -276,8 +276,8 @@ def add_student_b_excel():
      sc = User.query.filter_by(school_name=sch.school_name).count()
      cc = int(sc)+1
      first_three = sch.school_name[:4] + str(cc)
-     student_number = first_three
-     student_name = firstname +" "+other_name+" "+last_name
+     student_number = request.json["student_number"]
+     student_name =  request.json["student_name"]
      
     #  dd
     #   
@@ -297,7 +297,7 @@ def add_student_b_excel():
                           student_number=student_number,gender=gender,residential_status=residential_status,
                           picture=picture_one,admitted_year=admitted_year,address=address,email=email,parent_phone=phone,
 
-          first_name=firstname,last_name=last_name,other_name=other_name,dob=dob
+          first_name=student_name,last_name=last_name,other_name=other_name,dob=dob
            )
      
             bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,current_status="",
