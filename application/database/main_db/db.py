@@ -464,6 +464,7 @@ class FeesType(db.Model):
     school_name = db.Column(db.String(5000))
     class_name = db.Column(db.String(5000))
     created_date = db.Column(db.String(400))
+
     total_amount = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
@@ -643,6 +644,7 @@ class Noticer(db.Model):
     created_date = db.Column(db.String(400))
     role = db.Column(db.String(400))
     school_name = db.Column(db.String(400))
+    letter = db.Column(db.String(1000000))
  
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
