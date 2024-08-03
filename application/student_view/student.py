@@ -1017,8 +1017,11 @@ def all_total():
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         c =bd.class_name
         classe = Class.query.filter_by(class_name=bd.original_class_name).first()
+        if classe:
+             gt = classe.grade_together
+             tg = int(gt)
         brd=""
-        if (int(classe.grade_together) > 0):
+        if (tg > 0):
                      brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
         else:
                 brd =  BroadSheet.query.filter_by(original_class_name=bd.original_class_name,school_name=user.school_name, term =term,year=acd.year)
