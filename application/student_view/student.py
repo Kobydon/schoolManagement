@@ -1014,11 +1014,10 @@ def all_total():
         term = acd.term
         today = datetime.today()
         year=  today.year
-        std = Student.query.filter_by(student_number=student_number).first()
+        # std = Student.query.filter_by(student_number=student_number).first()
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
-        print(std.class_name)
         c =bd.class_name
-        classe = Class.query.filter_by(class_name=std.class_name).first()
+        classe = Class.query.filter_by(class_name=bd.original_class_name).first()
         brd=""
         if (int(classe.grade_together) > 0):
                      brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
