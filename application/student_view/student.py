@@ -997,7 +997,7 @@ def all_total():
         # canpost = request.json["canpost"]
         # tot =int(all_total)
         user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-        class_name= request.json["class_name"]
+        
 
   
   
@@ -1016,7 +1016,7 @@ def all_total():
         year=  today.year
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         c =bd.class_name
-        classe = Class.query.filter_by(class_name=class_name).first()
+        classe = Class.query.filter_by(class_name=bd.original_class_name).first()
         brd=""
         if (int(classe.grade_together) > 0):
                      brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
