@@ -1736,6 +1736,7 @@ def get_notice(id):
 @school.route("/update_notice",methods=['PUT'])
 @flask_praetorian.auth_required
 def update_notice():
+
     role =  request.json["role"]
     if (role =="all"):
         rle ="admin,accountant,student,teacher"
@@ -1743,6 +1744,13 @@ def update_notice():
     else:
         rle =role
     id = request.json["id"]
+    
+    letter= request.json["letter"]
+
+    if letter=="":
+            sub_data.letter=sub_data.letter
+    else:
+        sub_data.letter=sub_data.letter
     sub_data=Noticer.query.filter_by(id=id).first()
     sub_data.name = request.json["name"]
     sub_data.role = rle
