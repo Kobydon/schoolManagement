@@ -63,7 +63,7 @@ guard.init_app(app, User)
 
 class schoolSchema(ma.Schema):
     class Meta:
-        fields=("id","school_name","school_anthem","headmaster","mail","motto","established_year","status","leter",
+        fields=("id","school_name","school_anthem","headmaster","mail","motto","established_year","status","letter",
                 "region","level","population","address","phone","created_date", "color_one","church_logo","report_type",
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
