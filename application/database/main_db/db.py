@@ -287,7 +287,11 @@ class User(db.Model):
     backref = 'schemiee',
     lazy=True)
     
-     
+    note_bba  = db.relationship('Note', 
+    foreign_keys ='Note.created_by_id',
+    backref = 'notebaa',
+    lazy=True)
+    
     sch_byy  = db.relationship('Academic', 
     foreign_keys ='Academic.created_by_id',
     backref = 'academty',
@@ -645,6 +649,20 @@ class Noticer(db.Model):
     role = db.Column(db.String(400))
     school_name = db.Column(db.String(400))
     letter = db.Column(db.String(1000000))
+ 
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+  
+
+class Note(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    note = db.Column(db.String(5000))
+    date = db.Column(db.String(5000))
+    class_name = db.Column(db.String(100000))
+    # created_date = db.Column(db.String(400))
+    strand = db.Column(db.String(400))
+    teacher = db.Column(db.String(400))
+    school_name = db.Column(db.String(400))
+    sub_strand = db.Column(db.String(1000000))
  
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   

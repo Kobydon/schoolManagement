@@ -68,7 +68,8 @@ class schoolSchema(ma.Schema):
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name","countdown",
-                "exam_name","district","circuit","status" ,"role","image","percentage","default","category","promotion_status")
+                "exam_name","district","circuit","status" ,"role","image","percentage","default","category","promotion_status",
+                "strand","sub_strand","teacher")
         
 
 
@@ -1750,7 +1751,7 @@ def update_notice():
     if letter=="":
             sub_data.letter=sub_data.letter
     else:
-        sub_data.letter=sub_data.letter
+        sub_data.letter=letter
     sub_data=Noticer.query.filter_by(id=id).first()
     sub_data.name = request.json["name"]
     sub_data.role = rle
@@ -2344,3 +2345,117 @@ def delete_sba(id):
       resp.status_code =201
       return resp
   
+
+
+
+
+
+
+
+
+
+
+
+@school.route("/add_note",methods=['POST'])
+@flask_praetorian.auth_required
+def add_note():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    note= request.json["note"]
+    class_name =request.json["class_name"]
+    strand =request.json["strand"]
+    sub_strand =request.json["sub_strand"]
+    # note =request.json["note"]
+    date =  datetime.now().strftime('%Y-%m-%d %H:%M')
+    teacher = user.firstname +" "+user.lastname
+    
+    # usr = user.firstname +" " + user.lastname
+    # created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
+    ntc=Note(class_name=class_name,note=note,date=date,
+                   created_by_id=flask_praetorian.current_user().id ,strand=strand,
+                   sub_strand=sub_strand,school_name=user.school_name,teacher=teacher)
+  
+    db.session.add(ntc)
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
+
+
+
+@school.route("/get_note_list",methods=['GET'])
+@flask_praetorian.auth_required
+def get_note_list():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    ntc=Note.query.filter(Note.school_name.contains(user.school_name),Note.role.contains(user.roles))
+    btc = ntc.order_by(desc(Note.date))
+    result = school_schema.dump(btc)
+    return jsonify(result)
+
+
+@school.route("/get_all_note_list",methods=['GET'])
+@flask_praetorian.auth_required
+def get_all_note_list():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    ntc=Note.query.filter(Note.created_by_id==user.id)
+    btc = ntc.order_by(desc(Note.date))
+    result = school_schema.dump(btc)
+    return jsonify(result)
+
+
+@school.route("/get_note/<id>",methods=['GET'])
+@flask_praetorian.auth_required
+def get_note(id):
+
+    ntc=Note.query.filter_by(id=id)
+    result = school_schema.dump(ntc)
+    return jsonify(result)
+
+
+
+
+@school.route("/update_note",methods=['PUT'])
+@flask_praetorian.auth_required
+def update_note():
+
+    # role =  request.json["role"]
+    # if (role =="all"):
+    #     rle ="admin,accountant,student,teacher"
+        
+    # else:
+    #     rle =role
+    id = request.json["id"]
+    
+    note= request.json["note"]
+
+    if note=="":
+            sub_data.note=sub_data.note
+    else:
+        sub_data.letter=note
+    sub_data=Note.query.filter_by(id=id).first()
+    sub_data.strand = request.json["strand"]
+    sub_data.sub_strand =  request.json["sub_strand"]
+    sub_data.class_name = request.json["class_name"]
+    # sub_data.date =request.json["date"]
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =201
+    return resp
+
+@school.route("/delete_note/<id>",methods=['DELETE'])
+@flask_praetorian.auth_required
+def delete_note(id):
+      sub_data=Note.query.filter_by(id=id).first()
+      
+      db.session.delete(sub_data)
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code =201
+      return resp
+
+
+
+
+
