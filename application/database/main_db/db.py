@@ -655,14 +655,14 @@ class Noticer(db.Model):
 
 class Note(db.Model):
     id =db.Column(db.Integer,primary_key=True)
-    note = db.Column(db.String(5000))
-    date = db.Column(db.String(5000))
-    class_name = db.Column(db.String(100000))
+    sub_strand = db.Column(db.String(500))
+    date = db.Column(db.String(500))
+    class_name = db.Column(db.String(400))
     # created_date = db.Column(db.String(400))
     strand = db.Column(db.String(400))
     teacher = db.Column(db.String(400))
     school_name = db.Column(db.String(400))
-    sub_strand = db.Column(db.String(1000000))
+    note = db.Column(db.String(1000000))
  
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
