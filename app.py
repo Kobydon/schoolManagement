@@ -33,8 +33,6 @@ app =app
 
 if __name__ == '__main__':
     with app.app_context():
-        
-        update_countdown_and_schedule()
         db.create_all()
     # with app.app_context():
         
