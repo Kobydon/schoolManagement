@@ -1187,86 +1187,96 @@ def update_grade():
           total = int(e_score) + int(cscore)
           grade=0
           if (total in range(80,101)):
-              remark  = "EXCELLENT"
-              grade   = 1
+              Grade.remark  = "EXCELLENT"
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  Grade.grade = 1
+              else:
+                Grade.grade   = "A"
               
               
           if (total in range(70,80)):
-              remark  = "VERY GOOD"
-              grade =2
+              Grade.remark  = "VERY GOOD"
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  Grade.grade = 2
+              else:
+                Grade.grade   = "B"
               
                         
           if (total in range(65,70)):
-              remark  = " GOOD"
-              grade = 3
+              
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  Grade.grade = 3
+                  Grade.remark  = " GOOD"
+              else:
+                Grade.grade = "C"
+                Grade.remark  = " GOOD"
               
           if (total in range(60,65)):
-              remark  = "CREDIT"
-              grade = 4
+              
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  Grade.grade = 4
+                  Grade.remark  = "CREDIT"
+              else:
+                Grade.grade   = "C"
+                Grade.remark  = "GOOD"
+
           
               
           if (total in range(55,60)):
-              remark  = " AVERAGE"
-              grade = 5
-           
+               
+               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  Grade.grade = 5
+                  Grade.remark  = " AVERAGE"
+               else:
+                Grade.grade   = "D"
+                Grade.remark  = "CREDIT"
           if (total in range(50,55)):
-              remark  = " AVERAGE"
-              grade = 6
+              
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  Grade.grade = 6
+                  Grade.remark  = " AVERAGE"
+              else:
+                Grade.grade   = "D"
+                Grade.remark  = " CREDIT"
           
               
           if (total in range(45,50)):
-              remark  = " PASS"
-              grade= 7
+              
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  Grade.grade = 7
+                  Grade.remark  = " PASS"
+              else:
+                grade   = "D"
+                remark  = " CREDIT"
    
               
           if (total in range(40,45)):
-              remark  = "WEAK PASS"
-              grade =8
+              Grade.remark  = "PASS"
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  Grade.grade = 8
+
+              else:
+                   print("yes")
               
+         
       
               
           if (total in range(0,40)):
               remark  = " FAIL"
-              grade = 9 
-              
-              
-          bd = BroadSheet.query.filter_by(student_number=student_number,year=year,term=term).first()
-          if (subject_name=="Science" or subject_name=="science"  or subject_name=="Integrated Science"):
-              bd.science = tl
-              
-          if (subject_name=="English"):
-              bd.english = tl
-              
-          if (subject_name=="Mathematics" or subject_name=="math"):
-              bd.math = tl
-            
-          if (subject_name=="RME"):
-              bd.rme = tl
+              if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+                  Grade.grade = 9
+              else:
+                    print(("yes"))
 
-          if (subject_name=="OWOP" or subject_name=="O.W.O.P"):
-              bd.owop = tl
-            
-          if (subject_name=="History" or subject_name=="history"):
-              bd.history = tl
-              
-          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" or subject_name=="Creative Art"):
-              bd.creativeart = tl
-              
-          if (subject_name=="Social Studies" or subject_name=="Social "):
-              bd.social = tl
-              
-          if (subject_name=="Computing"):
-              bd.computing = tl
-              
-          if (subject_name=="French"):
-              bd.french = tl
-              
-          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"):
-              bd.ghanalanguage = tl
 
-                  
-          if (subject_name=="Career Tech" or subject_name=="Career Technology"):
-              bd.careertech = tl
+          if 35 <= total < 45:
+                remark = "PASS"
+                if any(x in class_name.lower() for x in ["basic 1", "basic 2", "basic 3", "basic 4", "basic 5", "basic 6","KG 1","KG 2","Nursery 1","Nursery 2"]):
+                    Grade.grade = "E"
+             
+          if 0<= total < 35 and any(x in class_name.lower() for x in ["basic 1", "basic 2", "basic 3", "basic 4", "basic 5", "basic 6","KG 1","KG 2","Nursery 1","Nursery 2"]):
+                    Grade.grade = "F"
+                    Grade.remark = "FAIL"
           
      
           db.session.commit()
