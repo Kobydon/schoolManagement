@@ -1282,9 +1282,11 @@ def update_grade():
           db.session.commit()
           tem =Grade.term
           yr = Grade.year
+          stn = Grade.student_number
           print(yr)
           print(tem)
-          bd = db.session.query(BroadSheet).filter_by(student_number=student_number,year=yr,term=tem).first()
+          print(stn)
+          bd = db.session.query(BroadSheet).filter_by(student_number=stn,year=yr,term=tem).first()
           grading = db.session.query(Grading).filter_by(student_number=student_number).all()
           total_marks =  db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number,term==tem,year==yr).scalar()
           bd.all_total = round( total_marks,1)
