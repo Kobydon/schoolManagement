@@ -2387,7 +2387,8 @@ def add_note():
 @flask_praetorian.auth_required
 def get_note_list():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    ntc=Note.query.filter(Note.school_name.contains(user.school_name),Note.role.contains(user.roles))
+    std= Student.query.filter_by(student_number=user.username).first()
+    ntc=Note.query.filter(Note.school_name.contains(user.school_name),Note.class_name.contains(std.class_name))
     btc = ntc.order_by(desc(Note.date))
     result = school_schema.dump(btc)
     return jsonify(result)
