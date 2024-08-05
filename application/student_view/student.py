@@ -632,7 +632,7 @@ def add_grade():
           if (subject_name=="Computing"):
               bd.computing = tl
               
-          if (subject_name=="French"):
+          if (subject_name=="French" or subject_name=="FRENCH"):
               bd.french = tl
               
           if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"):
