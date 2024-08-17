@@ -69,7 +69,7 @@ class schoolSchema(ma.Schema):
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name","countdown",
                 "exam_name","district","circuit","status" ,"role","image","percentage","default","category","promotion_status",
-                "strand","sub_strand","teacher")
+                "strand","sub_strand","teacher","link","image",)
         
 
 
@@ -1739,6 +1739,7 @@ def get_notice(id):
 def update_notice():
 
     role =  request.json["role"]
+    sub_data=Noticer.query.filter_by(id=id).first()
     if (role =="all"):
         rle ="admin,accountant,student,teacher"
         
@@ -1752,7 +1753,7 @@ def update_notice():
             sub_data.letter=sub_data.letter
     else:
         sub_data.letter=letter
-    sub_data=Noticer.query.filter_by(id=id).first()
+    
     sub_data.name = request.json["name"]
     sub_data.role = rle
     sub_data.note = request.json["note"]
@@ -2425,6 +2426,7 @@ def update_note():
         
     # else:
     #     rle =role
+    sub_data=Note.query.filter_by(id=id).first()
     id = request.json["id"]
     
     note= request.json["note"]
@@ -2433,7 +2435,7 @@ def update_note():
             sub_data.note=sub_data.note
     else:
         sub_data.letter=note
-    sub_data=Note.query.filter_by(id=id).first()
+  
     sub_data.strand = request.json["strand"]
     sub_data.sub_strand =  request.json["sub_strand"]
     sub_data.class_name = request.json["class_name"]
@@ -2457,6 +2459,115 @@ def delete_note(id):
       return resp
 
 
+
+
+
+
+
+
+
+
+@school.route("/add_material",methods=['POST'])
+@flask_praetorian.auth_required
+def add_material():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    link= request.json["link"]
+    class_name =request.json["class_name"]
+    image =request.json["image"]
+    role =request.json["role"]
+    # note =request.json["note"]
+    date =  datetime.now().strftime('%Y-%m-%d %H:%M')
+    # teacher = user.firstname +" "+user.lastname
+    
+    # usr = user.firstname +" " + user.lastname
+    # created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
+    ntc=Material(class_name=class_name,role=role,date=date,
+                   created_by_id=flask_praetorian.current_user().id ,link=link,
+                   image=image,school_name=user.school_name)
+  
+    db.session.add(ntc)
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
+
+
+
+@school.route("/get_material_list",methods=['GET'])
+@flask_praetorian.auth_required
+def get_material_list():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    std= Student.query.filter_by(student_number=user.username).first()
+    ntc=Material.query.filter(Material.school_name.contains(user.school_name),Material.class_name.contains(std.class_name),
+                              Material.role.contains(user.role))
+    btc = ntc.order_by(desc(Material.date))
+    result = school_schema.dump(btc)
+    return jsonify(result)
+
+
+@school.route("/get_all_material_list",methods=['GET'])
+@flask_praetorian.auth_required
+def get_all_material_list():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    ntc=Material.query.filter(Material.created_by_id==user.id)
+    btc = ntc.order_by(desc(Material.date))
+    result = school_schema.dump(btc)
+    return jsonify(result)
+
+
+@school.route("/get_material/<id>",methods=['GET'])
+@flask_praetorian.auth_required
+def get_material(id):
+
+    ntc=Material.query.filter_by(id=id)
+    result = school_schema.dump(ntc)
+    return jsonify(result)
+
+
+
+
+@school.route("/update_material",methods=['PUT'])
+@flask_praetorian.auth_required
+def update_material():
+
+    # role =  request.json["role"]
+    # if (role =="all"):
+    #     rle ="admin,accountant,student,teacher"
+        
+    # else:
+    #     rle =role
+    sub_data=Material.query.filter_by(id=id).first()
+    id = request.json["id"]
+    
+    image= request.json["image"]
+
+    if image=="":
+            sub_data.image=sub_data.image
+    else:
+        sub_data.image=image
+   
+    sub_data.link = request.json["link"]
+    sub_data.role =  request.json["role"]
+    sub_data.class_name = request.json["class_name"]
+    # sub_data.date =request.json["date"]
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =201
+    return resp
+
+@school.route("/delete_Material/<id>",methods=['DELETE'])
+@flask_praetorian.auth_required
+def delete_Material(id):
+      sub_data=Material.query.filter_by(id=id).first()
+      
+      db.session.delete(sub_data)
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code =201
+      return resp
 
 
 

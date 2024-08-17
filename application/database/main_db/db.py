@@ -234,6 +234,12 @@ class User(db.Model):
     backref = 'gradie',
     lazy=True)
     
+          
+    mat_by  = db.relationship('Material', 
+    foreign_keys ='Material.created_by_id',
+    backref = 'matierie',
+    lazy=True)
+    
     
             
     Refund_by  = db.relationship('Refund', 
@@ -663,6 +669,18 @@ class Note(db.Model):
     teacher = db.Column(db.String(400))
     school_name = db.Column(db.String(400))
     note = db.Column(db.String(1000000))
+ 
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+  
+
+class Material(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    link = db.Column(db.String(500))
+    role = db.Column(db.String(500))
+    class_name = db.Column(db.String(400))
+    # created_date = db.Column(db.String(400))
+    school_name = db.Column(db.String(400))
+    image = db.Column(db.String(1000000))
  
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
