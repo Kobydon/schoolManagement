@@ -2474,7 +2474,7 @@ def add_material():
     link= request.json["link"]
     class_name =request.json["class_name"]
     if class_name =="All":
-        cls_name="Basic 1,Basic 2,Basic 3,Basic 4,Basic 5,Basic 6,JHS 1,JHS 2,JHS 3"
+        cls_name="Basic 1,Basic 2,Basic 3,Basic 4,Basic 5,Basic 6,Basic 7,JHS 1,JHS 2,JHS 3"
     else:
         cls_name=class_name
     image =request.json["image"]
