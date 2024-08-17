@@ -2503,8 +2503,12 @@ def add_material():
 def get_material_list():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     std= Student.query.filter_by(student_number=user.username).first()
-    ntc=Material.query.filter(Material.school_name.contains(user.school_name),Material.class_name.contains(std.class_name),
-                              Material.role.contains(user.roles))
+    if user.roles=="student":
+        ntc=Material.query.filter(Material.school_name.contains(user.school_name),Material.class_name.contains(std.class_name),
+                                Material.role.contains(user.roles))
+    else:
+        ntc=Material.query.filter(Material.school_name.contains(user.school_name),
+                                Material.role.contains(user.roles))
     btc = ntc.order_by(desc(Material.date))
     result = school_schema.dump(btc)
     return jsonify(result)
