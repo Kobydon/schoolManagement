@@ -2473,6 +2473,10 @@ def add_material():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     link= request.json["link"]
     class_name =request.json["class_name"]
+    if class_name =="All":
+        cls_name="Basic 1,Basic 2,Basic 3,Basic 4,Basic 5,Basic 6,JHS 1,JHS 2,JHS 3"
+    else:
+        cls_name=class_name
     image =request.json["image"]
     role =request.json["role"]
     # note =request.json["note"]
@@ -2481,7 +2485,7 @@ def add_material():
     
     # usr = user.firstname +" " + user.lastname
     # created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
-    ntc=Material(class_name=class_name,role=role,date=date,
+    ntc=Material(class_name=cls_name,role=role,date=date,
                    created_by_id=flask_praetorian.current_user().id ,link=link,
                    image=image,school_name=user.school_name)
   
