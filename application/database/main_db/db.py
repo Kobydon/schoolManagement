@@ -292,6 +292,11 @@ class User(db.Model):
     foreign_keys ='Scheme.created_by_id',
     backref = 'schemiee',
     lazy=True)
+        
+    deda_by  = db.relationship('Deduction', 
+    foreign_keys ='Deduction.created_by_id',
+    backref = 'dedaas',
+    lazy=True)
     
     note_bba  = db.relationship('Note', 
     foreign_keys ='Note.created_by_id',
@@ -672,6 +677,18 @@ class Note(db.Model):
  
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
   
+
+
+
+class Deduction(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(500))
+    # role = db.Column(db.String(500))
+    amount = db.Column(db.String(400))
+    created_date = db.Column(db.String(400))
+    school_name = db.Column(db.String(400))
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+
 
 class Material(db.Model):
     id =db.Column(db.Integer,primary_key=True)
