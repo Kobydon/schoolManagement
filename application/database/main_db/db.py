@@ -253,6 +253,13 @@ class User(db.Model):
     foreign_keys ='Payment.created_by_id',
     backref = 'payie',
     lazy=True)
+
+                    
+    salyei  = db.relationship('SalaryTemplate', 
+    foreign_keys ='SalaryTemplate.created_by_id',
+    backref = 'salayie',
+    lazy=True)
+    
     
                     
     Attendance_by  = db.relationship('Attendance', 
@@ -679,11 +686,23 @@ class Note(db.Model):
   
 
 
+class SalaryTemplate(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    basic_salary = db.Column(db.String(500))
+    # dedcution = db.Column(db.String(500))
+    role = db.Column(db.String(400))
+    created_date = db.Column(db.String(400))
+    school_name = db.Column(db.String(400))
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+
+
+
+
 
 class Deduction(db.Model):
     id =db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(500))
-    # role = db.Column(db.String(500))
+    role = db.Column(db.String(500))
     amount = db.Column(db.String(400))
     created_date = db.Column(db.String(400))
     school_name = db.Column(db.String(400))

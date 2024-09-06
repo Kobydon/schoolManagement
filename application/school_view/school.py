@@ -2592,12 +2592,13 @@ def add_deduction():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     name= request.json["name"]
     amount =request.json["amount"]
+    role= request["role"]
     # date =request.json["date"]
     # usr = user.firstname +" " + user.lastname
     created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
     ntc = Deduction(name=name,amount=amount,
                    created_by_id=flask_praetorian.current_user().id ,
-                   created_date=created_date,school_name=user.school_name)
+                   created_date=created_date,school_name=user.school_name,role=role)
   
     db.session.add(ntc)
     db.session.commit()
@@ -2638,6 +2639,7 @@ def update_deduction():
     sub_data.name = request.json["name"]
    
     sub_data.amount = request.json["amount"]
+    sub_data.role = request.json["role"]
     # sub_data.date =request.json["date"]
     db.session.commit()
     db.session.close()
@@ -2649,6 +2651,95 @@ def update_deduction():
 @flask_praetorian.auth_required
 def delete_deduction(id):
       sub_data = Deduction.query.filter_by(id=id).first()
+      
+      db.session.delete(sub_data)
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code =201
+      return resp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@school.route("/add_salary",methods=['POST'])
+@flask_praetorian.auth_required
+def add_salary():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    basic_salary= request.json["basic_salary"]
+    role =request.json["role"]
+    grade =request.json["grade"]
+
+    created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
+    ntc = SalaryTemplate(basic_salary=basic_salary,role=role,
+                   created_by_id=flask_praetorian.current_user().id ,
+                   created_date=created_date,school_name=user.school_name,grade=grade)
+  
+    db.session.add(ntc)
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
+
+
+
+@school.route("/get_all_salary",methods=['GET'])
+@flask_praetorian.auth_required
+def get_all_salary():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    ntc = SalaryTemplate.query.filter_by(school_name=user.school_name)
+    # btc = ntc.order_by(desc(Deduction.date))
+    result = school_schema.dump(ntc)
+    return jsonify(result)
+
+
+
+@school.route("/get_salary/<id>",methods=['GET'])
+@flask_praetorian.auth_required
+def get_salary(id):
+
+    ntc = SalaryTemplate.query.filter_by(id=id)
+    result = school_schema.dump(ntc)
+    return jsonify(result)
+
+
+
+
+@school.route("/update_salary",methods=['PUT'])
+@flask_praetorian.auth_required
+def update_salary():
+    id = request.json["id"]
+    sub_data = SalaryTemplate.query.filter_by(id=id).first()
+    sub_data.basic_salary = request.json["basic_salary"]
+   
+    sub_data.role = request.json["role"]
+    sub_data.grade = request.json["grade"]
+    # sub_data.date =request.json["date"]
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =201
+    return resp
+
+@school.route("/delete_salary/<id>",methods=['DELETE'])
+@flask_praetorian.auth_required
+def delete_salary(id):
+      sub_data = SalaryTemplate.query.filter_by(id=id).first()
       
       db.session.delete(sub_data)
       db.session.commit()
