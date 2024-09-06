@@ -2751,6 +2751,15 @@ def delete_salary(id):
 
 
 
+@school.route("/search_salary",methods=['POST'])
+@flask_praetorian.auth_required
+def search_salary():
+      user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
+      role = request.json["role"]
+      std = Deduction.query.filter_by(school_name=user.school_name,role=role).all()
+      result =  school_schema.dump(std)
+     
+      return jsonify(result)  
 
 
 
