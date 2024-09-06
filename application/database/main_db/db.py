@@ -689,7 +689,7 @@ class Note(db.Model):
 class SalaryTemplate(db.Model):
     id =db.Column(db.Integer,primary_key=True)
     basic_salary = db.Column(db.String(500))
-    # dedcution = db.Column(db.String(500))
+    grade = db.Column(db.String(500))
     role = db.Column(db.String(400))
     created_date = db.Column(db.String(400))
     school_name = db.Column(db.String(400))

@@ -69,7 +69,7 @@ class schoolSchema(ma.Schema):
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name","countdown",
                 "exam_name","district","circuit","status" ,"role","image","percentage","default","category","promotion_status",
-                "strand","sub_strand","teacher","link","image","name")
+                "strand","sub_strand","teacher","link","image","name","grade")
         
 
 
