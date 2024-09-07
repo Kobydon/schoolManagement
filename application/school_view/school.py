@@ -2683,11 +2683,12 @@ def add_salary():
     basic_salary= request.json["basic_salary"]
     role =request.json["role"]
     grade =request.json["grade"]
+    net_salary =request.json["net_salary"]
 
     created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
     ntc = SalaryTemplate(basic_salary=basic_salary,role=role,
                    created_by_id=flask_praetorian.current_user().id ,
-                   created_date=created_date,school_name=user.school_name,grade=grade)
+                   created_date=created_date,school_name=user.school_name,grade=grade,net_salary=net_salary)
   
     db.session.add(ntc)
     db.session.commit()
@@ -2726,7 +2727,7 @@ def update_salary():
     id = request.json["id"]
     sub_data = SalaryTemplate.query.filter_by(id=id).first()
     sub_data.basic_salary = request.json["basic_salary"]
-   
+    sub_data.net_salary = request.json["net_salary"]
     sub_data.role = request.json["role"]
     sub_data.grade = request.json["grade"]
     # sub_data.date =request.json["date"]

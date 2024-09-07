@@ -414,7 +414,7 @@ def update_student():
       bd.name = last_name +other_name+first_name
       
       bd.class_name =class_name
-      bd.original_class_name =c_nameimm
+      bd.original_class_name =c_name
       db.session.commit()
       db.session.close()
       resp = jsonify("success")

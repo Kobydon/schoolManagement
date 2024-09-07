@@ -693,6 +693,7 @@ class SalaryTemplate(db.Model):
     role = db.Column(db.String(400))
     created_date = db.Column(db.String(400))
     school_name = db.Column(db.String(400))
+    net_salary =  db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
 
 
