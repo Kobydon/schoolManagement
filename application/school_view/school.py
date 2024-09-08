@@ -2767,3 +2767,96 @@ def search_salary():
 
 
 
+
+
+
+
+
+@school.route("/add_allowance",methods=['POST'])
+@flask_praetorian.auth_required
+def add_allowance():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    name= request.json["name"]
+    amount =request.json["amount"]
+    role= request["role"]
+    # date =request.json["date"]
+    # usr = user.firstname +" " + user.lastname
+    created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
+    ntc = Allowance(name=name,amount=amount,
+                   created_by_id=flask_praetorian.current_user().id ,
+                   created_date=created_date,school_name=user.school_name,role=role)
+  
+    db.session.add(ntc)
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
+
+
+
+@school.route("/get_all_allowance",methods=['GET'])
+@flask_praetorian.auth_required
+def get_all_allowance():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    ntc = Allowance.query.filter_by(school_name=user.school_name)
+    # btc = ntc.order_by(desc(Deduction.date))
+    result = school_schema.dump(ntc)
+    return jsonify(result)
+
+
+
+@school.route("/get_allowance/<id>",methods=['GET'])
+@flask_praetorian.auth_required
+def get_allowance(id):
+
+    ntc = Allowance.query.filter_by(id=id)
+    result = school_schema.dump(ntc)
+    return jsonify(result)
+
+
+
+
+@school.route("/update_allowance",methods=['PUT'])
+@flask_praetorian.auth_required
+def update_allowance():
+    id = request.json["id"]
+    sub_data = Allowance.query.filter_by(id=id).first()
+    sub_data.name = request.json["name"]
+   
+    sub_data.amount = request.json["amount"]
+    sub_data.role = request.json["role"]
+    # sub_data.date =request.json["date"]
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =201
+    return resp
+
+@school.route("/delete_allowance/<id>",methods=['DELETE'])
+@flask_praetorian.auth_required
+def delete_allowance(id):
+      sub_data = Allowance.query.filter_by(id=id).first()
+      
+      db.session.delete(sub_data)
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code =201
+      return resp
+
+
+
+
+
+@school.route("/search_allowance",methods=['POST'])
+@flask_praetorian.auth_required
+def search_allowance():
+      user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
+      role = request.json["role"]
+      std = Allowance.query.filter_by(school_name=user.school_name,role=role).all()
+      result =  school_schema.dump(std)
+     
+      return jsonify(result)  
+
+

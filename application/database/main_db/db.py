@@ -192,6 +192,13 @@ class User(db.Model):
     lazy=True
     
     )
+
+    allwanca_by  = db.relationship('Allowance', 
+    foreign_keys ='Allowance.created_by_id',
+    backref = 'aliwnsie',
+    lazy=True
+    
+    )
         
     feess_by  = db.relationship('FeesType', 
     foreign_keys ='FeesType.created_by_id',
@@ -699,6 +706,16 @@ class SalaryTemplate(db.Model):
 
 
 
+
+
+class Allowance(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(500))
+    role = db.Column(db.String(500))
+    amount = db.Column(db.String(400))
+    created_date = db.Column(db.String(400))
+    school_name = db.Column(db.String(400))
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
 
 class Deduction(db.Model):
     id =db.Column(db.Integer,primary_key=True)
