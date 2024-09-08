@@ -2778,7 +2778,7 @@ def add_allowance():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     name= request.json["name"]
     amount =request.json["amount"]
-    role= request["role"]
+    role= request.json["role"]
     # date =request.json["date"]
     # usr = user.firstname +" " + user.lastname
     created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
