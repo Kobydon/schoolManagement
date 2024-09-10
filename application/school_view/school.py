@@ -69,7 +69,7 @@ class schoolSchema(ma.Schema):
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name","countdown",
                 "exam_name","district","circuit","status" ,"role","image","percentage","default","category","promotion_status",
-                "strand","sub_strand","teacher","link","image","name","grade","basic_salary","net_salary")
+                "strand","sub_strand","teacher","link","image","name","grade","basic_salary","net_salary","payment_date","method")
         
 
 
@@ -1484,6 +1484,16 @@ def pay_staff():
 
 
  
+
+@school.route("/get_salary_payment",methods=['GET'])
+@flask_praetorian.auth_required
+def get_salary_payment():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first() 
+    cls = SalaryPayment.query.filter_by(school_name=user.school_name).all()
+    result = school_schema.dump(cls)
+    return jsonify(result)
+
+
 
 @school.route("/get_fees_type",methods=['GET'])
 @flask_praetorian.auth_required
