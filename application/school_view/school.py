@@ -67,7 +67,7 @@ class schoolSchema(ma.Schema):
                 "region","level","population","address","phone","created_date", "color_one","church_logo","report_type",
                 "color_two","color_three","address","logo","school_name","closing_date","reopening_date",
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
-                "amount","user","date","from_time","to_time","section","class_name","room","subject_name","countdown",
+                "amount","user","date","from_time","to_time","section","class_name","room","subject_name","countdown","created_by_id",
                 "exam_name","district","circuit","status" ,"role","image","percentage","default","category","promotion_status",
                 "strand","sub_strand","teacher","link","image","name","grade","basic_salary","net_salary","payment_date","method")
         
