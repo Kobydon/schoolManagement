@@ -2054,9 +2054,9 @@ def search_income_dates():
 
 
 
-@school.route("/search_income_dates",methods=["POST"])
+@school.route("/search_salary_dates",methods=["POST"])
 @flask_praetorian.auth_required
-def search_income_dates():
+def search_salary_dates():
     date = request.json["date"]
     print(date)
     pay = SalaryPayment.query.filter(SalaryPayment.payment_date.contains(date) )
