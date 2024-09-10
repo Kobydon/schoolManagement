@@ -2053,6 +2053,18 @@ def search_income_dates():
 
 
 
+
+@school.route("/search_income_dates",methods=["POST"])
+@flask_praetorian.auth_required
+def search_income_dates():
+    date = request.json["date"]
+    print(date)
+    pay = SalaryPayment.query.filter(SalaryPayment.payment_date.contains(date) )
+    lst = pay.order_by(desc(SalaryPayment.date))
+    result = school_schema.dump(lst)
+    return jsonify(result)
+
+
 @school.route("/search_expense_dates",methods=["POST"])
 @flask_praetorian.auth_required
 def search_expense_dates():
