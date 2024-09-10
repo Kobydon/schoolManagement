@@ -1474,7 +1474,12 @@ def pay_staff():
         SalaryTemplate.school_name.contains(school_name),
         SalaryTemplate.role.contains(rle)
     ).scalar()
-    amount= total_salary
+
+    all_staff  =  db.session.query(Staff).filter(
+        Staff.school_name.contains(school_name),
+        Staff.role.contains(rle)
+    ).count()
+    amount= total_salary * all_staff
     # school_name = user.school_name
     status = "Success"
     cls = SalaryPayment(amount=amount,method=method ,role=rle,status=status,
