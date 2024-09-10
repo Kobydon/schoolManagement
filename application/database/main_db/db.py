@@ -980,6 +980,16 @@ class MailSetup(db.Model):
           created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))
 
 
+
+class Notify(db.Model):
+           
+          id = db.Column(db.Integer,primary_key=True)
+          receiver = db.Column(db.String(400))
+          message=  db.Column(db.String(400))
+          status=  db.Column(db.String(400))
+          created_date = db.Column(db.String(400))
+        #   created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))
+
 class Remark(db.Model):
            
           id = db.Column(db.Integer,primary_key=True)
