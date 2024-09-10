@@ -602,7 +602,7 @@ def add_staff_b_excel():
             stf = Staff(dob=dob,job_grade=job_grade,ges_number=ges_number,ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject_name=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
                 bank_branch=bank_branch, bank_account_number=bank_account_number ,national_id=national_id,   staff_number=staff_number,
                 residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
-                address=address,firstname=firstname,lastname=lastname,email=email,phone =phone,payroll_status=payroll_status,
+                address=address,firstname=firstname,lastname=lastname,email=email,phone =phone,payroll_status=payroll_status,role=role,
                 other_name=other_name,current_management_unit=current_management_unit,at_post=at_post,onleave_type=onleave_type,gender=gender,
             
                 )
@@ -659,7 +659,7 @@ def add_staff():
       stf = Staff(ssn=ssn,promotional_status=promotional_status,created_by_id=created_by_id,subject=subject_name ,created_date=created_date,bank_name=bank_name,school_name=school_name,
            bank_branch=bank_branch, bank_account_number=bank_account_number ,national_id=national_id,   staff_number=staff_number,
            residential_status=residential_status,appointment_date=appointment_date,year_joined=year_joined,department=department,
-           address=address,firstname=firstname,lastname=lastname,phone =phone,other_name=other_name,
+           address=address,firstname=firstname,lastname=lastname,phone =phone,other_name=other_name,role=role
            )
       subject = Subjectc.query.filter_by(subject_name =subject_name).first()
     #   dep = Departmentb.query.filter_by(department_name=subject.department_name).first()
