@@ -1470,9 +1470,9 @@ def pay_staff():
     date = request.json["date"]
     # date =request.json["date"]
     method = request.json["method"]
-    total_salary = db.session.query(func.sum(cast(SalaryPayment.net_salary, Float))).filter(
-        SalaryPayment.school_name.contains(school_name),
-        SalaryPayment.role.contains(rle)
+    total_salary = db.session.query(func.sum(cast(SalaryTemplate.net_salary, Float))).filter(
+        SalaryTemplate.school_name.contains(school_name),
+        SalaryTemplate.role.contains(rle)
     ).scalar()
     amount= total_salary
     # school_name = user.school_name
