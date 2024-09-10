@@ -1461,22 +1461,32 @@ def pay_staff():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     school_name = user.school_name
     role= request.json["role"]
+    if (role =="all"):
+        rle ="accountant,teacher"
+        
+    else:
+        rle =role
+        
     date = request.json["date"]
     # date =request.json["date"]
     method = request.json["method"]
     total_salary = db.session.query(func.sum(cast(SalaryPayment.net_salary, Float))).filter(
         SalaryPayment.school_name.contains(school_name),
-        SalaryPayment.role.contains(role)
+        SalaryPayment.role.contains(rle)
     ).scalar()
     amount= total_salary
     # school_name = user.school_name
-    status = "Successs"
-    cls = SalaryPayment(amount=amount,method=method ,role=role,status=status,
+    status = "Success"
+    cls = SalaryPayment(amount=amount,method=method ,role=rle,status=status,
                 created_by_id = flask_praetorian.current_user().id , payment_date=date,
                 school_name=school_name
                )
     # ntf = Notify(receiver=,message="Salary paid")
-   
+    ntc=Noticer(name="Salary ",note="Salary Paid",date=date,
+                   created_by_id=flask_praetorian.current_user().id ,letter="",
+                   created_date=date,school_name=user.school_name,role=rle)
+  
+    db.session.add(ntc)
     db.session.add(cls)
     db.session.commit()
     db.session.close()
