@@ -13,13 +13,60 @@ from flask import session
 from  application.user_view.user import user
 from  application.student_view.student import student
 from  application.school_view.school import school,update_countdown_and_schedule
-from application.database.main_db.db import db
+from application.database.main_db.db import db,BroadSheet,Student,Class
+from sqlalchemy import func
 # from  application.client_view.client import client
 #from  application.room_view.room import room
 #from  application.employee_view.employee import employee
 #from  application.guest_view.guest import guest
 
 
+
+
+def fetch_student_names():
+    student_names = {}
+    try:
+        students = db.session.query(
+            Student.student_number,
+            func.concat(
+                Student.last_name, ' ', Student.other_name, ' ', Student.first_name
+            ).label('full_name')
+        ).all()
+
+        for student in students:
+            student_names[student.student_number] = student.full_name
+
+    except Exception as e:
+        print(f"An error occurred while fetching student names: {e}")
+
+    return student_names
+
+def update_broad_sheet_student_name():
+    student_names = fetch_student_names()
+    
+    try:
+        for student_number, full_name in student_names.items():
+            db.session.query(BroadSheet).filter(
+                BroadSheet.student_number == student_number
+            ).update({
+                BroadSheet.student_name: full_name
+            }, synchronize_session=False)
+
+        db.session.commit()
+        print("Update successful!")
+    except Exception as e:
+        db.session.rollback()
+        print(f"An error occurred: {e}")
+    finally:
+        db.session.close()
+
+if __name__ == '__main__':
+    with app.app_context():
+        update_broad_sheet_student_name()
+        db.create_all()
+
+
+# Call the function to update
 
 
 
@@ -33,6 +80,7 @@ app =app
 
 if __name__ == '__main__':
     with app.app_context():
+        update_broad_sheet_student_name()
         db.create_all()
     # with app.app_context():
         

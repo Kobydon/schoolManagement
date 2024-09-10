@@ -2860,3 +2860,82 @@ def search_allowance():
       return jsonify(result)  
 
 
+# Import your models
+
+@school.route("/search_salary_list", methods=['POST'])
+@flask_praetorian.auth_required
+def search_salary_list():
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    role = request.json.get("role")
+    if not role:
+        return jsonify({'error': 'Role not provided'}), 400
+
+    # Construct query
+    query = db.session.query(
+        Staff.staff_number,
+        Staff.firstname,
+        Staff.lastname,
+        Staff.other_name,
+        Staff.bank_account_number,
+        Staff.bank_name,
+        Staff.national_id,
+        SalaryTemplate.net_salary,
+        Allowance.name.label('allowance_name'),
+        Allowance.amount.label('allowance_amount'),
+        Deduction.name.label('deduction_name'),
+        Deduction.amount.label('deduction_amount')
+    ).join(
+        SalaryTemplate, SalaryTemplate.staff_number == Staff.staff_number
+    ).outerjoin(
+        Allowance, Allowance.staff_number == Staff.staff_number
+    ).outerjoin(
+        Deduction, Deduction.staff_number == Staff.staff_number
+    ).filter(
+        SalaryTemplate.role == role,
+        Allowance.role == role,
+        Deduction.role == role
+    ).all()
+
+    grouped_data = {}
+    
+    for row in query:
+        staff_number = row[0]
+        if staff_number not in grouped_data:
+            grouped_data[staff_number] = {
+                'staff_number': staff_number,
+                'name': f"{row[1]} {row[3]} {row[2]}",
+                'national_id': row[6],
+                'bank_account_number': row[4],
+                'bank_name': row[5],
+                'allowance': [],
+                'deduction': [],
+                'salary': []
+            }
+
+        # Append allowance
+        if row[8] and row[9]:
+            grouped_data[staff_number]['allowance'].append({
+                'name': row[8],
+                'amount': row[9]
+            })
+
+        # Append deduction
+        if row[10] and row[11]:
+            grouped_data[staff_number]['deduction'].append({
+                'name': row[10],
+                'amount': row[11]
+            })
+
+        # Append salary (assuming only one salary entry per staff number)
+        if row[7] and not grouped_data[staff_number]['salary']:
+            grouped_data[staff_number]['salary'].append({
+                'net_salary': row[7]
+            })
+
+    # Convert dictionary to list of values
+    result = list(grouped_data.values())
+
+    return jsonify(result)

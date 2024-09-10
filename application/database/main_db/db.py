@@ -397,6 +397,7 @@ class Student(db.Model):
           dob =  db.Column(db.String(400))
           all_total =  db.Column(db.String(400))
           gender=db.Column(db.String(400))
+         
 
           
           created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
@@ -421,6 +422,7 @@ class Staff(db.Model):
       email = db.Column(db.String(400))
       phone = db.Column(db.String(400))
       address = db.Column(db.String(400))
+      role =db.Column(db.String(400))
       department = db.Column(db.String(400))
       dob = db.Column(db.String(400))
       n =db.Column(db.String(400))
