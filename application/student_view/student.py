@@ -1496,9 +1496,12 @@ def add_payment():
     name = std.last_name +" "+ std.other_name+" "+ std.first_name
     created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
     created_by_id = flask_praetorian.current_user().id
+    last_payment = db.session.query(FeesPayment).filter_by(student_number=student).order_by(FeesPayment.created_date.desc()).first()
     balance = int(ftype.total_amount)- int(amount)
+    bc =  balance - int(last_payment)
     pmt = FeesPayment(student=name ,student_number=student, method=method,fees_type=fees_type,date=date,created_date=created_date,
- amount=amount,created_by_id=created_by_id ,balance=balance,school_name=school_name,cls= cls,paid_by=paid_by)
+                      
+                      amount=amount,created_by_id=created_by_id ,balance=bc,school_name=school_name,cls= cls,paid_by=paid_by)
     db.session.add(pmt)
     db.session.commit()
     db.session.close()

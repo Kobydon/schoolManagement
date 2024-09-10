@@ -672,6 +672,7 @@ def add_staff():
       db.session.commit()
       db.session.close()
       resp = jsonify("success")
+      
       resp.status_code =200
       return resp
 
