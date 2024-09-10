@@ -352,9 +352,14 @@ class User(db.Model):
     backref = 'incm',
     lazy=True)
     
+    ssapary  = db.relationship('SalaryPayment', 
+    foreign_keys ='SalaryPayment.created_by_id',
+    backref = 'inssaa_paycm',
+    lazy=True)
     
     
-
+    
+  
 
 
 class Departmentb(db.Model):
@@ -546,6 +551,18 @@ class SubPayment(db.Model):
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
     
 
+
+
+
+class SalaryPayment(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    school_name = db.Column(db.String(5000))
+    payment_date = db.Column(db.String(400))
+    amount = db.Column(db.String(400))
+    method = db.Column(db.String(400))
+    role = db.Column(db.String(400))
+    status = db.Column(db.String(400))
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
     
 
 class ExamAttend(db.Model):

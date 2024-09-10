@@ -672,7 +672,7 @@ def add_staff():
       db.session.commit()
       db.session.close()
       resp = jsonify("success")
-      
+
       resp.status_code =200
       return resp
 
@@ -1453,6 +1453,37 @@ def add_fees_type():
     return resp
 
 
+
+
+@school.route("/pay_staff",methods=['POST'])
+@flask_praetorian.auth_required
+def pay_staff():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    school_name = user.school_name
+    role= request.json["role"]
+    # date =request.json["date"]
+    method = request.json["method"]
+    total_salary = db.session.query(func.sum(cast(SalaryPayment.net_salary, Float))).filter(
+        SalaryPayment.school_name.contains(school_name),
+        SalaryPayment.role.contains(role)
+    ).scalar()
+    amount= total_salary
+    # school_name = user.school_name
+    status = "Successs"
+    cls = SalaryPayment(amount=amount,method=method ,role=role,status=status,
+                created_by_id = flask_praetorian.current_user().id , payment_date=datetime.now().strftime('%Y-%m-%d'),
+                school_name=school_name
+               )
+   
+    db.session.add(cls)
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
+
+
+ 
 
 @school.route("/get_fees_type",methods=['GET'])
 @flask_praetorian.auth_required
