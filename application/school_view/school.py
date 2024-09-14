@@ -2843,7 +2843,7 @@ def search_salary():
 def get_salary_by_role():
       user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
       role = user.roles
-      std = SalaryPayment.query.filter_by(school_name=user.school_name,role=role).all()
+      std = SalaryTemplate.query.filter_by(school_name=user.school_name,role=role).all()
       result =  school_schema.dump(std)
      
       return jsonify(result)  
