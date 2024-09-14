@@ -2838,7 +2838,7 @@ def search_salary():
 
 
 
-@school.route("/get_salary_by_role",methods=['POST'])
+@school.route("/get_salary_by_role",methods=['GET'])
 @flask_praetorian.auth_required
 def get_salary_by_role():
       user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
@@ -2851,7 +2851,7 @@ def get_salary_by_role():
 
 
 
-@school.route("/get_deduction_by_role",methods=['POST'])
+@school.route("/get_deduction_by_role",methods=['GET'])
 @flask_praetorian.auth_required
 def get_deduction_by_role():
       user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
@@ -2864,7 +2864,7 @@ def get_deduction_by_role():
 
 
 
-@school.route("/get_allowance_by_role",methods=['POST'])
+@school.route("/get_allowance_by_role",methods=['GET'])
 @flask_praetorian.auth_required
 def get_allowance_by_role():
       user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
