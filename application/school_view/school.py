@@ -79,7 +79,7 @@ class staffSchema(ma.Schema):
                 "phone","department","national_id","address","staff_number","appointment_date",
                 "year_joined","created_date","subject_name","residential_status","bank_account_number","school_name","ssn",
                 "promotional_status","other_name",    "current_management_unit" ,"form_master",
-      "payroll_status ", " at_post " ,"onleave_type","gender","for_class"
+      "payroll_status ", " at_post " ,"onleave_type","gender","for_class" ,"role"
 
                 
 )
@@ -201,6 +201,9 @@ def get_schools():
     sch =School.query.all()
     result = school_schema.dump(sch)
     return jsonify(result)
+
+
+
 
 
 
@@ -2834,6 +2837,42 @@ def search_salary():
       return jsonify(result)  
 
 
+
+@school.route("/get_salary_by_role",methods=['POST'])
+@flask_praetorian.auth_required
+def get_salary_by_role():
+      user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
+      role = user.role
+      std = SalaryPayment.query.filter_by(school_name=user.school_name,role=role).all()
+      result =  school_schema.dump(std)
+     
+      return jsonify(result)  
+
+
+
+
+@school.route("/get_deduction_by_role",methods=['POST'])
+@flask_praetorian.auth_required
+def get_deduction_by_role():
+      user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
+      role = user.role
+      std = Deduction.query.filter_by(school_name=user.school_name,role=role).all()
+      result =  school_schema.dump(std)
+     
+      return jsonify(result)  
+
+
+
+
+@school.route("/get_allowance_by_role",methods=['POST'])
+@flask_praetorian.auth_required
+def get_allowance_by_role():
+      user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
+      role = user.role
+      std = Allowance.query.filter_by(school_name=user.school_name,role=role).all()
+      result =  school_schema.dump(std)
+     
+      return jsonify(result)  
 
 
 
