@@ -2842,7 +2842,7 @@ def search_salary():
 @flask_praetorian.auth_required
 def get_salary_by_role():
       user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
-      role = user.role
+      role = user.roles
       std = SalaryPayment.query.filter_by(school_name=user.school_name,role=role).all()
       result =  school_schema.dump(std)
      
@@ -2855,7 +2855,7 @@ def get_salary_by_role():
 @flask_praetorian.auth_required
 def get_deduction_by_role():
       user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
-      role = user.role
+      role = user.roles
       std = Deduction.query.filter_by(school_name=user.school_name,role=role).all()
       result =  school_schema.dump(std)
      
@@ -2868,7 +2868,7 @@ def get_deduction_by_role():
 @flask_praetorian.auth_required
 def get_allowance_by_role():
       user = db.session.query(User).filter_by(id = flask_praetorian.current_user().id).first()
-      role = user.role
+      role = user.roles
       std = Allowance.query.filter_by(school_name=user.school_name,role=role).all()
       result =  school_schema.dump(std)
      
