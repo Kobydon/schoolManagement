@@ -1596,7 +1596,7 @@ def update_sub_payment():
 @flask_praetorian.auth_required
 def get_payment_list():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    pmt = FeesPayment.query.filter_by(school_name=user.school_name).all()
+    pmt = FeesPayment.query.all()
     result = student_schema.dump(pmt)
     return jsonify(result)
 
