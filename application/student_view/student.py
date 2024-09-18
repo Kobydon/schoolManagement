@@ -956,7 +956,7 @@ def add_result_by_excel():
         #   best_three = agre_score[:6]
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()
           if  not bd:
-                return jsonify({"error": "Student or BroadSheet record not found"}), 404
+                return jsonify("skip")
           cnm= bd.class_name
           if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):  
                 aggregate = sum(int(student.grade) for student in agre_score)
@@ -1022,7 +1022,7 @@ def all_total():
         # std = Student.query.filter_by(student_number=student_number).first()
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
         if  not bd:
-            return jsonify({"error": "Student or BroadSheet record not found"}), 404
+            jsonify("skip")
         c =bd.class_name
         classe = Class.query.filter_by(class_name=bd.original_class_name).first()
         brd=""
