@@ -1031,35 +1031,33 @@ def all_total():
         term = acd.term
         today = datetime.today()
         year=  today.year
+        brd=""
         # std = Student.query.filter_by(student_number=student_number).first()
         try:
             bd = BroadSheet.query.filter_by(student_number=student_number).first()
             c =bd.class_name
             classe = Class.query.filter_by(class_name=bd.original_class_name).first()
+            if (int(classe.grade_together) > 0):
+                     brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
+            else:
+                brd =  BroadSheet.query.filter_by(original_class_name=bd.original_class_name,school_name=user.school_name, term =term,year=acd.year)
+       
         except :
             jsonify("not found")
        
        
-        brd=""
-        if (int(classe.grade_together) > 0):
-                     brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
-        else:
-                brd =  BroadSheet.query.filter_by(original_class_name=bd.original_class_name,school_name=user.school_name, term =term,year=acd.year)
-       
+     
+   
         lst1= brd.order_by(cast(BroadSheet.all_total, Float).desc()).all()
       
         rank = 1
         for student in lst1:
             student.pos = rank
             rank += 1
-        try:
-    # Perform database operations
-                db.session.commit()
-                db.session.close()
-        except Exception as e:
-                    db.session.rollback()  # Rollback the transaction on error
-                    raise e 
         
+    # Perform database operations
+        db.session.commit()
+        db.session.close()      
         resp = jsonify("Success")
         resp.status_code=200
         return  resp            
