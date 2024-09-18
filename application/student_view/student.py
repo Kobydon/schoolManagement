@@ -72,12 +72,21 @@ def add_student():
      
       sch = School.query.filter_by(username=usr.username).first()
     
-      sc = User.query.filter_by(school_name=sch.school_name).count()
-      cc = int(sc)+1
-      if(usr.school_name=="Immaculate Santa Maria R/C jhs"):
-            first_three = sch.school_name[:10] + str(cc)
+      sc = User.query.filter_by(school_name=sch.school_name).order_by(User.username.desc()).first()
+      if sc:
+        last_student_number = sc.username
+        numeric_part = ''.join(filter(str.isdigit, last_student_number))
+        cc = int(numeric_part) + 1 if numeric_part else 1
       else:
-           first_three = sch.school_name[:2] + str(cc)
+        cc = 1
+
+ 
+      first_three = sch.school_name[:2] + str(cc)
+
+      student_number = first_three
+
+     
+      first_three = sch.school_name[:2] + str(cc)
       student_number = first_three
     
       try:
