@@ -1047,13 +1047,13 @@ def all_total():
        
        
      
-   
-        lst1= brd.order_by(cast(BroadSheet.all_total, Float).desc()).all()
+        if not brd =="":
+            lst1= brd.order_by(cast(BroadSheet.all_total, Float).desc()).all()
       
-        rank = 1
-        for student in lst1:
-            student.pos = rank
-            rank += 1
+            rank = 1
+            for student in lst1:
+                student.pos = rank
+                rank += 1
         
     # Perform database operations
         db.session.commit()
