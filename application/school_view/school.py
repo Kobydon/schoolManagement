@@ -1426,7 +1426,7 @@ def cancel_mail():
 def search_fees_type():
     class_name= request.json["class_name"]
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first() 
-    cls = FeesType.query.filter_by(school_name=user.school_name,class_name=class_name).all()
+    cls = FeesType.query.filter(FeesType.school_name.contains(user.school_name),FeesType.class_name.contains(class_name)).all()
     result = school_schema.dump(cls)
     return jsonify(result)
 
