@@ -72,7 +72,7 @@ def add_student():
      
       sch = School.query.filter_by(username=usr.username).first()
     
-      sc = User.query.filter_by(school_name=sch.school_name).order_by(User.created_date.desc()).first()
+      sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
     
       cc = int(sc.id)+1
      
