@@ -728,9 +728,12 @@ def add_result_by_excel():
           s_num  = request.json["student_number"]
           st = db.session.query(Student).filter_by(student_number=s_num).first()
           bd = BroadSheet.query.filter_by(student_number=s_num,term=acd.term,year=acd.year).first()
+
+          if not st or not bd:
+               return jsonify({"error": "Student or BroadSheet record not found"}), 404
           
           name = st.last_name+" "+st.other_name+" "+st.first_name
-          print(name)
+        #   print(name)
           # midterm_score  = request.json["midterm_score"]
           class_name = bd.class_name
           original_class_name=bd.original_class_name
@@ -952,6 +955,8 @@ def add_result_by_excel():
           agre_score= Grading.query.filter_by(student_number=student_number,term=acd.term,year=acd.year).order_by(Grading.grade.asc()).limit(6).all()
         #   best_three = agre_score[:6]
           bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()
+          if  not bd:
+                return jsonify({"error": "Student or BroadSheet record not found"}), 404
           cnm= bd.class_name
           if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):  
                 aggregate = sum(int(student.grade) for student in agre_score)
@@ -1016,6 +1021,8 @@ def all_total():
         year=  today.year
         # std = Student.query.filter_by(student_number=student_number).first()
         bd = BroadSheet.query.filter_by(student_number=student_number).first()
+        if  not bd:
+            return jsonify({"error": "Student or BroadSheet record not found"}), 404
         c =bd.class_name
         classe = Class.query.filter_by(class_name=bd.original_class_name).first()
         brd=""
@@ -1030,11 +1037,18 @@ def all_total():
         for student in lst1:
             student.pos = rank
             rank += 1
-        db.session.commit()
+        try:
+    # Perform database operations
+                db.session.commit()
+                db.session.close()
+        except Exception as e:
+                    db.session.rollback()  # Rollback the transaction on error
+                    raise e 
         
         resp = jsonify("Success")
         resp.status_code=200
-        return  resp    
+        return  resp            
+        
             
  
  
