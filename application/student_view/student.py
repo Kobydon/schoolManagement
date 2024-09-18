@@ -73,22 +73,22 @@ def add_student():
       sch = School.query.filter_by(username=usr.username).first()
     
       sc = User.query.filter_by(school_name=sch.school_name).order_by(User.username.desc()).first()
+
       if sc:
-        last_student_number = sc.username
-        numeric_part = ''.join(filter(str.isdigit, last_student_number))
-        cc = int(numeric_part) + 1 if numeric_part else 1
+         last_student_number = sc.username
+    # Extract numeric part from the last username
+         numeric_part = ''.join(filter(str.isdigit, last_student_number))
+    # Increment the numeric part
+         cc = int(numeric_part) + 1 if numeric_part else 1
       else:
-        cc = 1
+             cc = 1
 
- 
-      first_three = sch.school_name[:2] + str(cc)
-
-      student_number = first_three
-
-     
+# Create the new username with the first two characters of the school name and the incremented number
       first_three = sch.school_name[:2] + str(cc)
       student_number = first_three
-    
+
+# print(student_number)
+
       try:
             admission_number = request.json["admission_number"]
             
