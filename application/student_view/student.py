@@ -72,7 +72,7 @@ def add_student():
      
       sch = School.query.filter_by(username=usr.username).first()
     
-      sc = User.query.filter_by(school_name=sch.school_name).order_by(User.username.desc()).first()
+      sc = User.query.filter_by(school_name=usr.school_name).order_by(User.username.desc()).first()
 
       if sc:
          last_student_number = sc.username
