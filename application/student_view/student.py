@@ -726,20 +726,29 @@ def add_result_by_excel():
           b="2"
           # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
           s_num  = request.json["student_number"]
-          st = db.session.query(Student).filter_by(student_number=s_num).first()
-          bd = BroadSheet.query.filter_by(student_number=s_num,term=acd.term,year=acd.year).first()
+          try:
+                st = db.session.query(Student).filter_by(student_number=s_num).first()
+                name = st.last_name+" "+st.other_name+" "+st.first_name
 
-          if not st or not bd:
-               return jsonify({"error": "Student or BroadSheet record not found"}), 404
-          
-          name = st.last_name+" "+st.other_name+" "+st.first_name
+          except:
+               return jsonify("not found")
+          try:
+               
+            bd = BroadSheet.query.filter_by(student_number=s_num,term=acd.term,year=acd.year).first()
+                
         #   print(name)
           # midterm_score  = request.json["midterm_score"]
-          class_name = bd.class_name
-          original_class_name=bd.original_class_name
+            class_name = bd.class_name
+            original_class_name=bd.original_class_name
          
           
         
+
+          except:
+               
+               return jsonify({"error": "Student or BroadSheet record not found"})
+          
+      
         
           try:
                  class_score =  request.json["class_core"]
@@ -954,10 +963,12 @@ def add_result_by_excel():
          
           agre_score= Grading.query.filter_by(student_number=student_number,term=acd.term,year=acd.year).order_by(Grading.grade.asc()).limit(6).all()
         #   best_three = agre_score[:6]
-          bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()
-          if  not bd:
+          try:
+            bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()
+            cnm= bd.class_name
+          except:
                 return jsonify("skip")
-          cnm= bd.class_name
+         
           if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):  
                 aggregate = sum(int(student.grade) for student in agre_score)
                 bd.aggregate = aggregate
@@ -966,7 +977,8 @@ def add_result_by_excel():
          
           bd.all_total = round( total_marks,1)
           
-          print(bd.all_total)
+        #   print(bd.all_total)
+
           grd=""
           classe = Class.query.filter_by(class_name=bd.class_name).first()
           if (int(classe.grade_together) > 0):
@@ -1020,10 +1032,12 @@ def all_total():
         today = datetime.today()
         year=  today.year
         # std = Student.query.filter_by(student_number=student_number).first()
-        bd = BroadSheet.query.filter_by(student_number=student_number).first()
-        if  not bd:
+        try:
+            bd = BroadSheet.query.filter_by(student_number=student_number).first()
+            c =bd.class_name
+        except :
             jsonify("skip")
-        c =bd.class_name
+       
         classe = Class.query.filter_by(class_name=bd.original_class_name).first()
         brd=""
         if (int(classe.grade_together) > 0):
