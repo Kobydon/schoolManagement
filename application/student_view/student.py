@@ -154,14 +154,19 @@ def generate_unique_username(school_name):
         cc = 1
 
     # Create the new username with the first two characters of the school name and the incremented number
-    base_username = school_name[:2] + str(cc)
+    base_username = school_name[:2].upper() + str(cc)
     
     # Ensure the username is unique
-    while User.query.filter_by(username=base_username).first():
+    existing_user = User.query.filter_by(username=base_username).first()
+    
+    while existing_user:
+        # Increment and regenerate username if it already exists
         cc += 1
-        base_username = school_name[:2] + str(cc)
+        base_username = school_name[:2].upper() + str(cc)
+        existing_user = User.query.filter_by(username=base_username).first()
 
     return base_username
+
 
 # Usage
 
