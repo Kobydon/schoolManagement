@@ -72,23 +72,13 @@ def add_student():
      
       sch = School.query.filter_by(username=usr.username).first()
     
-      sc = User.query.filter_by(school_name=usr.school_name).order_by(User.username.desc()).first()
-
-      if sc:
-         last_student_number = sc.username
-    # Extract numeric part from the last username
-         numeric_part = ''.join(filter(str.isdigit, last_student_number))
-    # Increment the numeric part
-         cc = int(numeric_part) + 1 if numeric_part else 1
-      else:
-             cc = 1
-
-# Create the new username with the first two characters of the school name and the incremented number
+      sc = User.query.filter_by(school_name=sch.school_name).order_by(User.created_date.desc()).first()
+    
+      cc = int(sc.id)+1
+     
       first_three = sch.school_name[:2] + str(cc)
       student_number = first_three
-
-# print(student_number)
-
+    
       try:
             admission_number = request.json["admission_number"]
             
@@ -138,40 +128,6 @@ def add_student():
       resp = jsonify("success")
       resp.status_code =200
       return resp
-
-
-def generate_unique_username(school_name):
-    # Query to get the last username for the school
-    sc = User.query.filter_by(school_name=school_name).order_by(User.username.desc()).first()
-
-    if sc:
-        last_student_number = sc.username
-        # Extract numeric part from the last username
-        numeric_part = ''.join(filter(str.isdigit, last_student_number))
-        # Increment the numeric part
-        cc = int(numeric_part) + 1 if numeric_part else 1
-    else:
-        cc = 1
-
-    # Create the new username with the first two characters of the school name and the incremented number
-    base_username = school_name[:2].upper() + str(cc)
-    
-    # Ensure the username is unique
-    existing_user = User.query.filter_by(username=base_username).first()
-    
-    while existing_user:
-        # Increment and regenerate username if it already exists
-        cc += 1
-        base_username = school_name[:2].upper() + str(cc)
-        existing_user = User.query.filter_by(username=base_username).first()
-
-    return base_username
-
-
-# Usage
-
-# print(new_username)
-
 @student.route("/add_student_b_excel",methods=['POST'])
 @flask_praetorian.auth_required
 def add_student_b_excel():
@@ -316,10 +272,9 @@ def add_student_b_excel():
      school_name = sch.school_name
     #   numlst = list(range(400))
     #   n = random.shuffle(numlst)
-    #  sc = User.query.filter_by(school_name=sch.school_name).count()
-    #  cc = int(sc)+1
-     new_username = generate_unique_username(usr.school_name)
-     first_three = new_username
+     sc = User.query.filter_by(school_name=sch.school_name).count()
+     cc = int(sc)+1
+     first_three = sch.school_name[:4] + str(cc)
      student_number = first_three
      student_name = firstname +" "+other_name+" "+last_name
      
