@@ -73,7 +73,7 @@ def add_student():
       sch = School.query.filter_by(username=usr.username).first()
     
       sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
-    
+      
       cc = int(sc.id)+1
      
       first_three = sch.school_name[:2] + str(cc)
@@ -1526,7 +1526,7 @@ def add_payment():
 
     balance = int(ftype.total_amount)- int(amount)
     if last_payment:
-        bc =  balance - int(last_payment)
+        bc =  balance - int(last_payment.balance)
     else:
          bc =  balance - 0
     pmt = FeesPayment(student=name ,student_number=student, method=method,fees_type=fees_type,date=date,created_date=created_date,
