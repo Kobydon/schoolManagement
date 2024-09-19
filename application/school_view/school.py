@@ -1432,35 +1432,44 @@ def search_fees_type():
 
 
 
-
-
-@school.route("/add_fees_type",methods=['POST'])
+@school.route("/add_fees_type", methods=['POST'])
 @flask_praetorian.auth_required
 def add_fees_type():
-    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    fees_type= request.json["fees_type"]
-    note =request.json["note"]
-    total_amount =request.json["total_amount"]
-    class_name =request.json["class_name"]
-    if class_name =="All":
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    
+    fees_type = request.json["fees_type"]
+    note = request.json["note"]
+    total_amount = request.json["total_amount"]
+    class_name = request.json["class_name"]
+    
+    if class_name == "All":
+        # Query all classes based on the user's school_name
         classes = db.session.query(Class).filter_by(school_name=user.school_name).all()
-
-# Step 2: Convert the list of tuples to a list of class names and join them with a comma
-        class_name = ', '.join([c[0] for c in classes])
+        
+        # Assuming Class has an attribute 'class_name', modify this line accordingly
+        class_name = ', '.join([c.class_name for c in classes])
 
     school_name = user.school_name
-    cls = FeesType(fees_type=fees_type,note=note ,total_amount=total_amount,class_name=class_name,
-                created_by_id = flask_praetorian.current_user().id , created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
-                school_name=school_name
-               )
-   
+    
+    # Create a new FeesType instance
+    cls = FeesType(
+        fees_type=fees_type,
+        note=note,
+        total_amount=total_amount,
+        class_name=class_name,
+        created_by_id=flask_praetorian.current_user().id,
+        created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
+        school_name=school_name
+    )
+
+    # Add and commit the new fee type to the database
     db.session.add(cls)
     db.session.commit()
     db.session.close()
-    resp = jsonify("success")
-    resp.status_code =200
-    return resp
 
+    resp = jsonify("success")
+    resp.status_code = 200
+    return resp
 
 
 
