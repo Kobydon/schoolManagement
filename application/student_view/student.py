@@ -163,7 +163,7 @@ def add_student_b_excel():
             last_name =""
             
      try:
-          class_name =request.json["Class"]
+          class_name =request.json["class"]
           
     
      except:
@@ -244,10 +244,16 @@ def add_student_b_excel():
             residential_status =""
             
      try:
-        original_class_name= request.json["Class"]
+        original_class_name= request.json["class"]
         
      except:
         original_class_name=""
+
+     try:
+         studentnumber= request.json["student_number"]
+
+     except:
+          return jsonify("not found")
         
     #  try:
     #        residential_status =request.json["Resident"]
@@ -273,11 +279,7 @@ def add_student_b_excel():
     #   numlst = list(range(400))
     #   n = random.shuffle(numlst)
      sc = User.query.filter_by(school_name=sch.school_name).count()
-     cc = int(sc)+1
-     first_three = sch.school_name[:4] + str(cc)
-     student_number = first_three
-     student_name = firstname +" "+other_name+" "+last_name
-     
+
     #  dd
     #   
      
@@ -288,32 +290,17 @@ def add_student_b_excel():
     #   subject =request.json["subject"]
      created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
      created_by_id =flask_praetorian.current_user().id
-     check_std = Student.query.filter(Student.first_name +"  "+ Student.other_name +" "
-                                      + Student.last_name == student_name).first()
+     check_std = Student.query.filter(student_number=studentnumber).first()
+     bdc = BroadSheet.query.filter_by(student_number=studentnumber).first()
      
-     if not check_std:
-            std = Student(created_by_id=created_by_id,admission_number=admission_number,class_name=class_name ,created_date=created_date,school_name=school_name,
-                          student_number=student_number,gender=gender,residential_status=residential_status,
-                          picture=picture_one,admitted_year=admitted_year,address=address,email=email,parent_phone=phone,
-
-          first_name=firstname,last_name=last_name,other_name=other_name,dob=dob
-           )
+   
+     if not check_std or bdc:
+          return jsonify("notfound")
      
-            bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,current_status="",
-                          school_name=usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="",term=acd.term,year=acd.year,
-                           owop="", history="", english="", math="", science="", socialstudies="", ghanalanguage="",
-                creativeart="", social="", rme="", careertech="", pos="", created_date="",
-                computing="", french="", aggregate="")
-            usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
-                       hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
-                       school_name=usr.school_name)
-            
-     else:
-         return jsonify(" record already_exist")              
-     db.session.add(std)
-     db.session.add(bd)
-     db.session.add(usr)
-     db.session.commit()
+     check_std.class_name=class_name
+     bdc.original_class_name=c_name
+     bdc.class_name=class_name
+     db.session.commit()            
      db.session.close()
      resp = jsonify("success")
      resp.status_code =200
@@ -345,7 +332,7 @@ def get_student():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     # acd=Academic.query.filter_by(school_name=user.school_name).first()
     # if(int(acd.countdown)<0):
-    #     user.is_active = False
+    #     user.is_active = Falseadd_student_by
     #     db.session.commit()
     std = Student.query.filter_by(school_name = user.school_name).order_by(Student.first_name.asc())
     result = student_schema.dump(std)
