@@ -297,8 +297,8 @@ def add_student_b_excel():
            check_std.class_name=class_name
 
      if  bdc:
-             bdc.original_class_name=c_name
-             bdc.class_name=class_name
+             bdc.original_class_name=class_name
+             bdc.class_name=c_name
      
     
   
