@@ -290,7 +290,7 @@ def add_student_b_excel():
     #   subject =request.json["subject"]
      created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
      created_by_id =flask_praetorian.current_user().id
-     check_std = Student.query.filter(student_number=studentnumber).first()
+     check_std = Student.query.filter_by(student_number=studentnumber).first()
      bdc = BroadSheet.query.filter_by(student_number=studentnumber).first()
      
    
