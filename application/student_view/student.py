@@ -408,12 +408,12 @@ def update_student():
             c_name = class_name[:5] 
       else:
         c_name =class_name
-    #   stf_data.year_joined =request.json["year_joined"]
-    #   bd  = BroadSheet.query.filter_by(student_number = stf_data.student_number).first()
-    #   bd.name = last_name +other_name+first_name
+      stf_data.year_joined =request.json["year_joined"]
+      bd  = BroadSheet.query.filter_by(student_number = stf_data.student_number).first()
+      bd.name = last_name +other_name+first_name
       
-    #   bd.class_name =class_name
-    #   bd.original_class_name =c_name
+      bd.class_name =class_name
+      bd.original_class_name =c_name
       db.session.commit()
       db.session.close()
       resp = jsonify("success")
