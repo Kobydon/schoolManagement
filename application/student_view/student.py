@@ -293,12 +293,15 @@ def add_student_b_excel():
      bdc = BroadSheet.query.filter_by(student_number=studentnumber).first()
      
    
-     if not check_std or bdc:
-          return jsonify("notfound")
+     if  check_std:
+           check_std.class_name=class_name
+
+     if  bdc:
+             bdc.original_class_name=c_name
+             bdc.class_name=class_name
      
-     check_std.class_name=class_name
-     bdc.original_class_name=c_name
-     bdc.class_name=class_name
+    
+  
      db.session.commit()            
      db.session.close()
      resp = jsonify("success")
