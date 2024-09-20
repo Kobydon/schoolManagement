@@ -1243,7 +1243,7 @@ def add_academic_setup():
         db.session.commit()
         
         # Query BroadSheet and insert new data
-        broadsheet_entries = BroadSheet.query.filter_by(school_name=user.school_name).all()
+        broadsheet_entries = BroadSheet.query.filter_by(school_name=user.school_name,current_status="new").all()
         for entry in broadsheet_entries:
             new_entry = BroadSheet(
                 student_number=entry.student_number, student_name=entry.student_name, class_name=entry.class_name,
