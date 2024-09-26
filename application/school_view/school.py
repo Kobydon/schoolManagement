@@ -1243,7 +1243,12 @@ def add_academic_setup():
         db.session.commit()
         
         # Query BroadSheet and insert new data
-        broadsheet_entries = BroadSheet.query.filter_by(school_name=user.school_name,current_status="new").all()
+        if term=="1":
+
+          broadsheet_entries = BroadSheet.query.filter_by(school_name=user.school_name,current_status="new").all()
+
+        else:
+            broadsheet_entries = BroadSheet.query.filter_by(school_name=user.school_name).all()
         for entry in broadsheet_entries:
             new_entry = BroadSheet(
                 student_number=entry.student_number, student_name=entry.student_name, class_name=entry.class_name,
@@ -1756,7 +1761,10 @@ def add_notice():
     name= request.json["name"]
     note =request.json["note"]
     date =request.json["date"]
-    letter =request.json["letter"]
+    try:
+         letter =request.json["letter"]
+    except:
+        letter=""
     # note =request.json["note"]
     role =  request.json["role"]
     if (role =="all"):
