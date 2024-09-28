@@ -1534,7 +1534,8 @@ def add_payment():
          bc =  balance - 0
     pmt = FeesPayment(student=name ,student_number=student, method=method,fees_type=fees_type,date=date,created_date=created_date,
                       
-                      amount=amount,created_by_id=created_by_id ,balance=bc,school_name=school_name,cls= cls,paid_by=paid_by)
+                      amount=amount,created_by_id=created_by_id ,balance=bc,school_name=school_name,cls= cls,paid_by=paid_by,
+                      fees_amount=ftype.total_amount,received_by=user.firstname +" "+user.lastname)
     db.session.add(pmt)
     db.session.commit()
     db.session.close()

@@ -534,6 +534,8 @@ class FeesPayment(db.Model):
     method = db.Column(db.String(400))
     paid_by = db.Column(db.String(400))
     date = db.Column(db.String(400))
+    fees_amount = db.Column(db.String(400))
+    received_by = db.Column(db.String(400))
     balance = db.Column(db.String(400))
     student_number = db.Column(db.String(400))
     created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
