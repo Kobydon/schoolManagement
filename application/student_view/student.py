@@ -22,7 +22,7 @@ class StudentSchema(ma.Schema):
                 "other_name","promotion_status",
                 "rme","science","math","social","pos","creativeart","careertech","english","computing",
                 "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa","admission_number","history",
-                "owop"
+                "owop","fees_amount","received_by"
 )
         
 student_schema=StudentSchema(many=True)
@@ -1630,7 +1630,8 @@ def update_sub_payment():
 @flask_praetorian.auth_required
 def get_payment_list():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    pmt = FeesPayment.query.filter_by(school_name=user.school_name).all()
+    pmt = FeesPayment.query.filter_by(school_name=user.school_name).order_by(desc(FeesPayment.created_date))
+
     result = student_schema.dump(pmt)
     return jsonify(result)
 
