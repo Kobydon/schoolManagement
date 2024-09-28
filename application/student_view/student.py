@@ -1162,6 +1162,19 @@ def search_pay_dates():
     result = student_schema.dump(lst)
     return jsonify(result)
 
+
+@student.route("/search_pay_class",methods=["POST"])
+@flask_praetorian.auth_required
+def search_pay_class():
+    class_name = request.json["class_name"]
+    # print(date)
+    pay = FeesPayment.query.filter(FeesPayment.cls.contains(class_name) )
+    lst = pay.order_by(desc(FeesPayment.date))
+    result = student_schema.dump(lst)
+    return jsonify(result)
+
+    
+
 @student.route("/search_my_dates",methods=["POST"])
 @flask_praetorian.auth_required
 def search_my_dates():
