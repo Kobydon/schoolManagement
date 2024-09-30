@@ -2084,6 +2084,29 @@ def search_income_dates():
 
 
 
+@school.route("/search_income_dates_two", methods=["POST"])
+@flask_praetorian.auth_required
+def search_income_dates_two():
+    date = request.json.get("date")
+    date_two = request.json.get("datetwo")
+
+    if not date or not date_two:
+        return jsonify({"error": "Both 'date' and 'datetwo' must be provided"}), 400
+
+    try:
+        pay = Income.query.filter(
+            or_(
+                Income.date.contains(date),
+                Income.date.contains(date_two)
+            )
+        ).order_by(desc(Income.date)).all()
+
+        result = school_schema.dump(pay)
+        return jsonify(result), 200
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        return jsonify({"error": "An error occurred while fetching data"}), 500
+
 
 @school.route("/search_salary_dates",methods=["POST"])
 @flask_praetorian.auth_required
@@ -2105,6 +2128,31 @@ def search_expense_dates():
     lst = pay.order_by(desc(Expenses.date))
     result = school_schema.dump(lst)
     return jsonify(result)
+
+
+@school.route("/search_expense_dates_two", methods=["POST"])
+@flask_praetorian.auth_required
+def search_expense_dates_two():
+    date = request.json.get("date")
+    date_two = request.json.get("datetwo")
+
+    if not date or not date_two:
+        return jsonify({"error": "Both 'date' and 'datetwo' must be provided"}), 400
+
+    try:
+        pay = Expenses.query.filter(
+            or_(
+                Expenses.date.contains(date),
+                Expenses.date.contains(date_two)
+            )
+        ).order_by(desc(Expenses.date)).all()
+
+        result = school_schema.dump(pay)
+        return jsonify(result), 200
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        return jsonify({"error": "An error occurred while fetching data"}), 500
+
 
 @school.route("/add_schedule",methods=["POST"])
 @flask_praetorian.auth_required
