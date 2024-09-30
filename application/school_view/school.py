@@ -1677,7 +1677,7 @@ def delete_expense(id):
 @flask_praetorian.auth_required
 def add_income():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    name= request.json["amount"]
+    name= request.json["name"]
     amount =request.json["amount"]
     note= request.json["note"]
     date =request.json["date"]
