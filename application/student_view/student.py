@@ -274,7 +274,7 @@ def add_student_b_excel():
     #   n = random.shuffle(numlst)
      sc = User.query.filter_by(school_name=sch.school_name).count()
      cc = int(sc)+1
-     first_three = sch.school_name[:4] + str(cc)
+     first_three = sch.school_name[:5] + str(cc)
      student_number = first_three
      student_name = firstname +" "+other_name+" "+last_name
      

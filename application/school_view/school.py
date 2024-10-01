@@ -69,7 +69,8 @@ class schoolSchema(ma.Schema):
                 "year","term","working_mail","push_notification","bulk_message","note","fees_type","total_amount","name",
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name","countdown","created_by_id",
                 "exam_name","district","circuit","status" ,"role","image","percentage","default","category","promotion_status",
-                "strand","sub_strand","teacher","link","image","name","grade","basic_salary","net_salary","payment_date","method")
+                "strand","sub_strand","teacher","link","image","name","grade","basic_salary","net_salary","payment_date","method",
+                "show_on")
         
 
 
@@ -1446,6 +1447,7 @@ def add_fees_type():
     note = request.json["note"]
     total_amount = request.json["total_amount"]
     class_name = request.json["class_name"]
+    show_on = request.json["show_on"]
     
     if class_name == "All":
         # Query all classes based on the user's school_name
@@ -1464,7 +1466,7 @@ def add_fees_type():
         class_name=class_name,
         created_by_id=flask_praetorian.current_user().id,
         created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
-        school_name=school_name
+        school_name=school_name,show_on=show_on
     )
 
     # Add and commit the new fee type to the database
@@ -1544,6 +1546,16 @@ def get_fees_type():
     return jsonify(result)
 
 
+@school.route("/get_fees_type_report",methods=['GET'])
+@flask_praetorian.auth_required
+def get_fees_type_report():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first() 
+    cls = FeesType.query.filter_by(school_name=user.school_name,show_on="yes").all()
+    result = school_schema.dump(cls)
+    return jsonify(result)
+
+
+
 
 @school.route("/get_fee/<id>",methods=['GET'])
 @flask_praetorian.auth_required
@@ -1564,6 +1576,7 @@ def update_fees_type():
     cls_data.fees_type = request.json["fees_type"]
     cls_data.note=request.json["note"]
     cls_data.total_amount=request.json["total_amount"]
+    cls_data.show_on = request.json["show_on"]
     db.session.commit()
     db.session.close()
     resp = jsonify("success")
