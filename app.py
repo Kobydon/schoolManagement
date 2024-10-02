@@ -12,7 +12,7 @@ from datetime import datetime
 from flask import session
 from  application.user_view.user import user
 from  application.student_view.student import student
-from  application.school_view.school import school,update_countdown_and_schedule
+from  application.school_view.school import school
 from application.database.main_db.db import db,BroadSheet,Student,Class
 from sqlalchemy import func
 # from  application.client_view.client import client
