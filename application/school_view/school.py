@@ -95,14 +95,14 @@ school_schema=schoolSchema(many=True)
 school = Blueprint("school", __name__)
 guard.init_app(app, User)
 
-@flask_praetorian.auth_required()
+
 def update_countdown():
     try:
         # Get the current date
         current_date = date.today()
-        user= User.query.filter_by(id=flask_praetorian.current_user().id).first()
+
         # Query all academic institutions with status="current"
-        schools = Academic.query.filter_by(status="current",school_name=user.school_name).all()
+        schools = Academic.query.filter_by(status="current").all()
 
         for school in schools:
             # Convert string closing_date to datetime object
