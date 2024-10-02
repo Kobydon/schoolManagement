@@ -272,12 +272,18 @@ def add_student_b_excel():
      school_name = sch.school_name
     #   numlst = list(range(400))
     #   n = random.shuffle(numlst)
-     sc = User.query.filter_by(school_name=sch.school_name).count()
-     cc = int(sc)+1
+    
+     sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
+      
+     cc = int(sc.id)+1
+     
+     first_three = sch.school_name[:6] + str(cc)
+    
+    
      if school_name =="Bibiani Community KG / Primary 'A' ":
         first_three = sch.school_name[:5] + str(cc)
      else :
-           first_three = sch.school_name[:7] + str(cc)
+           first_three = sch.school_name[:6] + str(cc)
      student_number = first_three
      student_name = firstname +" "+other_name+" "+last_name
      
