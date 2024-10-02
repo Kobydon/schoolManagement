@@ -276,7 +276,7 @@ def add_student_b_excel():
       
      cc = int(sc.id)+1
      
-     first_three = sch.school_name[:2] + str(cc)
+     first_three = sch.school_name[:5] + str(cc)
      student_number = first_three
     #  if school_name =="Bibiani Community KG / Primary 'A' ":
     #     first_three = sch.school_name[:5] + str(cc)
