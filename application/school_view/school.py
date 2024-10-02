@@ -16,6 +16,10 @@ import random
 import schedule
 import time
 from flask_praetorian import auth_required, current_user
+from datetime import date, datetime
+# from flask_praetorian import auth_required, current_user
+import schedule
+import time
 
 
 class StudentSchema(ma.Schema):
@@ -94,10 +98,6 @@ school_schema=schoolSchema(many=True)
 
 school = Blueprint("school", __name__)
 guard.init_app(app, User)
-from datetime import date, datetime
-from flask_praetorian import auth_required, current_user
-import schedule
-import time
 
 @auth_required
 def update_countdown():
@@ -234,15 +234,23 @@ def get_schools():
 #     result = school_schema.dump(sch)
 #     return jsonify(result)
 
-
-@school.route("/get_school_detail",methods=['GET'])
+@school.route("/get_school_detail", methods=['GET'])
 @flask_praetorian.auth_required
 def get_school_detail():
-    
+    # Update countdown before retrieving school details
     update_countdown()
-    
-    user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
-    sch =School.query.filter_by(school_name= user.school_name)
+
+    # Get the current authenticated user
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    # Get the school details for the user's school
+    sch = School.query.filter_by(school_name=user.school_name).first()
+    if not sch:
+        return jsonify({"error": "School not found"}), 404
+
+    # Serialize the school data
     result = school_schema.dump(sch)
     return jsonify(result)
 
