@@ -185,7 +185,7 @@ def get_school_detail():
         return jsonify({"error": "User not found"}), 404
 
     # Update countdown by passing the user
-    update_countdown(user)
+    update_countdown()
 
     # Get the school details for the user's school
     sch = School.query.filter_by(school_name=user.school_name).first()
@@ -196,19 +196,19 @@ def get_school_detail():
     result = school_schema.dump(sch)
     return jsonify(result)
 
-def update_countdown(user):
+def update_countdown():
     try:
         # Get the current date
         current_date = date.today()
 
         # Query all academic institutions associated with the user's school and having status "current"
-        schools = Academic.query.filter_by(status="current", school_name=user.school_name).all()
+        schools = Academic.query.filter_by(status="current").all()
         
         if not schools:
-            print(f"No 'current' schools found for user: {user.school_name}")
+            # print(f"No 'current' schools found for user: {user.school_name}")
             return
 
-        print(f"Found {len(schools)} 'current' school(s) for user: {user.school_name}")
+        # print(f"Found {len(schools)} 'current' school(s) for user: {user.school_name}")
         
         # Iterate through each school to update the countdown
         for school in schools:
