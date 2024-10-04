@@ -202,12 +202,12 @@ def update_countdown(user):
         current_date = date.today()
 
         # Query all academic institutions associated with the user's school and having status "current"
-        schools = Academic.query.filter_by(status="current", school_name=user.school_name).all()  # Use .all() to get multiple results
+        schools = Academic.query.filter_by(status="current", school_name=user.school_name).all()
         
         if not schools:
             print(f"No 'current' schools found for user: {user.school_name}")
             return
-        
+
         print(f"Found {len(schools)} 'current' school(s) for user: {user.school_name}")
         
         # Iterate through each school to update the countdown
