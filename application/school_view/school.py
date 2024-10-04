@@ -180,13 +180,14 @@ def get_schools():
 @flask_praetorian.auth_required
 def get_school_detail():
     # Get the current authenticated user
+    update_countdown()
+
     user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
     if not user:
         return jsonify({"error": "User not found"}), 404
 
     # Update countdown by passing the user
-    update_countdown(user)
-
+ 
     # Get the school details for the user's school
     sch = School.query.filter_by(school_name=user.school_name).first()
     if not sch:
