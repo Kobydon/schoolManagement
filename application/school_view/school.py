@@ -185,7 +185,18 @@ def get_school_detail():
         return jsonify({"error": "User not found"}), 404
 
     # Update countdown by passing the user
-   
+    update_countdown(user)
+
+    # Get the school details for the user's school
+    sch = School.query.filter_by(school_name=user.school_name).first()
+    if not sch:
+        return jsonify({"error": "School not found"}), 404
+
+    # Serialize the school data
+    result = school_schema.dump(sch)
+    return jsonify(result)
+
+
 def update_countdown():
     try:
         # Get the current date
