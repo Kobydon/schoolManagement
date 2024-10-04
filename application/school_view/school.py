@@ -185,54 +185,49 @@ def get_school_detail():
         return jsonify({"error": "User not found"}), 404
 
     # Update countdown by passing the user
-    update_countdown()
-
-    # Get the school details for the user's school
-    sch = School.query.filter_by(school_name=user.school_name).first()
-    if not sch:
-        return jsonify({"error": "School not found"}), 404
-
-    # Serialize the school data
-    result = school_schema.dump(sch)
-    return jsonify(result)
-
+   
 def update_countdown():
     try:
         # Get the current date
         current_date = date.today()
 
-        # Query all academic institutions associated with the user's school and having status "current"
+        # Query all academic institutions with status="current"
         schools = Academic.query.filter_by(status="current").all()
-        
-        if not schools:
-            # print(f"No 'current' schools found for user: {user.school_name}")
-            return
 
-        # print(f"Found {len(schools)} 'current' school(s) for user: {user.school_name}")
-        
-        # Iterate through each school to update the countdown
         for school in schools:
-            if school.closing_date:
-                # Convert string closing_date to datetime object
-                closing_date = datetime.strptime(school.closing_date, '%Y-%m-%d').date()
+            # Convert string closing_date to datetime object
+            closing_date = datetime.strptime(school.closing_date, '%Y-%m-%d').date()
 
-                # Calculate the difference in days between current_date and closing_date
-                countdown_days = (closing_date - current_date).days
+            # Calculate the difference in days between current_date and closing_date
+            countdown_days = (closing_date - current_date).days
 
-                # Update countdown only if it has changed
-                if school.countdown != countdown_days:
-                    school.countdown = countdown_days
-                    print(f"Countdown for school '{school.school_name}' updated to {countdown_days} days.")
-            else:
-                print(f"Warning: School '{school.school_name}' has no closing date set.")
+            # Update countdown only if it has changed
+            if school.countdown != countdown_days:
+                school.countdown = countdown_days
 
-        # Commit changes to the database after updating all schools
+        # Flush changes to the session
+        db.session.flush()
+
+        # Commit changes to Academic table after updating all schools
         db.session.commit()
-        print("Countdown successfully updated for all relevant schools.")
+
+        # TODO: Implement updating User table based on Academic countdown
 
     except Exception as e:
         print(f"Error updating countdown: {str(e)}")
         db.session.rollback()  # Rollback changes in case of error
+
+def update_countdown_and_schedule():
+    # Run update_countdown initially when the script starts
+    update_countdown()
+
+    # Schedule update_countdown to run daily at any time within the day
+    schedule.every().day.do(update_countdown)
+
+    # Keep the script running to allow scheduled jobs to execute
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 
 @school.route("/add_subject",methods=['POST'])
