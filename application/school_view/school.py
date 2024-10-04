@@ -180,7 +180,7 @@ def get_schools():
 @flask_praetorian.auth_required
 def get_school_detail():
     # Get the current authenticated user
-    update_countdown()
+  
 
     user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
     if not user:
@@ -197,43 +197,39 @@ def get_school_detail():
     result = school_schema.dump(sch)
     return jsonify(result)
 
-
 def update_countdown():
     try:
-        # Get the current date
-        current_date = date.today()
-
+        current_date = date.today()  # Get the current date
+        
         # Query all academic institutions with status="current"
         schools = Academic.query.filter_by(status="current").all()
 
         for school in schools:
-            # Convert string closing_date to datetime object
+            # Convert string closing_date to a datetime object
             closing_date = datetime.strptime(school.closing_date, '%Y-%m-%d').date()
 
             # Calculate the difference in days between current_date and closing_date
             countdown_days = (closing_date - current_date).days
 
-            # Update countdown only if it has changed
+            # Update the countdown if it has changed
             if school.countdown != countdown_days:
                 school.countdown = countdown_days
 
-        # Flush changes to the session
+        # Flush and commit changes to the database
         db.session.flush()
-
-        # Commit changes to Academic table after updating all schools
         db.session.commit()
 
-        # TODO: Implement updating User table based on Academic countdown
+        # TODO: Implement updating the User table based on Academic countdown
 
     except Exception as e:
         print(f"Error updating countdown: {str(e)}")
-        db.session.rollback()  # Rollback changes in case of error
+        db.session.rollback()  # Rollback changes if an error occurs
 
 def update_countdown_and_schedule():
-    # Run update_countdown initially when the script starts
+    # Run update_countdown once at the start
     update_countdown()
 
-    # Schedule update_countdown to run daily at any time within the day
+    # Schedule the update_countdown function to run daily
     schedule.every().day.do(update_countdown)
 
     # Keep the script running to allow scheduled jobs to execute
