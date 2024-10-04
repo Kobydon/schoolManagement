@@ -202,15 +202,15 @@ def update_countdown(user):
         current_date = date.today()
 
         # Query all academic institutions associated with the user's school and having status "current"
-        schools = Academic.query.filter_by(status="current", school_name=user.school_name).all()
+        schools = Academic.query.filter_by(status="current", school_name=user.school_name).first()
 
         if  schools:
             print(f"this 'current' found for user: {user.school_name}")
             return
 
         # Iterate through each school to update the countdown
-        for school in schools:
-            if school.closing_date:
+      
+        if school.closing_date:
                 # Convert string closing_date to datetime object
                 closing_date = datetime.strptime(school.closing_date, '%Y-%m-%d').date()
 
@@ -220,7 +220,7 @@ def update_countdown(user):
                 # Update countdown only if it has changed
                 if school.countdown != countdown_days:
                     school.countdown = countdown_days
-            else:
+        else:
                 print(f"Warning: School '{school.school_name}' has no closing date set.")
 
         # Commit changes to the database after updating all schools
