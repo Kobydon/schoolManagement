@@ -3199,7 +3199,7 @@ def add_budget():
     type =request.json["type"]
     # usr = user.firstname +" " + user.lastname
     created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
-    inc = Income(name=name,amount=amount,note=note,type=type,
+    inc = Budget(name=name,amount=amount,note=note,type=type,
                    created_by_id=flask_praetorian.current_user().id ,
                    created_date=created_date,school_name=user.school_name,term=acd.term,year=acd.year)
   
