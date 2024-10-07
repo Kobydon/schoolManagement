@@ -357,6 +357,11 @@ class User(db.Model):
     backref = 'inssaa_paycm',
     lazy=True)
     
+    ssbugeter  = db.relationship('Budget', 
+    foreign_keys ='Budget.created_by_id',
+    backref = 'budhetIBud',
+    lazy=True)
+    
     
     
   
@@ -632,6 +637,21 @@ class Income(db.Model):
     amount = db.Column(db.String(5000))
     date = db.Column(db.String(5000))
     note = db.Column(db.String(400))
+    created_date = db.Column(db.String(400))
+    school_name = db.Column(db.String(400))
+ 
+    created_by_id =db.Column(db.Integer,db.ForeignKey('user.id'))
+
+
+
+class Budget(db.Model):
+    id =db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(5000))
+    amount = db.Column(db.String(5000))
+    type = db.Column(db.String(5000))
+    note = db.Column(db.String(400))
+    term = db.Column(db.String(5000))
+    year = db.Column(db.String(400))
     created_date = db.Column(db.String(400))
     school_name = db.Column(db.String(400))
  

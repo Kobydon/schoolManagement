@@ -74,7 +74,7 @@ class schoolSchema(ma.Schema):
                 "amount","user","date","from_time","to_time","section","class_name","room","subject_name","countdown","created_by_id",
                 "exam_name","district","circuit","status" ,"role","image","percentage","default","category","promotion_status",
                 "strand","sub_strand","teacher","link","image","name","grade","basic_salary","net_salary","payment_date","method",
-                "show_on")
+                "show_on","type")
         
 
 
@@ -2102,6 +2102,18 @@ def search_income_dates():
 
 
 
+
+@school.route("/search_budget_dates",methods=["POST"])
+@flask_praetorian.auth_required
+def search_budget_dates():
+    date = request.json["date"]
+    print(date)
+    pay = Budget.query.filter(Budget.created_date.contains(date) )
+    lst = pay.order_by(desc(Budget.created_date))
+    result = school_schema.dump(lst)
+    return jsonify(result)
+
+
 @school.route("/search_income_dates_two", methods=["POST"])
 @flask_praetorian.auth_required
 def search_income_dates_two():
@@ -2146,6 +2158,36 @@ def search_expense_dates():
     lst = pay.order_by(desc(Expenses.date))
     result = school_schema.dump(lst)
     return jsonify(result)
+
+
+@school.route("/search_expense_budget_dates",methods=["POST"])
+@flask_praetorian.auth_required
+def search_expense_budget_dates():
+    term = request.json["term"]
+    year =request.json["year"]
+    type ="expense"
+    # print(date)
+    pay = Budget.query.filter(Budget.term.contains(term), Budget.year.contains(year),Budget.type.type)
+    lst = pay.order_by(desc(Budget.created_date))
+    result = school_schema.dump(lst)
+    return jsonify(result)
+
+
+
+@school.route("/search_income_budget_dates",methods=["POST"])
+@flask_praetorian.auth_required
+def search_income_budget_dates():
+    term = request.json["term"]
+    year =request.json["year"]
+    type ="income"
+    # print(date)
+    pay = Budget.query.filter(Budget.term.contains(term), Budget.year.contains(year),Budget.type.type)
+    lst = pay.order_by(desc(Budget.created_date))
+    result = school_schema.dump(lst)
+    return jsonify(result)
+
+
+
 
 
 @school.route("/search_expense_dates_two", methods=["POST"])
@@ -3138,3 +3180,88 @@ def search_salary_list():
     result = list(grouped_data.values())
 
     return jsonify(result)
+
+
+
+
+
+
+
+
+@school.route("/add_budget",methods=['POST'])
+@flask_praetorian.auth_required
+def add_budget():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+    name= request.json["name"]
+    amount =request.json["amount"]
+    note= request.json["note"]
+    type =request.json["type"]
+    # usr = user.firstname +" " + user.lastname
+    created_date=datetime.now().strftime('%Y-%m-%d %H:%M')
+    inc = Income(name=name,amount=amount,note=note,type=type,
+                   created_by_id=flask_praetorian.current_user().id ,
+                   created_date=created_date,school_name=user.school_name,term=acd.term,year=acd.year)
+  
+    db.session.add(inc)
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
+
+
+
+@school.route("/get_budget_list",methods=['GET'])
+@flask_praetorian.auth_required
+def get_budget_list():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    inc = Budget.query.filter_by(school_name=user.school_name)
+    result = school_schema.dump(inc)
+    return jsonify(result)
+
+
+
+@school.route("/get_budget/<id>",methods=['GET'])
+@flask_praetorian.auth_required
+def get_budget(id):
+
+    inc = Budget.query.filter_by(id=id)
+    result = school_schema.dump(inc)
+    return jsonify(result)
+
+
+
+
+@school.route("/update_Budget",methods=['PUT'])
+@flask_praetorian.auth_required
+def update_Budget():
+    id = request.json["id"]
+    sub_data = Budget.query.filter_by(id=id).first()
+    sub_data.name = request.json["name"]
+    sub_data.amount =request.json["amount"]
+    sub_data.note = request.json["note"]
+    sub_data.type =request.json["type"]
+    db.session.commit()
+    db.session.close()
+    resp = jsonify("success")
+    resp.status_code =201
+    return resp
+
+@school.route("/delete_budget<id>",methods=['DELETE'])
+@flask_praetorian.auth_required
+def delete_budget(id):
+      sub_data = Budget.query.filter_by(id=id).first()
+      
+      db.session.delete(sub_data)
+      db.session.commit()
+      db.session.close()
+      resp = jsonify("success")
+      resp.status_code =201
+      return resp
+
+
+
+
+
+
