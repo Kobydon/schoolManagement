@@ -18,7 +18,7 @@ class StudentSchema(ma.Schema):
                 "form","class_name" ,"exams_score","midterm_score","class_score","total","remark","subject_name",
                 "attitude","teacher_remark","interest","headmaster_remark","conduct",
                 "attendance","class_term","grade","rank","pos","term","grade_id","staff_number","name",
-                "status","amount","method","balance","paid_by","student","date","fees_type","cls",
+                "status","amount","method","balance","paid_by","student","date","fees_type","cls","picture",
                 "other_name","promotion_status",
                 "rme","science","math","social","pos","creativeart","careertech","english","computing",
                 "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa","admission_number","history",
@@ -41,6 +41,13 @@ def add_student():
       email = request.json["email"]
       phone =request.json["phone"]
       address =request.json["address"]
+      try:
+       picture= request.json["picture_one"]
+
+      except:
+           pricture=""
+    
+
       try:
         other_name =request.json["other_name"]
       except:
@@ -110,7 +117,7 @@ def add_student():
             return resp
       else:
             std = Student(other_name=other_name,created_by_id=created_by_id,class_name=clname ,created_date=created_date,parent_name=parent_name,school_name=school_name,
-                student_number=student_number, admitted_year=admitted_year ,
+                student_number=student_number, admitted_year=admitted_year ,picture=picture,
                 residential_status=residential_status,gender=gender,
                 address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone,admission_number=admission_number
                 )
@@ -385,10 +392,17 @@ def update_student():
       except:
              last_name= ""
 
+
       first_name = first_name
       last_name =  last_name
       other_name = other_name
+      
       stf_data = Student.query.filter_by(id=id).first()
+      
+      try:
+           picture= request.json["picture_one"]
+      except:
+             picture= stf_data.picture
       stf_data.first_name =request.json["first_name"]
       class_name = request.json["class_name"]
       stf_data.last_name =request.json["last_name"]
@@ -396,6 +410,7 @@ def update_student():
       stf_data.parent_phone =request.json["phone"]
       stf_data.address =request.json["address"]
       stf_data.other_name =request.json["other_name"]
+      stf_data.picture = picture
       
     #   user = User.query.filter_by(id =flask_praetorian.current_user().id).first()
     #   stf_data.sch = School.query.filter_by(username=user.username).first()
