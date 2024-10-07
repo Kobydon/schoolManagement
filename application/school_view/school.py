@@ -2167,7 +2167,7 @@ def search_expense_budget_dates():
     year =request.json["year"]
     type ="expense"
     # print(date)
-    pay = Budget.query.filter(Budget.term.contains(term), Budget.year.contains(year),Budget.type.type)
+    pay = Budget.query.filter(Budget.term.contains(term), Budget.year.contains(year),Budget.type.contains(type))
     lst = pay.order_by(desc(Budget.created_date))
     result = school_schema.dump(lst)
     return jsonify(result)
@@ -2181,7 +2181,7 @@ def search_income_budget_dates():
     year =request.json["year"]
     type ="income"
     # print(date)
-    pay = Budget.query.filter(Budget.term.contains(term), Budget.year.contains(year),Budget.type.type)
+    pay = Budget.query.filter(Budget.term.contains(term), Budget.year.contains(year),Budget.type.contains(type))
     lst = pay.order_by(desc(Budget.created_date))
     result = school_schema.dump(lst)
     return jsonify(result)
