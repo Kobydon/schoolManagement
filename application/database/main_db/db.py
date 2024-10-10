@@ -803,6 +803,7 @@ class Class(db.Model):
     class_name =db.Column(db.String(500))
     staff_number = db.Column(db.String(500))
     course_name=db.Column(db.String(500))
+    grade=db.Column(db.String(400))
     subject_name=db.Column(db.String(500))
     created_date =db.Column(db.String(5000))
     class_size =db.Column(db.String(400))

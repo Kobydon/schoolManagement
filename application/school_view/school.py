@@ -857,11 +857,15 @@ def add_class():
     user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
     class_name= request.json["class_name"]
     try:
+        grade = request.json["grade"]
+    except:
+        grade =""
+    try:
         staff_number =request.json["staff_number"]
         
     except:
         staff_number = ""
-    cls = Class(class_name=class_name,staff_number=staff_number ,school_name =user.school_name,grade_together="0",
+    cls = Class(class_name=class_name,staff_number=staff_number ,school_name =user.school_name,grade_together="0",grade=grade,
                 created_by_id = flask_praetorian.current_user().id , created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
                 class_size=0)
     try:
@@ -1460,6 +1464,14 @@ def add_fees_type():
         
         # Assuming Class has an attribute 'class_name', modify this line accordingly
         class_name = ', '.join([c.class_name for c in classes])
+
+
+    else:
+          classes = db.session.query(Class).filter_by(school_name=user.school_name,grade=class_name).all()
+        
+        # Assuming Class has an attribute 'class_name', modify this line accordingly
+          class_name = ', '.join([c.class_name for c in classes])
+        
 
     school_name = user.school_name
     
