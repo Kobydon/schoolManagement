@@ -1059,6 +1059,7 @@ def get_class_info(id):
 def update_class():
     id = request.json["id"]
     staff_number=request.json["staff_number"]
+
    
     cls_data = Class.query.filter_by(id=id).first()
     ct = Staff.query.filter_by(staff_number=cls_data.staff_number).first()
@@ -1467,7 +1468,7 @@ def add_fees_type():
 
 
     else:
-          classes = db.session.query(Class).filter_by(school_name=user.school_name,grade=class_name).all()
+          classes = db.session.query(Class).filter_by(school_name=user.school_name,class_name=class_name).all()
         
         # Assuming Class has an attribute 'class_name', modify this line accordingly
           class_name = ', '.join([c.class_name for c in classes])
