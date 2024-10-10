@@ -43,7 +43,7 @@ class DepartmentSchema(ma.Schema):
 
 class classSchema(ma.Schema):
     class Meta:
-        fields=("id","staff_number","class_name","class_size","grade_together"
+        fields=("id","staff_number","class_name","class_size","grade_together","grade"
 )
         
         
