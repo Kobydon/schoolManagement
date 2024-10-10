@@ -49,7 +49,7 @@ class classSchema(ma.Schema):
         
 class schemeSchema(ma.Schema):
     class Meta:
-        fields=("id","exams_score","subject_name","midterm_score","class_score","default"
+        fields=("id","exams_score","subject_name","midterm_score","class_score","default","grade"
 )
    
    
