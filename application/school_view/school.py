@@ -1078,7 +1078,8 @@ def update_class():
         st.for_class = request.json["class_name"]
        
     else: 
-         st.for_class = "no"
+        #  st.for_class = "no"
+        print("hh")
         
     db.session.commit()
     db.session.close()
@@ -1464,7 +1465,7 @@ def add_fees_type():
         # Query all classes based on the user's school_name
         classes = db.session.query(Class).filter_by(school_name=user.school_name).all()
         
-        # Assuming Class has an attribute 'class_name', modify this line accordingly
+        # Assuming Class has an attribute 'class_name', modify this line accordinglyfor
         class_name = ', '.join([c.class_name for c in classes])
 
 
