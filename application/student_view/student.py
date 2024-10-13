@@ -1359,7 +1359,7 @@ def update_grade():
           bd.all_total = round( total_marks,1)
           print(bd.all_total)
                   
-          grd = Grading.query.filter(Grading.class_name==class_name , Grading.subject_name==subject_name,Grading.year==yr,Grading.term==acd.tm)
+          grd = Grading.query.filter(Grading.class_name==class_name , Grading.subject_name==subject_name,Grading.year==yr,Grading.term==acd.term)
           
          
           lst= grd.order_by(desc(Grading.total)).all()
