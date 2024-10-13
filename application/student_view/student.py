@@ -364,6 +364,8 @@ def student_out():
      std.class_name="Graduate"
      bd = BroadSheet.query.filter_by(student_number=std.student_number).first()
      bd.class_name="Graduate"
+     user = User.query.filter_by(username=std.student_number).first()
+     user.is_active=False
      db.session.commit()
      db.session.close()
      resp = jsonify("success")
