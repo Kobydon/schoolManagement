@@ -378,7 +378,7 @@ def get_student():
     # if(int(acd.countdown)<0):
     #     user.is_active = False
     #     db.session.commit()
-    std = Student.query.filter_by(school_name = user.school_name).order_by(Student.first_name.asc())
+    std = Student.query.filter(Student.school_name == user.school_name,Student.class_name != "Graduate").order_by(Student.first_name.asc())
     result = student_schema.dump(std)
     return jsonify(result)
 @student.route("/get_student_info/<id>",methods=['GET'])
