@@ -1258,10 +1258,11 @@ def add_academic_setup():
         # Query BroadSheet and insert new data
         if term=="1":
 
-          broadsheet_entries = BroadSheet.query.filter_by(school_name=user.school_name,current_status="new").all()
+          broadsheet_entries = BroadSheet.query.filter(BroadSheet.school_name==user.school_name,BroadSheet.current_status=="new",
+                                                       BroadSheet.class_name!="Graduate").all()
 
         else:
-            broadsheet_entries = BroadSheet.query.filter_by(school_name=user.school_name).all()
+            broadsheet_entries = BroadSheet.query.filter(BroadSheet.school_name==user.school_name,BroadSheet.class_name!="Graduate").all()
         for entry in broadsheet_entries:
             new_entry = BroadSheet(
                 student_number=entry.student_number, student_name=entry.student_name, class_name=entry.class_name,

@@ -355,6 +355,21 @@ def get_student_by_class():
     la = std.order_by(desc(Student.first_name),desc(Student.student_number))
     result = student_schema.dump(la)
     return jsonify(result)
+
+@student.route("/student_out",methods=["PUT"])
+@flask_praetorian.auth_required
+def student_out():
+     id = request.json["id"]
+     std = Student.query.filter_by(id=id).first()
+     std.class_name="Graduate"
+     bd = BroadSheet.query.filter_by(student_number=std.student_number).first()
+     bd.class_name="Graduate"
+     db.session.commit()
+     db.session.close()
+     resp = jsonify("success")
+     resp.status_code =201
+     return resp
+
 @student.route("/get_student",methods=['GET'])
 @flask_praetorian.auth_required
 def get_student():
@@ -527,7 +542,8 @@ def change_grade():
 @flask_praetorian.auth_required
 def get_all_students():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    std = Student.query.filter_by(school_name=user.school_name)
+    std = Student.query.filter( Student.school_name == user.school_name, Student.class_name != "Graduate").all()
+
     la = std.order_by(desc(Student.first_name),desc(Student.student_number))
     result = student_schema.dump(la)
     return jsonify(result) 
