@@ -1353,6 +1353,7 @@ def update_grade():
           print(tem)
           print(stn)
           bd = db.session.query(BroadSheet).filter_by(student_number=stn,year=yr,term=tem).first()
+          print(bd.year)
           grading = db.session.query(Grading).filter_by(student_number=student_number).all()
           total_marks =  db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==stn,term==tem,year==yr).scalar()
           bd.all_total = round( total_marks,1)
