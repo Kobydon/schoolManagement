@@ -181,8 +181,8 @@ def get_schools():
 def get_school_detail():
     # Get the current authenticated user
     user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
-    # if not user:
-    #     return jsonify({"error": "User not found"}), 404
+    if not user:
+        return jsonify({"error": "User not found"}), 404
 
     # Update countdown by passing the user
     update_countdown(user)
