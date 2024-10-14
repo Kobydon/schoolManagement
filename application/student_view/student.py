@@ -19,7 +19,7 @@ class StudentSchema(ma.Schema):
                 "attitude","teacher_remark","interest","headmaster_remark","conduct",
                 "attendance","class_term","grade","rank","pos","term","grade_id","staff_number","name",
                 "status","amount","method","balance","paid_by","student","date","fees_type","cls","picture",
-                "other_name","promotion_status",
+                "other_name","promotion_status","dob",
                 "rme","science","math","social","pos","creativeart","careertech","english","computing",
                 "ghanalanguage","student_name","all_total","school_name","french","original_class_name","sa","admission_number","history",
                 "owop","fees_amount","received_by"
@@ -287,17 +287,16 @@ def add_student_b_excel():
     #   numlst = list(range(400))
     #   n = random.shuffle(numlst)
     
-     sc = Student.query.filter_by(school_name=sch.school_name).count() 
-     cc = int(sc)+1  
+        # sc = Student.query.filter_by(school_name=sch.school_name).count()  cc = int(sc)+1  
      
       
      
-    #  sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
-    #  if sc:
+     sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
+     if sc:
       
-    #     cc = int(sc.id)+1
-    #  else:
-    #       cc = 0
+        cc = int(sc.id)+1
+     else:
+          cc = 0
      
      
      first_three = sch.school_name[:7] + str(cc)
