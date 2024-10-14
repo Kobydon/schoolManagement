@@ -196,6 +196,13 @@ def add_student_b_excel():
     
      except:
             dob =""
+
+     try:
+            parent_name = request.json["Parent"]
+          
+    
+     except:
+            parent_name =""
      
      try:
              phone =request.json["Phone"]
@@ -280,11 +287,18 @@ def add_student_b_excel():
     #   numlst = list(range(400))
     #   n = random.shuffle(numlst)
     
-     sc = Student.query.filter_by(school_name=sch.school_name).count()
+     sc = Student.query.filter_by(school_name=sch.school_name).count() 
+     cc = int(sc)+1  
      
       
-     cc = int(sc)+1
-
+     
+    #  sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
+    #  if sc:
+      
+    #     cc = int(sc.id)+1
+    #  else:
+    #       cc = 0
+     
      
      first_three = sch.school_name[:7] + str(cc)
     
@@ -314,7 +328,7 @@ def add_student_b_excel():
                           student_number=student_number,gender=gender,residential_status=residential_status,
                           picture=picture_one,admitted_year=admitted_year,address=address,email=email,parent_phone=phone,
 
-          first_name=firstname,last_name=last_name,other_name=other_name,dob=dob
+          first_name=firstname,last_name=last_name,other_name=other_name,dob=dob,parent_name=parent_name
            )
      
             bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,current_status="",
