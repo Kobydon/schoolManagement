@@ -281,8 +281,11 @@ def add_student_b_excel():
     #   n = random.shuffle(numlst)
     
      sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
+     if sc:
       
-     cc = int(sc.id)+1
+        cc = int(sc.id)+1
+     else:
+          cc = 0
      
      first_three = sch.school_name[:6] + str(cc)
     
