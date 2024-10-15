@@ -82,7 +82,7 @@ def add_student():
       sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
       
       cc = int(sc.id)+1
-      usd = User.query.filter_by(username=cc).first()
+      usd = User.query.filter_by(username=str(cc)).first()
       if usd:
            cc = int(usd.id) + 1
      
@@ -302,7 +302,7 @@ def add_student_b_excel():
      if sc:
       
         cc = int(sc.id)+1
-        usd = User.query.filter_by(username=cc).first()
+        usd = User.query.filter_by(username=str(cc)).first()
         if usd:
            cc = int(usd.id) + 1
      else:
