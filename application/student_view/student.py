@@ -45,7 +45,7 @@ def add_student():
        picture= request.json["picture_one"]
 
       except:
-           pricture=""
+           picture=""
     
 
       try:
