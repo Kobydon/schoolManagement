@@ -133,229 +133,132 @@ def add_student():
     db.session.commit()
 
     return jsonify("success"), 200
-
-@student.route("/add_student_b_excel",methods=['POST'])
+@student.route("/add_student_b_excel", methods=['POST'])
 @flask_praetorian.auth_required
 def add_student_b_excel():
-    #   json_data = request.json
-    #   for s in range(len(json_data)):
-    #       if request.json["Resident" and "Branch" and "First Name" and "Address" and "Subject" and
-    #                     "Email" and "Department" and "Phone" and "Bank" and "Account" and "Last Name" and 
-    #                     "Joined"]:
-              
-    #   
-     json_data = request.json
-     l="kk"
+    # Extract JSON data from request
+    json_data = request.json
     
-     try:
-          firstname =request.json["First Name"]
-          
-    
-     except:
-            firstname = ""
-            
-     try:
-          other_name =request.json["Other Name"]
-          
-    
-     except:
-            other_name = ""
-            
-     try:
-          last_name =request.json["Last Name"]
-          
-    
-     except:
-            last_name =""
-            
-     try:
-          class_name =request.json["Class"]
-          
-    
-     except:
-            class_name =""
-            
-     try:
-          admission_number =request.json["Admission Number"]
-          
-    
-     except:
-            admission_number =""
-            
-     try:
-            gender = request.json["Gender"]
-          
-    
-     except:
-            gender =""
-            
-     try:
-            dob = request.json["DoB"]
-          
-    
-     except:
-            dob =""
+    # Extract fields with fallbacks for missing keys
+    firstname = json_data.get("First Name", "")
+    other_name = json_data.get("Other Name", "")
+    last_name = json_data.get("Last Name", "")
+    class_name = json_data.get("Class", "")
+    admission_number = json_data.get("Admission Number", "")
+    gender = json_data.get("Gender", "")
+    dob = json_data.get("DoB", "")
+    parent_name = json_data.get("Parent", "")
+    phone = json_data.get("Phone", "")
+    email = json_data.get("Email", "")
+    address = json_data.get("Address", "")
+    admitted_year = json_data.get("Admitted Year", "")
+    picture_one = json_data.get("picture_one", "")
+    residential_status = json_data.get("Resident", "")
+    original_class_name = json_data.get("Class", "")
 
-     try:
-            parent_name = request.json["Parent"]
-          
-    
-     except:
-            parent_name =""
-     
-     try:
-             phone =request.json["Phone"]
-          
-    
-     except:
-             phone = ""
-     
-     try:
-             email =request.json["Email"]
-          
-    
-     except:
-            email =""
-     try:
-           address =request.json["Address"]
-          
-    
-     except:
-            address =""
-            
- 
-     try:
-           admitted_year =request.json["Admitted Year"]
-          
-    
-     except:
-            admitted_year =""
-            
-            
-    
-     try:
-           admitted_year =request.json["Admitted Year"]
-          
-    
-     except:
-            admitted_year =""
-            
-     
-     try:
-           picture_one =request.json["picture_one"]
-          
-    
-     except:
-            picture_one =""
-            
-        
-     try:
-           residential_status =request.json["Resident"]
-          
-    
-     except:
-            residential_status =""
-            
-     try:
-        original_class_name= request.json["Class"]
-        
-     except:
-        original_class_name=""
-        
-    #  try:
-    #        residential_status =request.json["Resident"]
-          
-    
-    # except:
-    #         residential_status =""
-     if (class_name =="JHS 1A" or class_name=="JHS 1B"):
-                    c_name = class_name[:5] 
-                    
-     elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
-                    c_name = class_name[:5] 
-                    
-     elif (class_name =="JHS 3A" or class_name=="JHS 3B" or class_name=="JHS 3C"):
-                    c_name = class_name[:5] 
-     else:
-         c_name =class_name
-     usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-     acd=Academic.query.filter_by(school_name=usr.school_name,status="current").first()
-     school_name= usr.school_name
-     sch = School.query.filter_by(username=usr.username).first()
-     school_name = sch.school_name
-    #   numlst = list(range(400))
-    #   n = random.shuffle(numlst)
-    
-        # sc = Student.query.filter_by(school_name=sch.school_name).count()  cc = int(sc)+1  
-     
-      
-     
-     sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
-     if sc:
-      
-        cc = int(sc.id)+1
-        while User.query.filter_by(username=str(cc)).first():
-         cc += 1
-     else:
-          sc  = Student.query.filter_by(school_name=sch.school_name).count()
-          cc = int(sc) +1
-     
-     
-     first_three = sch.school_name[:7] + str(cc)
-    
-    
-     if school_name =="Bibiani Community KG / Primary 'A' ":
-        first_three = sch.school_name[:5] + str(cc)
-     else :
-           first_three = sch.school_name[:7] + str(cc)
-     student_number = first_three
-     student_name = firstname +" "+other_name+" "+last_name
-     
-    #  dd
-    #   
-     
-    #   course_name =request.json[""]
-    #  
-    #  class_name =request.json["Class"]
-     
-    #   subject =request.json["subject"]
-     created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
-     created_by_id =flask_praetorian.current_user().id
-     check_std = Student.query.filter(Student.first_name +"  "+ Student.other_name +" "
-                                      + Student.last_name == student_name).first()
-     
-     if not check_std:
-            std = Student(created_by_id=created_by_id,admission_number=admission_number,class_name=class_name ,created_date=created_date,school_name=school_name,
-                          student_number=student_number,gender=gender,residential_status=residential_status,
-                          picture=picture_one,admitted_year=admitted_year,address=address,email=email,parent_phone=phone,
+    # Handle class name variations
+    if class_name in ["JHS 1A", "JHS 1B"]:
+        c_name = class_name[:5]
+    elif class_name in ["JHS 2A", "JHS 2B", "JHS 3A", "JHS 3B", "JHS 3C"]:
+        c_name = class_name[:5]
+    else:
+        c_name = class_name
 
-          first_name=firstname,last_name=last_name,other_name=other_name,dob=dob,parent_name=parent_name
-           )
-     
-            bd=BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,current_status="",
-                          school_name=usr.school_name,original_class_name=original_class_name,all_total="0",promotion_status="",term=acd.term,year=acd.year,
-                           owop="", history="", english="", math="", science="", socialstudies="", ghanalanguage="",
-                creativeart="", social="", rme="", careertech="", pos="", created_date="",
-                computing="", french="", aggregate="")
-            usr = User(firstname=firstname,lastname=last_name,roles="student", username= student_number,
-                       hashed_password= guard.hash_password(student_number),created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
-                       school_name=usr.school_name)
-            
-     else:
-         return jsonify(" record already_exist")              
-     db.session.add(std)
-     db.session.add(bd)
-     db.session.add(usr)
-     try:
-         db.session.commit()
-         db.session.close()
+    # Get current user and related school info
+    usr = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    acd = Academic.query.filter_by(school_name=usr.school_name, status="current").first()
+    school_name = usr.school_name
+    sch = School.query.filter_by(username=usr.username).first()
 
-     except:
-          db.session.rollback()
+    # Generate student number and ensure uniqueness
+    sc = Student.query.filter_by(school_name=school_name).order_by(Student.created_date.desc()).first()
+    
+    if sc:
+        cc = int(sc.id) + 1
+    else:
+        cc = Student.query.filter_by(school_name=school_name).count() + 1
 
-     resp = jsonify("success")
-     resp.status_code =200
-     return resp
+    # Ensure student_number is unique with the while loop
+    student_number = f"{school_name[:7]}{cc}"
+    if school_name == "Bibiani Community KG / Primary 'A'":
+        student_number = f"{school_name[:5]}{cc}"
+
+    while User.query.filter_by(username=student_number).first():
+        cc += 1
+        student_number = f"{school_name[:7]}{cc}"
+
+    # Construct full student name
+    student_name = f"{firstname} {other_name} {last_name}".strip()
+
+    # Check if student already exists
+    check_std = Student.query.filter(
+        (Student.first_name + " " + Student.other_name + " " + Student.last_name) == student_name
+    ).first()
+
+    if check_std:
+        return jsonify("Record already exists"), 200
+
+    # Create new Student, BroadSheet, and User entries
+    std = Student(
+        created_by_id=usr.id,
+        admission_number=admission_number,
+        class_name=class_name,
+        created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
+        school_name=school_name,
+        student_number=student_number,
+        gender=gender,
+        residential_status=residential_status,
+        picture=picture_one,
+        admitted_year=admitted_year,
+        address=address,
+        email=email,
+        parent_phone=phone,
+        first_name=firstname,
+        last_name=last_name,
+        other_name=other_name,
+        dob=dob,
+        parent_name=parent_name
+    )
+
+    bd = BroadSheet(
+        student_name=student_name,
+        class_name=c_name,
+        student_number=student_number,
+        current_status="",
+        school_name=usr.school_name,
+        original_class_name=original_class_name,
+        all_total="0",
+        promotion_status="",
+        term=acd.term,
+        year=acd.year,
+        owop="", history="", english="", math="", science="", socialstudies="",
+        ghanalanguage="", creativeart="", social="", rme="", careertech="", pos="",
+        created_date="", computing="", french="", aggregate=""
+    )
+
+    usr = User(
+        firstname=firstname,
+        lastname=last_name,
+        roles="student",
+        username=student_number,
+        hashed_password=guard.hash_password(student_number),
+        created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
+        school_name=usr.school_name
+    )
+
+    # Add and commit to the database
+    db.session.add(std)
+    db.session.add(bd)
+    db.session.add(usr)
+    
+    try:
+        db.session.commit()
+        db.session.close()
+        return jsonify("success"), 200
+    except:
+        db.session.rollback()
+        return jsonify("Failed to add record"), 500
+
 @student.route("/get_class_by_student",methods=['GET'])
 @flask_praetorian.auth_required
 def get_class_by_student(): 
