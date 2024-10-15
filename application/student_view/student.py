@@ -82,6 +82,9 @@ def add_student():
       sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
       
       cc = int(sc.id)+1
+      usd = User.query.filter_by(username=cc).first()
+      if usd:
+           cc = int(usd.id) + 1
      
       first_three = sch.school_name[:2] + str(cc)
       student_number = first_three
@@ -130,8 +133,12 @@ def add_student():
       db.session.add(std)
       db.session.add(bd)
       db.session.add(usr)
-      db.session.commit()
-      db.session.close()
+      try:
+        db.session.commit()
+        db.session.close()
+
+      except:
+           db.session.rollback()
       resp = jsonify("success")
       resp.status_code =200
       return resp
@@ -295,8 +302,12 @@ def add_student_b_excel():
      if sc:
       
         cc = int(sc.id)+1
+        usd = User.query.filter_by(username=cc).first()
+        if usd:
+           cc = int(usd.id) + 1
      else:
-          cc = 0
+          sc  = Student.query.filter_by(school_name=sch.school_name).count()
+          cc = int(sc) +1
      
      
      first_three = sch.school_name[:7] + str(cc)
@@ -344,8 +355,13 @@ def add_student_b_excel():
      db.session.add(std)
      db.session.add(bd)
      db.session.add(usr)
-     db.session.commit()
-     db.session.close()
+     try:
+         db.session.commit()
+         db.session.close()
+
+     except:
+          db.session.rollback()
+
      resp = jsonify("success")
      resp.status_code =200
      return resp
