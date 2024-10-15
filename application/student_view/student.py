@@ -133,12 +133,10 @@ def add_student():
       db.session.add(std)
       db.session.add(bd)
       db.session.add(usr)
-      try:
-        db.session.commit()
-        db.session.close()
+      db.session.commit()
+      db.session.close()
 
-      except:
-           db.session.rollback()
+      
       resp = jsonify("success")
       resp.status_code =200
       return resp
