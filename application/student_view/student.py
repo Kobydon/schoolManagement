@@ -82,10 +82,8 @@ def add_student():
       sc = Student.query.filter_by(school_name=sch.school_name).order_by(Student.created_date.desc()).first()
       
       cc = int(sc.id)+1
-      usd = User.query.filter_by(username=str(cc)).first()
-      if usd:
-           cc = int(usd.id) + 1
-     
+      while User.query.filter_by(username=str(cc)).first():
+        cc += 1
       first_three = sch.school_name[:2] + str(cc)
       student_number = first_three
     
@@ -300,9 +298,8 @@ def add_student_b_excel():
      if sc:
       
         cc = int(sc.id)+1
-        usd = User.query.filter_by(username=str(cc)).first()
-        if usd:
-           cc = int(usd.id) + 1
+        while User.query.filter_by(username=str(cc)).first():
+         cc += 1
      else:
           sc  = Student.query.filter_by(school_name=sch.school_name).count()
           cc = int(sc) +1
