@@ -488,7 +488,7 @@ class Course(db.Model):
 
 class Signature(db.Model):
           id = db.Column(db.Integer,primary_key=True)
-          image = db.Column(db.String(1000000))
+          image = db.Column(db.String(6000000))
           school_name = db.Column(db.String(400),unique=True)
          
         
