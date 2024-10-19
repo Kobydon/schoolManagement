@@ -468,13 +468,19 @@ def change_grade():
 @student.route("/get_all_students")
 @flask_praetorian.auth_required
 def get_all_students():
-    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    std = Student.query.filter( Student.school_name == user.school_name, Student.class_name != "Graduate").all()
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    
+    # Apply order_by before calling .all()
+    std = Student.query.filter(
+        Student.school_name == user.school_name,
+        Student.class_name != "Graduate"
+    ).order_by(
+        desc(Student.first_name), desc(Student.student_number)
+    ).all()
+    
+    result = student_schema.dump(std)
+    return jsonify(result)
 
-    la = std.order_by(desc(Student.first_name),desc(Student.student_number))
-    result = student_schema.dump(la)
-    return jsonify(result) 
-  
       
 @student.route("/add_grade",methods=['POST'])
 @flask_praetorian.auth_required
