@@ -1983,7 +1983,7 @@ def promote_student():
 
 
  
-@student.route("/repeat_student",methods=["POST","GET"])
+@student.route("/repeat_student")
 @flask_praetorian.auth_required
 def repeat_student():
     

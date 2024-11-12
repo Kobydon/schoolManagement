@@ -159,6 +159,20 @@ def get_info():
 
 
 
+@user.route("/find_expired",methods=['POST'])
+@flask_praetorian.auth_required
+def find_expired():
+    # user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
+    # acd=Academic.query.filter_by(school_name=user.school_name).first()
+    # if(int(acd.countdown)<0):
+    #     user.is_active = False
+    #     db.session.commit()
+    username = request.json["username"]
+    info = db.session.query(User).filter_by(username=username).all()
+    results =user_schema.dump(info)
+    return jsonify(results)
+
+
 
 @user.route("/get_users",methods=['GET'])
 @flask_praetorian.auth_required
