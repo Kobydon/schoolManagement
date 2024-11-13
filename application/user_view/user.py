@@ -296,7 +296,7 @@ def add_ticket():
     # Send email notification
     msg = Message(
         subject="New Ticket Created",
-        # sender=user_email,  # User's email as the sender
+         sender="jxkalmhefacbuk@gmail.com",  # User's email as the sender
         recipients=["kevinfiadzeawu@gmail.com"]  # Static recipient
     )
     msg.body = f"""
