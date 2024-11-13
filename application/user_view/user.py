@@ -51,15 +51,15 @@ def register_quick():
     username = request.json["username"]
     password = request.json["password"]
     lastname =request.json["lastname"]
-    about = request.json["about"]
-    country = request.json["country"]
-    city = request.json["city"]
+    # about = request.json["about"]
+    # country = request.json["country"]
+    # city = request.json["city"]
 
     email = request.json["email"]
     address = request.json["address"]
 
 
-    role = "guest"
+    role = request.json["role"]
     phone = request.json["phone"]
     # confirm_password= request.json["confirm_password"]
     hashed_password= guard.hash_password(password)
@@ -401,7 +401,7 @@ def get_answer(id):
 @user.route("/close_ticket",methods=["PUT","GET"])
 @flask_praetorian.auth_required
 def close_ticket():  # Add 'id' to function parameter
-    request.json["id"]
+    id =request.json["id"]
     ticket = Ticket.query.filter_by(id=id).first()
     ticket.close = "yes"
     ticket.close_at = datetime.now().strftime('%Y-%m-%d')
