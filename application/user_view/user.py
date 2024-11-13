@@ -5,7 +5,7 @@ from  application.extensions.extensions import *
 from  application.settings.settings import *
 from  application.settings.setup import app
 # from application.forms import LoginForm
-from application.database.main_db.db import User,db,School,Ticket,Answer
+from application.database.main_db.db import *
 from sqlalchemy import or_,desc,and_
 from datetime import datetime
 from datetime import date
@@ -19,9 +19,10 @@ guard.init_app(app, User)
 
 class User_schema(ma.Schema):
     class Meta:
-        fields=("id","firstname","lastname","about","email","username","user_name","hashed_password"
-                "roles","city","country","address","phone","created_date","school_name","ticket_id","user_id","status"
-            "account_status","photo","picture","is_active","close_at","close","answer","reason","description"
+        fields=("id","firstname","lastname","about","email","username","hashed_password",
+                "roles","city","country","address","phone","created_date","school_name",
+            "account_status","photo","picture","is_active","description","user_name","close","close_at",
+            "status","reason","answer","user_id","ticket_id"
 )
         
 

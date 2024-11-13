@@ -261,6 +261,12 @@ class User(db.Model):
     backref = 'payie',
     lazy=True)
 
+
+    tickiebay  = db.relationship('Ticket', 
+    foreign_keys ='Ticket.user_id',
+    backref = 'tacken',
+    lazy=True)
+
                     
     salyei  = db.relationship('SalaryTemplate', 
     foreign_keys ='SalaryTemplate.created_by_id',
