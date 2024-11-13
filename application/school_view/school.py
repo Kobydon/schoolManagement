@@ -2604,16 +2604,21 @@ def add_note():
     return resp
 
 
-
-@school.route("/get_note_list",methods=['GET'])
+@school.route("/get_note_list", methods=['GET'])
 @flask_praetorian.auth_required
 def get_note_list():
-    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-    std= Student.query.filter_by(student_number=user.username).first()
-    ntc=Note.query.filter(Note.school_name.contains(user.school_name),Note.class_name.contains(std.class_name))
-    btc = ntc.order_by(desc(Note.date))
-    result = school_schema.dump(btc)
-    return jsonify(result)
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    if user.roles == "sAdmin":
+        return jsonify({"status": "success"}), 200
+    else:
+        std = Student.query.filter_by(student_number=user.username).first()
+        ntc = Note.query.filter(
+            Note.school_name.contains(user.school_name),
+            Note.class_name.contains(std.class_name)
+        )
+        btc = ntc.order_by(desc(Note.date))
+        result = school_schema.dump(btc)
+        return jsonify(result)
 
 
 @school.route("/get_all_note_list",methods=['GET'])
