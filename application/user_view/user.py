@@ -19,7 +19,7 @@ guard.init_app(app, User)
 
 class User_schema(ma.Schema):
     class Meta:
-        fields=("id","firstname","lastname","about","email","username","user_name"
+        fields=("id","firstname","lastname","about","email","username","user_name","hashed_password"
                 "roles","city","country","address","phone","created_date","school_name","ticket_id","user_id","status"
             "account_status","photo","picture","is_active","close_at","close","answer","reason","description"
 )
