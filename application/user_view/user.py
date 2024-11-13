@@ -29,9 +29,17 @@ class User_schema(ma.Schema):
 
 
 
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'jxkalmhefacbuk@gmail.com'
+app.config['MAIL_PASSWORD'] = 'qhsf mguh pzuh dcmx'
+app.config['MAIL_DEFAULT_SENDER'] = 'jxkalmhefacbuk@gmail.com'
+app.secret_key = 'secrete key'
 
 
-
+mail = Mail(app)
 
 
 user_schema=User_schema(many=True)
@@ -296,7 +304,7 @@ def add_ticket():
     # Send email notification
     msg = Message(
         subject="New Ticket Created",
-         sender="jxkalmhefacbuk@gmail.com",  # User's email as the sender
+        #  sender="jxkalmhefacbuk@gmail.com",  # User's email as the sender
         recipients=["kevinfiadzeawu@gmail.com"]  # Static recipient
     )
     msg.body = f"""
