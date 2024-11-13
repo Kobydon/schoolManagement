@@ -16,6 +16,18 @@ from flask import session
 user = Blueprint("user", __name__)
 guard.init_app(app, User)
 
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'jxkalmhefacbuk@gmail.com'
+app.config['MAIL_PASSWORD'] = 'qhsf mguh pzuh dcmx'
+app.config['MAIL_DEFAULT_SENDER'] = 'jxkalmhefacbuk@gmail.com'
+app.secret_key = 'secrete key'
+
+
+mail = Mail(app)
+
 
 class User_schema(ma.Schema):
     class Meta:
@@ -28,18 +40,6 @@ class User_schema(ma.Schema):
 
 
 
-
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = 'jxkalmhefacbuk@gmail.com'
-app.config['MAIL_PASSWORD'] = 'qhsf mguh pzuh dcmx'
-app.config['MAIL_DEFAULT_SENDER'] = 'jxkalmhefacbuk@gmail.com'
-app.secret_key = 'secrete key'
-
-
-mail = Mail(app)
 
 
 user_schema=User_schema(many=True)
@@ -290,7 +290,7 @@ def add_ticket():
         reason=reason,
         description=description,
         user_id=user_id,
-        status="Pending",
+        status="Open",
         created_date=datetime.now().strftime('%Y-%m-%d')
     )
 
@@ -380,11 +380,19 @@ def add_answer():
 
 
 
-@user.route("/view-ticket/<id>", methods=['GET', 'POST'])
+@user.route("/view_ticket/<id>", methods=['GET', 'POST'])
 @flask_praetorian.auth_required
 def view_ticket(id):
     ticket = Ticket.query.filter_by(id=id).all()
     result = user_schema.dump(ticket)
+    return jsonify(result)
+   
+    
+@user.route("/get_answer/<id>", methods=['GET', 'POST'])
+@flask_praetorian.auth_required
+def get_answer(id):
+    answer = Answer.query.filter_by(ticket_id=id).all()
+    result = user_schema.dump(answer)
     return jsonify(result)
    
     
