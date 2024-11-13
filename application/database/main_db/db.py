@@ -466,7 +466,25 @@ class Staff(db.Model):
 
      
 
+class Ticket(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    reason = db.Column(db.String(200))
+    description = db.Column(db.String(200))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    status = db.Column(db.String(200))
+    close = db.Column(db.String(200))
+    close_at = db.Column(db.String(200))
+    created_date = db.Column(db.String(200))
 
+
+
+class Answer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    answer = db.Column(db.String(200))
+    ticket_id = db.Column(db.String(200))
+    user_name = db.Column(db.String(200))
+    created_date = db.Column(db.String(200))
+    
  
          
 

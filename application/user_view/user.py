@@ -5,7 +5,7 @@ from  application.extensions.extensions import *
 from  application.settings.settings import *
 from  application.settings.setup import app
 # from application.forms import LoginForm
-from application.database.main_db.db import User,db,School
+from application.database.main_db.db import User,db,School,Ticket,Answer
 from sqlalchemy import or_,desc,and_
 from datetime import datetime
 from datetime import date
@@ -19,9 +19,9 @@ guard.init_app(app, User)
 
 class User_schema(ma.Schema):
     class Meta:
-        fields=("id","firstname","lastname","about","email","username","hashed_password",
-                "roles","city","country","address","phone","created_date","school_name",
-            "account_status","photo","picture","is_active"
+        fields=("id","firstname","lastname","about","email","username","user_name"
+                "roles","city","country","address","phone","created_date","school_name","ticket_id","user_id","status"
+            "account_status","photo","picture","is_active","close_at","close","answer","reason","description"
 )
         
 
@@ -122,7 +122,7 @@ def register():
 
 
 @user.route('/get_signin_client',methods=['GET','POST'] )
-#@login_required
+#@flask_praetorian.auth_required
 
 def get_signin_client(): 
       #user_man = User.query.all()  
@@ -259,3 +259,137 @@ def update_user_profile():
             res.status_code=201
             return res
 
+
+
+
+
+@user.route("/add-ticket", methods=['GET', 'POST'])
+@flask_praetorian.auth_required
+def add_ticket():
+    # Get form values
+    reason = request.json.get('reason')
+    description = request.json.get('description')
+    user_id = flask_praetorian.current_user().id
+    user_email = flask_praetorian.current_user().email  # Assuming the user model has an email field
+
+    # Validate form data
+    if not reason or not description:
+        return jsonify({"error": "Reason and description are required"}), 400
+
+    # Create new ticket
+    ticket = Ticket(
+        reason=reason,
+        description=description,
+        user_id=user_id,
+        status="Pending",
+        created_date=datetime.now().strftime('%Y-%m-%d')
+    )
+
+    # Save to the database
+    db.session.add(ticket)
+    db.session.commit()
+
+    # Get the last ticket of the current user (just created)
+    last_ticket = Ticket.query.filter_by(user_id=user_id).order_by(Ticket.id.desc()).first()
+
+    # Send email notification
+    msg = Message(
+        subject="New Ticket Created",
+        sender=user_email,  # User's email as the sender
+        recipients=["kevinfiadzeawu@gmail.com"]  # Static recipient
+    )
+    msg.body = f"""
+    New support ticket created by user ID: {user_id}
+
+    Ticket Details:
+    - Ticket ID: {last_ticket.id}
+    - Reason: {last_ticket.reason}
+    - Description: {last_ticket.description}
+    - Status: {last_ticket.status}
+    - Created Date: {last_ticket.created_date}
+
+    Please address this ticket at your earliest convenience.
+
+    Best regards,
+    Support System
+    """
+    mail.send(msg)
+
+    # Prepare JSON response
+    response = user_schema.dump(last_ticket)
+    return jsonify(response)
+
+
+    # If method is GET, render the ticket creation form
+    
+
+
+@user.route("/tickets")
+@flask_praetorian.auth_required
+def tickets():
+
+    tickets= Ticket.query.filter_by(user_id=flask_praetorian.current_user().id).order_by(Ticket.id.desc())
+    result = user_schema.dump(tickets)
+    return jsonify(result)
+
+
+
+
+
+@user.route("/all_tickets")
+@flask_praetorian.auth_required
+def all_tickets():
+
+    tickets = Ticket.query.order_by(Ticket.id.desc()).all()
+    result = user_schema.dump(tickets)
+    return jsonify(result)
+
+
+@user.route("/add-answer/", methods=['GET', 'POST'])
+@flask_praetorian.auth_required
+def add_answer():
+        user = User.query.filter_by(id=flask_praetorian.current_user().id).first
+        id = request.json["id"]
+        ticket = Ticket.query.filter_by(id=id).first()
+        answer_text = request.json["answer"]
+
+
+        # Create new answer
+        ans = Answer(
+            answer=answer_text,
+            ticket_id=id,
+            user_name=user.username,
+            created_date=datetime.now().strftime('%Y-%m-%d')
+        )
+        db.session.add(ans)
+        ticket.status="open"
+        db.session.commit()
+
+        resp = jsonify("success")
+        resp.status_code=200
+        return resp
+
+
+
+@user.route("/view-ticket/<id>", methods=['GET', 'POST'])
+@flask_praetorian.auth_required
+def view_ticket(id):
+    ticket = Ticket.query.filter_by(id=id).all()
+    result = user_schema.dump(ticket)
+    return jsonify(result)
+   
+    
+
+
+@user.route("/close_ticket",methods=["PUT","GET"])
+@flask_praetorian.auth_required
+def close_ticket():  # Add 'id' to function parameter
+    request.json["id"]
+    ticket = Ticket.query.filter_by(id=id).first()
+    ticket.close = "yes"
+    ticket.close_at = datetime.now().strftime('%Y-%m-%d')
+    ticket.status="closed"
+    db.session.commit()
+    resp = jsonify("success")
+    resp.status_code =200
+    return resp
