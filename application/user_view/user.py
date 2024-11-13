@@ -40,7 +40,7 @@ class User_schema(ma.Schema):
 
 
 
-
+one_user_schema =User_schema(many=False)
 
 user_schema=User_schema(many=True)
 
@@ -325,7 +325,7 @@ def add_ticket():
     mail.send(msg)
 
     # Prepare JSON response
-    response = user_schema.dump(last_ticket)
+    response = one_user_schema.dump(last_ticket)
     return jsonify(response)
 
 
