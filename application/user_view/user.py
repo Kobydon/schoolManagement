@@ -270,7 +270,7 @@ def add_ticket():
     reason = request.json.get('reason')
     description = request.json.get('description')
     user_id = flask_praetorian.current_user().id
-    user_email = flask_praetorian.current_user().email  # Assuming the user model has an email field
+    # user_email = flask_praetorian.current_user().email  # Assuming the user model has an email field
 
     # Validate form data
     if not reason or not description:
@@ -295,7 +295,7 @@ def add_ticket():
     # Send email notification
     msg = Message(
         subject="New Ticket Created",
-        sender=user_email,  # User's email as the sender
+        # sender=user_email,  # User's email as the sender
         recipients=["kevinfiadzeawu@gmail.com"]  # Static recipient
     )
     msg.body = f"""
