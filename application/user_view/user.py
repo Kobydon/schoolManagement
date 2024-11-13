@@ -357,7 +357,7 @@ def all_tickets():
 @user.route("/add_answer", methods=['GET', 'POST'])
 @flask_praetorian.auth_required
 def add_answer():
-        user = User.query.filter_by(id=flask_praetorian.current_user().id).first
+        user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
         id = request.json["id"]
         ticket = Ticket.query.filter_by(id=id).first()
         answer_text = request.json["answer"]
