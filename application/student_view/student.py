@@ -1109,9 +1109,9 @@ def get_pending_grades():
 @student.route("/get_grading", methods=["POST"])
 @flask_praetorian.auth_required
 def get_grading():
-    term = request.json.get("term")
-    year = request.json.get("year")
-    staff_number = request.json.get("staff_number")  # Ensure this is a string
+    term = request.json.get["term"]
+    year = request.json["year"]
+    staff_number = request.json["staff_number"]  # Ensure this is a string
 
     # Convert staff_number to an integer
     try:
