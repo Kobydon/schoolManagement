@@ -1115,8 +1115,10 @@ def get_grading():
 
     # Convert staff_number to an integer
     try:
+        
         staff_number = int(staff_number)
     except ValueError:
+        print(staff_number)
         return jsonify({"error": "Invalid staff_number format. Expected an integer."}), 400
 
     user = User.query.filter_by(username=staff_number).first()
