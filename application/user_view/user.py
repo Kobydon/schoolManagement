@@ -47,25 +47,52 @@ user_schema=User_schema(many=True)
 
 @user.route("/register_quick",methods=["POST"])
 def register_quick():
-    firstname =request.json["firstname"]
-    username = request.json["username"]
-    password = request.json["password"]
-    lastname =request.json["lastname"]
+    try:
+         firstname =request.json["firstname"]
+    except:
+        firstname=""
+
+    try:
+         username = request.json["username"]
+
+    except:
+        username=""
+
+    try:
+
+        password = request.json["password"]
+
+    except:
+        password=""
+
+    try:
+         lastname =request.json["lastname"]
+
+    except:
+        lastname=""
     # about = request.json["about"]
     # country = request.json["country"]
     # city = request.json["city"]
 
-    email = request.json["email"]
-    address = request.json["address"]
+    try:
 
+         email = request.json["email"]
+    
+    except :
+         email =""
 
-    role = request.json["role"]
-    phone = request.json["phone"]
+    # address = request.json["address"]
+
+    try:
+        role = request.json["role"]
+
+    except:
+         role=""
+    # phone = request.json["phone"]
     # confirm_password= request.json["confirm_password"]
     hashed_password= guard.hash_password(password)
     # if password == confirm_password:
-    owner = User(firstname=firstname,lastname=lastname,about=about,country=country,
-                    city=city ,phone=phone,username=username,hashed_password=hashed_password,roles=role,address=address,
+    owner = User(firstname=firstname,lastname=lastname,username=username,hashed_password=hashed_password,roles=role,
                     email=email,created_date=datetime.now().strftime('%Y-%m-%d %H:%M'))
     db.session.add(owner)
     db.session.commit()

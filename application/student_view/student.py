@@ -1104,7 +1104,50 @@ def get_pending_grades():
       grade = PendingGrade.query.filter_by(school_name=user.school_name)
       result = student_schema.dump(grade)
       return jsonify(result)
-      
+
+
+@student.route("/get_grading", methods=["POST"])
+@flask_praetorian.auth_required
+def get_grading():
+    term = request.json.get("term")
+    year = request.json.get("year")
+    staff_number = request.json.get("staff_number")
+
+    # Check if the user exists
+    user = User.query.filter_by(username=staff_number).first()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    # Group by subject_name, class_name, term, and year
+    grading_query = db.session.query(
+        Grading.subject_name,
+        Grading.class_name,
+        Grading.term,
+        Grading.year
+    ).filter(
+        Grading.year == year,
+        Grading.term == term,
+        Grading.created_by_id == staff_number
+    ).group_by(
+        Grading.subject_name,
+        Grading.class_name,
+        Grading.term,
+        Grading.year
+    ).all()
+
+    # Convert query results into a list of dictionaries
+    result = [
+        {
+            "subject_name": grade.subject_name,
+            "class_name": grade.class_name,
+            "term": grade.term,
+            "year": grade.year
+        }
+        for grade in grading_query
+    ]
+
+    return jsonify(result)
+
 
 @student.route("/searchdates",methods=["POST"])
 @flask_praetorian.auth_required
@@ -1931,6 +1974,21 @@ def delete_remark(id):
      return resp
  
  
+
+@student.route("/delete_grading")
+@flask_praetorian.auth_required
+def delete_grading(id):
+     
+     subject_name = request.json["subject_name"]
+     class_name = request.json["class_name"]
+     year = request.json["year"]
+     term =request.json["term"]
+     my_data = Grading.query.filter_by(subject_name=subject_name,class_name=class_name,year=year,term=term).first()
+     db.session.delete(my_data)
+     db.session.commit()
+     resp = jsonify("success")
+     resp.status_code=201
+     return resp
  
  
 @student.route("/promote_student",methods=["POST","GET"])
@@ -1979,6 +2037,8 @@ def promote_student():
      resp = jsonify("success")
      resp.status_code=200
      return resp
+
+
 
 
 
