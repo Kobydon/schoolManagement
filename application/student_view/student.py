@@ -1980,27 +1980,38 @@ def delete_remark(id):
      return resp
  
  
-
-@student.route("/delete_grading",methods=['DELETE'])
+@student.route("/delete_grading", methods=['POST', 'DELETE'])
 @flask_praetorian.auth_required
-def delete_grading(id):
-     
-     subject_name = request.json["subject_name"]
-     class_name = request.json["class_name"]
-     year = request.json["year"]
-     term =request.json["term"]
-     my_data = Grading.query.filter_by(subject_name=subject_name,original_class_name=class_name,year=year,term=term).first()
-     bd = BroadSheet.query.filter_by(original_class_name=my_data.original_class_name, term=term, year=year).first()
+def delete_grading():
+    data = request.json  # Handle JSON data
+    subject_name = data.get("subject_name")
+    class_name = data.get("class_name")
+    year = data.get("year")
+    term = data.get("term")
+    
+    my_data = Grading.query.filter_by(
+        subject_name=subject_name,
+        original_class_name=class_name,
+        year=year,
+        term=term
+    ).first()
 
-     if bd:
-        setattr(bd, subject_name, "")  # Dynamically set the attribute to an empty string
-    # Save the changes to the database
+    if not my_data:
+        return jsonify({"error": "Grading entry not found"}), 404
 
-     db.session.delete(my_data)
-     db.session.commit()
-     resp = jsonify("success")
-     resp.status_code=201
-     return resp
+    bd = BroadSheet.query.filter_by(
+        original_class_name=my_data.original_class_name,
+        term=term,
+        year=year
+    ).first()
+
+    if bd:
+        setattr(bd, subject_name, "")  # Dynamically set attribute to an empty string
+
+    db.session.delete(my_data)
+    db.session.commit()
+    return jsonify({"message": "Grading entry deleted successfully"}), 201
+
  
  
 @student.route("/promote_student",methods=["POST","GET"])
