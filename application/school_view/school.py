@@ -1827,7 +1827,11 @@ def add_notice():
 @school.route("/get_notice_list",methods=['GET'])
 @flask_praetorian.auth_required
 def get_notice_list():
-    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    if user.roles == "sAdmin":
+        return jsonify({"status": "success"}), 200
+    if not user:
+        return jsonify({"error": "User not found"}), 404
     ntc=Noticer.query.filter(Noticer.school_name.contains(user.school_name),Noticer.role.contains(user.roles))
     btc = ntc.order_by(desc(Noticer.date))
     result = school_schema.dump(btc)
