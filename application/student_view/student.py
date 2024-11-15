@@ -1114,12 +1114,12 @@ def get_grading():
     staff_number = request.json["staff_number"]  # Ensure this is a string
 
     # Convert staff_number to an integer
-    try:
+    # try:
         
-        staff_number = int(staff_number)
-    except ValueError:
-        print(staff_number)
-        return jsonify({"error": "Invalid staff_number format. Expected an integer."}), 400
+    #     staff_number = int(staff_number)
+    # except ValueError:
+    #     print(staff_number)
+    #     return jsonify({"error": "Invalid staff_number format. Expected an integer."}), 400
 
     user = User.query.filter_by(username=staff_number).first()
     if not user:
