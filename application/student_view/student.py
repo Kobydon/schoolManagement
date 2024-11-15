@@ -1127,7 +1127,7 @@ def get_grading():
 
     grading_query = db.session.query(
         Grading.subject_name,
-        Grading.class_name,
+        Grading.original_class_name,
         Grading.term,
         Grading.year
     ).filter(
@@ -1136,7 +1136,7 @@ def get_grading():
         Grading.created_by_id == user.id
     ).group_by(
         Grading.subject_name,
-        Grading.class_name,
+        Grading.original_class_name,
         Grading.term,
         Grading.year
     ).all()
@@ -1144,7 +1144,7 @@ def get_grading():
     result = [
         {
             "subject_name": grade.subject_name,
-            "class_name": grade.class_name,
+            "class_name": grade.original_class_name,
             "term": grade.term,
             "year": grade.year
         }
@@ -1989,7 +1989,13 @@ def delete_grading(id):
      class_name = request.json["class_name"]
      year = request.json["year"]
      term =request.json["term"]
-     my_data = Grading.query.filter_by(subject_name=subject_name,class_name=class_name,year=year,term=term).first()
+     my_data = Grading.query.filter_by(subject_name=subject_name,original_class_name=class_name,year=year,term=term).first()
+     bd = BroadSheet.query.filter_by(original_class_name=my_data.original_class_name, term=term, year=year).first()
+
+     if bd:
+        setattr(bd, subject_name, "")  # Dynamically set the attribute to an empty string
+    # Save the changes to the database
+
      db.session.delete(my_data)
      db.session.commit()
      resp = jsonify("success")
