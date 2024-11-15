@@ -1111,14 +1111,18 @@ def get_pending_grades():
 def get_grading():
     term = request.json.get("term")
     year = request.json.get("year")
-    staff_number = request.json.get("staff_number")
+    staff_number = request.json.get("staff_number")  # Ensure this is a string
 
-    # Check if the user exists
+    # Convert staff_number to an integer
+    try:
+        staff_number = int(staff_number)
+    except ValueError:
+        return jsonify({"error": "Invalid staff_number format. Expected an integer."}), 400
+
     user = User.query.filter_by(username=staff_number).first()
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    # Group by subject_name, class_name, term, and year
     grading_query = db.session.query(
         Grading.subject_name,
         Grading.class_name,
@@ -1135,7 +1139,6 @@ def get_grading():
         Grading.year
     ).all()
 
-    # Convert query results into a list of dictionaries
     result = [
         {
             "subject_name": grade.subject_name,
@@ -1147,6 +1150,7 @@ def get_grading():
     ]
 
     return jsonify(result)
+
 
 
 @student.route("/searchdates",methods=["POST"])
