@@ -1981,7 +1981,7 @@ def delete_remark(id):
  
  
 
-@student.route("/delete_grading")
+@student.route("/delete_grading",methods=['DELETE'])
 @flask_praetorian.auth_required
 def delete_grading(id):
      
