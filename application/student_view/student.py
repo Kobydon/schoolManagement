@@ -1133,7 +1133,7 @@ def get_grading():
     ).filter(
         Grading.year == year,
         Grading.term == term,
-        Grading.created_by_id == staff_number
+        Grading.created_by_id == user.id
     ).group_by(
         Grading.subject_name,
         Grading.class_name,
