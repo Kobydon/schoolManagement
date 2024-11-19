@@ -342,7 +342,7 @@ def add_ticket():
     - Status: {last_ticket.status}
     - Created Date: {last_ticket.created_date}
 
-    View the ticket here: https://yourdomain.com/view-ticket/{last_ticket.id}
+    View the ticket here: https://schkevnov8.netlify.app/view-ticket/{last_ticket.id}
 
     Please address this ticket at your earliest convenience.
 
