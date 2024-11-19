@@ -1989,28 +1989,35 @@ def delete_grading():
     year = data.get("year")
     term = data.get("term")
     
-    my_data = Grading.query.filter_by(
+    # Retrieve all matching grading entries
+    grading_entries = Grading.query.filter_by(
         subject_name=subject_name,
         original_class_name=class_name,
         year=year,
         term=term
-    ).first()
+    ).all()
 
-    if not my_data:
-        return jsonify({"error": "Grading entry not found"}), 404
+    if not grading_entries:
+        return jsonify({"error": "Grading entries not found"}), 404
 
-    bd = BroadSheet.query.filter_by(
-        original_class_name=my_data.original_class_name,
+    # Retrieve all matching BroadSheet entries
+    broadsheets = BroadSheet.query.filter_by(
+        original_class_name=class_name,
         term=term,
         year=year
-    ).first()
+    ).all()
 
-    if bd:
+    # Update each matching BroadSheet entry
+    for bd in broadsheets:
         setattr(bd, subject_name, "")  # Dynamically set attribute to an empty string
 
-    db.session.delete(my_data)
+    # Delete all matching grading entries
+    for entry in grading_entries:
+        db.session.delete(entry)
+
     db.session.commit()
-    return jsonify({"message": "Grading entry deleted successfully"}), 201
+    return jsonify({"message": "Grading entries and BroadSheet entries updated successfully"}), 201
+
 
  
  
