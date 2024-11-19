@@ -298,7 +298,6 @@ def update_user_profile():
 
 
 
-
 @user.route("/add-ticket", methods=['GET', 'POST'])
 @flask_praetorian.auth_required
 def add_ticket():
@@ -306,7 +305,6 @@ def add_ticket():
     reason = request.json.get('reason')
     description = request.json.get('description')
     user_id = flask_praetorian.current_user().id
-    # user_email = flask_praetorian.current_user().email  # Assuming the user model has an email field
 
     # Validate form data
     if not reason or not description:
@@ -331,8 +329,8 @@ def add_ticket():
     # Send email notification
     msg = Message(
         subject="New Ticket Created",
-        #  sender="jxkalmhefacbuk@gmail.com",  # User's email as the sender
-        recipients=["kevinfiadzeawu@gmail.com"]  # Static recipient
+        # sender="jxkalmhefacbuk@gmail.com",  # User's email as the sender
+        recipients=["kevinfiadzeawu@gmail.com", "fiadzeawuf@gmail.com"]  # Static recipient
     )
     msg.body = f"""
     New support ticket created by user ID: {user_id}
@@ -344,6 +342,8 @@ def add_ticket():
     - Status: {last_ticket.status}
     - Created Date: {last_ticket.created_date}
 
+    View the ticket here: https://yourdomain.com/view-ticket/{last_ticket.id}
+
     Please address this ticket at your earliest convenience.
 
     Best regards,
@@ -354,21 +354,6 @@ def add_ticket():
     # Prepare JSON response
     response = one_user_schema.dump(last_ticket)
     return jsonify(response)
-
-
-    # If method is GET, render the ticket creation form
-    
-
-
-@user.route("/tickets")
-@flask_praetorian.auth_required
-def tickets():
-
-    tickets= Ticket.query.filter_by(user_id=flask_praetorian.current_user().id).order_by(Ticket.id.desc())
-    result = user_schema.dump(tickets)
-    return jsonify(result)
-
-
 
 
 
