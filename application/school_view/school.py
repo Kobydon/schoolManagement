@@ -2009,6 +2009,76 @@ def update_event():
     resp.status_code =201
     return resp
 
+
+
+
+
+
+@school.route("/activate_school/<id>", methods=['PUT'])
+@flask_praetorian.auth_required
+def activate_school(id):
+    # Fetch the school by its ID
+    sub_data = School.query.filter_by(id=id).first()
+    
+    if not sub_data:
+        # If school is not found, return an error response
+        return jsonify({"error": "School not found"}), 404
+    
+    # Get all users associated with the school (assuming the 'id' in User refers to the school ID)
+    users = User.query.filter_by(school_name=sub_data.school_name).all()
+    
+    if not users:
+        # If no users are associated with the school, return an error response
+        return jsonify({"error": "No users found for this school"}), 404
+
+    # Loop through users and activate each user
+    for user in users:
+        user.is_active = True  # Set the user's status to active
+        db.session.commit()  # Commit the change after each user is updated
+    
+    # Close the session
+    db.session.close()
+    
+    # Return success response
+    resp = jsonify({"message": "School and users activated successfully"})
+    resp.status_code = 201
+    return resp
+
+
+
+
+
+
+@school.route("/deactivate_school/<id>", methods=['PUT'])
+@flask_praetorian.auth_required
+def deactivate_school(id):
+    # Fetch the school by its ID
+    sub_data = School.query.filter_by(id=id).first()
+    
+    if not sub_data:
+        # If school is not found, return an error response
+        return jsonify({"error": "School not found"}), 404
+    
+    # Get all users associated with the school (assuming the 'id' in User refers to the school ID)
+    users = User.query.filter_by(school_name=sub_data.school_name).all()
+    
+    if not users:
+        # If no users are associated with the school, return an error response
+        return jsonify({"error": "No users found for this school"}), 404
+
+    # Loop through users and activate each user
+    for user in users:
+        user.is_active = False  # Set the user's status to active
+        db.session.commit()  # Commit the change after each user is updated
+    
+    # Close the session
+    db.session.close()
+    
+    # Return success response
+    resp = jsonify({"message": "School and users activated successfully"})
+    resp.status_code = 201
+    return resp
+
 @school.route("/delete_event/<id>",methods=['DELETE'])
 @flask_praetorian.auth_required
 def delete_event(id):
