@@ -1012,6 +1012,7 @@ class Grading(db.Model):
           year = db.Column(db.String(5000))
           pos =  db.Column(db.String(400))
           change_request =  db.Column(db.String(400))
+          score =  db.Column(db.String(400))
          
           created_by_id  = db.Column(db.Integer,db.ForeignKey('user.id'))
 
