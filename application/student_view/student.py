@@ -550,12 +550,12 @@ def add_grade():
           if (total in range(40,54)):
               
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                  grade = "Developing"
-                  remark  = "D"
+                  grade = "D"
+                  remark  = "Developing"
                   score =4
               else:
-                grade   = "Developing"
-                remark  = "D"
+                grade   = "D"
+                remark  = "Developing"
                 score=""
 
           
@@ -728,19 +728,19 @@ def add_result_by_excel():
                   remark  = " Aproaching Proficiency"
                   score=3
               else:
-                grade = "Approaching Proficiency"
-                remark  = " AP"
+                grade = "AP"
+                remark  = " Approaching Proficiency"
                 score=""
               
           if (total in range(40,54)):
               
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                  grade = "Developing"
-                  remark  = "D"
+                  grade = "D"
+                  remark  = "Developing"
                   score =4
               else:
-                grade   = "Developing"
-                remark  = "D"
+                grade   = "D"
+                remark  = "Developing"
                 score=""
 
           
@@ -1228,12 +1228,12 @@ def update_grade():
           if (total in range(40,54)):
               
               if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
-                  grade.grade = "Developing"
-                  grade.remark  = "D"
+                  grade.grade = "D"
+                  grade.remark  = "Developing"
                   grade.score =4
               else:
-                grade.grade   = "Developing"
-                grade.remark  = "D"
+                grade.grade   = "D"
+                grade.remark  = "Developing"
                 grade.score=""
 
           
