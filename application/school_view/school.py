@@ -2178,29 +2178,31 @@ def delete_holiday(id):
 
 
 
-
-
-
-
-@school.route("/search_income_dates",methods=["POST"])
+@school.route("/search_income_dates", methods=["POST"])
 @flask_praetorian.auth_required
 def search_income_dates():
     date = request.json["date"]
+    school_name = get_current_user_school_name()
+    if not school_name:
+        return jsonify({"error": "User's school name not found"}), 404
+
     print(date)
-    pay = Income.query.filter(Income.date.contains(date) )
+    pay = Income.query.filter(Income.date.contains(date), Income.school_name == school_name)
     lst = pay.order_by(desc(Income.date))
     result = school_schema.dump(lst)
     return jsonify(result)
 
 
-
-
-@school.route("/search_budget_dates",methods=["POST"])
+@school.route("/search_budget_dates", methods=["POST"])
 @flask_praetorian.auth_required
 def search_budget_dates():
     date = request.json["date"]
+    school_name = get_current_user_school_name()
+    if not school_name:
+        return jsonify({"error": "User's school name not found"}), 404
+
     print(date)
-    pay = Budget.query.filter(Budget.created_date.contains(date) )
+    pay = Budget.query.filter(Budget.created_date.contains(date), Budget.school_name == school_name)
     lst = pay.order_by(desc(Budget.created_date))
     result = school_schema.dump(lst)
     return jsonify(result)
@@ -2211,6 +2213,9 @@ def search_budget_dates():
 def search_income_dates_two():
     date = request.json.get("date")
     date_two = request.json.get("datetwo")
+    school_name = get_current_user_school_name()
+    if not school_name:
+        return jsonify({"error": "User's school name not found"}), 404
 
     if not date or not date_two:
         return jsonify({"error": "Both 'date' and 'datetwo' must be provided"}), 400
@@ -2220,7 +2225,8 @@ def search_income_dates_two():
             or_(
                 Income.date.contains(date),
                 Income.date.contains(date_two)
-            )
+            ),
+            Income.school_name == school_name
         ).order_by(desc(Income.date)).all()
 
         result = school_schema.dump(pay)
@@ -2230,56 +2236,81 @@ def search_income_dates_two():
         return jsonify({"error": "An error occurred while fetching data"}), 500
 
 
-@school.route("/search_salary_dates",methods=["POST"])
+@school.route("/search_salary_dates", methods=["POST"])
 @flask_praetorian.auth_required
 def search_salary_dates():
     date = request.json["date"]
+    school_name = get_current_user_school_name()
+    if not school_name:
+        return jsonify({"error": "User's school name not found"}), 404
+
     print(date)
-    pay = SalaryPayment.query.filter(SalaryPayment.payment_date.contains(date) )
+    pay = SalaryPayment.query.filter(SalaryPayment.payment_date.contains(date), SalaryPayment.school_name == school_name)
     lst = pay.order_by(desc(SalaryPayment.payment_date))
     result = school_schema.dump(lst)
     return jsonify(result)
 
 
-@school.route("/search_expense_dates",methods=["POST"])
+@school.route("/search_expense_dates", methods=["POST"])
 @flask_praetorian.auth_required
 def search_expense_dates():
     date = request.json["date"]
+    school_name = get_current_user_school_name()
+    if not school_name:
+        return jsonify({"error": "User's school name not found"}), 404
+
     print(date)
-    pay = Expenses.query.filter(Expenses.date.contains(date) )
+    pay = Expenses.query.filter(Expenses.date.contains(date), Expenses.school_name == school_name)
     lst = pay.order_by(desc(Expenses.date))
     result = school_schema.dump(lst)
     return jsonify(result)
 
 
-@school.route("/search_expense_budget_dates",methods=["POST"])
+@school.route("/search_expense_budget_dates", methods=["POST"])
 @flask_praetorian.auth_required
 def search_expense_budget_dates():
     term = request.json["term"]
-    year =request.json["year"]
-    type ="expense"
-    # print(date)
-    pay = Budget.query.filter(Budget.term.contains(term), Budget.year.contains(year),Budget.type.contains(type))
+    year = request.json["year"]
+    type = "expense"
+    school_name = get_current_user_school_name()
+    if not school_name:
+        return jsonify({"error": "User's school name not found"}), 404
+
+    pay = Budget.query.filter(
+        Budget.term.contains(term),
+        Budget.year.contains(year),
+        Budget.type.contains(type),
+        Budget.school_name == school_name
+    )
     lst = pay.order_by(desc(Budget.created_date))
     result = school_schema.dump(lst)
     return jsonify(result)
 
 
-
-@school.route("/search_income_budget_dates",methods=["POST"])
+@school.route("/search_income_budget_dates", methods=["POST"])
 @flask_praetorian.auth_required
 def search_income_budget_dates():
     term = request.json["term"]
-    year =request.json["year"]
-    type ="income"
-    # print(date)
-    pay = Budget.query.filter(Budget.term.contains(term), Budget.year.contains(year),Budget.type.contains(type))
+    year = request.json["year"]
+    type = "income"
+    school_name = get_current_user_school_name()
+    if not school_name:
+        return jsonify({"error": "User's school name not found"}), 404
+
+    pay = Budget.query.filter(
+        Budget.term.contains(term),
+        Budget.year.contains(year),
+        Budget.type.contains(type),
+        Budget.school_name == school_name
+    )
     lst = pay.order_by(desc(Budget.created_date))
     result = school_schema.dump(lst)
     return jsonify(result)
 
 
-
+def get_current_user_school_name():
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    return user.school_name if user else None
 
 
 @school.route("/search_expense_dates_two", methods=["POST"])
@@ -2287,6 +2318,9 @@ def search_income_budget_dates():
 def search_expense_dates_two():
     date = request.json.get("date")
     date_two = request.json.get("datetwo")
+    school_name = get_current_user_school_name()
+    if not school_name:
+        return jsonify({"error": "User's school name not found"}), 404
 
     if not date or not date_two:
         return jsonify({"error": "Both 'date' and 'datetwo' must be provided"}), 400
@@ -2296,7 +2330,8 @@ def search_expense_dates_two():
             or_(
                 Expenses.date.contains(date),
                 Expenses.date.contains(date_two)
-            )
+            ),
+            Expenses.school_name == school_name
         ).order_by(desc(Expenses.date)).all()
 
         result = school_schema.dump(pay)
@@ -2304,6 +2339,7 @@ def search_expense_dates_two():
     except Exception as e:
         print(f"Error occurred: {e}")
         return jsonify({"error": "An error occurred while fetching data"}), 500
+
 
 
 @school.route("/add_schedule",methods=["POST"])
