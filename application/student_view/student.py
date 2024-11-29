@@ -2124,7 +2124,7 @@ def promote_student():
 
 
  
-@student.route("/repeat_student")
+@student.route("/repeat_student",methods=["POST","GET"])
 @flask_praetorian.auth_required
 def repeat_student():
     
