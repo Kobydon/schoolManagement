@@ -2060,7 +2060,53 @@ def delete_grading():
 
     # Update each matching BroadSheet entry
     for bd in broadsheets:
-        setattr(bd, subject_name, "")  # Dynamically set attribute to an empty string
+          if (subject_name=="Numeracy"):
+                bd.numeracy = ""
+
+          if (subject_name=="Literacy"):
+                bd.literacy = ""
+                      
+          if (subject_name=="Writing"):
+                bd.numeracy = ""
+                                 
+          if (subject_name=="Science"):
+                bd.science = ""
+                
+          if (subject_name=="English"):
+                bd.english = ""
+                
+          if (subject_name=="Mathematics" or subject_name=="Math"):
+                bd.math = ""
+                
+          if (subject_name=="RME"):
+                bd.rme = ""
+                
+          if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" or subject_name=="Creative Art" ):
+                bd.creativeart = ""
+                
+          if (subject_name=="Social Studies" or subject_name=="Social" ):
+                bd.social = ""
+                
+          if (subject_name=="Computing" or  subject_name=="ICT"):
+                bd.computing = ""
+                
+          if (subject_name=="French" or subject_name=="FRENCH"):
+                bd.french = ""
+                
+          if (subject_name=="History"):
+                bd.history = ""
+                
+          if (subject_name=="OWOP" or subject_name=="O.W.O.P"):
+                bd.owop = ""
+                
+                
+          if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name=="Twi" or "GA-LANGUAGE"):
+                bd.ghanalanguage = ""
+
+                    
+          if (subject_name=="Career Tech" or subject_name=="Career Technology" or subject_name=="Carer Tech"):
+                bd.careertech = ""
+            
 
     # Delete all matching grading entries
     for entry in grading_entries:
