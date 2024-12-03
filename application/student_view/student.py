@@ -73,14 +73,14 @@ def add_student():
         student_number = f"{school_name[:2]}{cc}"
 
     # Check if student already exists
-    existing_student = Student.query.filter(
-        Student.first_name.contains(first_name),
-        Student.last_name.contains(last_name),
-        Student.other_name.contains(other_name)
-    ).first()
+    # existing_student = Student.query.filter(
+    #     Student.first_name.contains(first_name),
+    #     Student.last_name.contains(last_name),
+    #     Student.other_name.contains(other_name)
+    # ).first()
 
-    if existing_student:
-        return jsonify("Student already exists"), 200
+    # if existing_student:
+    #     return jsonify("Student already exists"), 200
 
     # Create new Student, BroadSheet, and User entries
     std = Student(
@@ -195,8 +195,8 @@ def add_student_b_excel():
         (Student.first_name + " " + Student.other_name + " " + Student.last_name) == student_name
     ).first()
 
-    if check_std:
-        return jsonify("Record already exists"), 200
+    # if check_std:
+    #     return jsonify("Record already exists"), 200
 
     # Create new Student, BroadSheet, and User entries
     std = Student(
