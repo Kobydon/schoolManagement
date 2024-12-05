@@ -1777,81 +1777,80 @@ def search_house():
       std = Student.query.filter_by(class_name=class_name,school_name=user.school_name)
       result = student_schema.dump(std)
       return jsonify(result)
-@student.route("/add_general_remark",methods=['POST'])
+
+      
+@student.route("/add_general_remark", methods=['POST'])
 @flask_praetorian.auth_required
 def add_general_remark():
-        user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-        cl = Class.query.filter_by(staff_number= user.username).first()
-        acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-        
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+    cl = Class.query.filter_by(staff_number=user.username).first()
+    acd = Academic.query.filter_by(school_name=user.school_name, status="current").first()
+
+    # Validate if the request data is a list
+    try:
+        data_list = request.json
+        if not isinstance(data_list, list):
+            raise ValueError("Expected a list of remark objects")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+    term = acd.term
+    year = acd.year
+    created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
+    class_name = cl.class_name
+    created_by_id = flask_praetorian.current_user().id
+
+    # Prepare the list of GeneralRemark objects
+    new_remarks = []
+    for data in data_list:
         try:
-            student_number =request.json["student_number"]
-        except:
-            student_number=""
-            
-        try:
-                name =request.json["Name"]
-        except:
-            first_name= ""
-        
-        try:
-                last_name =request.json["last_name"]
-        except:
-            last_name= ""
-           
-        try:
-            attendance = request.json["Attendace(0 OUT OF total attendance)"]
-        except:
-            attendance=""
-           
-        try:    
-            attitude =request.json["attitude"]
-        except:
-            attitude=""
-            
-        try:
-            
-            conduct =request.json["conduct"]
-        except:
-            conduct =""
-        try:
-            interest =request.json["interest"]
-        except:
-             interest =""
-        try:
-            headmaster_remark=request.json["headmaster_remark"]
-        
-        except:
-             headmaster_remark=""
-        try:
-            teacher_remark= request.json["teacher_remark"]
-            
-        except:
-             teacher_remark= ""
-        # acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-        term = acd.term
-        today = datetime.today()
-        year=  acd.year
-        created_date =datetime.now().strftime('%Y-%m-%d %H:%M')
-        class_name = cl.class_name
-        created_by_id =flask_praetorian.current_user().id
-        
-        gdi = GeneralRemark.query.filter_by(student_number=student_number,year=year,term=term).first()
-        if gdi:
-            return jsonify("Skip")
-        else:
-            my_obj = GeneralRemark(attitude=attitude,interest=interest,conduct=conduct,attendance=attendance,
-                                teacher_remark=teacher_remark,headmaster_remark=headmaster_remark,first_name=name,
-                                term=term,year=year,student_number=student_number,class_name=class_name,
-                                created_by_id=created_by_id)
-            db.session.add(my_obj)
+            student_number = data.get("student_number", "")
+            name = data.get("Name", "")
+            last_name = data.get("last_name", "")
+            attendance = data.get("Attendance(0 OUT OF total attendance)", "")
+            attitude = data.get("attitude", "")
+            conduct = data.get("conduct", "")
+            interest = data.get("interest", "")
+            headmaster_remark = data.get("headmaster_remark", "")
+            teacher_remark = data.get("teacher_remark", "")
+
+            # Check for duplicate
+            existing_remark = GeneralRemark.query.filter_by(student_number=student_number, year=year, term=term).first()
+            if not existing_remark:
+                remark_obj = GeneralRemark(
+                    attitude=attitude,
+                    interest=interest,
+                    conduct=conduct,
+                    attendance=attendance,
+                    teacher_remark=teacher_remark,
+                    headmaster_remark=headmaster_remark,
+                    first_name=name,
+                    term=term,
+                    year=year,
+                    student_number=student_number,
+                    class_name=class_name,
+                    created_by_id=created_by_id,
+                    created_date=created_date
+                )
+                new_remarks.append(remark_obj)
+        except Exception as e:
+            return jsonify({"error": f"Error processing student_number {student_number}: {str(e)}"}), 400
+
+    # Bulk insert
+    try:
+        if new_remarks:
+            db.session.bulk_save_objects(new_remarks)
             db.session.commit()
-            db.session.close()
-        resp = jsonify("success")
-        resp.status_code=200
-        return resp
-        
-        
+        else:
+            return jsonify({"message": "No new remarks to add"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Database error: {str(e)}"}), 500
+    finally:
+        db.session.close()
+
+    return jsonify({"message": "All remarks saved successfully"}), 200
+
         
         
 @student.route("/update_general_remark",methods=['PUT'])
