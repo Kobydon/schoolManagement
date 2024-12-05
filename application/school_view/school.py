@@ -654,7 +654,7 @@ def add_staff():
       school_name = sch.school_name
       n = random.randint(0,100)
       first_three = sch.school_name[:3] + str(n)
-      staff_number = first_three
+      staff_number = request.json["staff_number"]
       national_id = request.json["national_id"]
       
       bank_name =request.json["bank_name"]
@@ -751,6 +751,13 @@ def update_staff():
             
       except:
              stf_data.gender =""
+
+      try:
+              
+            stf_data.staff_number =request.json["staff_number"]
+            
+      except:
+             stf_data.staff_number =""
       try:
           first_name= request.json["first_name"]
           stf_data.firstname =first_name
@@ -3398,3 +3405,26 @@ def delete_budget(id):
 
 
 
+@student.route("/delete_general_remarks", methods=['POST'])
+@flask_praetorian.auth_required
+def delete_general_remarks():
+    data = request.json.get('items', [])
+    
+    if not data:
+        return jsonify({"error": "No items provided"}), 400
+    
+    try:
+        # Collect all IDs or criteria for deletion
+        ids_to_delete = [item.get('id') for item in data if 'id' in item]
+        
+        if not ids_to_delete:
+            return jsonify({"error": "No valid IDs found"}), 400
+
+        # Delete all matching records in one go
+        GeneralRemark.query.filter(GeneralRemark.id.in_(ids_to_delete)).delete(synchronize_session='fetch')
+        db.session.commit()
+        
+        return jsonify({"message": "Deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
