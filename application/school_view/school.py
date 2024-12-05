@@ -3405,7 +3405,7 @@ def delete_budget(id):
 
 
 
-@student.route("/delete_general_remarks", methods=['POST'])
+@school.route("/delete_general_remarks", methods=['POST'])
 @flask_praetorian.auth_required
 def delete_general_remarks():
     data = request.json.get('items', [])
