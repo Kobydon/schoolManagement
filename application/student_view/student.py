@@ -1752,7 +1752,7 @@ def add_general_remark():
             student_number = data.get("student_number", "")
             name = data.get("Name", "")
             last_name = data.get("last_name", "")
-            attendance = data.get("Attendance(0 OUT OF total attendance)", "")
+            attendance = data.get("Attendace(0 OUT OF total attendance)", "")
             attitude = data.get("attitude", "")
             conduct = data.get("conduct", "")
             interest = data.get("interest", "")
