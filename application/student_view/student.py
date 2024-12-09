@@ -995,11 +995,23 @@ def all_total():
             bd = BroadSheet.query.filter_by(student_number=student_number).first()
             c =bd.class_name
             classe = Class.query.filter_by(class_name=bd.original_class_name).first()
-            if (int(classe.grade_together) > 0):
-                     brd =  BroadSheet.query.filter_by(class_name=c,school_name=user.school_name, term =term,year=acd.year)
+            if int(classe.grade_together) > 0:
+    # Fetch broadsheet records based on the combined grade condition
+                brd = BroadSheet.query.filter_by(
+                    class_name=c,
+                    school_name=user.school_name,
+                    term=term,
+                    year=acd.year
+                ).filter(BroadSheet.class_name != "graduate")
             else:
-                brd =  BroadSheet.query.filter_by(original_class_name=bd.original_class_name,school_name=user.school_name, term =term,year=acd.year)
-       
+            # Fetch broadsheet records based on the original class name 
+                brd = BroadSheet.query.filter_by(
+                    original_class_name=bd.original_class_name,
+                    school_name=user.school_name,
+                    term=term,
+                    year=acd.year
+                ).filter(BroadSheet.class_name != "graduate")
+
         except :
             jsonify("not found")
        
@@ -1856,29 +1868,35 @@ def update_general_remark():
         resp.status_code=201
         return resp
         
-@student.route("/get_broadsheet",methods=['GET'])
+@student.route("/get_broadsheet", methods=["GET"])
 @flask_praetorian.auth_required
 def get_broadsheet():
-    user = User.query.filter_by(id= flask_praetorian.current_user().id).first()
-    stf = Staff.query.filter_by(staff_number=user.username).first()
-    clas = Class.query.filter_by(staff_number = stf.staff_number).first()
-    # if (clas.class_name =="JHS 1A" or clas.class_name=="JHS 1B"):
-    #                 c_name = clas.class_name[:5] 
-                    
-    # elif (clas.class_name =="JHS 2A" or clas.class_name=="JHS 2B"):
-    #                 c_name = clas.class_name[:5] 
-  
-    
-    # else:
-    #     c_name =clas.class_name
-  
-    acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
-    rmk = BroadSheet.query.filter_by(school_name=user.school_name
-                                      ,original_class_name=clas.class_name,term =acd.term ,year=acd.year)
-    la = rmk.order_by(desc(BroadSheet.all_total))
-    result = student_schema.dump(la)
-    return jsonify(result) 
+    # Fetch the current user
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
 
+    # Get the associated staff member and class details
+    staff = Staff.query.filter_by(staff_number=user.username).first()
+    assigned_class = Class.query.filter_by(staff_number=staff.staff_number).first()
+
+    # Retrieve the current academic session
+    academic = Academic.query.filter_by(
+        school_name=user.school_name, status="current"
+    ).first()
+
+    # Filter the broadsheet records
+    broadsheet_records = BroadSheet.query.filter_by(
+        school_name=user.school_name,
+        original_class_name=assigned_class.class_name,
+        term=academic.term,
+        year=academic.year
+    ).filter(BroadSheet.class_name != "graduate")
+
+    # Order the results by total marks in descending order
+    ordered_records = broadsheet_records.order_by(desc(BroadSheet.all_total))
+
+    # Serialize the result and return as JSON
+    result = student_schema.dump(ordered_records)
+    return jsonify(result)
 
 
 
