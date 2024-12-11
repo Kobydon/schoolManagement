@@ -27,7 +27,7 @@ def fetch_student_names():
     student_names = {}
     try:
         students = db.session.query(
-            Student.student_number,
+            Student.student_number,Student.school_name,
             func.concat(
                 Student.last_name, ' ', Student.other_name, ' ', Student.first_name
             ).label('full_name')
