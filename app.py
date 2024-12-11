@@ -60,6 +60,35 @@ def update_broad_sheet_student_name():
     finally:
         db.session.close()
 
+
+def add_broad_sheet_student_name_all():
+    student_names = fetch_student_names()
+
+    try:
+        for student_number, full_name in student_names.items():
+            # Check if the student already exists
+            existing_student = db.session.query(BroadSheet).filter(
+                BroadSheet.student_number == student_number
+            ).first()
+            
+            # Add a new record if the student doesn't exist
+            if not existing_student:
+                new_student = BroadSheet(
+                    student_number=student_number,
+                    student_name=full_name
+                )
+                db.session.add(new_student)
+
+        db.session.commit()
+        print("Addition successful!")
+    except Exception as e:
+        db.session.rollback()
+        print(f"An error occurred: {e}")
+    finally:
+        db.session.close()
+
+
+
 if __name__ == '__main__':
     with app.app_context():
         update_broad_sheet_student_name()
