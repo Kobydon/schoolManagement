@@ -75,7 +75,7 @@ def add_broad_sheet_student_name_all():
             if not existing_student:
                 new_student = BroadSheet(
                     student_number=student_number,
-                    student_name=full_name
+                    student_name=full_name,all_total="0"
                 )
                 db.session.add(new_student)
 
@@ -89,10 +89,7 @@ def add_broad_sheet_student_name_all():
 
 
 
-if __name__ == '__main__':
-    with app.app_context():
-        update_broad_sheet_student_name()
-        db.create_all()
+
 
 
 # Call the function to update
@@ -109,6 +106,7 @@ app =app
 
 if __name__ == '__main__':
     with app.app_context():
+        add_broad_sheet_student_name_all
         update_broad_sheet_student_name()
         db.create_all()
     # with app.app_context():
