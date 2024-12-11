@@ -65,7 +65,7 @@ def add_broad_sheet_student_name_all():
     student_names = fetch_student_names()
 
     try:
-        for student_number, full_name in student_names.items():
+        for student_number,school_name, full_name in student_names.items():
             # Check if the student already exists
             existing_student = db.session.query(BroadSheet).filter(
                 BroadSheet.student_number == student_number
@@ -75,7 +75,7 @@ def add_broad_sheet_student_name_all():
             if not existing_student:
                 new_student = BroadSheet(
                     student_number=student_number,
-                    student_name=full_name,all_total="0"
+                    student_name=full_name,all_total="0",school_name =school_name
                 )
                 db.session.add(new_student)
 
@@ -106,7 +106,7 @@ app =app
 
 if __name__ == '__main__':
     with app.app_context():
-        add_broad_sheet_student_name_all
+        add_broad_sheet_student_name_all()
         update_broad_sheet_student_name()
         db.create_all()
     # with app.app_context():
