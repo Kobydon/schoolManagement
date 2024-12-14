@@ -106,7 +106,7 @@ app =app
 
 if __name__ == '__main__':
     with app.app_context():
-        add_broad_sheet_student_name_all()
+        # add_broad_sheet_student_name_all()
         update_broad_sheet_student_name()
         db.create_all()
     # with app.app_context():

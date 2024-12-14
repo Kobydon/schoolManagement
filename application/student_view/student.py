@@ -842,6 +842,16 @@ def add_result_by_excel():
                         score=""
 
 
+
+                if (total in range(0,40)):
+                    
+                   
+                        grade   = "D"
+                        remark  = "Developing"
+                        score=""
+
+
+
         
 
           grade = Grading(name=name, subject_name= subject_name,remark=remark,class_score=new_class_score,created_date=created_date,term=acd.term,year=acd.year,grade=grade,score=score,
@@ -1975,7 +1985,9 @@ def get_search_broadsheet_class():
 @student.route("/get_general_remark",methods=['GET'])
 @flask_praetorian.auth_required
 def get_general_remark():
-    rmk = GeneralRemark.query.filter_by(created_by_id =flask_praetorian.current_user().id)
+    usr = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    acd=Academic.query.filter_by(school_name=usr.school_name,status="current").first()
+    rmk = GeneralRemark.query.filter_by(created_by_id =flask_praetorian.current_user().id,term=acd.term,year=acd.year)
     result = student_schema.dump(rmk)
     return jsonify(result)
 @student.route("/delete_remark/<id>",methods=['DELETE'])
