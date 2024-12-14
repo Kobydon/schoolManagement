@@ -841,6 +841,12 @@ def add_result_by_excel():
                         remark  = "Developing"
                         score=""
 
+                if (total in range(0,40)):
+                    
+                   
+                        grade   = "D"
+                        remark  = "Developing"
+                        score=""
 
 
                 if (total in range(0,40)):
