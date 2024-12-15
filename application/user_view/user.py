@@ -357,6 +357,14 @@ def add_ticket():
 
 
 
+@user.route("/tickets")
+@flask_praetorian.auth_required
+def tickets():
+
+    user_tickets = Ticket.query.filter_by(user_id=flask_praetorian.current_user().id).order_by(Ticket.id.desc()).all()
+    result = user_schema.dump(user_tickets)
+    return jsonify(result)
+
 @user.route("/all_tickets")
 @flask_praetorian.auth_required
 def all_tickets():
