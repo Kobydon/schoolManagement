@@ -75,7 +75,7 @@ def add_broad_sheet_student_name_all():
             if not existing_student:
                 new_student = BroadSheet(
                     student_number=student_number,
-                    student_name=full_name,all_total="0",school_name =school_name,class_name=class_name,original_class_name=class_name
+                    student_name=full_name,all_total="0",school_name =school_name,class_name=class_name,original_class_name=class_name,term="1",year="2024/2025"
                 )
                 db.session.add(new_student)
 
