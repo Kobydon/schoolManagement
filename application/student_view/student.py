@@ -127,9 +127,9 @@ def add_student():
     )
 
     # Add and commit to the database
-    db.session.add(std)
+    # db.session.add(std)
     db.session.add(bd)
-    db.session.add(user_entry)
+    # db.session.add(user_entry)
     db.session.commit()
 
     return jsonify("success"), 200
