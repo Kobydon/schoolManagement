@@ -27,7 +27,7 @@ def fetch_student_names():
     student_names = {}
     try:
         students = db.session.query(
-            Student.student_number,Student.school_name,
+            Student.student_number,Student.school_name,Student.class_name,
             func.concat(
                 Student.last_name, ' ', Student.other_name, ' ', Student.first_name
             ).label('full_name')
@@ -75,7 +75,7 @@ def add_broad_sheet_student_name_all():
             if not existing_student:
                 new_student = BroadSheet(
                     student_number=student_number,
-                    student_name=full_name,all_total="0",school_name =school_name
+                    student_name=full_name,all_total="0",school_name =school_name,class_name=class_name,original_class_name=class_name,term="1",year="2024/2025"
                 )
                 db.session.add(new_student)
 
@@ -106,7 +106,7 @@ app =app
 
 if __name__ == '__main__':
     with app.app_context():
-        # add_broad_sheet_student_name_all()
+        add_broad_sheet_student_name_all()
         update_broad_sheet_student_name()
         db.create_all()
     # with app.app_context():

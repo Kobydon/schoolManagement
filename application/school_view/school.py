@@ -1181,6 +1181,13 @@ def add_scheme():
 
 
 
+@school.route("/get_scheme",methods=['GET'])
+@flask_praetorian.auth_required
+def get_scheme():
+    user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+    subj = Scheme.query.filter_by(school_name=user.school_name).all()
+    result = schema_schema.dump(subj)
+    return jsonify(result)
 
 
 
