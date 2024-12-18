@@ -95,7 +95,7 @@ def add_student():
         admitted_year=admitted_year,
         residential_status=residential_status,
         class_name=class_name,
-        student_number=request.json["student_number"],
+        student_number=student_number,
         picture=picture,
         school_name=school_name,
         created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
@@ -105,7 +105,7 @@ def add_student():
     bd = BroadSheet(
         student_name=student_name,
         class_name=c_name,
-        student_number=student_number,
+        student_number=request.json["student_number"],
         school_name=school_name,
         original_class_name=class_name,
         current_status="",
@@ -127,9 +127,9 @@ def add_student():
     )
 
     # Add and commit to the database
-    # db.session.add(std)
+    db.session.add(std)
     db.session.add(bd)
-    # db.session.add(user_entry)
+    db.session.add(user_entry)
     db.session.commit()
 
     return jsonify("success"), 200
