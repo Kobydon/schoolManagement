@@ -1958,10 +1958,15 @@ def search_broadsheet():
     
     # else:
     #     c_name =class_name
-        
-    bd = BroadSheet.query.filter_by(original_class_name= class_name ,   term=term , year=year,school_name=user.school_name)
+    bd = BroadSheet.query.filter_by( original_class_name=class_name, term=term, year=year, school_name=user.school_name).filter(BroadSheet.class_name != "Graduate")
+
+# Order the results by 'all_total' in descending order
     la = bd.order_by(desc(BroadSheet.all_total))
+
+# Serialize the result using student_schema
     result = student_schema.dump(la)
+
+# Return the serialized result as JSON
     return jsonify(result)
           
 @student.route("/get_search_broadsheet_class",methods=["POST","GET"])
@@ -1982,7 +1987,7 @@ def get_search_broadsheet_class():
     # else:
     #     c_name =class_name
         
-    bd = BroadSheet.query.filter(BroadSheet.original_class_name== class_name ,BroadSheet.school_name==user.school_name,
+    bd = BroadSheet.query.filter(BroadSheet.original_class_name== class_name ,BroadSheet.school_name==user.school_name,BroadSheet.class_name != "Graduate",
                                  BroadSheet.current_status.in_(['new',""]))
     la = bd.order_by(desc(BroadSheet.all_total))
     result = student_schema.dump(la)
