@@ -741,7 +741,7 @@ def add_result_by_excel():
           tl = class_score + exams_score
 
           total = int(class_score) + int(exams_score) 
-          if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+          if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
             if (total in range(80,101)):
                 remark  = "Highest"
                 
@@ -1262,7 +1262,7 @@ def update_grade():
           total = int(e_score) + int(cscore)
           grade="A"
           score =0
-          if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+          if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
             if (total in range(80,101)):
                 Grade.remark  = "Highest"
                 
