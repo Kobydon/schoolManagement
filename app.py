@@ -88,6 +88,47 @@ def add_broad_sheet_student_name_all():
         db.session.close()
 
 
+def update_broadsheet_aggregate(session, term="1", class_names=None):
+    """
+    Update the 'aggregate' field in the BroadSheet table by summing scores from the Grading table
+    for a specific term and class names.
+    
+    :param session: SQLAlchemy database session
+    :param term: The academic term (default is "1")
+    :param class_names: List of class names to filter (e.g., ["Basic 7", "Basic 8", "Basic 9"])
+    """
+    if class_names is None:
+        class_names = ["Basic 7", "Basic 8", "Basic 9"]
+
+    try:
+        # Subquery to calculate the aggregate
+        subquery = (
+            session.query(db.func.sum(Grading.score).label("aggregate"))
+            .filter(
+                Grading.student_number == BroadSheet.student_number,
+                Grading.term == term
+            )
+            .limit(6)
+            .correlate(None)  # Prevent auto-correlation issues
+        )
+
+        # Update the BroadSheet table
+        session.query(BroadSheet).filter(
+            BroadSheet.term == term,
+            BroadSheet.class_name.in_(class_names)
+        ).update(
+            {"aggregate": subquery.scalar_subquery()},
+            synchronize_session=False
+        )
+
+        # Commit the changes
+        session.commit()
+        print("BroadSheet aggregates updated successfully.")
+
+    except Exception as e:
+        # Rollback in case of error
+        session.rollback()
+        print(f"An error occurred: {e}")
 
 
 
@@ -106,13 +147,19 @@ app =app
 
 if __name__ == '__main__':
     with app.app_context():
-        # add_broad_sheet_student_name_all()
-        update_broad_sheet_student_name()
-        db.create_all()
-    # with app.app_context():
-        
+        try:
+            # Ensure database tables are created
+            db.create_all()
 
+            # Perform BroadSheet updates
+            update_broadsheet_aggregate(db.session, term="1", class_names=["Basic 7", "Basic 8", "Basic 9"])
+            update_broad_sheet_student_name()
 
-    app.run(debug=True)
+            print("BroadSheet updates completed successfully.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
     
+    # Start the Flask application
+    app.run(debug=True)
+
     # app.run(debug='True')
