@@ -88,7 +88,7 @@ def add_broad_sheet_student_name_all():
         db.session.close()
 
 
-def update_broadsheet_aggregate(session, term="1", class_names=None):
+def update_broadsheet_aggregate( term="1", class_names=None):
     """
     Update the 'aggregate' field in the BroadSheet table by summing scores from the Grading table
     for a specific term and class names.
@@ -103,7 +103,7 @@ def update_broadsheet_aggregate(session, term="1", class_names=None):
     try:
         # Subquery to calculate the aggregate
         subquery = (
-            session.query(db.func.sum(Grading.score).label("aggregate"))
+            db.session.query(db.func.sum(Grading.score).label("aggregate"))
             .filter(
                 Grading.student_number == BroadSheet.student_number,
                 Grading.term == term
@@ -122,12 +122,12 @@ def update_broadsheet_aggregate(session, term="1", class_names=None):
         )
 
         # Commit the changes
-        session.commit()
+        db.session.commit()
         print("BroadSheet aggregates updated successfully.")
 
     except Exception as e:
         # Rollback in case of error
-        session.rollback()
+        db.session.rollback()
         print(f"An error occurred: {e}")
 
 
@@ -152,7 +152,7 @@ if __name__ == '__main__':
             # db.create_all()
 
             # Perform BroadSheet updates
-            update_broadsheet_aggregate(db.session, term="1", class_names=["Basic 7", "Basic 8", "Basic 9"])
+            update_broadsheet_aggregate( term="1", class_names=["Basic 7", "Basic 8", "Basic 9"])
             update_broad_sheet_student_name()
 
             print("BroadSheet updates completed successfully.")
