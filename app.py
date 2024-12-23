@@ -149,7 +149,7 @@ if __name__ == '__main__':
     with app.app_context():
         try:
             # Ensure database tables are created
-            db.create_all()
+            # db.create_all()
 
             # Perform BroadSheet updates
             update_broadsheet_aggregate(db.session, term="1", class_names=["Basic 7", "Basic 8", "Basic 9"])
