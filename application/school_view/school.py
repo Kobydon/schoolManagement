@@ -2581,7 +2581,7 @@ def update_scheme_default():
 def add_sba():
     user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
     name= request.json["name"]
-    category =request.json["category"],
+    category =request.json["category"]
     percentage =request.json["percentage"]
     default =""
     # usr = user.firstname +" " + user.lastname

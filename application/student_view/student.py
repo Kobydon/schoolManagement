@@ -511,7 +511,7 @@ def add_grade():
           new_exams_score = float(exams_score)
           grade=0
           score ="A"
-          if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):
+          if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
             if (total in range(80,101)):
                 remark  = "Highest"
                 
@@ -943,7 +943,7 @@ def add_result_by_excel():
           except:
                 return jsonify("skip")
          
-          if any(x in class_name.lower() for x in["jhs","basic7","basic8","basic9"]):  
+          if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):  
                 aggregate = sum(int(student.score) for student in agre_score)
                 bd.aggregate = aggregate
                 

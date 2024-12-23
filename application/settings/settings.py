@@ -31,9 +31,7 @@ app.secret_key = 'secrete key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://sus_fk82_user:ezIVJH1XIZP5YZ1P3plzY8Ph8Ptv31jB@dpg-co3jbnv79t8c738oknj0-a.oregon-postgres.render.com/sus_fk82'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hotel.db'
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://school_m_s_user:BfTF3CSQScKwManKwahxxXTKAVnJgRZz@dpg-cnb1200cmk4c73a6baig-a.oregon-postgres.render.com/school_m_s'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hotel.db'
-#local_database = tempfile.NamedTemporaryFile(prefix="local", suffix=".db")
+
 app.config['SECRET_KEY'] = '0527'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['TESTING'] = False
