@@ -979,83 +979,76 @@ def add_result_by_excel():
           resp = jsonify("Success")
           resp.status_code=200
           return  resp            
-
-
-@student.route("/all_total", methods=["POST"])
+        
+        
+@student.route("/all_total",methods=["POST"])
 @flask_praetorian.auth_required
 def all_total():
-    all_total = request.json["all_total"]
-    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+        all_total = request.json["all_total"]
+        # canpost = request.json["canpost"]
+        # tot =int(all_total)
+        user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
+        
 
-    student_number = request.json["student_number"]
-    subject_name = request.json["subject_name"]
-
-    # Get the current academic term and year
-    acd = Academic.query.filter_by(school_name=user.school_name, status="current").first()
-    term = acd.term
-    today = datetime.today()
-    year = today.year
-
-    brd = ""
-    try:
-        # Get the broad sheet record for the student
-        bd = BroadSheet.query.filter_by(student_number=student_number).first()
-        c = bd.class_name
-        classe = Class.query.filter_by(class_name=bd.original_class_name).first()
-
-        if int(classe.grade_together) > 0:
-            # Fetch broadsheet records based on the combined grade condition
-            brd = BroadSheet.query.filter_by(
-                class_name=c,
-                school_name=user.school_name,
-                term=term,
-                year=acd.year
-            ).filter(BroadSheet.class_name != "graduate")
-        else:
-            # Fetch broadsheet records based on the original class name
-            brd = BroadSheet.query.filter_by(
-                original_class_name=bd.original_class_name,
-                school_name=user.school_name,
-                term=term,
-                year=acd.year
-            ).filter(BroadSheet.class_name != "graduate")
-
-    except:
-        return jsonify("not found"), 404
-
-    if brd:
-        # Rank students based on 'all_total' in descending order
-        lst1 = brd.order_by(cast(BroadSheet.all_total, Float).desc()).all()
-
-        rank = 1
-        for student in lst1:
-            # Determine the rank suffix based on the rank number
-            if rank == 1:
-                student.pos = "1st"
-            elif rank == 2:
-                student.pos = "2nd"
-            elif rank == 3:
-                student.pos = "3rd"
-            else:
-                # For all other ranks, determine the suffix (11th, 12th, 13th, etc.)
-                if 10 <= rank % 100 <= 20:
-                    student.pos = f"{rank}th"
-                else:
-                    suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(rank % 10, 'th')
-                    student.pos = f"{rank}{suffix}"
-
-            # Increment rank for the next student
-            rank += 1
-
-        # Commit the changes to the database
-        db.session.commit()
-        db.session.close()
-
-        # Respond with success message
-        resp = jsonify("Success")
-        resp.status_code = 200
-        return resp
   
+  
+ 
+        student_number = request.json["student_number"]
+        subject_name=  request.json["subject_name"]
+    # t = Student.query.filter_by(student_number=student_number).first()
+    # bd  = BroadSheet.query.filter_by(student_number=student_number).first()
+    
+    
+        
+   
+        acd = Academic.query.filter_by(school_name=user.school_name,status="current").first()
+        term = acd.term
+        today = datetime.today()
+        year=  today.year
+        brd=""
+        # std = Student.query.filter_by(student_number=student_number).first()
+        try:
+            bd = BroadSheet.query.filter_by(student_number=student_number).first()
+            c =bd.class_name
+            classe = Class.query.filter_by(class_name=bd.original_class_name).first()
+            if int(classe.grade_together) > 0:
+    # Fetch broadsheet records based on the combined grade condition
+                brd = BroadSheet.query.filter_by(
+                    class_name=c,
+                    school_name=user.school_name,
+                    term=term,
+                    year=acd.year
+                ).filter(BroadSheet.class_name != "graduate")
+            else:
+            # Fetch broadsheet records based on the original class name 
+                brd = BroadSheet.query.filter_by(
+                    original_class_name=bd.original_class_name,
+                    school_name=user.school_name,
+                    term=term,
+                    year=acd.year
+                ).filter(BroadSheet.class_name != "graduate")
+
+        except :
+            jsonify("not found")
+       
+       
+     
+        if not brd =="":
+            lst1= brd.order_by(cast(BroadSheet.all_total, Float).desc()).all()
+      
+            rank = 1
+            for student in lst1:
+                if rank =="1":
+                    rank ="1st"
+                student.pos = rank
+                rank += 1
+        
+    # Perform database operations
+        db.session.commit()
+        db.session.close()      
+        resp = jsonify("Success")
+        resp.status_code=200
+        return  resp            
         
             
  
