@@ -199,6 +199,25 @@ def get_school_detail():
     result = school_schema.dump(sch)
     return jsonify(result)
 
+
+
+
+
+@school.route("/get_school_details", methods=['GET'])
+@flask_praetorian.auth_required
+def get_school_details():
+    # Get the current authenticated user
+    user = User.query.filter_by(id=flask_praetorian.current_user().id).first()
+   
+    # Get the school details for the user's school
+    sch = School.query.filter_by(school_name=user.school_name).all()
+    if not sch:
+        return jsonify({"error": "School not found"}), 404
+
+    # Serialize the school data
+    result = school_schema.dump(sch)
+    return jsonify(result)
+
 def update_countdown(user):
     try:
         # Get the current date
@@ -2674,6 +2693,28 @@ def update_sba():
     db.session.close()
     resp = jsonify("success")
     resp.status_code =201
+    return resp
+
+
+@school.route("/update_sba_default", methods=['PUT'])
+@flask_praetorian.auth_required
+def update_sba_default():
+    id = request.json.get("id")
+    status = request.json.get("status")  # "1" or ""
+
+    sba = SBA.query.filter_by(id=id).first()
+
+    if not sba:
+        return jsonify("SBA not found"), 404
+
+    # ✅ NO unsetting of other SBAs
+    sba.default = status
+
+    db.session.commit()
+    db.session.close()
+
+    resp = jsonify("success")
+    resp.status_code = 201
     return resp
 
 @school.route("/delete_sba/<id>",methods=['DELETE'])

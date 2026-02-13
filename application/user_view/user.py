@@ -235,7 +235,20 @@ def delete_user(id):
 @flask_praetorian.auth_required
 def get_user_details(id):
     # id = request.json["id"]
-    info = db.session.query(User).filter_by(id=id).all()
+    info = db.session.query(User).filter_by(id=id).first()
+    results =one_user_schema.dump(info)
+    return jsonify(results)
+
+
+
+
+
+
+@user.route("/get_user_detail",methods=['GET'])
+@flask_praetorian.auth_required
+def get_user_detail():
+    # id = request.json["id"]
+    info = db.session.query(User).filter_by(id=flask_praetorian.current_user().id).all()
     results =user_schema.dump(info)
     return jsonify(results)
 
@@ -264,7 +277,7 @@ def update_user_profile():
             user.firstname =request.json["firstname"]
             # user.about =request.json["about"]
             user.lastname =request.json["lastname"]
-            
+            user.username = request.json["username"]
             # picture = request.json["picture"]
             # if picture is None:
             #     user.picture= user.picture
@@ -274,7 +287,7 @@ def update_user_profile():
             if password is None :
                  user.password = user.password
            
-            # user.username = request.json["username"]
+            
             else:
                  password = request.json["password"]
             # user.country = request.json["country"]

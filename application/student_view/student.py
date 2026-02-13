@@ -13,8 +13,8 @@ from flask import session
 import random
 class StudentSchema(ma.Schema):
     class Meta:
-        fields=("id","first_name","last_name","student_number","email","parent_name","admitted_year",
-                "address","residential_status","parent_phone","address","phone","created_date",
+        fields=("id","first_name","last_name","student_number","email","parent_name","admitted_year","gender",
+                "address","residential_status","phone","address","phone","created_date",
                 "form","class_name" ,"exams_score","midterm_score","class_score","total","remark","subject_name",
                 "attitude","teacher_remark","interest","headmaster_remark","conduct",
                 "attendance","class_term","grade","rank","pos","term","grade_id","staff_number","name",
@@ -28,6 +28,7 @@ class StudentSchema(ma.Schema):
 student_schema=StudentSchema(many=True)
 student = Blueprint("student", __name__)
 guard.init_app(app, User)
+
 @student.route("/add_student", methods=['POST'])
 @flask_praetorian.auth_required
 def add_student():
@@ -91,7 +92,7 @@ def add_student():
         gender=gender,
         address=address,
         email=email,
-        parent_phone=phone,
+        phone=phone,
         admitted_year=admitted_year,
         residential_status=residential_status,
         class_name=class_name,
@@ -133,7 +134,9 @@ def add_student():
     db.session.commit()
 
     return jsonify("success"), 200
-    
+
+
+# for wxcel upload  
 @student.route("/add_students_bulk", methods=['POST'])
 @flask_praetorian.auth_required
 def add_students_bulk():
@@ -209,7 +212,7 @@ def add_students_bulk():
             admitted_year=admitted_year,
             address=address,
             email=email,
-            parent_phone=phone,
+            phone=phone,
             first_name=firstname,
             last_name=last_name,
             other_name=other_name,
@@ -277,6 +280,8 @@ def get_student_by_class():
     result = student_schema.dump(la)
     return jsonify(result)
 
+
+# for deleting student when graduated or out of the school
 @student.route("/student_out",methods=["PUT"])
 @flask_praetorian.auth_required
 def student_out():
@@ -345,7 +350,7 @@ def update_student():
       class_name = request.json["class_name"]
       stf_data.last_name =request.json["last_name"]
       stf_data.email = request.json["email"]
-      stf_data.parent_phone =request.json["phone"]
+      stf_data.phone =request.json["phone"]
       stf_data.address =request.json["address"]
       stf_data.other_name =request.json["other_name"]
       stf_data.picture = picture
@@ -360,7 +365,7 @@ def update_student():
      
       
     #   course_name =request.json[""]
-      stf_data.residential_status =request.json["resedential_status"]
+      stf_data.residential_status =request.json["residential_status"]
       stf_data.admitted_year =request.json["admitted_year"]
 
       if (class_name =="JHS 1A" or class_name=="JHS 1B"):
@@ -478,40 +483,54 @@ def get_all_students():
     return jsonify(result)
 
       
-@student.route("/add_grade",methods=['POST'])
+
+ 
+@student.route("/add_grade", methods=['POST'])
 @flask_praetorian.auth_required
 def add_grade():
-          user = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-          acd=Academic.query.filter_by(school_name=user.school_name,status="current").first()
-          subject_name=  request.json["subject_name"]
-          remark  = "GOOD"
-          student_number = request.json["student_number"]
-          # stf = User.query.filter_by(id = flask_praetorian.current_user().id).first()
-          st = Student.query.filter_by(student_number = student_number).first()
-          print(st.first_name)
-          # midterm_score  = request.json["midterm_score"]
-          class_name = st.class_name
-          name = st.first_name+" "+st.other_name+" "+st.last_name
-          class_score = request.json["class_score"]
-          # total = request.json["total"]
-          exams_score =  request.json["exams_score"]
-          created_date  = datetime.now().strftime('%Y-%m-%d %H:%M')
-          school_name = user.school_name
-          student_number = request.json["student_number"]
-          term = request.json["term"]
-        
-          
-          today = datetime.today()
-          year=  today.year
-          created_by_id  = flask_praetorian.current_user().id
-          scheme = Scheme.query.filter_by(created_by_id=flask_praetorian.current_user().id).first()
-          tl = float(class_score) + float(exams_score) 
-          total = int(exams_score) + int(class_score)
-          new_class_score = float(class_score)
-          new_exams_score = float(exams_score)
-          grade=0
-          score ="A"
-          if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
+
+    from sqlalchemy import cast, Float, desc
+    from datetime import datetime
+
+    user = User.query.filter_by(
+        id=flask_praetorian.current_user().id
+    ).first()
+
+    acd = Academic.query.filter_by(
+        school_name=user.school_name,
+        status="current"
+    ).first()
+
+    subject_name = request.json["subject_name"]
+    student_number = request.json["student_number"]
+    class_score = request.json["class_score"]
+    exams_score = request.json["exams_score"]
+    term = request.json["term"]
+
+    st = Student.query.filter_by(
+        student_number=student_number
+    ).first()
+
+    class_name = st.class_name
+    name = f"{st.first_name} {st.other_name} {st.last_name}"
+
+    created_date = datetime.now().strftime('%Y-%m-%d %H:%M')
+    school_name = user.school_name
+    created_by_id = flask_praetorian.current_user().id
+
+    # 🔥 Calculate totals safely
+    tl = float(class_score) + float(exams_score)
+    total = int(float(class_score)) + int(float(exams_score))
+
+    grade_value = ""
+    score_value = ""
+    remark = "GOOD"
+
+    # ===============================
+    # GRADE CALCULATION
+    # ===============================
+
+    if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):
             if (total in range(80,101)):
                 remark  = "Highest"
                 
@@ -580,7 +599,7 @@ def add_grade():
 
 
 
-          else:
+    else:
 
                 if (total in range(80,101)):
                     remark  = "Highly Proficient"
@@ -611,52 +630,222 @@ def add_grade():
                         remark  = "Developing"
                         score=""
 
-
-             
-        
-          if (class_name =="JHS 1A" or class_name=="JHS 1B"):
-                    c_name = class_name[:5] 
+                if (total in range(0,40)):
                     
-          elif (class_name =="JHS 2A" or class_name=="JHS 2B"):
-                    c_name = class_name[:5] 
-          else:
-                c_name =class_name
-         
-        
+                   
+                        grade   = "D"
+                        remark  = "Developing"
+                        score=""
+
+
+                if (total in range(0,40)):
+                    
+                   
+                        grade   = "D"
+                        remark  = "Developing"
+                        score=""
+
+
+    # ===============================
+    # CLASS NAME ADJUSTMENT
+    # ===============================
+
+    if class_name in ["JHS 1A", "JHS 1B"]:
+        c_name = class_name[:5]
+    elif class_name in ["JHS 2A", "JHS 2B"]:
+        c_name = class_name[:5]
+    else:
+        c_name = class_name
+
+    # ===============================
+    # SAVE GRADE
+    # ===============================
+
+    new_grade = Grading(
+        name=name,
+        subject_name=subject_name,
+        remark=remark,
+        class_score=str(class_score),
+        created_date=created_date,
+        term=acd.term,
+        year=acd.year,
+        grade=grade_value,
+        score=score_value,
+        school_name=school_name,
+        original_class_name=class_name,
+        exams_score=str(exams_score),
+        created_by_id=created_by_id,
+        total=str(tl),  # stored as string
+        student_number=student_number,
+        class_name=c_name
+    )
+
+    db.session.add(new_grade)
+    db.session.commit()
+
+    # ===============================
+    # UPDATE BROADSHEET TOTAL
+    # ===============================
+    bd = BroadSheet.query.filter_by(
+        student_number=student_number,
+        term=acd.term,
+        year=acd.year
+    ).first()
+    if (subject_name=="Numeracy"):
+                bd.numeracy = tl
+
+    if (subject_name=="Literacy"):
+                bd.literacy = tl
+                      
+    if (subject_name=="Writing"):
+                bd.numeracy = tl
+                                 
+    if (subject_name=="Science"):
+                bd.science = tl
+                
+    if (subject_name=="English"):
+                bd.english = tl
+                
+    if (subject_name=="Mathematics" or subject_name=="Math"):
+                bd.math = tl
+                
+    if (subject_name=="RME"):
+                bd.rme = tl
+                
+    if (subject_name=="Creative Arts" or subject_name=="Creative Arts & Design" or subject_name=="Creative Art" ):
+                bd.creativeart = tl
+                
+    if (subject_name=="Social Studies" or subject_name=="Social" ):
+                bd.social = tl
+                
+    if (subject_name=="Computing" or  subject_name=="ICT"):
+                bd.computing = tl
+                
+    if (subject_name=="French" or subject_name=="FRENCH"):
+                bd.french = tl
+                
+    if (subject_name=="History"):
+                bd.history = tl
+                
+    if (subject_name=="OWOP" or subject_name=="O.W.O.P"):
+                bd.owop = tl
+                
+                
+    if (subject_name=="Ghanaian Language" or subject_name=="Asante Twi"  or subject_name=="Twi" or "GA-LANGUAGE"):
+                bd.ghanalanguage = tl
+
+                    
+    if (subject_name=="Career Tech" or subject_name=="Career Technology" or subject_name=="Carer Tech"):
+                bd.careertech = tl
+            
      
-          bd = db.session.query(BroadSheet).filter_by(student_number=student_number).first()
-          grading = db.session.query(Grading).filter_by(student_number=student_number).all()
-          total_marks =  db.session.query(func.sum(cast(Grading.total,Float))).filter(Grading.student_number==student_number).scalar()
-          bd.all_total = round( total_marks,1)
-          print(bd.all_total)
-                  
-          classe = Class.query.filter_by(class_name=class_name).first()
-          if(int(classe.grade_together) > 0):
-                    grd = Grading.query.filter_by(class_name= bd.class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
-          else:
-                grd = Grading.query.filter_by(original_class_name=class_name , subject_name=subject_name,school_name=user.school_name,term=term,year=acd.year)     
-          lst= grd.order_by(desc(Grading.total)).all()
-          for(rank,g) in enumerate(lst):
-          
-            g.rank = rank+1
-            
-            
+      
          
-            
-          db.session.commit()
-          db.session.close()
-          resp = jsonify("Success")
-          resp.status_code=200
-          return  resp     
+    agre_score= Grading.query.filter_by(student_number=student_number,term=acd.term,year=acd.year).order_by(Grading.score.asc()).limit(6).all()
+        #   best_three = agre_score[:6]
+    try:
+            bd = db.session.query(BroadSheet).filter_by(student_number=student_number,term=acd.term,year=acd.year).first()
+            cnm= bd.class_name
+    except:
+                return jsonify("skip")
+         
+    if any(x in class_name.lower() for x in["jhs","basic 7","basic 8","basic 9"]):  
+                aggregate = sum(
+    int(student.score)
+    for student in agre_score
+    if student.score and student.score.strip().isdigit()
+)
+
+                bd.aggregate = aggregate
+    total_marks = db.session.query(
+        func.sum(cast(Grading.total, Float))
+    ).filter(
+        Grading.student_number == student_number,
+        Grading.term == acd.term,
+        Grading.year == acd.year
+    ).scalar() or 0.0
+
+  
+
+    if bd:
+        bd.all_total = str(round(total_marks, 1))
+
+        # ===============================
+        # 🔥 CLASS POSITION (NUMERIC ONLY)
+        # ===============================
+
+        classmates = BroadSheet.query.filter_by(
+            class_name=bd.class_name,
+            term=bd.term,
+            year=bd.year,
+            school_name=bd.school_name
+        ).order_by(
+            desc(cast(BroadSheet.all_total, Float))
+        ).all()
+
+        previous_total = None
+        current_rank = 0
+        position = 0
+
+        for student in classmates:
+            position += 1
+            numeric_total = float(student.all_total or 0)
+
+            if previous_total == numeric_total:
+                student.pos = str(current_rank)
+            else:
+                current_rank = position
+                student.pos = str(current_rank)
+                previous_total = numeric_total
         
-        
- 
- 
- 
- 
- 
- 
- 
+
+    db.session.commit()
+
+    # ===============================
+    # 🔥 RANKING SECTION (FIXED)
+    # ===============================
+
+    classe = Class.query.filter_by(class_name=class_name).first()
+
+    if int(classe.grade_together) > 0:
+        grd = Grading.query.filter_by(
+            class_name=c_name,
+            subject_name=subject_name,
+            school_name=school_name,
+            term=acd.term,
+            year=acd.year
+        )
+    else:
+        grd = Grading.query.filter_by(
+            original_class_name=class_name,
+            subject_name=subject_name,
+            school_name=school_name,
+            term=acd.term,
+            year=acd.year
+        )
+
+    lst = grd.order_by(desc(cast(Grading.total, Float))).all()
+
+    previous_total = None
+    current_rank = 0
+    position = 0
+
+    for g in lst:
+        position += 1
+        numeric_total = float(g.total)
+
+        if previous_total == numeric_total:
+            g.rank = str(current_rank)
+        else:
+            current_rank = position
+            g.rank = str(current_rank)
+            previous_total = numeric_total
+
+    db.session.commit()
+    db.session.close()
+
+    return jsonify("Success"), 200
+
  
  
         
@@ -1069,7 +1258,7 @@ def my_grade():
       grade = Grading.query.filter_by(original_class_name=class_name,subject_name=subject_name,
                                       created_by_id= flask_praetorian.current_user().id,
                                       term=term,year=acd.year)
-      la = grade.order_by(desc(Grading.total))
+      la = grade.order_by(desc(Grading.total)).all()
       result = student_schema.dump(la)
       return jsonify(result)
       
@@ -1548,8 +1737,7 @@ def get_my_details():
     result = student_schema.dump(std)
     return jsonify(result)
  
- 
-
+#  for filtering students by class
 @student.route("/search_exact_class",methods=['POST'])
 @flask_praetorian.auth_required
 def search_exact_class():
@@ -1965,7 +2153,7 @@ def search_broadsheet():
     bd = BroadSheet.query.filter_by( original_class_name=class_name, term=term, year=year, school_name=user.school_name).filter(BroadSheet.class_name != "Graduate")
 
 # Order the results by 'all_total' in descending order
-    la = bd.order_by(desc(BroadSheet.all_total))
+    la = bd.order_by(desc(BroadSheet.all_total)).all()
 
 # Serialize the result using student_schema
     result = student_schema.dump(la)
@@ -2289,7 +2477,7 @@ def fix_error():
             std = Student(other_name=other_name,created_by_id=created_by_id,class_name=clname ,created_date=created_date,parent_name=parent_name,school_name=school_name,
                 student_number=student_number, admitted_year=admitted_year ,
                 residential_status=residential_status,gender=gender,
-                address=address,first_name=firstname,last_name=lastname,email=email,parent_phone =phone,admission_number=admission_number
+                address=address,first_name=firstname,last_name=lastname,email=email,phone =phone,admission_number=admission_number
                 )
     #   bd =BroadSheet(student_name =student_name,class_name=class_name,student_number=student_number)
             bd =BroadSheet(student_name =student_name,class_name=c_name,student_number=student_number,current_status="",

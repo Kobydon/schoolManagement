@@ -400,7 +400,7 @@ class Student(db.Model):
           email= db.Column(db.String(400))
           address= db.Column(db.String(400))
           password= db.Column(db.String(400))
-          parent_phone= db.Column(db.String(400))
+          phone= db.Column(db.String(400))
           admitted_year= db.Column(db.String(400))
           form= db.Column(db.String(400))
           residential_status= db.Column(db.String(400))
