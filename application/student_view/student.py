@@ -140,30 +140,27 @@ def add_student():
 @student.route("/add_students_bulk", methods=['POST'])
 @flask_praetorian.auth_required
 def add_students_bulk():
-    # Extract JSON data from request (assuming it's a list of student records)
     student_data_list = request.json
 
-    # Validate input
     if not isinstance(student_data_list, list) or len(student_data_list) == 0:
         return jsonify("Invalid input data. Expected a non-empty list of student records."), 400
 
-    # Get current user and related school info
     usr = User.query.filter_by(id=flask_praetorian.current_user().id).first()
     school_name = usr.school_name
     acd = Academic.query.filter_by(school_name=usr.school_name, status="current").first()
-    sch = School.query.filter_by(username=usr.username).first()
 
-    # Retrieve the last created student for generating student numbers
-    last_student = Student.query.filter_by(school_name=school_name).order_by(Student.created_date.desc()).first()
+    # Get last student ID once (not inside loop)
+    last_student = Student.query.filter_by(school_name=school_name).order_by(Student.id.desc()).first()
     starting_id = int(last_student.id) + 1 if last_student else 1
 
-    # Initialize bulk insert lists
-    students = []
-    broadsheets = []
-    users = []
+    # Get all existing usernames to avoid repeated DB queries
+    existing_usernames = set([u.username for u in User.query.with_entities(User.username).all()])
+
+    students_list = []
+    users_list = []
+    broadsheet_list = []
 
     for idx, student_data in enumerate(student_data_list):
-        # Extract fields with fallbacks for missing keys
         firstname = student_data.get("First Name", "")
         other_name = student_data.get("Other Name", "")
         last_name = student_data.get("Last Name", "")
@@ -178,26 +175,31 @@ def add_students_bulk():
         admitted_year = student_data.get("Admitted Year", "")
         picture_one = student_data.get("picture_one", "")
         residential_status = student_data.get("Resident", "")
-        original_class_name = student_data.get("Class", "")
+        original_class_name = class_name
 
-        # Handle class name variations
+        # Class formatting
         if class_name in ["JHS 1A", "JHS 1B", "JHS 2A", "JHS 2B", "JHS 3A", "JHS 3B", "JHS 3C"]:
             c_name = class_name[:5]
         else:
             c_name = class_name
 
-        # Generate unique student number
-        student_number = f"{school_name[:7]}{starting_id + idx}"
+        # --- Generate unique student number ---
+        base_num = starting_id + idx
+        student_number = f"{school_name[:7]}{base_num}"
+
         if school_name == "Bibiani Community KG / Primary 'A'":
-            student_number = f"{school_name[:5]}{starting_id + idx}"
+            student_number = f"{school_name[:5]}{base_num}"
 
-        while User.query.filter_by(username=student_number).first():
-            idx += 1
-            student_number = f"{school_name[:7]}{starting_id + idx}"
+        # Keep incrementing until unique
+        while student_number in existing_usernames:
+            base_num += 1
+            student_number = f"{school_name[:7]}{base_num}"
 
-        # Construct full student name
+        existing_usernames.add(student_number)
+
         student_name = f"{firstname} {other_name} {last_name}".strip()
 
+<<<<<<< HEAD
         # Create new Student, BroadSheet, and User entries
         students.append(Student(
             created_by_id=usr.id,
@@ -219,40 +221,65 @@ def add_students_bulk():
             dob=dob,
             parent_name=parent_name
         ))
+=======
+        # -------- Bulk values (DICT MAPPING) ---------
+        students_list.append({
+            "created_by_id": usr.id,
+            "admission_number": admission_number,
+            "class_name": class_name,
+            "created_date": datetime.now().strftime('%Y-%m-%d %H:%M'),
+            "school_name": school_name,
+            "student_number": student_number,
+            "gender": gender,
+            "residential_status": residential_status,
+            "picture": picture_one,
+            "admitted_year": admitted_year,
+            "address": address,
+            "email": email,
+            "parent_phone": phone,
+            "first_name": firstname,
+            "last_name": last_name,
+            "other_name": other_name,
+            "dob": dob,
+            "parent_name": parent_name
+        })
+>>>>>>> 041d025106cd096332ebb1cd7140d36afdf561d0
 
-        broadsheets.append(BroadSheet(
-            student_name=student_name,
-            class_name=c_name,
-            student_number=student_number,
-            current_status="",
-            school_name=usr.school_name,
-            original_class_name=original_class_name,
-            all_total="0",
-            promotion_status="",
-            term=acd.term,
-            year=acd.year,
-            owop="", history="", english="", math="", science="", socialstudies="",
-            ghanalanguage="", creativeart="", social="", rme="", careertech="", pos="",
-            created_date="", computing="", french="", aggregate=""
-        ))
+        broadsheet_list.append({
+            "student_name": student_name,
+            "class_name": c_name,
+            "student_number": student_number,
+            "current_status": "",
+            "school_name": school_name,
+            "original_class_name": original_class_name,
+            "all_total": "0",
+            "promotion_status": "",
+            "term": acd.term,
+            "year": acd.year,
+            "owop": "", "history": "", "english": "", "math": "", "science": "", 
+            "socialstudies": "", "ghanalanguage": "", "creativeart": "", "social": "", 
+            "rme": "", "careertech": "", "pos": "", "created_date": "", 
+            "computing": "", "french": "", "aggregate": ""
+        })
 
-        users.append(User(
-            firstname=firstname,
-            lastname=last_name,
-            roles="student",
-            username=student_number,
-            hashed_password=guard.hash_password(student_number),
-            created_date=datetime.now().strftime('%Y-%m-%d %H:%M'),
-            school_name=usr.school_name
-        ))
+        users_list.append({
+            "firstname": firstname,
+            "lastname": last_name,
+            "roles": "student",
+            "username": student_number,
+            "hashed_password": guard.hash_password(student_number),
+            "created_date": datetime.now().strftime('%Y-%m-%d %H:%M'),
+            "school_name": school_name
+        })
 
-    # Add all records to the session and commit
+    # -------- SUPER FAST INSERT --------
     try:
-        db.session.bulk_save_objects(students)
-        db.session.bulk_save_objects(broadsheets)
-        db.session.bulk_save_objects(users)
+        db.session.bulk_insert_mappings(Student, students_list)
+        db.session.bulk_insert_mappings(BroadSheet, broadsheet_list)
+        db.session.bulk_insert_mappings(User, users_list)
         db.session.commit()
         return jsonify("Bulk students added successfully"), 200
+
     except Exception as e:
         db.session.rollback()
         return jsonify(f"Failed to add records: {str(e)}"), 500
